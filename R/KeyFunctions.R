@@ -1,4 +1,4 @@
-#' Calculates Spearman dissimilarity and t-SNE from a given dataset
+load#' Calculates Spearman dissimilarity and t-SNE from a given dataset
 #'
 #' This function computes the Spearman dissimilarity matrix from the input dataset,
 #' processes it for missing values, and performs t-SNE for dimensionality reduction.
@@ -264,11 +264,36 @@ FindCommonCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
 #' @examples
 #' list.common(cluster_list1, cluster_list2, keeplength = 3)
 list.common <- function(list1, list2, keeplength = 3) {
-  parse <- lapply(list1, function(y) sapply(list2, function(x) intersect(x, y)))
+  #Incase of error: 
+  #parse <- lapply(list1, function(y) sapply(list2, function(x) intersect(x, y)))
+  #prune <- lapply(pare, function(y) return(y[which(sapply(y, function(x) which(length(x) > keeplength)) > 0)]))
+
+  #Parse stores lists of protien clusters. It has lists equal to the SIZE of list1. Each of those lists have clusters equal to the SIZE of list2. The clusters store protiens that are in both list1 and list2.
+  parse <- lapply(                 #For a cluster Y, check EVERY cluster in list2 for common protiens and write them to parse. If no protiens in common, list(0)
+    list1, function(y){            #Iterate over the clusters in list1 using Y as the iterator
+      sapply(list2, function(x){   #Iterate over the clusters in list2 using X as the iterator
+        intersect(x, y)            #Returns the common protiens of cluster Y and X. This is done for every cluster in list2 for a cluster Y.  
+  })})
+
+  #Similar to the structure of parse, but protien clusters are turned into integers. The integers are equal to the size of the protien cluster in parse.
   dims <- lapply(parse, function(x) sapply(x, length))
+
+  #Identify lists which contain integers greater than keeplength
   keep <- which(sapply(dims, sum) > keeplength)
+
+  #Stores the entire lists which contain valid protien clusters (identified by keep)
   pare <- parse[keep]
-  prune <- lapply(pare, function(y) return(y[which(sapply(y, function(x) which(length(x) > keeplength)) > 0)]))
+
+  #Since the entire list is stored, filter out all nonvalid clusters in those lists 
+  prune <- lapply(
+    pare, function(y){                              #For a list Y in pare                       
+      return(y[                                     #Find a index of list Y in pare that is a valid cluster and put it in list Y of prune
+          which(                                    #Index must be greater than 0 (see the > 0 at the end)
+            sapply(y, function(x){                  #For a cluster X in list Y of pare
+              which(length(x) > keeplength)}) > 0   #Check if it is has enough protiens to be valid
+  )])})
+  
+  #Create a new list to store all the common clusters? Will return NULL if there is nothing in common.
   newlist <- unlist(prune, recursive = FALSE)
   return(newlist)
 }
@@ -324,7 +349,7 @@ GenerateAndConstructptmsNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms
 
   # Group everything together, data frames pasted together with rows of E on top of rows of Sed on top of rows of S #
   ptmsgroups.df <- rbind(eu.ptms.df, sed.ptms.df, sp.ptms.df)
-  
+
   # Functions to extract gene names and PTMs #
   extract.genes.from.clist <- function(clusterlist.element) {
     element <- clusterlist.element[1]
@@ -336,7 +361,7 @@ GenerateAndConstructptmsNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms
     element <- clusterlist.element[1]
     return(as.character(element$Gene.Name))
   }
-  
+
   eu.ptms.genes <- extract.genes.from.clist(eu.ptms.df)
   sp.ptms.genes <- extract.genes.from.clist(sp.ptms.df)
   sed.ptms.genes <- extract.genes.from.clist(sed.ptms.df)
@@ -345,19 +370,19 @@ GenerateAndConstructptmsNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms
   sp.ptms.peps <- extract.peps.from.clist(eu.ptms.df)
   sed.ptms.peps <- extract.peps.from.clist(eu.ptms.df)
 
-  
+
   ################# FAILING HERE #################
-  
-  
+
+
   eu.sp.ptms <- list.common(eu.ptms.peps, sp.ptms.peps, keeplength)
   eu.sp.ptms.sizes <- sapply(eu.sp.ptms, length)
-  eu.sp.sed.ptms <- list.common(eu.sp.ptms, sed.ptms.peps, keeplength)
+  eu.sp.sed.ptms <- list.common(eu.sp.ptms, sed.ptms.peps, keeplength) #nonnull when keeplength < 2
   eu.sp.sed.ptms.sizes <- sapply(eu.sp.sed.ptms, length)
 
-  
+
   ################# FAILING HERE #################
-  
-  
+
+
   # Function to generate data frames for heatmaps and evaluations #
   clust.data.from.vec <- function(vec, tbl) {
     if (class(vec) == "list") {
