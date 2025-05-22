@@ -268,20 +268,20 @@ list.common <- function(list1, list2, keeplength = 3) {
   #parse <- lapply(list1, function(y) sapply(list2, function(x) intersect(x, y)))
   #prune <- lapply(pare, function(y) return(y[which(sapply(y, function(x) which(length(x) > keeplength)) > 0)]))
 
-  #Parse stores lists of protien clusters. It has lists equal to the SIZE of list1. Each of those lists have clusters equal to the SIZE of list2. The clusters store protiens that are in both list1 and list2.
-  parse <- lapply(                 #For a cluster Y, check EVERY cluster in list2 for common protiens and write them to parse. If no protiens in common, list(0)
+  #Parse stores lists of ptm clusters. It has lists equal to the SIZE of list1. Each of those lists have clusters equal to the SIZE of list2. The clusters store ptmt that are in both list1 and list2.
+  parse <- lapply(                 #For a cluster Y, check EVERY cluster in list2 for common ptms and write them to parse. If no ptms in common, list(0)
     list1, function(y){            #Iterate over the clusters in list1 using Y as the iterator
       sapply(list2, function(x){   #Iterate over the clusters in list2 using X as the iterator
-        intersect(x, y)            #Returns the common protiens of cluster Y and X. This is done for every cluster in list2 for a cluster Y.  
+        intersect(x, y)            #Returns the common ptms of cluster Y and X. This is done for every cluster in list2 for a cluster Y.  
   })})
 
-  #Similar to the structure of parse, but protien clusters are turned into integers. The integers are equal to the size of the protien cluster in parse.
+  #Similar to the structure of parse, but ptms clusters are turned into integers. The integers are equal to the size of the ptms cluster in parse.
   dims <- lapply(parse, function(x) sapply(x, length))
 
   #Identify lists which contain integers greater than keeplength
   keep <- which(sapply(dims, sum) > keeplength)
 
-  #Stores the entire lists which contain valid protien clusters (identified by keep)
+  #Stores the entire lists which contain valid ptms clusters (identified by keep)
   pare <- parse[keep]
 
   #Since the entire list is stored, filter out all nonvalid clusters in those lists 
@@ -290,7 +290,7 @@ list.common <- function(list1, list2, keeplength = 3) {
       return(y[                                     #Find a index of list Y in pare that is a valid cluster and put it in list Y of prune
           which(                                    #Index must be greater than 0 (see the > 0 at the end)
             sapply(y, function(x){                  #For a cluster X in list Y of pare
-              which(length(x) > keeplength)}) > 0   #Check if it is has enough protiens to be valid
+              which(length(x) > keeplength)}) > 0   #Check if it is has enough ptms to be valid
   )])})
   
   #Create a new list to store all the common clusters? Will return NULL if there is nothing in common.
@@ -315,12 +315,14 @@ list.common <- function(list1, list2, keeplength = 3) {
 #' @examples
 #' GenerateAndConstructptmsNetwork(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptmtable)
 
-GenerateAndConstructptmsNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list,
-                                               ptmtable, keeplength = 2, output_dir = "plots") {
+GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir = "plots") {
   # Create output directory if it doesn't exist
   if (!dir.exists(output_dir)) {
     dir.create(output_dir)
   }
+  
+  #Create global varibles (ptmts list if they don't exist already)
+  if(!exists("eu_ptms_list")) MakeClusterList(ptmtable)
 
   # Mark's Functions #
   without  <- function(x, y)  x[!x %in% y]             # x without y
