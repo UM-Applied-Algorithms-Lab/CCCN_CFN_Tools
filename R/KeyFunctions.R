@@ -323,28 +323,28 @@ GenerateAndConstructptmsNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms
   }
 
   # Mark's Functions #
-  without <- function(x, y) x[!x %in% y]            # x without y
-  nmissing <- function(x) sum(is.na(x))             # number of missing entries
-  filled <- function (x) {length(x) - nmissing(x)}  # number of existing entries
-  fractNA <- function(df) {
-    result <- nmissing(df)/(dim(df)[1]*dim(df)[2])  #fraction of total entries that are missing
-    return(result)
+  without  <- function(x, y)  x[!x %in% y]             # x without y
+  nmissing <- function(x)     sum(is.na(x))            # number of missing entries
+  filled   <- function (x)   {length(x) - nmissing(x)} # number of existing entries
+  fractNA  <- function(df) {
+      result <- nmissing(df)/(dim(df)[1]*dim(df)[2])  #fraction of total entries that are missing
+      return(result)
   }
-  mean.na <- function(x) mean(x, na.rm=TRUE)
-  max.na <- function(x) max(x, na.rm=TRUE)
-  min.na <- function(x) min(x, na.rm=TRUE)
-  sd.na <- function(x) stats::sd(x, na.rm=TRUE)
-  outersect <- function(x,y){sort(c(setdiff(x,y), setdiff(y,x)))}
+  mean.na   <- function(x)     mean(x, na.rm=TRUE) #why do these exist? 
+  max.na    <- function(x)     max(x, na.rm=TRUE)
+  min.na    <- function(x)     min(x, na.rm=TRUE)
+  sd.na     <- function(x)     stats::sd(x, na.rm=TRUE)
+  outersect <- function(x,y)  {sort(c(setdiff(x,y), setdiff(y,x)))}
 
   # Convert lists to data frames #
   #(brackets only take the second and third col and ignore the col that just says number in the cluster) #
-  eu.ptms.df <- plyr::ldply(eu_ptms_list)[, 2:3]
-  sp.ptms.df <- plyr::ldply(sp_ptms_list)[, 2:3]
+  eu.ptms.df  <- plyr::ldply(eu_ptms_list)[, 2:3]
+  sp.ptms.df  <- plyr::ldply(sp_ptms_list)[, 2:3]
   sed.ptms.df <- plyr::ldply(sed_ptms_list)[, 2:3]
 
   # Make group names unique by concatenating a key to the group number (e, s, or sed) #
-  eu.ptms.df$group <- paste(eu.ptms.df$group, "e", sep = "")
-  sp.ptms.df$group <- paste(sp.ptms.df$group, "s", sep = "")
+  eu.ptms.df$group  <- paste(eu.ptms.df$group, "e", sep = "")
+  sp.ptms.df$group  <- paste(sp.ptms.df$group, "s", sep = "")
   sed.ptms.df$group <- paste(sed.ptms.df$group, "sed", sep = "")
 
   # Group everything together, data frames pasted together with rows of E on top of rows of Sed on top of rows of S #
@@ -353,7 +353,7 @@ GenerateAndConstructptmsNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms
   # Functions to extract gene names and PTMs #
   extract.genes.from.clist <- function(clusterlist.element) {
     element <- clusterlist.element[1]
-    genes <- unique(sapply(as.character(element$Gene.Name), function(x) unlist(strsplit(x, " ", fixed = TRUE))[1]))
+    genes   <- unique(sapply(as.character(element$Gene.Name), function(x) unlist(strsplit(x, " ", fixed = TRUE))[1]))
     return(genes)
   }
 
@@ -362,12 +362,12 @@ GenerateAndConstructptmsNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms
     return(as.character(element$Gene.Name))
   }
 
-  eu.ptms.genes <- extract.genes.from.clist(eu.ptms.df)
-  sp.ptms.genes <- extract.genes.from.clist(sp.ptms.df)
+  eu.ptms.genes  <- extract.genes.from.clist(eu.ptms.df)
+  sp.ptms.genes  <- extract.genes.from.clist(sp.ptms.df)
   sed.ptms.genes <- extract.genes.from.clist(sed.ptms.df)
 
-  eu.ptms.peps <- extract.peps.from.clist(eu.ptms.df)
-  sp.ptms.peps <- extract.peps.from.clist(eu.ptms.df)
+  eu.ptms.peps  <- extract.peps.from.clist(eu.ptms.df)
+  sp.ptms.peps  <- extract.peps.from.clist(eu.ptms.df)
   sed.ptms.peps <- extract.peps.from.clist(eu.ptms.df)
 
 
