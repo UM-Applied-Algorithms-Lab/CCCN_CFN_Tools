@@ -1,4 +1,4 @@
-load#' Calculates Spearman dissimilarity and t-SNE from a given dataset
+#' Calculates Spearman dissimilarity and t-SNE from a given dataset
 #'
 #' This function computes the Spearman dissimilarity matrix from the input dataset,
 #' processes it for missing values, and performs t-SNE for dimensionality reduction.
