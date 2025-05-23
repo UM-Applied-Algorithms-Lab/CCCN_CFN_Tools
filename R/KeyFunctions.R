@@ -265,20 +265,20 @@ FindCommonCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
 #' @examples
 #' list.common(list1, list2, list3 keeplength = 2)
 list.common <- function(list1, list2, list3, keeplength = 2){
-  
+
   #Make sure that the desired column exists in sublists of lists
   if(!TRUE %in% sapply(list1, function(x) "Gene.Name" %in% names(x))) stop("List1 does not have a Gene.Name column")
   if(!TRUE %in% sapply(list2, function(x) "Gene.Name" %in% names(x))) stop("List2 does not have a Gene.Name column")
   if(!TRUE %in% sapply(list3, function(x) "Gene.Name" %in% names(x))) stop("List3 does not have a Gene.Name column")
-  
+
   #Convert lists into groups of ptms
   list1.ptms <- lapply(list1, function(x){x$"Gene.Name"}) #These are lists of character vectors
   list2.ptms <- lapply(list2, function(y){y$"Gene.Name"}) #CHANGE "Fruits" to "Gene" or figure out some workaround
   list3.ptms <- lapply(list3, function(z){z$"Gene.Name"})
-  
+
   #Find all the matching intersections of list1 and list2
   returnme <- list()  #Create an empty list to hold those intersections
-  
+
   for(a in 1:length(list1.ptms)){
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
@@ -288,7 +288,51 @@ list.common <- function(list1, list2, list3, keeplength = 2){
     }
   }
   if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
-  return(returnme) 
+  return(returnme)
+}
+
+#' Loads and filters the GeneMania file given a vector of gene names.
+#'
+#' This helper function loads the GeneMania file
+#' and filters out required nodes.
+#'
+#' @param gmfilename The path to the GeneMania file.
+#' @param nodenames A vector containing the names of the relevant genes.
+#' @return A data frame with the relevant GeneMania data.
+#' @export
+#'
+#' @examples
+#' get.GM.edgefile(gmfilename, nodenames)
+get.GM.edgefile <- function(gmfilename, nodenames){
+
+  #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
+  gmtable = read.table(gmfilename, header = TRUE, sep = "\t")
+
+  #creates a copy
+  gm_edges = gmtable
+
+  #you'll see in about 18 lines
+  adjustment = 0
+
+  #iterate through the original table
+  for (row in 1:nrow(gmtable)){
+
+    #check to see if both of the genes are in the vector nodenames
+    if (gmtable[row, 1] %in% nodenames & gmtable[row, 2] %in% nodenames){
+
+      #nothing happens; I know this is ugly but trust the process
+
+    } else { #if they are NOT in the vector nodenames
+
+      #remove that row (note the adjustment!)
+      gm_edges <- gm_edges[-(row + adjustment), ]
+
+      #because we just deleted a row, row 3 in the original is now row 2 for the saved copy
+      #so we have to adjust!!
+      adjustment = adjustment - 1
+    }
+  }
+  return (gm_edges)
 }
 
 #' Generate and Construct All PTMs Network
@@ -310,7 +354,7 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   if (!dir.exists(output_dir)) {
     dir.create(output_dir)
   }
-  
+
   #Create global varibles (ptmts list if they don't exist already)
   if(!exists("eu_ptms_list")) MakeClusterList(ptmtable)
 
@@ -322,7 +366,7 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
       result <- nmissing(df)/(dim(df)[1]*dim(df)[2])  #fraction of total entries that are missing
       return(result)
   }
-  mean.na   <- function(x)     mean(x, na.rm=TRUE) #why do these exist? 
+  mean.na   <- function(x)     mean(x, na.rm=TRUE) #why do these exist?
   max.na    <- function(x)     max(x, na.rm=TRUE)
   min.na    <- function(x)     min(x, na.rm=TRUE)
   sd.na     <- function(x)     stats::sd(x, na.rm=TRUE)
@@ -341,7 +385,7 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
 
   # Group everything together, data frames pasted together with rows of E on top of rows of Sed on top of rows of S #
   ptmsgroups.df <- rbind(eu.ptms.df, sed.ptms.df, sp.ptms.df)
-  
+
   #Find common ptms between the three lists using list.common()
   eu.sp.sed.ptms <- list.common(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
   eu.sp.sed.ptms.sizes <- sapply(eu.sp.sed.ptms, length)

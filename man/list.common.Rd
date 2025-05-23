@@ -2,14 +2,14 @@
 % Please edit documentation in R/KeyFunctions.R
 \name{list.common}
 \alias{list.common}
-\title{Finds common elements between clusters in two lists.}
+\title{Finds common elements between clusters in three lists.}
 \usage{
-list.common(list1, list2, keeplength = 3)
+list.common(list1, list2, list3, keeplength = 2)
 }
 \arguments{
-\item{list1}{A list of clusters.}
+\item{list1}{A list of ptms.}
 
-\item{list2}{A list of clusters to compare against.}
+\item{list2}{A list of ptms.}
 
 \item{keeplength}{Minimum size of intersections to keep.}
 }
@@ -17,8 +17,8 @@ list.common(list1, list2, keeplength = 3)
 A list of common clusters.
 }
 \description{
-Finds common elements between clusters in two lists.
+Finds common elements between clusters in three lists.
 }
 \examples{
-list.common(cluster_list1, cluster_list2, keeplength = 3)
+list.common(list1, list2, list3 keeplength = 2)
 }

@@ -4,22 +4,9 @@
 \alias{GenerateAndConstructptmsNetwork}
 \title{Generate and Construct All PTMs Network}
 \usage{
-GenerateAndConstructptmsNetwork(
-  eu_ptms_list,
-  sp_ptms_list,
-  sed_ptms_list,
-  ptmtable,
-  keeplength = 2,
-  output_dir = "plots"
-)
+GenerateAndConstructptmsNetwork(ptmtable, keeplength = 2, output_dir = "plots")
 }
 \arguments{
-\item{eu_ptms_list}{A list containing all PTMs data for the Euclidean distance calculation.}
-
-\item{sp_ptms_list}{A list containing all PTMs data for the Spearman dissimilarity calculation.}
-
-\item{sed_ptms_list}{A list containing all PTMs data for the average of the Euclidean and Spearman distance calculations.}
-
 \item{ptmtable}{A data frame containing all PTMs data.}
 
 \item{keeplength}{An integer specifying the minimum length of common elements to keep. Default is 2.}
@@ -33,5 +20,5 @@ A list containing the updated \code{ptmtable} and data for \code{eu.sp.sed.ptms}
 This function generates and constructs the PTMs network from given data lists and tables.
 }
 \examples{
-GenerateAndConstructptmsNetwork(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptmtable)
+GenerateAndConstructptmsNetwork(ptmtable)
 }
