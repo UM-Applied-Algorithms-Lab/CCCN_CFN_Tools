@@ -332,6 +332,8 @@ get.GM.edgefile <- function(gmfilename, nodenames){
       adjustment = adjustment - 1
     }
   }
+  #Removes the column "Network" that just tells what paper this was published in
+  gm_edges = gm_edges[ , -5]
   return (gm_edges)
 }
 
