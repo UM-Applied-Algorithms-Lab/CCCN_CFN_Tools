@@ -287,6 +287,7 @@ list.common <- function(list1, list2, list3, keeplength = 2){
       }
     }
   }
+  if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
   return(returnme) 
 }
 
