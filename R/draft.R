@@ -13,7 +13,7 @@
 #' @return A list of common clusters.
 #' @examples
 #' list.common(list1, list2, list3 keeplength = 3)
-draft <- function(list1, list2, list3, keeplength = 3, colname = "Gene.Name"){
+draft <- function(list1, list2, list3, keeplength){
   
   #Make sure that the desired column exists in sublists of lists
   if(!TRUE %in% sapply(list1, function(x) "Gene.Name" %in% names(x))) stop("List1 does not have a Gene.Name column")
@@ -36,7 +36,8 @@ draft <- function(list1, list2, list3, keeplength = 3, colname = "Gene.Name"){
       }
     }
   }
-  return(returnme) 
+  if(length(returnme) == 0) stop("No common clusters found")
+  return((returnme)) 
 }
 
 

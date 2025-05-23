@@ -255,56 +255,45 @@ FindCommonCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
 
 # Helper function to find intersections of clusters
 #'
-#' Finds common elements between clusters in two lists.
+#' Finds common elements between clusters in three lists.
 #'
-#' @param list1 A list of clusters.
-#' @param list2 A list of clusters to compare against.
+#' @param list1 A list of ptms.
+#' @param list2 A list of ptms.
+#' @param list2 A list of ptms.
 #' @param keeplength Minimum size of intersections to keep.
 #' @return A list of common clusters.
 #' @examples
-#' list.common(cluster_list1, cluster_list2, keeplength = 3)
-list.common <- function(list1, list2, keeplength = 3) {
-  #Incase of error: 
-  #parse <- lapply(list1, function(y) sapply(list2, function(x) intersect(x, y)))
-  #prune <- lapply(pare, function(y) return(y[which(sapply(y, function(x) which(length(x) > keeplength)) > 0)]))
-
-  #Parse stores lists of ptm clusters. It has lists equal to the SIZE of list1. Each of those lists have clusters equal to the SIZE of list2. The clusters store ptmt that are in both list1 and list2.
-  parse <- lapply(                 #For a cluster Y, check EVERY cluster in list2 for common ptms and write them to parse. If no ptms in common, list(0)
-    list1, function(y){            #Iterate over the clusters in list1 using Y as the iterator
-      sapply(list2, function(x){   #Iterate over the clusters in list2 using X as the iterator
-        intersect(x, y)            #Returns the common ptms of cluster Y and X. This is done for every cluster in list2 for a cluster Y.  
-  })})
-
-  #Similar to the structure of parse, but ptms clusters are turned into integers. The integers are equal to the size of the ptms cluster in parse.
-  dims <- lapply(parse, function(x) sapply(x, length))
-
-  #Identify lists which contain integers greater than keeplength
-  keep <- which(sapply(dims, sum) > keeplength)
-
-  #Stores the entire lists which contain valid ptms clusters (identified by keep)
-  pare <- parse[keep]
-
-  #Since the entire list is stored, filter out all nonvalid clusters in those lists 
-  prune <- lapply(
-    pare, function(y){                              #For a list Y in pare                       
-      return(y[                                     #Find a index of list Y in pare that is a valid cluster and put it in list Y of prune
-          which(                                    #Index must be greater than 0 (see the > 0 at the end)
-            sapply(y, function(x){                  #For a cluster X in list Y of pare
-              which(length(x) > keeplength)}) > 0   #Check if it is has enough ptms to be valid
-  )])})
+#' list.common(list1, list2, list3 keeplength = 2)
+list.common <- function(list1, list2, list3, keeplength = 2){
   
-  #Create a new list to store all the common clusters? Will return NULL if there is nothing in common.
-  newlist <- unlist(prune, recursive = FALSE)
-  return(newlist)
+  #Make sure that the desired column exists in sublists of lists
+  if(!TRUE %in% sapply(list1, function(x) "Gene.Name" %in% names(x))) stop("List1 does not have a Gene.Name column")
+  if(!TRUE %in% sapply(list2, function(x) "Gene.Name" %in% names(x))) stop("List2 does not have a Gene.Name column")
+  if(!TRUE %in% sapply(list3, function(x) "Gene.Name" %in% names(x))) stop("List3 does not have a Gene.Name column")
+  
+  #Convert lists into groups of ptms
+  list1.ptms <- lapply(list1, function(x){x$"Gene.Name"}) #These are lists of character vectors
+  list2.ptms <- lapply(list2, function(y){y$"Gene.Name"}) #CHANGE "Fruits" to "Gene" or figure out some workaround
+  list3.ptms <- lapply(list3, function(z){z$"Gene.Name"})
+  
+  #Find all the matching intersections of list1 and list2
+  returnme <- list()  #Create an empty list to hold those intersections
+  
+  for(a in 1:length(list1.ptms)){
+    for(b in 1:length(list2.ptms)){
+      for(c in 1:length(list3.ptms)){
+        temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors
+        if(length(temp) > keeplength) returnme[[length(returnme)+1]] <- temp               #And only add it if it has enough values
+      }
+    }
+  }
+  return(returnme) 
 }
 
 #' Generate and Construct All PTMs Network
 #'
 #' This function generates and constructs the PTMs network from given data lists and tables.
 #'
-#' @param eu_ptms_list A list containing all PTMs data for the Euclidean distance calculation.
-#' @param sp_ptms_list A list containing all PTMs data for the Spearman dissimilarity calculation.
-#' @param sed_ptms_list A list containing all PTMs data for the average of the Euclidean and Spearman distance calculations.
 #' @param ptmtable A data frame containing all PTMs data.
 #' @param keeplength An integer specifying the minimum length of common elements to keep. Default is 2.
 #' @param output_dir A string specifying the output directory for saving plots. Default is "plots".
@@ -313,7 +302,7 @@ list.common <- function(list1, list2, keeplength = 3) {
 #' @export
 #'
 #' @examples
-#' GenerateAndConstructptmsNetwork(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptmtable)
+#' GenerateAndConstructptmsNetwork(ptmtable)
 
 GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir = "plots") {
   # Create output directory if it doesn't exist
@@ -351,39 +340,10 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
 
   # Group everything together, data frames pasted together with rows of E on top of rows of Sed on top of rows of S #
   ptmsgroups.df <- rbind(eu.ptms.df, sed.ptms.df, sp.ptms.df)
-
-  # Functions to extract gene names and PTMs #
-  extract.genes.from.clist <- function(clusterlist.element) {
-    element <- clusterlist.element[1]
-    genes   <- unique(sapply(as.character(element$Gene.Name), function(x) unlist(strsplit(x, " ", fixed = TRUE))[1]))
-    return(genes)
-  }
-
-  extract.peps.from.clist <- function(clusterlist.element) {
-    element <- clusterlist.element[1]
-    return(as.character(element$Gene.Name))
-  }
-
-  eu.ptms.genes  <- extract.genes.from.clist(eu.ptms.df)
-  sp.ptms.genes  <- extract.genes.from.clist(sp.ptms.df)
-  sed.ptms.genes <- extract.genes.from.clist(sed.ptms.df)
-
-  eu.ptms.peps  <- extract.peps.from.clist(eu.ptms.df)
-  sp.ptms.peps  <- extract.peps.from.clist(eu.ptms.df)
-  sed.ptms.peps <- extract.peps.from.clist(eu.ptms.df)
-
-
-  ################# FAILING HERE #################
-
-
-  eu.sp.ptms <- list.common(eu.ptms.peps, sp.ptms.peps, keeplength)
-  eu.sp.ptms.sizes <- sapply(eu.sp.ptms, length)
-  eu.sp.sed.ptms <- list.common(eu.sp.ptms, sed.ptms.peps, keeplength) #nonnull when keeplength < 2
+  
+  #Find common ptms between the three lists using list.common()
+  eu.sp.sed.ptms <- list.common(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
   eu.sp.sed.ptms.sizes <- sapply(eu.sp.sed.ptms, length)
-
-
-  ################# FAILING HERE #################
-
 
   # Function to generate data frames for heatmaps and evaluations #
   clust.data.from.vec <- function(vec, tbl) {
