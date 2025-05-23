@@ -291,52 +291,6 @@ list.common <- function(list1, list2, list3, keeplength = 2){
   return(returnme)
 }
 
-#' Loads and filters the GeneMania file given a vector of gene names.
-#'
-#' This helper function loads the GeneMania file
-#' and filters out required nodes.
-#'
-#' @param gmfilename The path to the GeneMania file.
-#' @param nodenames A vector containing the names of the relevant genes.
-#' @return A data frame with the relevant GeneMania data.
-#' @export
-#'
-#' @examples
-#' get.GM.edgefile(gmfilename, nodenames)
-get.GM.edgefile <- function(gmfilename, nodenames){
-
-  #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
-  gmtable = read.table(gmfilename, header = TRUE, sep = "\t")
-
-  #creates a copy
-  gm_edges = gmtable
-
-  #you'll see in about 18 lines
-  adjustment = 0
-
-  #iterate through the original table
-  for (row in 1:nrow(gmtable)){
-
-    #check to see if both of the genes are in the vector nodenames
-    if (gmtable[row, 1] %in% nodenames & gmtable[row, 2] %in% nodenames){
-
-      #nothing happens; I know this is ugly but trust the process
-
-    } else { #if they are NOT in the vector nodenames
-
-      #remove that row (note the adjustment!)
-      gm_edges <- gm_edges[-(row + adjustment), ]
-
-      #because we just deleted a row, row 3 in the original is now row 2 for the saved copy
-      #so we have to adjust!!
-      adjustment = adjustment - 1
-    }
-  }
-  #Removes the column "Network" that just tells what paper this was published in
-  gm_edges = gm_edges[ , -5]
-  return (gm_edges)
-}
-
 #' Generate and Construct All PTMs Network
 #'
 #' This function generates and constructs the PTMs network from given data lists and tables.
@@ -635,6 +589,52 @@ get.gene.names.from.peps <- function(pepvec, pepsep="; ") {
     genevec <- c(genevec, genes)
   }
   return(genevec)
+}
+
+#' Loads and filters the GeneMania file given a vector of gene names.
+#'
+#' This helper function loads the GeneMania file
+#' and filters out required nodes.
+#'
+#' @param gmfilename The path to the GeneMania file.
+#' @param nodenames A vector containing the names of the relevant genes.
+#' @return A data frame with the relevant GeneMania data.
+#' @export
+#'
+#' @examples
+#' get.GM.edgefile(gmfilename, nodenames)
+get.GM.edgefile <- function(gmfilename, nodenames){
+
+  #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
+  gmtable = read.table(gmfilename, header = TRUE, sep = "\t")
+
+  #creates a copy
+  gm_edges = gmtable
+
+  #you'll see in about 18 lines
+  adjustment = 0
+
+  #iterate through the original table
+  for (row in 1:nrow(gmtable)){
+
+    #check to see if both of the genes are in the vector nodenames
+    if (gmtable[row, 1] %in% nodenames & gmtable[row, 2] %in% nodenames){
+
+      #nothing happens; I know this is ugly but trust the process
+
+    } else { #if they are NOT in the vector nodenames
+
+      #remove that row (note the adjustment!)
+      gm_edges <- gm_edges[-(row + adjustment), ]
+
+      #because we just deleted a row, row 3 in the original is now row 2 for the saved copy
+      #so we have to adjust!!
+      adjustment = adjustment - 1
+    }
+  }
+  #Removes the column "Network" that just tells what paper this was published in
+  gm_edges = gm_edges[ , -5]
+  return (gm_edges)
 }
 
 #' Find PPI Edges
