@@ -652,7 +652,7 @@ get.GM.edgefile <- function(gmfilename, nodenames){
 #' find_ppi_edges("input_data.txt", "gmfilename.txt", nodenames)
 find_ppi_edges <- function(input_dataset, gmfilename, nodenames) {
   # Load PPI edges from other databases
-  load("PPIEdges.RData")
+  #load("PPIEdges.RData") #Useless? 
 
   # Initialize the STRING database object
   string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, link_data="detailed", input_directory="")

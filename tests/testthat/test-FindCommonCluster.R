@@ -1,8 +1,19 @@
 #Setup
 if(!exists("eu_ptms_list")){      #Check if global variables are already made as to not run MakeClusterList multiple times
   set.seed(1)                     #Set the seed (very important)
-  load("../../data/ptmtable.rda") #Load Sample data
+  
+  #Load Sample data
+  suppressWarnings(
+    if(!exists("ptmtable")){
+      try(load("CCCN_CFN_Tools/data/ptmtable.rda"), silent=TRUE)
+      try(load("data/ptmtable.rda"), silent=TRUE)
+      try(load("../data/ptmtable.rda"), silent=TRUE)
+      try(load("../../data/ptmtable.rda"), silent=TRUE)
+      if(!exists("ptmtable")){stop("Cannot find ptmtable in CCCN_CFN_Tools, please be in the CCCN_CFN_Tools directory and make sure ptmtable exists!")}
+    })
+  
 
+  #Make Global Variables
   sink("noprint")                 #Suppress print statements from function
   MakeClusterList(ptmtable)       #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
   sink()
