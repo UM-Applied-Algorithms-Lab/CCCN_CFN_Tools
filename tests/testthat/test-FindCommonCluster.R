@@ -1,7 +1,7 @@
 #Setup
 set.seed(1)                     #Set the seed (very important)
 
-if(!exists("eu_ptms_list")){      #Check if global variables are already made as to not run MakeClusterList multiple times
+if(!exists("sed_ptm_list")){      #Check if global variables are already made as to not run MakeClusterList multiple times
 
   #Load Sample data
   if(!exists("ptmtable")){
@@ -15,9 +15,9 @@ if(!exists("eu_ptms_list")){      #Check if global variables are already made as
 }
 
 #Unit Testing - Test cluster sizes MAKE THIS A BETTER TEST (if any, this doesn't seem to do anything unique, I'd like to test to see if it writing plots or not)
-test_that("Testing eu_ptms_list", {expect_equal(length(sapply(eu_ptms_list, function(x) dim(x)[1])), 6)})
-test_that("Testing sed_ptms_list", {expect_equal(length(sapply(sed_ptms_list, function(x) dim(x)[1])), 6)})
-test_that("Testing sp_ptms_list", {expect_equal(length(sapply(sp_ptms_list, function(x) dim(x)[1])), 88)})
+test_that("Testing eu_ptm_list", {expect_equal(length(sapply(eu_ptms_list, function(x) dim(x)[1])), 6)})
+test_that("Testing sed_ptm_list", {expect_equal(length(sapply(sed_ptms_list, function(x) dim(x)[1])), 6)})
+test_that("Testing sp_ptm_list", {expect_equal(length(sapply(sp_ptms_list, function(x) dim(x)[1])), 88)})
 
 
 #Clean Up

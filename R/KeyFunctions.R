@@ -273,7 +273,7 @@ list.common <- function(list1, list2, list3, keeplength = 2){
 
   #Convert lists into groups of ptms
   list1.ptms <- lapply(list1, function(x){x$"PTM.Name"}) #These are lists of character vectors
-  list2.ptms <- lapply(list2, function(y){y$"PTM.Name"}) #CHANGE "Fruits" to "Gene" or figure out some workaround
+  list2.ptms <- lapply(list2, function(y){y$"PTM.Name"}) 
   list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
 
   #Find all the matching intersections of list1 and list2
