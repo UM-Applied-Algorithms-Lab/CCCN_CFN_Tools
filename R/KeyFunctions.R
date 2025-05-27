@@ -180,7 +180,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
     #Format a data frame
     result.span2.df <- data.frame(rownames(ptmtable))
-    names(result.span2.df) <- "Gene.Name"
+    names(result.span2.df) <- "PTM.Name"
     result.span2.df$group <- result.disc2 #Add groups found above to the data frame
 
     #Convert data frame into a list of clusters (check doesn't like group but it's a column name)
@@ -267,14 +267,14 @@ FindCommonCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
 list.common <- function(list1, list2, list3, keeplength = 2){
 
   #Make sure that the desired column exists in sublists of lists
-  if(!TRUE %in% sapply(list1, function(x) "Gene.Name" %in% names(x))) stop("List1 does not have a Gene.Name column")
-  if(!TRUE %in% sapply(list2, function(x) "Gene.Name" %in% names(x))) stop("List2 does not have a Gene.Name column")
-  if(!TRUE %in% sapply(list3, function(x) "Gene.Name" %in% names(x))) stop("List3 does not have a Gene.Name column")
+  if(!TRUE %in% sapply(list1, function(x) "PTM.Name" %in% names(x))) stop("List1 does not have a PTM.Name column")
+  if(!TRUE %in% sapply(list2, function(x) "PTM.Name" %in% names(x))) stop("List2 does not have a PTM.Name column")
+  if(!TRUE %in% sapply(list3, function(x) "PTM.Name" %in% names(x))) stop("List3 does not have a PTM.Name column")
 
   #Convert lists into groups of ptms
-  list1.ptms <- lapply(list1, function(x){x$"Gene.Name"}) #These are lists of character vectors
-  list2.ptms <- lapply(list2, function(y){y$"Gene.Name"}) #CHANGE "Fruits" to "Gene" or figure out some workaround
-  list3.ptms <- lapply(list3, function(z){z$"Gene.Name"})
+  list1.ptms <- lapply(list1, function(x){x$"PTM.Name"}) #These are lists of character vectors
+  list2.ptms <- lapply(list2, function(y){y$"PTM.Name"}) #CHANGE "Fruits" to "Gene" or figure out some workaround
+  list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
 
   #Find all the matching intersections of list1 and list2
   returnme <- list()  #Create an empty list to hold those intersections
@@ -355,10 +355,10 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
     acol <- names(at[, which(plyr::numcolwise(filled)(at) != 0)])
     if (length(acol) == 1) {
       ats <- data.frame(cbind(rownames(at), as.numeric(at[, acol])))
-      names(ats) <- c("Gene.Name", acol)
+      names(ats) <- c("PTM.Name", acol)
     } else if (length(acol) >= 2) {
       ats <- cbind(rownames(at), at[, acol])
-      names(ats)[1] <- "Gene.Name"
+      names(ats)[1] <- "PTM.Name"
     }
     clust.data <- ats
     return(clust.data)
@@ -652,7 +652,7 @@ get.GM.edgefile <- function(gmfilename, nodenames){
 #' find_ppi_edges("input_data.txt", "gmfilename.txt", nodenames)
 find_ppi_edges <- function(input_dataset, gmfilename, nodenames) {
   # Load PPI edges from other databases
-  #load("PPIEdges.RData") #Useless? 
+  #load("PPIEdges.RData") #Useless?
 
   # Initialize the STRING database object
   string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, link_data="detailed", input_directory="")
