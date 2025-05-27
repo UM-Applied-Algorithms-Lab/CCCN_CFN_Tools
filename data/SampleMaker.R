@@ -17,8 +17,6 @@ Fruitify <- function(save = FALSE){
 #' "Plum", "Pomegranate", "Raspberry", "Starfruit", "Strawberry", "Tayberry"
 ###
 
-  
-  
 #EDIT DATA HERE
 #Fruits 1 data - Add, remove, change as needed
 
@@ -56,10 +54,8 @@ Fruits3.Data <- list(
 #Fruits4.Data <- list(vector, vector, vector)
 
 
-
 #Anything you added must be put into this list (like Fruits4.Data)! Run Fruitify() after sourcing this file to get the lists added to namespace
 Total <- list(Fruits1.Data, Fruits2.Data, Fruits3.Data)
-
 
 
 #DO NOT EDIT - Processing code
@@ -67,13 +63,13 @@ for(a in 1:length(Total)){
   count <- 0L
   for(b in 1:length(Total[[a]])){
     Total[[a]][[b]] <- as.data.frame(Total[[a]][[b]])
-    colnames(Total[[a]][[b]])<- c("Gene.Name")
+    colnames(Total[[a]][[b]])<- c("PTM.Name")
     count <- count + 1L
     Total[[a]][[b]]$groups <- rep(count, length(Total[[a]][[b]]))
   }
   string <- paste("Fruits", as.character(a), "_ptm_list", sep="") #Change these names to be more descriptive
   temp <- Total[[a]]
-  assign(string, temp, envir = .GlobalEnv)
+  assign(string, temp, envir = .GlobalEnv)                  #When loaded as a variable, the name becomes TEMP
   if(save) save(temp, file = paste(string, ".rda", sep="")) #Save the data if true - BROKEN
 }
 

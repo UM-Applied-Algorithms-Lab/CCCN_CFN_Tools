@@ -2,14 +2,9 @@
 set.seed(1)
 
 #Load Sample data
-suppressWarnings(
 if(!exists("ptmtable")){
-  try(load("CCCN_CFN_Tools/data/ptmtable.rda"), silent=TRUE)
-  try(load("data/ptmtable.rda"), silent=TRUE)
-  try(load("../data/ptmtable.rda"), silent=TRUE)
-  try(load("../../data/ptmtable.rda"), silent=TRUE)
-  if(!exists("ptmtable")){stop("Cannot find ptmtable in CCCN_CFN_Tools, please be in the CCCN_CFN_Tools directory and make sure ptmtable exists!")}
-})
+  load("~/CCCN_CFN_Tools/data/ptmtable.rda")
+}
 
 
 #Create sample data
