@@ -345,11 +345,11 @@ list.common <- function(list1, list2, list3, keeplength = 2){
   #Find all the matching intersections of list1 and list2
   returnme <- list()  #Create an empty list to hold those intersections
 
-  for(a in 1:length(list1.ptms)){
+  for(a in 1:length(list1.ptms)){ #Triple loop to look through elements of the list and compare them 
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
-        temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors
-        if(length(temp) > keeplength) returnme[[length(returnme)+1]] <- temp               #And only add it if it has enough values
+        temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
+        if(length(temp) > keeplength) returnme[[length(returnme)+1]] <- temp               #And only add it to the list to return if it has enough values
       }
     }
   }
@@ -377,7 +377,7 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
     dir.create(output_dir)
   }
 
-  #Create global varibles (ptmts list if they don't exist already)
+  # Create global varibles (ptmts list if they don't exist already)
   if(!exists("eu_ptms_list")) MakeClusterList(ptmtable)
 
   # Mark's Functions #
@@ -408,7 +408,7 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   # Group everything together, data frames pasted together with rows of E on top of rows of Sed on top of rows of S #
   ptmsgroups.df <- rbind(eu.ptms.df, sed.ptms.df, sp.ptms.df)
 
-  #Find common ptms between the three lists using list.common()
+  # Find common ptms between the three lists using list.common()
   eu.sp.sed.ptms <- list.common(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
   eu.sp.sed.ptms.sizes <- sapply(eu.sp.sed.ptms, length)
 
@@ -428,13 +428,13 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
     }
     clust.data <- ats
     return(clust.data)
-  }
+  } #END 
 
   # Generate data lists for evaluations #
-  eu.sp.sed.ptms.data <- list()
+  eu.sp.sed.ptms.data <- list()           #Initilize an empty list
   for (i in 1:length(eu.sp.sed.ptms)) {
-    if (length(intersect(eu.sp.sed.ptms[[i]], rownames(ptmtable))) == 0) next
-    at <- ptmtable[unlist(eu.sp.sed.ptms[[i]]), ]
+    if (length(intersect(eu.sp.sed.ptms[[i]], rownames(ptmtable))) == 0) next  #If the common clusters and rownames of the ptms table have nothing in common break - definitely a better way to write that 
+    at <- ptmtable[unlist(eu.sp.sed.ptms[[i]]), ] #??? Forgotten paramater? 
     if (dim(at)[1] < 2 | dim(at)[2] < 2) next
     eu.sp.sed.ptms.data[[i]] <- clust.data.from.vec(eu.sp.sed.ptms[[i]], tbl = ptmtable)
 
@@ -572,7 +572,7 @@ zero.to.NA.func <- function(df) {
 #' process_ptms_data(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor)
 process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor) {
   # Set variables
-  eu_sp_sed_ptms <- list.common(eu.sp.sed.ptms, sed.ptms.peps, keeplength = 2)
+  eu_sp_sed_ptms <- list.common(eu.sp.sed.ptms, sed.ptms.peps, keeplength = 2) #CHANGEME
 
   # Create adjacency matrices
   ptms_adj <- plyr::rbind.fill.matrix(plyr::llply(eu_sp_sed_ptms, MakeAdjMatrix))
