@@ -1,3 +1,4 @@
+#SpearmanDissimilarity NO LONGER NEEDED; keeping in casekies
 #' Calculates Spearman dissimilarity and t-SNE from a given dataset
 #'
 #' This function computes the Spearman dissimilarity matrix from the input dataset,
@@ -41,6 +42,7 @@ SpearmanDissimilarity <- function(ptmtable) {
     return(tsne_results$Y)
 }
 
+#EuclideanDistance NO LONGER NEEDED; keeping in casekies
 #' Calculates Euclidean distance and performs t-SNE
 #'
 #' This function computes the Euclidean distance matrix from the input dataset,
@@ -84,6 +86,7 @@ EuclideanDistance <- function(ptmtable) {
     return(eu.ptms.tsne)
 }
 
+#CombinedPar NO LONGER NEEDED; keeping in casekies
 #' Combines Spearman dissimilarity and Euclidean distance in parallel
 #'
 #' This function uses parallel computing to calculate both Spearman dissimilarity and
@@ -148,16 +151,79 @@ CombinedPar <- function(ptmtable) {
 #' MakeClusterList(ptmtable, toolong =  3.5)
 MakeClusterList <- function(ptmtable, toolong = 3.5){
 
-  #find spearman
-  spearman_result = SpearmanDissimilarity(ptmtable)
-  #find euclidean
-  euclidean_result = EuclideanDistance(ptmtable)
 
+  #SPEARMAN CALCULATION
+
+  # Add if statement here to make sure functions are formatted correctly #
+  # Ensure ptmtable is a data frame with numeric values #
+  ptmtable.sp <- as.data.frame(lapply(ptmtable, as.numeric))
+
+  # Calculate Spearman correlation #
+  ptmtable.cor <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
+
+  # Replace diagonal with NA #
+  diag(ptmtable.cor) <- NA
+
+  # Calculate dissimilarity #
+  dissimilarity.ptmtable <- 1 - abs(ptmtable.cor)
+
+  # Handle any remaining NA values by setting them to the maximum dissimilarity #
+  max_dissimilarity <- max(dissimilarity.ptmtable, na.rm = TRUE)
+  dissimilarity.ptmtable[is.na(dissimilarity.ptmtable)] <- max_dissimilarity
+
+  # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
+  dissimilarity.ptmtable <- as.matrix(dissimilarity.ptmtable) #is there a good reason to have this line?
+
+  # Run t-SNE #
+  tsne_results <- Rtsne::Rtsne(dissimilarity.ptmtable, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
+  # Return t-SNE results #
+  spearman_result = tsne_results$Y
+
+
+  #EUCLIDEAN CALCULATION
+
+  # Add if statement here to make sure functions are formatted correctly #
+  # Convert the dataframe to a distance matrix using Euclidean distance #
+  ptmtable.dist = as.matrix(stats::dist(ptmtable, method = "euclidean"))
+
+  # Compute the maximum distance in the matrix, excluding NA values #
+  max_dist = max(ptmtable.dist, na.rm = TRUE)
+
+  # Replace NA values in the distance matrix with 100 times the maximum distance #
+  ptmtable.dist[is.na(ptmtable.dist)] <- 100 * max_dist
+
+  # Normalize the distance matrix by scaling it to a range from 0 to 100 #
+  eu.diss.calc <- 100 * ptmtable.dist / max_dist
+
+  # Apply t-SNE to the distance matrix to reduce dimensions to 3 #
+  # Parameters: dims = 3 (3D output), perplexity = 15, theta = 0.25 (speed/accuracy trade-off) #
+  # max_iter = 5000 (number of iterations), check_duplicates = FALSE (treat rows as unique) #
+  # pca = FALSE (no initial PCA) #
+  eu.ptms.tsne.list <- Rtsne::Rtsne(as.matrix(eu.diss.calc), dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
+
+  # Extract the t-SNE results from the output list #
+  eu.ptms.tsne <- eu.ptms.tsne.list$Y
+
+  # Return the t-SNE results #
+  euclidean_result = eu.ptms.tsne
+
+
+  #COMBINED CALCULATION
+
+  #this is copy and pasted straight from combinedpar so we don't have to run the calculations again -> lmao not anymore
+  #no need for its own function I suppose because it's only three lines of code
+
+  #fix spearman thing; so do the exact same thing but no absolute value
+  sp.diss.calc <- 1 - ptmtable.cor
+  max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)
+  sp.diss.calc[is.na(sp.diss.calc)] <- max_dissimilarity
+  sp.diss.calc <- as.matrix(sp.diss.calc)
+
+  #fix euclidean rq
+  eu.diss.calc <- as.matrix(eu.diss.calc)
 
   #find average
-  #this is copy and pasted straight from combinedpar so we don't have to run the calculations again
-  #no need for its own function I suppose because it's only three lines of code
-  combined_distance <- (spearman_result + euclidean_result) / 2
+  combined_distance <- (sp.diss.calc + eu.diss.calc) / 2
   # Perform t-SNE on the combined distances #
   tsne_result <- Rtsne::Rtsne(as.matrix(combined_distance), dims = 3, perplexity = 15, theta = 0.25, check_duplicates = FALSE, pca = FALSE)
   sed_result <- tsne_result$Y
