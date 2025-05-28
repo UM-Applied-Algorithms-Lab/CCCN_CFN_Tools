@@ -14,10 +14,13 @@ TODO: understand STRINGdb and figure out how to improve this
 
 Additionally, please check that you have R version 4.5, and STRINGdb installed before moving forward.
 
-One option for installing stringdb is using conda:
+To install STRINGdb, use the following code (gathered from https://www.bioconductor.org/packages/release/bioc/html/STRINGdb.html):
 
 ```
-conda install bioconda::bioconductor-stringdb
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("STRINGdb")
 ```
 
 Once these are installed, you can install this package directly from GitHub using:
