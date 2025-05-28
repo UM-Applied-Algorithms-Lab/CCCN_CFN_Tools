@@ -7,17 +7,17 @@
 GenerateAndConstructptmsNetwork(ptmtable, keeplength = 2, output_dir = "plots")
 }
 \arguments{
-\item{ptmtable}{A data frame containing all PTMs data.}
+\item{ptmtable}{A data frame containing PTM data.}
 
 \item{keeplength}{An integer specifying the minimum length of common elements to keep. Default is 2.}
 
 \item{output_dir}{A string specifying the output directory for saving plots. Default is "plots".}
 }
 \value{
-A list containing the updated \code{ptmtable} and data for \code{eu.sp.sed.ptms}.
+\code{eu.sp.sed.ptms}, the list of clusters.
 }
 \description{
-This function generates and constructs the PTMs network from given data lists and tables.
+This function generates and constructs the PTMs network from the ptmtable and previously calculated variables.
 }
 \examples{
 GenerateAndConstructptmsNetwork(ptmtable)

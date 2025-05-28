@@ -129,7 +129,6 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 #' @param ptmtable A data frame containing input data for cluster analysis.
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
 #' @param output_dir The directory where output plots are saved. Defaults to "plots".
-#' @return A list containing cluster groupings for each distance metric.
 #' @export
 #'
 #' @examples
@@ -228,25 +227,22 @@ FindCommonClusters <- function(list1, list2, list3 = list(), keeplength = 2){
 #' @export
 #'
 #' @examples
-#' NA.to.zero.func(data.frame(a = c(0, 1), b = c(2, 0)))
+#' NA.to.zero.func(data.frame(a = c(NA, 1), b = c(2, NA)))
 NA.to.zero.func <- function(df) {
-  cf <- df
-  nas <- which(is.na(cf), arr.ind = TRUE)
-  cfzero <- as.matrix(cf)
-  cfzero[nas] <- 0
-  cfzero <- data.frame(cfzero)
-  return(cfzero)
+  df0 <- df
+  df0[is.na(df0)] <- 0
+  return(df0)
 }
 
 #' Generate and Construct All PTMs Network
 #'
-#' This function generates and constructs the PTMs network from given data lists and tables.
+#' This function generates and constructs the PTMs network from the ptmtable and previously calculated variables.
 #'
-#' @param ptmtable A data frame containing all PTMs data.
+#' @param ptmtable A data frame containing PTM data.
 #' @param keeplength An integer specifying the minimum length of common elements to keep. Default is 2.
 #' @param output_dir A string specifying the output directory for saving plots. Default is "plots".
 #'
-#' @return A list containing the updated `ptmtable` and data for `eu.sp.sed.ptms`.
+#' @return `eu.sp.sed.ptms`, the list of clusters.
 #' @export
 #'
 #' @examples
@@ -316,9 +312,9 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   # Trim datasets #
   alltrimmedsamples <- apply(ptmtable, 1, filled)
   ptms.t <- ptmtable[which(alltrimmedsamples > 2), ]
-  ptmtable <- ptms.t
+  assign('ptmtable', ptms.t)
 
-  return(list(ptmtable = ptmtable, eu.sp.sed.ptms.data = eu.sp.sed.ptms.data))
+  return(eu.sp.sed.ptms.data)
 }
 
 #' Create Adjacency Matrix
@@ -340,12 +336,12 @@ MakeAdjMatrix <- function(list.element) {
 }
 #' Bind Matrices
 #'
-#' This function binds matrices, aligns them, and prepares adjacency and CCCN matrices.
+#' This function orders the adjacency matrix, finds the intersect with the correlation matrix (cccn_matrix), and puts NAs on the diagonal.
 #'
 #' @param cluster_list A list of clusters to generate adjacency matrices.
 #' @param correlation_matrix A correlation matrix to align with the adjacency matrix.
 #'
-#' @return A list containing the combined adjacency matrix and CCCN matrix.
+#' @return The CCCN matrix, the intersect between the correlation matrix and the ordered adjacency matrix.
 #' @export
 #'
 #' @examples
@@ -373,26 +369,24 @@ BindMatrices <- function(cluster_list, correlation_matrix) {
   }
 
   # Return the adjacency and CCCN matrices as a list
-  return(list(adj_matrix = adj_matrix_ordered, cccn_matrix = cccn_matrix))
+  # the adj_matrix appears to be unused in future computations. PERHAPS DELETE?
+  return(cccn_matrix)
 }
 #' Generate Correlation Network
 #'
-#' This function creates a correlation network graph from a given set of matrices.
+#' This function takes the cccn_matrix, replaces the NA values with zeroes, and turns it into an igraph object.
 #'
-#' @param bind_result A list containing the adjacency and CCCN matrices from `BindMatrices`.
+#' @param cccn_matrix The CCCN matrix, the intersect between the correlation matrix and the ordered adjacency matrix produced from `BindMatrices`.
 #'
 #' @return An igraph object representing the correlation network.
 #' @export
 #'
 #' @examples
-#' CorrelationNetwork(bind_result)
-CorrelationNetwork <- function(bind_result) {
-  adj_matrix <- bind_result$adj_matrix
-  cccn_matrix <- bind_result$cccn_matrix
+#' CorrelationNetwork(cccn_matrix)
+CorrelationNetwork <- function(cccn_matrix) {
 
   # Make igraph object, replacing NA with 0
-  cccn_matrix0 <- cccn_matrix
-  cccn_matrix0[is.na(cccn_matrix0)] <- 0
+  cccn_matrix0 <- NA.to.zero.func(cccn_matrix)
   graph <- igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix0), mode = "lower", diag = FALSE, weighted = "Weight")
 
   # Return the graph object
@@ -409,7 +403,7 @@ CorrelationNetwork <- function(bind_result) {
 #' @export
 #'
 #' @examples
-#' zero.to.NA.func(data.frame(a = c(0, 1), b = c(2, 0)))
+#' zero.to.NA.func(data.frame(a = c(NA, 1), b = c(2,NA)))
 zero.to.NA.func <- function(df) {
   cf <- df
   zer0 <- which(cf==0, arr.ind = TRUE)

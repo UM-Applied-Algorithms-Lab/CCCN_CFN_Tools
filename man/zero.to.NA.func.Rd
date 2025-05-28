@@ -16,5 +16,5 @@ A data frame with zeros replaced by NA.
 This function replaces all zeros in a data frame with NA values.
 }
 \examples{
-zero.to.NA.func(data.frame(a = c(0, 1), b = c(2, 0)))
+zero.to.NA.func(data.frame(a = c(NA, 1), b = c(2,NA)))
 }

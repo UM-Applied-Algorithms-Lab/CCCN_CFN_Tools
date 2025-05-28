@@ -13,9 +13,6 @@ PlotClusters(ptmtable, toolong = 3.5, output_dir = "plots")
 
 \item{output_dir}{The directory where output plots are saved. Defaults to "plots".}
 }
-\value{
-A list containing cluster groupings for each distance metric.
-}
 \description{
 This function identifies and analyzes clusters using Spearman, Euclidean, and combined
 t-SNE data, generates cluster size histograms, and saves the plots.
