@@ -145,9 +145,6 @@ PlotClusters <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
         dir.create(output_dir)
     }
 
-    # Make global variables from MakeClusterList #
-    if(!exists("sed_ptms_list")){ MakeClusterList(ptmtable, toolong)}
-
     # Calculate cluster sizes using global variables #
     spsizes_ptms <- sapply(sp_ptms_list, function(x) dim(x)[1])
     sedsizes_ptms <- sapply(sed_ptms_list, function(x) dim(x)[1])
@@ -172,10 +169,6 @@ PlotClusters <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
         print(paste("Saved plot:", plot_names[i]))
     }
 
-    # Return the cluster lists for further use if needed, should also use global variables
-    return(list(eu_ptms_list = eu_ptms_list,
-                sp_ptms_list = sp_ptms_list,
-                sed_ptms_list = sed_ptms_list))
 }
 
 
