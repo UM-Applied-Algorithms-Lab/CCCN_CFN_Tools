@@ -1,8 +1,8 @@
 #Setup
 set.seed(1)                       #Set the seed (very important)
 
-if(!exists("sed_ptm_list")){      #Check if global variables are already made as to not run MakeClusterList multiple times
-  
+if(!exists("sed_ptms_list")){      #Check if global variables are already made as to not run MakeClusterList multiple times
+
   #Load Sample data
   if(!exists("ptmtable")){
     load("~/CCCN_CFN_Tools/data/ptmtable.rda")

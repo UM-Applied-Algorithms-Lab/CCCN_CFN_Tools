@@ -231,7 +231,7 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   }
 
   # Create global varibles (ptmts list if they don't exist already)
-  if(!exists("eu_ptms_list")) MakeClusterList(ptmtable)
+  MakeClusterList(ptmtable)
 
   # Mark's Functions #
   without  <- function(x, y)  x[!x %in% y]             # x without y
