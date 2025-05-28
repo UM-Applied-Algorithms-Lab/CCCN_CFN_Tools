@@ -4,17 +4,17 @@
 \alias{CorrelationNetwork}
 \title{Generate Correlation Network}
 \usage{
-CorrelationNetwork(bind_result)
+CorrelationNetwork(cccn_matrix)
 }
 \arguments{
-\item{bind_result}{A list containing the adjacency and CCCN matrices from \code{BindMatrices}.}
+\item{cccn_matrix}{The CCCN matrix, the intersect between the correlation matrix and the ordered adjacency matrix produced from \code{BindMatrices}.}
 }
 \value{
 An igraph object representing the correlation network.
 }
 \description{
-This function creates a correlation network graph from a given set of matrices.
+This function takes the cccn_matrix, replaces the NA values with zeroes, and turns it into an igraph object.
 }
 \examples{
-CorrelationNetwork(bind_result)
+CorrelationNetwork(cccn_matrix)
 }

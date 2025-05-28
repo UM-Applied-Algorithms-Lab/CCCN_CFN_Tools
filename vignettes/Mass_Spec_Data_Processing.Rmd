@@ -85,7 +85,7 @@ Final Note: Avoid altering the output files' data types or names, as this can af
 
 ### Step 1b: PlotClusters
 ```{r eval=FALSE}
-common_clusters <- FindCommonCluster(ptmtable, toolong = 3.5, output_dir = "plots")
+PlotCluster(ptmtable, toolong = 3.5, output_dir = "plots")
 ```
 
 NOTE: This step is optional. Saves plots into the provided output directory but does not return anything.
@@ -94,9 +94,9 @@ This step uses the output from the MakeClusterList function to create plots. It 
 
 ### Step 2: GenerateAndConstructptmsNetwork
 ```{r eval=FALSE}
-ptms_network <- GenerateAndConstructptmsNetwork(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptmtable, keeplength = 2, output_dir = "plots")
+ptms_network <- GenerateAndConstructptmsNetwork(ptmtable, keeplength = 2, output_dir = "plots")
 print("All PTMs network:")
-print(unique(sapply(as.character(element$Gene.Name), function(x) unlist(strsplit(x, " ", fixed = TRUE))[1])))
+print(eu.sp.sed.ptms.data))
 ```
 
 NOTE: the input of ptms_network is the output of the FindCommonCluster function not bound in the list.
@@ -107,30 +107,22 @@ In this step, the GenerateAndConstructptmsNetwork function takes the common clus
 ``` {r eval=FALSE}
 bound_matrices <- BindMatrices(cluster_list, correlation_matrix)
 print("Bound matrices:")
-print(list(adj_matrix = adj_matrix_ordered, cccn_matrix = cccn_matrix))
+print(cccn_matrix)
 ```
 
-The BindMatrices function aligns the adjacency matrix (which represents the relationships between different entities) with the correlation matrix (which indicates how closely related different observations are). By setting diagonal connections to NA, this function helps clean up the data and ensures that only relevant relationships are analyzed.
+The BindMatrices function aligns the ordered adjacency matrix with the correlation matrix (which indicates how closely related different observations are). By setting diagonal connections to NA, this function helps clean up the data and ensures that only relevant relationships are analyzed.
 
 ### Step 4: CorrelationNetwork
 ```{r eval=FALSE}
-correlation_network <- CorrelationNetwork(bound_matrices)
+correlation_network <- CorrelationNetwork(cccn_matrix)
 print("Correlation network:")
-print(igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix0), mode = "lower", diag = FALSE, weighted = "Weight"))
+print(graph)
 ```
 
-Finally, the CorrelationNetwork function takes the bound matrices and transforms them into an igraph object. This object represents a network where nodes correspond to genes or proteins, and edges represent relationships between them. Analyzing this correlation network allows you to understand the complex interactions between different proteins in your dataset, offering insights into their functional relationships.
+Finally, the CorrelationNetwork function takes the cccn_matrix and transforms it into an igraph object. This object represents a network where nodes correspond to genes or proteins and edges represent relationships between them. Analyzing this correlation network allows you to understand the complex interactions between different proteins in your dataset, offering insights into their functional relationships.
 
-### Step 5: Purge Zeros
-```{r eval=FALSE}
-zero_na_data <- zero.to.NA.func(correlation_network)
-print("Data with zeroes replaced by NA:")
-print(zero_na_data)
-```
 
-This function, which is smaller than most of ours, is just turning every zero in the given data set to an NA value. This is so that later on these missing numbers to not affect our workflow. 
-
-### Step 6: Process PTM Data
+### Step 5: Process PTM Data
 ```{r eval=FALSE}
 processed_data_path <- process_ptms_data(eu.sp.sed.ptms, sed.ptms.peps, cccn_matrix)
 print("Processed PTM data:")

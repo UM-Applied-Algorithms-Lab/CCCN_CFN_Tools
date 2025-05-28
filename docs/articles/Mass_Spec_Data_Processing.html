@@ -197,7 +197,7 @@ this can affect subsequent analyses.</p>
 <h4 id="step-1b-plotclusters">Step 1b: PlotClusters<a class="anchor" aria-label="anchor" href="#step-1b-plotclusters"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">common_clusters</span> <span class="op">&lt;-</span> <span class="fu">FindCommonCluster</span><span class="op">(</span><span class="va">ptmtable</span>, toolong <span class="op">=</span> <span class="fl">3.5</span>, output_dir <span class="op">=</span> <span class="st">"plots"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">PlotCluster</span><span class="op">(</span><span class="va">ptmtable</span>, toolong <span class="op">=</span> <span class="fl">3.5</span>, output_dir <span class="op">=</span> <span class="st">"plots"</span><span class="op">)</span></span></code></pre></div>
 <p>NOTE: This step is optional. Saves plots into the provided output
 directory but does not return anything.</p>
 <p>This step uses the output from the MakeClusterList function to create
@@ -211,10 +211,9 @@ circumstances, providing insights into their biological pathways</p>
 <div class="section level4">
 <h4 id="step-2-generateandconstructptmsnetwork">Step 2: GenerateAndConstructptmsNetwork<a class="anchor" aria-label="anchor" href="#step-2-generateandconstructptmsnetwork"></a>
 </h4>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ptms_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/GenerateAndConstructptmsNetwork.html">GenerateAndConstructptmsNetwork</a></span><span class="op">(</span><span class="va">eu_ptms_list</span>, <span class="va">sp_ptms_list</span>, <span class="va">sed_ptms_list</span>, <span class="va">ptmtable</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, output_dir <span class="op">=</span> <span class="st">"plots"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"All PTMs network:"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">element</span><span class="op">$</span><span class="va">Gene.Name</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">" "</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>ptms_network <span class="ot">&lt;-</span> <span class="fu">GenerateAndConstructptmsNetwork</span>(ptmtable, <span class="at">keeplength =</span> <span class="dv">2</span>, <span class="at">output_dir =</span> <span class="st">"plots"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"All PTMs network:"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">print</span>(eu.sp.sed.ptms.data)<span class="er">)</span></span></code></pre></div>
 <p>NOTE: the input of ptms_network is the output of the
 FindCommonCluster function not bound in the list.</p>
 <p>In this step, the GenerateAndConstructptmsNetwork function takes the
@@ -232,10 +231,9 @@ the dots between different protein modifications.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bound_matrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/BindMatrices.html">BindMatrices</a></span><span class="op">(</span><span class="va">cluster_list</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Bound matrices:"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>adj_matrix <span class="op">=</span> <span class="va">adj_matrix_ordered</span>, cccn_matrix <span class="op">=</span> <span class="va">cccn_matrix</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The BindMatrices function aligns the adjacency matrix (which
-represents the relationships between different entities) with the
-correlation matrix (which indicates how closely related different
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span></code></pre></div>
+<p>The BindMatrices function aligns the ordered adjacency matrix with
+the correlation matrix (which indicates how closely related different
 observations are). By setting diagonal connections to NA, this function
 helps clean up the data and ensures that only relevant relationships are
 analyzed.</p>
@@ -244,31 +242,20 @@ analyzed.</p>
 <h4 id="step-4-correlationnetwork">Step 4: CorrelationNetwork<a class="anchor" aria-label="anchor" href="#step-4-correlationnetwork"></a>
 </h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">correlation_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CorrelationNetwork.html">CorrelationNetwork</a></span><span class="op">(</span><span class="va">bound_matrices</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">correlation_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CorrelationNetwork.html">CorrelationNetwork</a></span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Correlation network:"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_adjacency_matrix.html" class="external-link">graph_from_adjacency_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">cccn_matrix0</span><span class="op">)</span>, mode <span class="op">=</span> <span class="st">"lower"</span>, diag <span class="op">=</span> <span class="cn">FALSE</span>, weighted <span class="op">=</span> <span class="st">"Weight"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Finally, the CorrelationNetwork function takes the bound matrices and
-transforms them into an igraph object. This object represents a network
-where nodes correspond to genes or proteins, and edges represent
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span></span></code></pre></div>
+<p>Finally, the CorrelationNetwork function takes the cccn_matrix and
+transforms it into an igraph object. This object represents a network
+where nodes correspond to genes or proteins and edges represent
 relationships between them. Analyzing this correlation network allows
 you to understand the complex interactions between different proteins in
 your dataset, offering insights into their functional relationships.</p>
 </div>
 <div class="section level4">
-<h4 id="step-5-purge-zeros">Step 5: Purge Zeros<a class="anchor" aria-label="anchor" href="#step-5-purge-zeros"></a>
+<h4 id="step-5-process-ptm-data">Step 5: Process PTM Data<a class="anchor" aria-label="anchor" href="#step-5-process-ptm-data"></a>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">zero_na_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/zero.to.NA.func.html">zero.to.NA.func</a></span><span class="op">(</span><span class="va">correlation_network</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Data with zeroes replaced by NA:"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">zero_na_data</span><span class="op">)</span></span></code></pre></div>
-<p>This function, which is smaller than most of ours, is just turning
-every zero in the given data set to an NA value. This is so that later
-on these missing numbers to not affect our workflow.</p>
-</div>
-<div class="section level4">
-<h4 id="step-6-process-ptm-data">Step 6: Process PTM Data<a class="anchor" aria-label="anchor" href="#step-6-process-ptm-data"></a>
-</h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">processed_data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_ptms_data.html">process_ptms_data</a></span><span class="op">(</span><span class="va">eu.sp.sed.ptms</span>, <span class="va">sed.ptms.peps</span>, <span class="va">cccn_matrix</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Processed PTM data:"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ptms_gene_cccn_edges</span><span class="op">)</span></span></code></pre></div>

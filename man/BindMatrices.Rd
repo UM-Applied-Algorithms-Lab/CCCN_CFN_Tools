@@ -12,10 +12,10 @@ BindMatrices(cluster_list, correlation_matrix)
 \item{correlation_matrix}{A correlation matrix to align with the adjacency matrix.}
 }
 \value{
-A list containing the combined adjacency matrix and CCCN matrix.
+The CCCN matrix, the intersect between the correlation matrix and the ordered adjacency matrix.
 }
 \description{
-This function binds matrices, aligns them, and prepares adjacency and CCCN matrices.
+This function orders the adjacency matrix, finds the intersect with the correlation matrix (cccn_matrix), and puts NAs on the diagonal.
 }
 \examples{
 BindMatrices(cluster_list, correlation_matrix)
