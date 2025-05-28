@@ -403,8 +403,8 @@ zero.to.NA.func <- function(df) {
 #'
 #' This function processes PTMs data, creates correlation networks, and constructs adjacency matrices.
 #'
-#' @param eu.sp.sed.ptms A list of all PTMs.
-#' @param sed.ptms.peps A list of SED PTMs peptides.
+#' @param eu.sp.sed.ptms  A list of all PTMs.
+#' @param sed.ptms.peps   A list of SED PTMs peptides.
 #' @param AlldataPTMs_cor A correlation matrix for all PTMs.
 #'
 #' @return A data frame containing PTMs gene correlation edges.
@@ -489,7 +489,7 @@ process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor) {
 #' @export
 #'
 #' @examples
-#' get.gene.names.from.peps(c("gene1 peptide1", "gene2 peptide2"))
+#' get.gene.names.from.peps(c("gene1 peptide1"; "gene2 peptide2"))
 get.gene.names.from.peps <- function(pepvec, pepsep="; ") {
   genevec=NULL
   for(i in 1:length(pepvec)) {
