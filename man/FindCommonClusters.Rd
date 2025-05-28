@@ -4,7 +4,7 @@
 \alias{FindCommonClusters}
 \title{Finds common elements between clusters in three lists.}
 \usage{
-FindCommonClusters(list1, list2, list3, keeplength = 2)
+FindCommonClusters(list1, list2, list3 = list(), keeplength = 2)
 }
 \arguments{
 \item{list1}{A list of ptms.}

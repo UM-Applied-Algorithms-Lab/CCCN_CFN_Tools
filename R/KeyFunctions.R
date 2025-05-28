@@ -183,12 +183,12 @@ PlotClusters <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
 #' @return A list of common clusters.
 #' @examples
 #' FindCommonClusters(list1, list2, list3 keeplength = 2)
-FindCommonClusters <- function(list1, list2, list3, keeplength = 2){
+FindCommonClusters <- function(list1, list2, list3 = list(), keeplength = 2){
 
   #Make sure that the desired column exists in sublists of lists
   if(!TRUE %in% sapply(list1, function(x) "PTM.Name" %in% names(x))) stop("List1 does not have a PTM.Name column")
   if(!TRUE %in% sapply(list2, function(x) "PTM.Name" %in% names(x))) stop("List2 does not have a PTM.Name column")
-  if(!TRUE %in% sapply(list3, function(x) "PTM.Name" %in% names(x))) stop("List3 does not have a PTM.Name column")
+  if(!TRUE %in% sapply(list3, function(x) "PTM.Name" %in% names(x)) && !!length(list3)) stop("List3 does not have a PTM.Name column") # And list 3 is NOT empty
 
   #Convert lists into groups of ptms
   list1.ptms <- lapply(list1, function(x){x$"PTM.Name"}) #These are lists of character vectors
@@ -200,9 +200,17 @@ FindCommonClusters <- function(list1, list2, list3, keeplength = 2){
 
   for(a in 1:length(list1.ptms)){ #Triple loop to look through elements of the list and compare them
     for(b in 1:length(list2.ptms)){
-      for(c in 1:length(list3.ptms)){
-        temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
-        if(length(temp) > keeplength) returnme[[length(returnme)+1]] <- temp               #And only add it to the list to return if it has enough values
+
+      #Catch if list3 is empty (for comparing 2 vectors)
+      if(!length(list3)){
+        temp <- intersect(list1.ptms[[a]], list2.ptms[[b]])
+        if(length(temp) > keeplength) returnme[[length(returnme)+1]] <- temp
+      }else{
+        #if list 3 is NOT empty (for comparing 3 vectors)
+        for(c in 1:length(list3.ptms)){
+          temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
+          if(length(temp) > keeplength) returnme[[length(returnme)+1]] <- temp               #And only add it to the list to return if it has enough values
+        }
       }
     }
   }
