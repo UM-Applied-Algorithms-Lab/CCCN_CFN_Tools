@@ -18,5 +18,5 @@ A vector of unique gene names.
 This function extracts gene names from a given peptide vector.
 }
 \examples{
-get.gene.names.from.peps(c("gene1 peptide1", "gene2 peptide2"))
+get.gene.names.from.peps(c("gene1 peptide1"; "gene2 peptide2"))
 }

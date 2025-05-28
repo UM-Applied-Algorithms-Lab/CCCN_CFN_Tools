@@ -182,7 +182,7 @@ PlotClusters <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
 #' @param keeplength Minimum size of intersections to keep.
 #' @return A list of common clusters.
 #' @examples
-#' FindCommonClusters(list1, list2, list3 keeplength = 2)
+#' FindCommonClusters(list1, list2)
 FindCommonClusters <- function(list1, list2, list3 = list(), keeplength = 2){
 
   #Make sure that the desired column exists in sublists of lists
@@ -489,7 +489,7 @@ process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor) {
 #' @export
 #'
 #' @examples
-#' get.gene.names.from.peps(c("gene1 peptide1"; "gene2 peptide2"))
+#' get.gene.names.from.peps(c("gene1 peptide1", "gene2 peptide2"))
 get.gene.names.from.peps <- function(pepvec, pepsep="; ") {
   genevec=NULL
   for(i in 1:length(pepvec)) {
