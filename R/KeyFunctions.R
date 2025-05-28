@@ -133,9 +133,9 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 #' @export
 #'
 #' @examples
-#' PlotCluster(ptmtable, toolong = 3.5, "output")
+#' PlotClusters(ptmtable, toolong = 3.5, "output")
 
-PlotCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
+PlotClusters <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
     if (!exists("MakeClusterList")) {
         stop("The function 'MakeClusterList' is not defined.")
     }
