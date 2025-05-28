@@ -1,143 +1,3 @@
-#SpearmanDissimilarity NO LONGER NEEDED; keeping in casekies
-#' Calculates Spearman dissimilarity and t-SNE from a given dataset
-#'
-#' This function computes the Spearman dissimilarity matrix from the input dataset,
-#' processes it for missing values, and performs t-SNE for dimensionality reduction.
-#'
-#' @param ptmtable A data frame containing numeric data for post-translational modifications.
-#' @return A matrix containing t-SNE coordinates (3D).
-#' @export
-#'
-#' @examples
-#' SpearmanDissimilarity(ptmtable)
-SpearmanDissimilarity <- function(ptmtable) {
-    # Add if statement here to make sure functions are formatted correctly #
-    # Ensure ptmtable is a data frame with numeric values #
-    ptmtable <- as.data.frame(lapply(ptmtable, as.numeric))
-    print("Converting Data Types...")
-
-    # Calculate Spearman correlation #
-    ptmtable.cor <- stats::cor(t(ptmtable), use = "pairwise.complete.obs", method = "spearman")
-    print("Calculating Spearman Correlation...")
-
-    # Replace diagonal with NA #
-    diag(ptmtable.cor) <- NA
-
-    # Calculate dissimilarity #
-    dissimilarity.ptmtable <- 1 - abs(ptmtable.cor)
-    print("Calculating Spearman Dissimilarity...")
-
-    # Handle any remaining NA values by setting them to the maximum dissimilarity #
-    max_dissimilarity <- max(dissimilarity.ptmtable, na.rm = TRUE)
-    dissimilarity.ptmtable[is.na(dissimilarity.ptmtable)] <- max_dissimilarity
-    print("Filtering missing values...")
-
-    # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
-    dissimilarity.ptmtable <- as.matrix(dissimilarity.ptmtable) #is there a good reason to have this line?
-
-    # Run t-SNE #
-    tsne_results <- Rtsne::Rtsne(dissimilarity.ptmtable, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
-    print("Mapping Data Points...")
-    # Return t-SNE results #
-    return(tsne_results$Y)
-}
-
-#EuclideanDistance NO LONGER NEEDED; keeping in casekies
-#' Calculates Euclidean distance and performs t-SNE
-#'
-#' This function computes the Euclidean distance matrix from the input dataset,
-#' normalizes it, and applies t-SNE for dimensionality reduction.
-#'
-#' @param ptmtable A data frame containing numeric data for post-translational modifications.
-#' @return A matrix containing t-SNE coordinates (3D).
-#' @export
-#'
-#' @examples
-#' EuclideanDistance(ptmtable)
-EuclideanDistance <- function(ptmtable) {
-    # Add if statement here to make sure functions are formatted correctly #
-    # Convert the dataframe to a distance matrix using Euclidean distance #
-    ptmtable.dist = as.matrix(stats::dist(ptmtable, method = "euclidean"))
-    print("Converting Data Types...")
-
-    # Compute the maximum distance in the matrix, excluding NA values #
-    max_dist = max(ptmtable.dist, na.rm = TRUE)
-    print("Finding maximum distance...")
-
-    # Replace NA values in the distance matrix with 100 times the maximum distance #
-    ptmtable.dist[is.na(ptmtable.dist)] <- 100 * max_dist
-    print("Filtering missing values...")
-
-    # Normalize the distance matrix by scaling it to a range from 0 to 100 #
-    ptmtable.dist.1 <- 100 * ptmtable.dist / max_dist
-    print("Normalizing distances...")
-
-    # Apply t-SNE to the distance matrix to reduce dimensions to 3 #
-    # Parameters: dims = 3 (3D output), perplexity = 15, theta = 0.25 (speed/accuracy trade-off) #
-    # max_iter = 5000 (number of iterations), check_duplicates = FALSE (treat rows as unique) #
-    # pca = FALSE (no initial PCA) #
-    eu.ptms.tsne.list <- Rtsne::Rtsne(as.matrix(ptmtable.dist.1), dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
-
-    # Extract the t-SNE results from the output list #
-    eu.ptms.tsne <- eu.ptms.tsne.list$Y
-    print("Mapping Data Points...")
-
-    # Return the t-SNE results #
-    return(eu.ptms.tsne)
-}
-
-#CombinedPar NO LONGER NEEDED; keeping in casekies
-#' Combines Spearman dissimilarity and Euclidean distance in parallel
-#'
-#' This function uses parallel computing to calculate both Spearman dissimilarity and
-#' Euclidean distance, combines them, and performs t-SNE.
-#'
-#' @param ptmtable A dataset for post-translational modifications.
-#' @return A matrix containing t-SNE coordinates (3D).
-#' @export
-#'
-#' @examples
-#' CombinedPar(ptmtable)
-CombinedPar <- function(ptmtable) {
-    # Creates a cluster
-    cl <- parallel::makeCluster(2)  # Uses two cores, may increase later #
-    # Using makecluster & not parLapply so that this works with Windows machines as well as Unix based ones #
-    doParallel::registerDoParallel(cl)
-
-    # Export necessary functions and data to each cluster node #
-    parallel::clusterExport(cl, list("SpearmanDissimilarity", "EuclideanDistance", "ptmtable"))
-    parallel::clusterEvalQ(cl, {
-        library(Rtsne)
-        library(parallel)
-        library(foreach)
-    })
-
-    # Run SpearmanDissimilarity and EuclideanDistance in parallel #
-    # Check doesn't like %dopar% and i, also doesn't like foreach::%dopar% -- TODO: figure out.
-    results <- foreach::foreach(i = 1:2, .combine = 'list', .packages = c("Rtsne")) %dopar% {
-        if (i == 1) {
-            return(SpearmanDissimilarity(ptmtable))
-        } else {
-            return(EuclideanDistance(ptmtable))
-        }
-    }
-
-    # Extract results #
-    spearman_result <- results[[1]]
-    euclidean_result <- results[[2]]
-
-    # Continue with the rest of the function #
-    combined_distance <- (spearman_result + euclidean_result) / 2
-
-    # Perform t-SNE on the combined distances #
-    tsne_result <- Rtsne::Rtsne(as.matrix(combined_distance), dims = 3, perplexity = 15, theta = 0.25, check_duplicates = FALSE, pca = FALSE)
-    tsne_coordinates <- tsne_result$Y
-
-    # Stop the cluster #
-    parallel::stopCluster(cl)
-    return(tsne_coordinates)
-}
-
 #' Populates the global enviroment with cluster groupings based on t-SNE data
 #'
 #' This function groups t-SNE data points into clusters using a specified threshold
@@ -339,13 +199,13 @@ list.common <- function(list1, list2, list3, keeplength = 2){
 
   #Convert lists into groups of ptms
   list1.ptms <- lapply(list1, function(x){x$"PTM.Name"}) #These are lists of character vectors
-  list2.ptms <- lapply(list2, function(y){y$"PTM.Name"}) 
+  list2.ptms <- lapply(list2, function(y){y$"PTM.Name"})
   list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
 
   #Find all the matching intersections of list1 and list2
   returnme <- list()  #Create an empty list to hold those intersections
 
-  for(a in 1:length(list1.ptms)){ #Triple loop to look through elements of the list and compare them 
+  for(a in 1:length(list1.ptms)){ #Triple loop to look through elements of the list and compare them
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
@@ -428,13 +288,13 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
     }
     clust.data <- ats
     return(clust.data)
-  } #END 
+  } #END
 
   # Generate data lists for evaluations #
   eu.sp.sed.ptms.data <- list()           #Initilize an empty list
   for (i in 1:length(eu.sp.sed.ptms)) {
-    if (length(intersect(eu.sp.sed.ptms[[i]], rownames(ptmtable))) == 0) next  #If the common clusters and rownames of the ptms table have nothing in common break - definitely a better way to write that 
-    at <- ptmtable[unlist(eu.sp.sed.ptms[[i]]), ] #??? Forgotten paramater? 
+    if (length(intersect(eu.sp.sed.ptms[[i]], rownames(ptmtable))) == 0) next  #If the common clusters and rownames of the ptms table have nothing in common break - definitely a better way to write that
+    at <- ptmtable[unlist(eu.sp.sed.ptms[[i]]), ] #??? Forgotten paramater?
     if (dim(at)[1] < 2 | dim(at)[2] < 2) next
     eu.sp.sed.ptms.data[[i]] <- clust.data.from.vec(eu.sp.sed.ptms[[i]], tbl = ptmtable)
 
