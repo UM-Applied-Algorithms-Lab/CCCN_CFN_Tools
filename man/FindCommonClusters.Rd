@@ -20,5 +20,5 @@ A list of common clusters.
 Finds common elements between clusters in three lists.
 }
 \examples{
-FindCommonClusters(list1, list2, list3 keeplength = 2)
+FindCommonClusters(list1, list2)
 }

@@ -218,6 +218,26 @@ FindCommonClusters <- function(list1, list2, list3 = list(), keeplength = 2){
   return(returnme)
 }
 
+#' Replace NAs with 0
+#'
+#' This function replaces all NA's in a data frame with 0 values.
+#'
+#' @param df A data frame where NA's are to be replaced with 0s.
+#'
+#' @return A data frame with NAs replaced by 0.
+#' @export
+#'
+#' @examples
+#' NA.to.zero.func(data.frame(a = c(0, 1), b = c(2, 0)))
+NA.to.zero.func <- function(df) {
+  cf <- df
+  nas <- which(is.na(cf), arr.ind = TRUE)
+  cfzero <- as.matrix(cf)
+  cfzero[nas] <- 0
+  cfzero <- data.frame(cfzero)
+  return(cfzero)
+}
+
 #' Generate and Construct All PTMs Network
 #'
 #' This function generates and constructs the PTMs network from given data lists and tables.
@@ -241,9 +261,6 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   # number of existing entries
   filled   <- function (x)   {length(x) - sum(is.na(x))}
 
-  # Create global varibles (ptmts list if they don't exist already)
-  MakeClusterList(ptmtable)
-
   # Convert lists to data frames #
   #(brackets only take the second and third col and ignore the col that just says number in the cluster) #
   eu.ptms.df  <- plyr::ldply(eu_ptms_list)[, 2:3]
@@ -257,6 +274,9 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
 
   # Find common ptms between the three lists using FindCommonClusters()
   eu.sp.sed.ptms <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
+
+  #ensure all NAs are zeros
+  plot.eu.sp.sed.ptms <- NA.to.zero.func(eu.sp.sed.ptms)
 
   # Function to generate data frames for heatmaps and evaluations #
   clust.data.from.vec <- function(vec, tbl) {
@@ -287,7 +307,7 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
     # Save the plot
     plot_file <- file.path(output_dir, paste0("plot_", i, ".png"))
     grDevices::png(plot_file, width = 800, height = 600)
-    plot(eu.sp.sed.ptms.data[[i]])
+    plot(plot.eu.sp.sed.ptms.data[[i]])
     grDevices::dev.off()
 
     print(paste("Saved plot", i, "to", plot_file))

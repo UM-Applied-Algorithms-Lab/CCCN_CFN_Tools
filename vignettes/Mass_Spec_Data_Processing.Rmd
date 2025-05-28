@@ -34,10 +34,10 @@ This is a step-by-step guide on using the first twelve functions of the CCCN CFN
 ### Make Cluster List:
 Performs clustering analysis on t-SNE data. It takes your data table and an argument for cluster closeness as arguments. It first calls SpearmanDissimilarity and EuclideanDistance and then finds the average between the two fo them. Then, it calculates a spanning tree based on the distances in the t-SNE data and identifies clusters by computing connected components with the specified threshold. Finally, it saves three data frames to the user's global environment, each containing the genes assigned to a specific cluster with respect to that measure of distance.
 
-### Find Common Clusters:
+### Plot Cluster:
 Calls MakeClusterList and then finds the common clusters between the clusters of each method of distance calculation. Generates a visual representation of this new common clusters set.
 
-### List Common Cluster:
+### Find Common Clusters:
 This looks for actual interactions and similarities between the new clusters for each of the results. It returns a new list within the given parameters.
 
 ### Generate and Construct PTMs Network:
@@ -47,10 +47,10 @@ The new cluster lists from above are used here to look for Post-Translational Mo
 A fairly self explanatory function. This creates a matrix from your chosen data sets by combining them.
 
 ### Bind Matricies:
-Aligns the adjacency matrix with the correlation matrix. Then sets diagonal connections to NA values.
+Orders the adjacency matrix and finds the intersection between the adjacency matrix with the correlation matrix. Then sets diagonal of this new matrix--cccn_matrix--to NA values.
 
 ### Correlation Network:
-Turns the matrix created into an igraph object.
+Turns the cccn_matrix created in Bind Matricies into an igraph object.
 
 ### Process PTM Data:
 ???
