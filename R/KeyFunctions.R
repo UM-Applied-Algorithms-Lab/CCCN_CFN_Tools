@@ -238,22 +238,10 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
     dir.create(output_dir)
   }
 
+  filled   <- function (x)   {length(x) - sum(is.na(x))} # number of existing entries
+
   # Create global varibles (ptmts list if they don't exist already)
   MakeClusterList(ptmtable)
-
-  # Mark's Functions #
-  without  <- function(x, y)  x[!x %in% y]             # x without y
-  nmissing <- function(x)     sum(is.na(x))            # number of missing entries
-  filled   <- function (x)   {length(x) - nmissing(x)} # number of existing entries
-  fractNA  <- function(df) {
-      result <- nmissing(df)/(dim(df)[1]*dim(df)[2])  #fraction of total entries that are missing
-      return(result)
-  }
-  mean.na   <- function(x)     mean(x, na.rm=TRUE) #why do these exist?
-  max.na    <- function(x)     max(x, na.rm=TRUE)
-  min.na    <- function(x)     min(x, na.rm=TRUE)
-  sd.na     <- function(x)     stats::sd(x, na.rm=TRUE)
-  outersect <- function(x,y)  {sort(c(setdiff(x,y), setdiff(y,x)))}
 
   # Convert lists to data frames #
   #(brackets only take the second and third col and ignore the col that just says number in the cluster) #
@@ -266,12 +254,8 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   sp.ptms.df$group  <- paste(sp.ptms.df$group, "s", sep = "")
   sed.ptms.df$group <- paste(sed.ptms.df$group, "sed", sep = "")
 
-  # Group everything together, data frames pasted together with rows of E on top of rows of Sed on top of rows of S #
-  ptmsgroups.df <- rbind(eu.ptms.df, sed.ptms.df, sp.ptms.df)
-
   # Find common ptms between the three lists using FindCommonClusters()
   eu.sp.sed.ptms <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
-  eu.sp.sed.ptms.sizes <- sapply(eu.sp.sed.ptms, length)
 
   # Function to generate data frames for heatmaps and evaluations #
   clust.data.from.vec <- function(vec, tbl) {
@@ -312,10 +296,6 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   alltrimmedsamples <- apply(ptmtable, 1, filled)
   ptms.t <- ptmtable[which(alltrimmedsamples > 2), ]
   ptmtable <- ptms.t
-
-  # Repair bad clusters #
-  bad.clusterlist <- list()
-  badptms <- unique(outersect(rownames(ptmtable), rownames(ptmtable)))
 
   return(list(ptmtable = ptmtable, eu.sp.sed.ptms.data = eu.sp.sed.ptms.data))
 }
@@ -677,7 +657,7 @@ extract.gene.names <- function(peptide.edgefile) {
 #'
 #' @examples
 #' genepep.edges.3(nodelist, pepkey)
-genepep.edges.3 <- function(nodelist, pepkey=ld.key) {
+genepep.edges.3 <- function(nodelist, pepkey=ld.key) { #NEVER USED
   nodelist <- unique(nodelist)
   gpedges <- pepkey[pepkey$Gene.Name %in% nodelist, 1:2]
   names(gpedges)[1:2] <- c("Gene.1", "Gene.2")
