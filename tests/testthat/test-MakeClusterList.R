@@ -1,7 +1,7 @@
 #Setup
 set.seed(1)                       #Set the seed (very important)
 
-  #Load Sample data
+#Load Sample data
 load("~/CCCN_CFN_Tools/data/ptmtable.rda")
 
 sink("noprint")                 #Suppress print statements from function

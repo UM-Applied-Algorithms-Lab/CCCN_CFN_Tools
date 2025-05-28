@@ -11,7 +11,6 @@
 #' MakeClusterList(ptmtable, toolong =  3.5)
 MakeClusterList <- function(ptmtable, toolong = 3.5){
 
-
   #SPEARMAN CALCULATION
 
   # Add if statement here to make sure functions are formatted correctly #
