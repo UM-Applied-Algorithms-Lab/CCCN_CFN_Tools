@@ -89,27 +89,6 @@ Function names can also be changed as needed.)</p>
 <h2 id="function-descriptions">Function Descriptions<a class="anchor" aria-label="anchor" href="#function-descriptions"></a>
 </h2>
 <div class="section level4">
-<h4 id="spearman-dissimilarity">Spearman Dissimilarity:<a class="anchor" aria-label="anchor" href="#spearman-dissimilarity"></a>
-</h4>
-<p>This function takes a data frame, converts its values to numeric, and
-computes the Spearman correlation matrix from the transposed data using
-pairwise completion to handle missing values. It then calculates the
-dissimilarity by subtracting the absolute values of the correlation
-matrix from one. Any remaining missing values are replaced with the
-maximum dissimilarity. Finally, it uses t-SNE, a method that reduces the
-dimensions of the data to 3D while preserving its structure, to make it
-easier to visualize and explore the data. The function returns the 3D
-coordinates for plotting.</p>
-</div>
-<div class="section level4">
-<h4 id="euclidean-distance">Euclidean Distance:<a class="anchor" aria-label="anchor" href="#euclidean-distance"></a>
-</h4>
-<p>This function takes a data frame, computes the Euclidean distance
-matrix, and normalizes it by scaling distances to a range of 0 to 100.
-It handles missing values by replacing them with a value 100 times the
-maximum distance. It then also uses t-SNE to return 3D coordinates.</p>
-</div>
-<div class="section level4">
 <h4 id="make-cluster-list">Make Cluster List:<a class="anchor" aria-label="anchor" href="#make-cluster-list"></a>
 </h4>
 <p>Performs clustering analysis on t-SNE data. It takes your data table
