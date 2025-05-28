@@ -495,6 +495,7 @@ process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor) {
   return(ptms_gene_cccn_edges)
 }
 
+#NOT CALLED
 #' Extract Gene Names from Peptide Vector
 #'
 #' This function extracts gene names from a given peptide vector.
@@ -638,11 +639,13 @@ find_ppi_edges <- function(input_dataset, gmfilename, nodenames) {
   return(final_edges)
 }
 
+#called :)
 # Function to extract gene names from peptide names
 pepgene <- function(peps) {
   unique(sapply(peps, function(x) unlist(strsplit(x, " ", fixed=TRUE))[1]))
 }
 
+#NOT CALLED
 #' Extract Gene Names from Peptide Edge File
 #'
 #' This function extracts unique gene names from a peptide edge file.
