@@ -133,9 +133,9 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 #' @export
 #'
 #' @examples
-#' FindCommonCluster(ptmtable, toolong = 3.5, "output")
+#' PlotCluster(ptmtable, toolong = 3.5, "output")
 
-FindCommonCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
+PlotCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
     if (!exists("MakeClusterList")) {
         stop("The function 'MakeClusterList' is not defined.")
     }
@@ -146,7 +146,7 @@ FindCommonCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
     }
 
     # Make global variables from MakeClusterList #
-    MakeClusterList(ptmtable, toolong)
+    if(!exists("sed_ptms_list")){ MakeClusterList(ptmtable, toolong)}
 
     # Calculate cluster sizes using global variables #
     spsizes_ptms <- sapply(sp_ptms_list, function(x) dim(x)[1])
@@ -189,8 +189,8 @@ FindCommonCluster <- function(ptmtable, toolong = 3.5, output_dir = "plots") {
 #' @param keeplength Minimum size of intersections to keep.
 #' @return A list of common clusters.
 #' @examples
-#' list.common(list1, list2, list3 keeplength = 2)
-list.common <- function(list1, list2, list3, keeplength = 2){
+#' FindCommonClusters(list1, list2, list3 keeplength = 2)
+FindCommonClusters <- function(list1, list2, list3, keeplength = 2){
 
   #Make sure that the desired column exists in sublists of lists
   if(!TRUE %in% sapply(list1, function(x) "PTM.Name" %in% names(x))) stop("List1 does not have a PTM.Name column")
@@ -268,8 +268,8 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   # Group everything together, data frames pasted together with rows of E on top of rows of Sed on top of rows of S #
   ptmsgroups.df <- rbind(eu.ptms.df, sed.ptms.df, sp.ptms.df)
 
-  # Find common ptms between the three lists using list.common()
-  eu.sp.sed.ptms <- list.common(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
+  # Find common ptms between the three lists using FindCommonClusters()
+  eu.sp.sed.ptms <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
   eu.sp.sed.ptms.sizes <- sapply(eu.sp.sed.ptms, length)
 
   # Function to generate data frames for heatmaps and evaluations #
@@ -432,7 +432,7 @@ zero.to.NA.func <- function(df) {
 #' process_ptms_data(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor)
 process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor) {
   # Set variables
-  eu_sp_sed_ptms <- list.common(eu.sp.sed.ptms, sed.ptms.peps, keeplength = 2) #CHANGEME
+  eu_sp_sed_ptms <- FindCommonClusters(eu.sp.sed.ptms, sed.ptms.peps, keeplength = 2) #CHANGEME
 
   # Create adjacency matrices
   ptms_adj <- plyr::rbind.fill.matrix(plyr::llply(eu_sp_sed_ptms, MakeAdjMatrix))
