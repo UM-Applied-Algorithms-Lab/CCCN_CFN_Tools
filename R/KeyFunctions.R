@@ -238,7 +238,8 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
     dir.create(output_dir)
   }
 
-  filled   <- function (x)   {length(x) - sum(is.na(x))} # number of existing entries
+  # number of existing entries
+  filled   <- function (x)   {length(x) - sum(is.na(x))}
 
   # Create global varibles (ptmts list if they don't exist already)
   MakeClusterList(ptmtable)
@@ -413,7 +414,7 @@ zero.to.NA.func <- function(df) {
 #' process_ptms_data(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor)
 process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor) {
   # Set variables
-  eu_sp_sed_ptms <- FindCommonClusters(eu.sp.sed.ptms, sed.ptms.peps, keeplength = 2) #CHANGEME
+  eu_sp_sed_ptms <- FindCommonClusters(eu.sp.sed.ptms, sed.ptms.peps, keeplength = 2)
 
   # Create adjacency matrices
   ptms_adj <- plyr::rbind.fill.matrix(plyr::llply(eu_sp_sed_ptms, MakeAdjMatrix))
