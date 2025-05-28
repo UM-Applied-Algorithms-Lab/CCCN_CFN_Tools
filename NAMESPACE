@@ -2,10 +2,10 @@
 
 export(BindMatrices)
 export(CorrelationNetwork)
-export(FindCommonCluster)
 export(GenerateAndConstructptmsNetwork)
 export(MakeAdjMatrix)
 export(MakeClusterList)
+export(PlotClusters)
 export(extract.gene.names)
 export(find_ppi_edges)
 export(genepep.edges.3)

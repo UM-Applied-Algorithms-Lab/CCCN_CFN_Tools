@@ -68,7 +68,7 @@ For actually running this code, it is recommended that you have at least four CP
 
 ---
 
-### Step 0: MakeClusterList
+### Step 1: MakeClusterList
 ```{r eval=FALSE}
 MakeClusterList(ptmtable, toolong = 3.5)
 View(eu_ptms_list)
@@ -79,20 +79,18 @@ View(sed_ptms_list)
 save(sed_ptms_list, file = "sed_tptms_list.df")
 ```
 
-NOTE: This step is if you only want the clusters. It is called in Step 1 and does not need to be called by the user. Please also note that there is an element of randomness involved and the function set.seed() will need to be called in order to create reproducible results.
-
 The MakeClusterList function is employed to identify clusters within your dataset. To accomplish this, it first calculates Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. Clustering then occurs to group similar post translational modifications based on the conditions under which they are activated. This helps in understanding relationships in the data. There is no output for this function. Instead, the cluster lists for each measure of distance are automatically saved into your global environment. From there, they can be viewed and saved with the built-in View and save functions.
 
-Final Note: Avoid altering the output files' data types, as this can affect subsequent analyses.
+Final Note: Avoid altering the output files' data types or names, as this can affect subsequent analyses.
 
-### Step 1: FindCommonCluster
+### Step 1b: PlotClusters
 ```{r eval=FALSE}
 common_clusters <- FindCommonCluster(ptmtable, toolong = 3.5, output_dir = "plots")
-print("Common clusters:")
-print(list(eu_ptms_list = eu_ptms_list, sp_ptms_list = sp_ptms_list, sed_ptms_list = sed_ptms_list))
 ```
 
-This step uses the output from the MakeClusterList function to find common clusters among your data. It organizes the data into clusters that are represented in the clusters for each measure of distance. The FindCommonCluster function then generates a visual graph that represents the relationships among the clusters. This graph is particularly useful for visualizing how different genes are modified post-translation under the same circumstances, providing insights into their biological pathways
+NOTE: This step is optional. Saves plots into the provided output directory but does not return anything.
+
+This step uses the output from the MakeClusterList function to create plots. It organizes the data into clusters that are represented in the clusters for each measure of distance. The PlotClusters function then generates a visual graph that represents the relationships among the clusters. This graph is particularly useful for visualizing how different genes are modified post-translation under the same circumstances, providing insights into their biological pathways
 
 ### Step 2: GenerateAndConstructptmsNetwork
 ```{r eval=FALSE}
