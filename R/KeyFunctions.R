@@ -292,17 +292,17 @@ GenerateAndConstructptmsNetwork <- function(ptmtable, keeplength = 2, output_dir
   } #END
 
   # Generate data lists for evaluations #
-  eu.sp.sed.ptms.data <- list()           #Initilize an empty list
+  eu.sp.sed.ptms.data <- list()           #Initialize an empty list
   for (i in 1:length(eu.sp.sed.ptms)) {
     if (length(intersect(eu.sp.sed.ptms[[i]], rownames(ptmtable))) == 0) next  #If the common clusters and rownames of the ptms table have nothing in common break - definitely a better way to write that
     at <- ptmtable[unlist(eu.sp.sed.ptms[[i]]), ] #??? Forgotten paramater?
     if (dim(at)[1] < 2 | dim(at)[2] < 2) next
-    eu.sp.sed.ptms.data[[i]] <- clust.data.from.vec(eu.sp.sed.ptms[[i]], tbl = ptmtable)
+    eu.sp.sed.ptms.data[[i]] <- clust.data.from.vec(plot.eu.sp.sed.ptms[[i]], tbl = ptmtable)
 
     # Save the plot
     plot_file <- file.path(output_dir, paste0("plot_", i, ".png"))
     grDevices::png(plot_file, width = 800, height = 600)
-    plot(plot.eu.sp.sed.ptms.data[[i]])
+    plot(eu.sp.sed.ptms.data[[i]])
     grDevices::dev.off()
 
     print(paste("Saved plot", i, "to", plot_file))
