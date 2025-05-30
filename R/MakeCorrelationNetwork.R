@@ -8,7 +8,7 @@
 #' @param klength Minimum size of intersections to keep.
 #' @return A list of common clusters.
 #' @examples
-#' FindCommonClusters(list1, list2, list3, keeplength)
+#' FindCommonClusters(list1, list2, list3, klength)
 FindCommonClusters <- function(list1, list2, list3, klength){
 
   #Convert lists into groups of ptms
