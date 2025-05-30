@@ -54,41 +54,52 @@ MakeCorrelationNetwork <- function(keeplength = 2){
     return(list.el.mat)
   }
 
-  #This function replaces all NA's in a data frame with 0 values.
-  NA.to.zero.func <- function(df) {
-    df0 <- df
-    df0[is.na(df0)] <- 0
-    return(df0)
-  }
-
   #Find common clusters
   list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, 1)
 
   # Generate the combined adjacency matrix
-  adj_matrix <- plyr::rbind.fill.matrix(plyr::llply(cluster_list, MakeAdjMatrix))
-  rownames(adj_matrix) <- colnames(adj_matrix)
+  adj_matrix <- plyr::rbind.fill.matrix(plyr::llply(list.common, MakeAdjMatrix))
+  rownames(adj_matrix) <- colnames(adj_matrix) #Represents a graph
 
   #Rename the correlation matrix using ptmtable as a reference
-  colnames(ptm.correlation.matrix) <- rownames(ptmtable)
+  colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names from MCL 
   rownames(ptm.correlation.matrix) <- rownames(ptmtable)
 
   # Align the correlation matrix with the ordered adjacency matrix
-  matched_rows <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix))
+  matched_rows <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix)) #Use adj_matrix to "filter" out desired data from ptm.correlation
   matched_cols <- intersect(colnames(adj_matrix), colnames(ptm.correlation.matrix))
   cccn_matrix  <- ptm.correlation.matrix[matched_rows, matched_cols]
+  
+  #Change names
+  names <- rownames(cccn_matrix)
+  for(i in 1:length(names)){
+    temp <- strsplit(names[[i]], ";") #List of Vectors, split in case of ;
+    temp <- lapply(temp, function(x){ #Apply to every element of every vector in the list
+      x <- unlist(strsplit(x, " ")) 
+      return(x[[1]]) #Only take the first part
+    })
+    temp <- paste(temp, collapse = "; ") #Recombine
+    names[i] <- temp
+  }
+  rownames(cccn_matrix) <- names #Change names
+  colnames(cccn_matrix) <- names
+  
 
   # Replace NA values in the correlation matrix
-  na_indices <- which(is.na(adj_matrix), arr.ind = TRUE)
+  na_indices <- which(is.na(adj_matrix), arr.ind = TRUE) 
   cccn_matrix <- replace(cccn_matrix, na_indices, NA)
 
   # Remove self-loops by setting diagonal to NA
   if (any(!is.na(diag(cccn_matrix)))) diag(cccn_matrix) <- NA
 
   # Make igraph object, replacing NA with 0
-  cccn_matrix0 <- NA.to.zero.func(cccn_matrix)
-  Network <- igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix0), mode = "lower", diag = FALSE, weighted = "Weight")
+  cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
+  Network <- igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix), mode = "lower", diag = FALSE, weighted = "Weight")
+  
+  #Formatting
+  
 
   #Return correlation network
-  return(Network)
+  return(Network) #Maybe assing to global enviroment instead? 
 }
 
