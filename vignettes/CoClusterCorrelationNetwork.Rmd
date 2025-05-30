@@ -5,6 +5,7 @@ output:
   html_document:
     toc: true
     toc_float: true
+    toc_depth: 4
     theme: cosmo
     highlight: tango
 vignette:
@@ -23,6 +24,13 @@ knitr::opts_chunk$set(
   out.width = "100%",
   results = "hold"
 )
+```
+
+```{r echo = FALSE}
+# NOTE TO THE CODERS
+# THIS IS WHAT WE ARE WORKING TOWARDS
+# NOT WHAT WE CURRENTLY HAVE
+# I have attempted to make notes of what we are currently working WITH but not guaranteed
 ```
 
 # The package  
@@ -75,16 +83,14 @@ Make Cluster list is the first step in the analyzing one's data. This function t
 Descrip  
 
 #### Input:  
-- var1
-  - descrip  
-- var2
-  - descrip  
+- ptmtable
+  - a data frame with rows of ptms and columns of experimental conditions  
+- keeplength
+  - defaults to 3; 
 
 #### Output:  
-- var1
-  - descrip  
-- var2
-  - descrip
+- cccn_matrix
+  - dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
 
 #### Estimated run-time  
 2hrs 30mins
