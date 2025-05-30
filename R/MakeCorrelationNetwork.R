@@ -96,9 +96,6 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
   Network <- igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix), mode = "lower", diag = FALSE, weighted = "Weight")
   
-  #Formatting
-  
-
   #Return correlation network
   return(Network) #Maybe assing to global enviroment instead? 
 }

@@ -80,17 +80,16 @@ Make Cluster list is the first step in the analyzing one's data. This function t
 
 #### Description:  
 
-Descrip  
+Requires MakeClusterList to be ran first to create global variables (Euclidian/Spearman/SED Tsne Matrices). Finds the intersection between the Euclidian, Spearman, and SED Tsne matrices and turns it into an adjacency matrix. Then uses that matrix to filter relevant data from the Spearman correlation matrix and processes the result into an igraph object. 
 
 #### Input:  
-- ptmtable
-  - a data frame with rows of ptms and columns of experimental conditions  
+**Will pull from the global enviroment. Please run MakeClusterList first.**
 - keeplength
-  - defaults to 3; 
+  - defaults to 3; Only saves subsets whose size is strictly greater than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)
 
 #### Output:  
 - cccn_matrix
-  - dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
+  - igraph object whose edge weights correspond to values in the Spearman Correlation Matrix 
 
 #### Estimated run-time  
 2hrs 30mins
