@@ -1,0 +1,176 @@
+---
+title: "Filtered Cocluster Correlation Network Creation Guide"
+author: "Nagashree A, McKayl Bailey, Grant Smith, Madison Moffett"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+vignette:
+  VignetteIndexEntry: "Mass_Spec_Data_Processing"
+  VignetteEngine: "knitr::rmarkdown"
+  VignetteEncoding: "UTF-8"
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "plots/",
+  fig.width = 8,
+  fig.height = 6,
+  out.width = "100%",
+  results = "hold"
+)
+```
+
+# The package  
+The CCCN_CFN package takes experimental data of post-translational modifications based on experimental conditions and generates clusters of likely pathways. These pathways are generated based on analysis of which ptms cluster together compared to how those proteins are known to interact (using GeneMania and STRINGdb databases).
+
+# This file  
+This vignette is intended to be a step-by-step guide to walk users through the process of using the CCCN_CFN package. It includes an example pipeline demonstrating how to run the full analysis along with descriptions of each function. Estimated run-times are included with each description and are based on a preliminary dataset of \~9,000 post-translational modifications and 70 experimental conditions processed with a 12th Gen i5 processor and 8GB of RAM.  
+
+# Pipeline  
+
+## Step 1: Make Cluster List  
+
+```
+
+```
+
+#### Description:  
+
+**NOTE:** There is no output; variables are assigned to the global environment.  
+
+Make Cluster list is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through tsne in order to put them into a 3-dimensional space. Please note: tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Dissimilarity table before it is run through tsne.  
+
+#### Input:  
+- ptmtable
+  - a data frame with rows of ptms and columns of experimental conditions  
+- toolong
+  - defaults to 3.5; threshold for cluster separation  
+
+#### "Output":  
+- ptm.correlation.matrix
+  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.  
+- eu_ptms_list
+  - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance.  
+- sp_ptms_list
+  - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on Spearman Dissimilarity.  
+- sed_ptms_list 
+  - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on the average between Euclidean Distance and Spearman Dissimilarity. 
+
+#### Estimated run-time  
+90mins
+
+## Step 2: Make Correlation Network  
+
+```
+
+```
+
+#### Description:  
+
+Descrip  
+
+#### Input:  
+- var1
+  - descrip  
+- var2
+  - descrip  
+
+#### Output:  
+- var1
+  - descrip  
+- var2
+  - descrip
+
+#### Estimated run-time  
+2hrs 30mins
+
+## Step 3: Find PPI Edges 
+
+```
+
+```
+
+#### Description:  
+
+Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. The ppi networks STRINGdb and GeneMania are consulted to gather this information. Given the ptmtable, this function first converts the proteins into genes of interest. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from both databases are then combined and returned. The returned database shows how strongly the proteins interact.
+
+#### Input:  
+```{r echo = FALSE}
+#PLEASE NOTE
+#PLEASE BE AWARE
+#THIS IS NOT WHAT IS CURRENTLY HAPPENING
+#MADDIE WILL FIX THIS
+#ALSO PLEASE PLEASE NOTE
+#CURRENTLY, THIS WHOLE THING IS GARBAGE FOR THE USER
+#MADDIE WILL MAKE THIS HAPPEN THIS IS THE *****************GOAL*****************
+
+#current input: inputdataset (path to filtered gmfile), gmfilename (GeneMania file path), nodenames (list of genes to study)
+#^also doesn't work.
+```
+- cccn_matrix
+  - dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters  
+
+#### Output:  
+- combined_ppi_network
+```{r echo = FALSE}
+#current name is actually final_edges and I hate that god damn name it is not helpful.
+```
+  - A dataframe representing how strongly proteins are known to interact.
+- cccn_matrix_genes
+  - dataframe of dataframes that represent the common clusters from the three distance calculations' clusters (has been converted to genes that encode the proteins for analysis)
+
+
+#### Estimated run-time  
+UNKNOWN
+
+## Step 4: Cluster Filtered Network  
+
+```
+
+```
+
+#### Description:  
+
+The final step in this analysis package filters the combined_ppi_network by the cccn_matrix. The purpose of this function is to take the proteins in the user's study that are known to interact and only take the interactions whose ptms are shown to be correlated in the user's ptm data. This suggests metabolic pathways by producing clusters of proteins that interact with each other as well as respond to stimuli via ptms under the same conditions.
+
+```{r echo = FALSE}
+#PLEASE *****NOTE***** everything has to be converted into genes in order to do analysis but will have to be converted back into proteins to return important results.
+#consider: dictionary linking proteins to genes and vice versa; pray for no overlap
+```
+
+#### Input:  
+- combined_ppi_network
+  - A dataframe returned by step 3: Find PPI Edges; data frame representing how strongly proteins are known to interact.  
+- cccn_matrix_genes
+  - dataframe returned by the step 3: Find PPI Edges; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters (has been converted to genes that encode the proteins for analysis)  
+
+#### Output:  
+- cccn_cfn_matrix
+  - Dataframe of dataframes suggesting metabolic pathways; representative in protein form  
+
+#### Estimated run-time  
+UNKNOWN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
