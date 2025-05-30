@@ -2,3 +2,6 @@
 
 export(MakeClusterList)
 export(MakeCorrelationNetwork)
+export(cccn_to_nodenames)
+export(find_ppi_edges)
+export(get.GM.edges)
