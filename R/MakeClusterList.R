@@ -24,18 +24,18 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   diag(ptmtable.cor) <- NA
   
   # Calculate dissimilarity #
-  dissimilarity.ptmtable <- 1 - abs(ptmtable.cor)
+  ptm.correlation.matrix <- 1 - abs(ptmtable.cor)
   
   # Handle any remaining NA values by setting them to the maximum dissimilarity #
-  max_dissimilarity <- max(dissimilarity.ptmtable, na.rm = TRUE)
-  dissimilarity.ptmtable[is.na(dissimilarity.ptmtable)] <- max_dissimilarity
+  max_dissimilarity <- max(ptm.correlation.matrix, na.rm = TRUE)
+  ptm.correlation.matrix[is.na(ptm.correlation.matrix)] <- max_dissimilarity
   
   # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
-  dissimilarity.ptmtable <- as.matrix(dissimilarity.ptmtable) #is there a good reason to have this line?
-  assign("dissimilarity.ptmtable", dissimilarity.ptmtable, envir = .GlobalEnv) #Correlation Matrix for later use
+  ptm.correlation.matrix <- as.matrix(ptm.correlation.matrix) #is there a good reason to have this line?
+  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
   
   # Run t-SNE #
-  tsne_results <- Rtsne::Rtsne(dissimilarity.ptmtable, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
+  tsne_results <- Rtsne::Rtsne(ptm.correlation.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
   # Return t-SNE results #
   spearman_result = tsne_results$Y
   

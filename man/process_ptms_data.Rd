@@ -4,7 +4,7 @@
 \alias{process_ptms_data}
 \title{Process PTMs Data}
 \usage{
-process_ptms_data(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor)
+process_ptms_data(eu.sp.sed.ptms, sed.ptms.peps, correlation_matrix)
 }
 \arguments{
 \item{eu.sp.sed.ptms}{A list of all PTMs.}

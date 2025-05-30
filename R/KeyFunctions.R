@@ -425,7 +425,7 @@ zero.to.NA.func <- function(df) {
 #'
 #' @examples
 #' process_ptms_data(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor)
-process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, AlldataPTMs_cor) {
+process_ptms_data <- function(eu.sp.sed.ptms, sed.ptms.peps, correlation_matrix) {
   # Set variables
   eu_sp_sed_ptms <- FindCommonClusters(eu.sp.sed.ptms, sed.ptms.peps, keeplength = 2)
 
