@@ -21,6 +21,8 @@ if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("STRINGdb")
+
+library(STRINGdb)
 ```
 
 Once these are installed, you can install this package directly from GitHub using:
