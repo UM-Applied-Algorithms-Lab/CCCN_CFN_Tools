@@ -45,9 +45,8 @@ get.GM.edgefile <- function(nodenames, gmfilename = "genemania-interactions.txt"
       adjustment = adjustment - 1
     }
   }
-  #Removes the column "Network" that just tells what paper this was published in
-  gm_edges = gm_edges[ , -5]
-  return (gm_edges)
+  #Removes the column "Network" that just tells what paper this was published in and assigns it to the namespace
+  assign('gm_edges', gm_edges[ , -5])
 }
 
 #' Pulls nodenames from the cccn_matrix
@@ -88,7 +87,7 @@ cccn_to_nodenames <- function(cccn_matrix){
   }
 
   #return :)
-  return(nodenames)
+  assign("nodenames", nodenames)
 }
 
 
@@ -113,7 +112,7 @@ cccn_to_nodenames <- function(cccn_matrix){
 #' @examples
 #' find_ppi_edges(cccn_matrix)
 make_gm_input <- function(cccn_matrix) {
-  nodenames <- cccn_to_nodenames(cccn_matrix)
+  cccn_to_nodenames(cccn_matrix)
   write.table(nodenames$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
@@ -134,9 +133,9 @@ find_ppi_edges <- function(cccn_matrix, gmfilename = "genemania-interactions.txt
   #test if nodenames already exists and therefore if they ran optional step 3
   if(!exists("nodenames")){
     #find the nodenames
-    nodenames <- cccn_to_nodenames(cccn_matrix)} else{ #if nodenames does exist then they should have ran step 3 and have gm data
-    # Get GeneMANIA edges
-    gm_edges <- get.GM.edgefile(nodenames, gmfilename)
+    cccn_to_nodenames(cccn_matrix)} else{ #if nodenames does exist then they should have ran step 3 and have gm data
+    # Get GeneMANIA edges (Reminder these ^ V are both assigned to the global)
+    get.GM.edgefile(nodenames, gmfilename)
   }
 
   # Initialize the STRING database object
@@ -193,7 +192,7 @@ find_ppi_edges <- function(cccn_matrix, gmfilename = "genemania-interactions.txt
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
   if(exists("gm_edges")){
     combined_ppi_network <- rbind(combined_edges, gm_edges)
-    return(combined_ppi_network)} else{ #if gm_edges does not exist then do not combine and only use those from STRINGdb
-    return(combined_edges)
+    assign("ppi_network", combined_ppi_network)} else{ #if gm_edges does not exist then do not combine and only use those from STRINGdb
+    assign("ppi_network", combined_edges)
   }
 }

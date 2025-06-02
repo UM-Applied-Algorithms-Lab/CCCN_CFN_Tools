@@ -7,7 +7,7 @@
 Visualize(matrix)
 }
 \arguments{
-\item{cccn_matrix}{A cccn_matrix like the one returned in MakeCorrelationNetwork}
+\item{matrix}{A cccn_matrix like the one returned in MakeCorrelationNetwork}
 }
 \description{
 This function takes a cccn_matrix as input and plots it
