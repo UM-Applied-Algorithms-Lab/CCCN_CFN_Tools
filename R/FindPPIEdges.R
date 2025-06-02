@@ -10,16 +10,16 @@
 #' and filters out required nodes.
 #'
 #' @param nodenames A vector containing the names of the relevant genes.
-#' @param gmfilename The path to the GeneMania file initialized to "genemania-interactions.txt".
+#' @param gmfilepath The path to the GeneMania file initialized to "genemania-interactions.txt".
 #' @return A data frame with the relevant GeneMania data.
 #' @export
 #'
 #' @examples
-#' get.GM.edgefile(nodenames, gmfilename)
-get.GM.edgefile <- function(nodenames, gmfilename = "genemania-interactions.txt"){
+#' get.GM.edgefile(nodenames, gmfilepath)
+get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"){
 
   #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
-  gmtable = read.table(gmfilename, header = TRUE, sep = "\t")
+  gmtable = read.table(gmfilepath, header = TRUE, sep = "\t")
 
   #creates a copy
   gm_edges = gmtable
@@ -121,21 +121,21 @@ make_gm_input <- function(cccn_matrix) {
 #' This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
 #'
 #' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
-#' @param gmfilename The path to the GeneMania file initialized to "genemania-interactions.txt".
+#' @param gmfilepath The path to the GeneMania file initialized to "genemania-interactions.txt".
 #'
 #' @return A data frame of combined edges from STRINGdb and GeneMANIA.
 #' @export
 #'
 #' @examples
-#' find_ppi_edges(cccn_matrix, gmfilename = 'genemania/genemania-interactions.txt')
-find_ppi_edges <- function(cccn_matrix, gmfilename = "genemania-interactions.txt") {
+#' find_ppi_edges(cccn_matrix, gmfilepath = 'genemania/genemania-interactions.txt')
+find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.txt") {
 
   #test if nodenames already exists and therefore if they ran optional step 3
   if(!exists("nodenames")){
     #find the nodenames
     cccn_to_nodenames(cccn_matrix)} else{ #if nodenames does exist then they should have ran step 3 and have gm data
     # Get GeneMANIA edges (Reminder these ^ V are both assigned to the global)
-    get.GM.edgefile(nodenames, gmfilename)
+    get.GM.edgefile(nodenames, gmfilepath)
   }
 
   # Initialize the STRING database object
