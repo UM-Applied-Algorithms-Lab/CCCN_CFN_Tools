@@ -87,11 +87,8 @@ cccn_to_nodenames <- function(cccn_matrix){
   }
 
   #return :)
-<<<<<<< HEAD
   assign("nodenames", nodenames, envir = globalenv())
-=======
   assign("nodenames", nodenames)
->>>>>>> 026bbe5f8f38e4decca8a7be65792fafbcc1827d
 }
 
 
