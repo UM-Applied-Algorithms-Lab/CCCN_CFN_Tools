@@ -16,5 +16,5 @@ An igraph object representing the correlation network.
 This function creates a square adjacency matrix and aligns it with the correlation network and common clusters found from the data derrived in MakeClusterList,
 }
 \examples{
-MakeCorrelationNetwork(keeplength)
+MakeCorrelationNetwork(1)
 }

@@ -10,7 +10,7 @@ cccn_to_nodenames(cccn_matrix)
 \item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
 }
 \value{
-list of the names of the genes
+data frame of the names of the genes
 }
 \description{
 This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'

@@ -145,6 +145,8 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 ```
 - cccn_matrix
   - dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters  
+- gmfilepath  
+  - path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.
 
 #### Output:  
 - combined_ppi_network

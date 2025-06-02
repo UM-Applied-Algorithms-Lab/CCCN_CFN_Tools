@@ -4,18 +4,19 @@
 # after that, this file should be done
 
 
-#' Loads and filters the GeneMania file given a vector of gene names.
+#' Loads and filters the GeneMania file given a vector of gene names.Add commentMore actions
 #'
-#' This helper function loads the GeneMania file from the web
+#' This helper function loads the GeneMania file
 #' and filters out required nodes.
 #'
 #' @param nodenames A vector containing the names of the relevant genes.
+#' @param gmfilename The path to the GeneMania file initialized to "genemania-interactions.txt".
 #' @return A data frame with the relevant GeneMania data.
 #' @export
 #'
 #' @examples
-#' get.GM.edges(nodenames)
-get.GM.edges <- function(nodenames){ # ***************************   FIX ME   ***************************
+#' get.GM.edgefile(nodenames, gmfilename)
+get.GM.edgefile <- function(nodenames, gmfilename = "genemania-interactions.txt"){
 
   #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
   gmtable = read.table(gmfilename, header = TRUE, sep = "\t")
@@ -54,7 +55,7 @@ get.GM.edges <- function(nodenames){ # ***************************   FIX ME   **
 #' This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'
 #'
 #' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
-#' @return list of the names of the genes
+#' @return data frame of the names of the genes
 #' @export
 #'
 #' @examples
@@ -90,24 +91,53 @@ cccn_to_nodenames <- function(cccn_matrix){
   return(nodenames)
 }
 
+
+
+#eu.sp.sed.ptms.data into something cccn_matrix - like:
+#  for(i in 1:nrow(nodenames)){
+#    name <- strsplit(nodenames[i, 1], ' ')[[1]][1]
+#    nodenames[i,1] <- name
+#  }
+
+
+
+#' Make file for GeneMania input
+#'
+#' This function outputs a file the user can take to create the GeneMania edgefile.
+#'
+#' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+#'
+#' @return A file with all of the gene names which can be copy and pasted into the GeneMania website, data frame of the names of the genes
+#' @export
+#'
+#' @examples
+#' find_ppi_edges(cccn_matrix)
+make_gm_input <- function(cccn_matrix) {
+  nodenames <- cccn_to_nodenames(cccn_matrix)
+  write.table(nodenames$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+}
+
 #' Find PPI Edges
 #'
 #' This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
 #'
 #' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+#' @param gmfilename The path to the GeneMania file initialized to "genemania-interactions.txt".
 #'
 #' @return A data frame of combined edges from STRINGdb and GeneMANIA.
 #' @export
 #'
 #' @examples
 #' find_ppi_edges(cccn_matrix)
-find_ppi_edges <- function(cccn_matrix) {
+find_ppi_edges <- function(cccn_matrix, gmfilename = "genemania-interactions.txt") {
 
-  #find the nodenames
-  nodenames <- cccn_to_nodenames(cccn_matrix)
-
-  # Get GeneMANIA edges
-  gm_edges <- get.GM.edges(nodenames)
+  #test if nodenames already exists and therefore if they ran optional step 3
+  if(!exists(nodenames)){
+    #find the nodenames
+    nodenames <- cccn_to_nodenames(cccn_matrix)} else{ #if nodenames does exist then they should have ran step 3 and have gm data
+    # Get GeneMANIA edges
+    gm_edges <- get.GM.edges(nodenames, gmfilename)
+  }
 
   # Initialize the STRING database object
   string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, link_data="detailed", input_directory="")
@@ -160,8 +190,10 @@ find_ppi_edges <- function(cccn_matrix) {
   # Create the final edges dataframe from STRINGdb
   combined_edges <- combined_interactions[, c("Gene.1", "Gene.2", "Weight", "edgeType")]
 
-  # Combine STRINGdb and GeneMANIA edges
-  combined_ppi_network <- rbind(combined_edges, gm_edges)
-
-  return(combined_ppi_network)
+  # Combine STRINGdb and GeneMANIA edges if gm_edges exists
+  if(exists(gm_edges)){
+    combined_ppi_network <- rbind(combined_edges, gm_edges)
+    return(combined_ppi_network)} else{ #if gm_edges does not exist then do not combine and only use those from STRINGdb
+    return(combined_edges)
+  }
 }
