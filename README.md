@@ -10,8 +10,6 @@ Before proceeding, ensure you have R installed. You will also need the devtools 
 install.packages("devtools")
 ```
 
-TODO: understand STRINGdb and figure out how to improve this
-
 Additionally, please check that you have R version 4.5, and STRINGdb installed before moving forward.
 
 To install STRINGdb, use the following code (gathered from https://www.bioconductor.org/packages/release/bioc/html/STRINGdb.html):
