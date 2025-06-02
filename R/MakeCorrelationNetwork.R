@@ -95,6 +95,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   Network <- igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix), mode = "lower", diag = FALSE, weighted = "Weight")
 
   #Return correlation network
+  plot(Network)
   return(Network) #Maybe assing to global enviroment instead?
 }
 
