@@ -92,8 +92,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
 
   # Make igraph object, replacing NA with 0
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
-  correlation_network <- igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix), mode = "lower", diag = FALSE, weighted = "Weight")
-  assign("correlation_network", correlation_network, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
+  assign("cccn_matrix", cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 }
 
 #' Plotting helper function
@@ -103,6 +102,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
 #' 
 #' @examples
 #' Visualize(cccn_matrix)
-#Visualize <- function(matrix){
-  #plot(matrix)
-#}
+Visualize <- function(matrix){
+  graph <- igraph::graph_from_adjacency_matrix(as.matrix(matrix), mode = "lower", diag = FALSE, weighted = "Weight")
+  plot(graph)
+}
