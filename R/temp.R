@@ -1,14 +1,15 @@
 ##WORK IN PROG. JUST COPIED OVER FROM KEYFUNCTIONS##
 
+
 #called :)
 # Function to extract gene names from peptide names
 pepgene <- function(peps) {
-  unique(sapply(peps, function(x) unlist(strsplit(x, " ", fixed=TRUE))[1])) #WHY WHY WHY WHYYYYYY
+  unique(sapply(peps, function(x) unlist(strsplit(x, " ", fixed=TRUE))[1]))
 }
 
 #' Process Correlation Edges
 #'
-#' This function processes correlation edges from a given correlation matrix.
+#' This function processes correlation edges from a given correlation matrix
 #'
 #' @param cor_matrix A correlation matrix.
 #' @param mode A string specifying the graph mode. Default is "lower".
@@ -42,13 +43,13 @@ filter_dual_modifications <- function(edges, mod1, mod2) {
 # Function to analyze negative correlations
 analyze_negative_correlations <- function(edges) {
   neg <- edges[edges$Weight < 0, ]
-  vneg <- neg[abs(neg$Weight) >= 0.5, ] #Add commentMore actions #Syntax error?
+  vneg <- neg[abs(neg$Weight) >= 0.5, ]
   vvneg <- neg[abs(neg$Weight) > 0.543, ]
-
+  
   neg_genes <- unique(neg$Gene.1)
   vneg_genes <- unique(vneg$Gene.1)
   vvneg_genes <- unique(vvneg$Gene.1)
-
+  
   return(list(neg=neg, vneg=vneg, vvneg=vvneg,
               neg_genes=neg_genes, vneg_genes=vneg_genes, vvneg_genes=vvneg_genes))
 }
