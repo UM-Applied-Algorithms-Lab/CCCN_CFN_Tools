@@ -4,12 +4,12 @@
 \alias{find_ppi_edges}
 \title{Find PPI Edges}
 \usage{
-find_ppi_edges(cccn_matrix, gmfilename = "genemania-interactions.txt")
+find_ppi_edges(cccn_matrix, gmfilepath = "genemania-interactions.txt")
 }
 \arguments{
 \item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
 
-\item{gmfilename}{The path to the GeneMania file initialized to "genemania-interactions.txt".}
+\item{gmfilepath}{The path to the GeneMania file initialized to "genemania-interactions.txt".}
 }
 \value{
 A data frame of combined edges from STRINGdb and GeneMANIA.
@@ -18,5 +18,5 @@ A data frame of combined edges from STRINGdb and GeneMANIA.
 This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
 }
 \examples{
-find_ppi_edges(cccn_matrix, gmfilename = 'genemania/genemania-interactions.txt')
+find_ppi_edges(cccn_matrix, gmfilepath = 'genemania/genemania-interactions.txt')
 }

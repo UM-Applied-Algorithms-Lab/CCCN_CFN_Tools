@@ -36,6 +36,8 @@ knitr::opts_chunk$set(
 # The package  
 The CCCN_CFN package takes experimental data of post-translational modifications based on experimental conditions and generates clusters of likely pathways. These pathways are generated based on analysis of which ptms cluster together compared to how those proteins are known to interact (using GeneMania and STRINGdb databases).
 
+An important note about this package: there are no returned outputs from any of the functions. All outputs listed are assigned to the Global Namespace in order to prevent loss of data and promote ease of use. Some functions also pull variables from the global namespace so ensure that all data is loaded into the global environment; especially if analysis is completed across multiple sessions.
+
 # This file  
 This vignette is intended to be a step-by-step guide to walk users through the process of using the CCCN_CFN package. It includes an example pipeline demonstrating how to run the full analysis along with descriptions of each function. Estimated run-times are included with each description and are based on a preliminary dataset of \~9,000 post-translational modifications and 70 experimental conditions processed with a 12th Gen i5 processor and 8GB of RAM.  
 
@@ -43,23 +45,23 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 
 ## Step 1: Make Cluster List  
 
+#### Code  
+
+```{r eval = FALSE}
+MakeClusterList(ptmtable, toolong = 3.5)
 ```
 
-```
-
-#### Description:  
-
-**NOTE:** There is no output; variables are assigned to the global environment.  
+#### Description  
 
 Make Cluster list is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through tsne in order to put them into a 3-dimensional space. Please note: tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Dissimilarity table before it is run through tsne.  
 
-#### Input:  
+#### Input  
 - ptmtable
-  - a data frame with rows of ptms and columns of experimental conditions  
+  - A data frame with rows of ptms and columns of experimental conditions  
 - toolong
-  - defaults to 3.5; threshold for cluster separation  
+  - Defaults to 3.5; threshold for cluster separation  
 
-#### "Output":  
+#### Output  
 - ptm.correlation.matrix
   - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.  
 - eu_ptms_list
@@ -74,61 +76,78 @@ Make Cluster list is the first step in the analyzing one's data. This function t
 
 ## Step 2: Make Correlation Network  
 
+#### Code  
+
+```{r eval = FALSE}
+MakeCorrelationNetwork(keeplength = 2)
 ```
 
-```
-
-#### Description:  
-
-**Note**: Input automatically pulls from the global environment the outputs from Step 1.  
+#### Description  
 
 Requires MakeClusterList to be ran first to create global variables (Euclidian/Spearman/SED Tsne Matrices). Finds the intersection between the Euclidian, Spearman, and SED Tsne matrices and turns it into an adjacency matrix. Then uses that matrix to filter relevant data from the Spearman correlation matrix and processes the result into an igraph object.  
 
-#### Input:  
+#### Input  
 - keeplength  
-  - defaults to 3; Only saves subsets whose size is strictly greater than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)  
+  - Defaults to 3; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)  
+- From Global Namespace: ptmtable
+  - A data frame with rows of ptms and columns of experimental conditions  
+  - Should **not** but listed in function call, but user must ensure that it is in the gloal environment
 
-#### Output:  
+#### Output  
 - cccn_matrix  
-  - igraph object whose edge weights correspond to values in the Spearman Correlation Matrix  
+  - A matrix showing strength of relationships between proteins  
+- correlation_network  
+  - iGraph object of cccn_matrix, a matrix showing strength of relationships between proteins
 
 #### Estimated run-time  
 2hrs 30mins  
 
 ## Step 2.5: Plot Correlation Network (OPTIONAL)
+
+#### Code  
+
+```{r eval = FALSE}
+Visualize(correlation_network)
 ```
 
-```
-#### Description:
-This is an optional step that allows you to visual the matrix made in Step 2. Note that this does not affect any future part of the code and is information purely for the sake of the user.
+#### Description  
 
-#### To run: save your matrix as a variable with your desired name and keeplength value.
-- name <- MakeCorrelationNetwork(keeplength)
+**NOTE:** This step is optional but provides visualization of the data in Step 2.  
 
-####Then run this command with your desired name
-- Visualize(name)
+This function plots the correlation network that was found in Step 2. 
 
-####Estimated run-time
-unknown
+#### Input   
+- correlation_network  
+  - iGraph object of cccn_matrix, a matrix showing strength of relationships between proteins  
 
+#### Output  
+- gm_nodes.txt
+  - A text file with the names of all of the genes   
+- nodenames
+  - A dataframe with all of the gene names involved in analysis   
+
+#### Estimated run-time  
+UNKNOWN
 
 ## Step 3: Retrieve GeneMania Edge File (OPTIONAL)  
 
+#### Code  
+
+```{r eval = FALSE}
+make_gm_input(cccn_matrix)
 ```
 
-```
-
-#### Description:  
+#### Description  
 
 **NOTE:** This step is optional but provides more information for filtering data.  
 
 This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_gm_input in order to produce a text file that has all of the gene names in a list. The user then opens the file (which is created in their working directory) and copies this entire file (ctrl+A, ctrl+c). Finally, the user goes to https://genemania.org and pastes the file into the input text box. They then click the magnifying glass in order to generate the GeneMania information. Finally, press the three dots on the left side of the screen and click the file that says "Interactions data". This will save that file. The user then must be sure to move this file into their working directory for the rest of the pipeline.
 
-#### Input:   
+#### Input   
 - cccn_matrix
-  - dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
+  - Dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
 
-#### Output:  
+#### Output  
 - gm_nodes.txt
   - A text file with the names of all of the genes   
 - nodenames
@@ -139,37 +158,25 @@ UNKNOWN
 
 ## Step 4: Find PPI Edges 
 
+#### Code  
+
+```{r eval = FALSE}
+find_ppi_edges(cccn_matrix, gmfilepath = "genemania-interactions.txt")
 ```
 
-```
-
-#### Description:  
+#### Description  
 
 Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. The ppi networks STRINGdb and GeneMania are consulted to gather this information. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from both databases are then combined and returned. The returned database shows how strongly the proteins interact.
 
-#### Input:  
-```{r echo = FALSE}
-#PLEASE NOTE
-#PLEASE BE AWARE
-#THIS IS NOT WHAT IS CURRENTLY HAPPENING
-#MADDIE WILL FIX THIS
-#ALSO PLEASE PLEASE NOTE
-#CURRENTLY, THIS WHOLE THING IS GARBAGE FOR THE USER
-#MADDIE WILL MAKE THIS HAPPEN THIS IS THE *****************GOAL*****************
+#### Input  
 
-#current input: inputdataset (path to filtered gmfile), gmfilename (GeneMania file path), nodenames (list of genes to study)
-#^also doesn't work.
-```
 - cccn_matrix
-  - dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters  
+  - Dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters  
 - gmfilepath  
-  - path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.
+  - Path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.
 
-#### Output:  
-- combined_ppi_network
-```{r echo = FALSE}
-#current name is actually final_edges and I hate that god damn name it is not helpful.
-```
+#### Output  
+- ppi_network
   - A dataframe representing how strongly proteins are known to interact.
 
 
@@ -178,21 +185,23 @@ UNKNOWN
 
 ## Step 5: Cluster Filtered Network  
 
-```
+#### Code  
+
+```{r eval = FALSE}
 
 ```
 
-#### Description:  
+#### Description  
 
 The final step in this analysis package filters the combined_ppi_network by the cccn_matrix. The purpose of this function is to take the proteins in the user's study that are known to interact and only take the interactions whose ptms are shown to be correlated in the user's ptm data. This suggests metabolic pathways by producing clusters of proteins that interact with each other as well as respond to stimuli via ptms under the same conditions.
 
-#### Input:  
+#### Input  
 - combined_ppi_network
   - A dataframe returned by step 3: Find PPI Edges; data frame representing how strongly proteins are known to interact.  
 - cccn_matrix
-  - dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
+  - Dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
 
-#### Output:  
+#### Output  
 - cccn_cfn_matrix
   - Dataframe of dataframes suggesting metabolic pathways; representative in protein form  
 

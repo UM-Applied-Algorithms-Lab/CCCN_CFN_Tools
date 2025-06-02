@@ -4,12 +4,12 @@
 \alias{get.GM.edgefile}
 \title{Loads and filters the GeneMania file given a vector of gene names.Add commentMore actions}
 \usage{
-get.GM.edgefile(nodenames, gmfilename = "genemania-interactions.txt")
+get.GM.edgefile(nodenames, gmfilepath = "genemania-interactions.txt")
 }
 \arguments{
 \item{nodenames}{A vector containing the names of the relevant genes.}
 
-\item{gmfilename}{The path to the GeneMania file initialized to "genemania-interactions.txt".}
+\item{gmfilepath}{The path to the GeneMania file initialized to "genemania-interactions.txt".}
 }
 \value{
 A data frame with the relevant GeneMania data.
@@ -19,5 +19,5 @@ This helper function loads the GeneMania file
 and filters out required nodes.
 }
 \examples{
-get.GM.edgefile(nodenames, gmfilename)
+get.GM.edgefile(nodenames, gmfilepath)
 }
