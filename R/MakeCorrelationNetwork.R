@@ -33,11 +33,9 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 
 #' Make Correlation Network
 #'
-#' This functions runs all the steps required for make correlation network
+#' This function creates a square adjacency matrix and aligns it with the correlation network and common clusters found from the data derrived in MakeClusterList,
 #'
-#' @param eu_ptms_list  Matrix containing Euclidean t-SNE coords
-#' @param sp_ptms_list  Matrix containing Spearman t-SNE coords
-#' @param sed_ptms_list Matrix containing combined t-SNE coords
+#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])
 #'
 #' @return An igraph object representing the correlation network.
 #' @export
@@ -62,20 +60,20 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   rownames(adj_matrix) <- colnames(adj_matrix) #Represents a graph
 
   #Rename the correlation matrix using ptmtable as a reference
-  colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names from MCL 
+  colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names from MCL
   rownames(ptm.correlation.matrix) <- rownames(ptmtable)
 
   # Align the correlation matrix with the ordered adjacency matrix
   matched_rows <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix)) #Use adj_matrix to "filter" out desired data from ptm.correlation
   matched_cols <- intersect(colnames(adj_matrix), colnames(ptm.correlation.matrix))
   cccn_matrix  <- ptm.correlation.matrix[matched_rows, matched_cols]
-  
+
   #Change names
   names <- rownames(cccn_matrix)
   for(i in 1:length(names)){
     temp <- strsplit(names[[i]], ";") #List of Vectors, split in case of ;
     temp <- lapply(temp, function(x){ #Apply to every element of every vector in the list
-      x <- unlist(strsplit(x, " ")) 
+      x <- unlist(strsplit(x, " "))
       return(x[[1]]) #Only take the first part
     })
     temp <- paste(temp, collapse = "; ") #Recombine
@@ -83,10 +81,10 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   }
   rownames(cccn_matrix) <- names #Change names
   colnames(cccn_matrix) <- names
-  
+
 
   # Replace NA values in the correlation matrix
-  na_indices <- which(is.na(adj_matrix), arr.ind = TRUE) 
+  na_indices <- which(is.na(adj_matrix), arr.ind = TRUE)
   cccn_matrix <- replace(cccn_matrix, na_indices, NA)
 
   # Remove self-loops by setting diagonal to NA
@@ -95,8 +93,8 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   # Make igraph object, replacing NA with 0
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
   Network <- igraph::graph_from_adjacency_matrix(as.matrix(cccn_matrix), mode = "lower", diag = FALSE, weighted = "Weight")
-  
+
   #Return correlation network
-  return(Network) #Maybe assing to global enviroment instead? 
+  return(Network) #Maybe assing to global enviroment instead?
 }
 
