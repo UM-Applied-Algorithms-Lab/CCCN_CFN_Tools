@@ -132,11 +132,11 @@ make_gm_input <- function(cccn_matrix) {
 find_ppi_edges <- function(cccn_matrix, gmfilename = "genemania-interactions.txt") {
 
   #test if nodenames already exists and therefore if they ran optional step 3
-  if(!exists(nodenames)){
+  if(!exists("nodenames")){
     #find the nodenames
     nodenames <- cccn_to_nodenames(cccn_matrix)} else{ #if nodenames does exist then they should have ran step 3 and have gm data
     # Get GeneMANIA edges
-    gm_edges <- get.GM.edges(nodenames, gmfilename)
+    gm_edges <- get.GM.edgefile(nodenames, gmfilename)
   }
 
   # Initialize the STRING database object
@@ -191,7 +191,7 @@ find_ppi_edges <- function(cccn_matrix, gmfilename = "genemania-interactions.txt
   combined_edges <- combined_interactions[, c("Gene.1", "Gene.2", "Weight", "edgeType")]
 
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
-  if(exists(gm_edges)){
+  if(exists("gm_edges")){
     combined_ppi_network <- rbind(combined_edges, gm_edges)
     return(combined_ppi_network)} else{ #if gm_edges does not exist then do not combine and only use those from STRINGdb
     return(combined_edges)
