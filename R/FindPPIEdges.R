@@ -65,24 +65,24 @@ cccn_to_nodenames <- function(cccn_matrix){
   colnames(nodenames) <- "Gene.Names"
   len <- nrow(nodenames)
 
-  #loop through clusters in cccn_matrix
-  for (i in 1:length(cccn_matrix)){
+  # steal the row names
+  cccn_rows <- rownames(cccn_matrix)
 
-    #loop through the genes in the clusters
-    for (gene in 1:nrow(cccn_matrix[[i]])){
+  #loop through row names
+  for (i in 1:length(cccn_rows)){
 
-      #assign the var genename to the name of the gene
-      genename <- cccn_matrix[[i]][gene, 1]
+    #assign the var genename to the name of the gene
+    genename <- cccn_rows[i]
 
-      #check if the genename is already in the list
-      if (!(genename %in% nodenames)){
+    #check if the genename is already in the list
+    if (!(genename %in% nodenames)){
 
-        #go to next entry (which doesn't exist yet)
-        len <- len +1
+      #go to next entry (which doesn't exist yet)
+      len <- len +1
 
-        #create the entry
-        nodenames[len,] <- genename
-      }
+      #create the entry
+      nodenames[len,] <- genename
+
     }
   }
 
