@@ -41,7 +41,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @export
 #'
 #' @examples
-#' MakeCorrelationNetwork(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
+#' MakeCorrelationNetwork(keeplength)
 MakeCorrelationNetwork <- function(keeplength = 2){
 
   #This function creates a square adjacency matrix for a given list element.

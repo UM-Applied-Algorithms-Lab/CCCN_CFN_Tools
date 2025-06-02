@@ -7,18 +7,14 @@
 MakeCorrelationNetwork(keeplength = 2)
 }
 \arguments{
-\item{eu_ptms_list}{Matrix containing Euclidean t-SNE coords}
-
-\item{sp_ptms_list}{Matrix containing Spearman t-SNE coords}
-
-\item{sed_ptms_list}{Matrix containing combined t-SNE coords}
+\item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep \link{"AARS", "ARMS", "AGRS"} but not \link{"AARS", "ARMS"})}
 }
 \value{
 An igraph object representing the correlation network.
 }
 \description{
-This functions runs all the steps required for make correlation network
+This function creates a square adjacency matrix and aligns it with the correlation network and common clusters found from the data derrived in MakeClusterList,
 }
 \examples{
-MakeCorrelationNetwork(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
+MakeCorrelationNetwork(keeplength)
 }

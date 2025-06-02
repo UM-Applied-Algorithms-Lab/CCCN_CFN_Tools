@@ -6,48 +6,6 @@ pepgene <- function(peps) {
   unique(sapply(peps, function(x) unlist(strsplit(x, " ", fixed=TRUE))[1]))
 }
 
-#NOT CALLED
-#' Extract Gene Names from Peptide Edge File
-#'
-#' This function extracts unique gene names from a peptide edge file.
-#'
-#' @param peptide.edgefile A data frame containing peptide edge information.
-#'
-#' @return A vector of unique gene names.
-#' @export
-#'
-#' @examples
-#' extract.gene.names(peptide.edgefile)
-# Function to extract gene names from peptide edge file
-extract.gene.names <- function(peptide.edgefile) {
-  peps <- c(peptide.edgefile[,1], peptide.edgefile[,2])
-  genes <- unique(sapply(peps, function(x) unlist(strsplit(x, " ", fixed=TRUE))[1]))
-  return(genes)
-}
-
-#' Create Gene-Peptide Edges
-#'
-#' This function creates peptide edges for a given node list.
-#'
-#' @param nodelist A vector of node names.
-#' @param pepkey A data frame containing peptide keys.
-#'
-#' @return A data frame of peptide edges with weights and edge types.
-#' @export
-#'
-#' @examples
-#' genepep.edges.3(nodelist, pepkey)
-genepep.edges.3 <- function(nodelist, pepkey=ld.key) { #NEVER USED
-  nodelist <- unique(nodelist)
-  gpedges <- pepkey[pepkey$Gene.Name %in% nodelist, 1:2]
-  names(gpedges)[1:2] <- c("Gene.1", "Gene.2")
-  gpedges$edgeType <- "peptide"
-  gpedges$Weight <- 1
-  gpedges$Alt.Weight <- 100
-  gpedges$Directed <- FALSE
-  return(unique(gpedges))
-}
-
 #' Process Correlation Edges
 #'
 #' This function processes correlation edges from a given correlation matrix.
