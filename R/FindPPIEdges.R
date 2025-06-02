@@ -87,7 +87,11 @@ cccn_to_nodenames <- function(cccn_matrix){
   }
 
   #return :)
+<<<<<<< HEAD
   assign("nodenames", nodenames, envir = globalenv())
+=======
+  assign("nodenames", nodenames)
+>>>>>>> 026bbe5f8f38e4decca8a7be65792fafbcc1827d
 }
 
 
@@ -112,7 +116,8 @@ cccn_to_nodenames <- function(cccn_matrix){
 #' @examples
 #' find_ppi_edges(cccn_matrix)
 make_gm_input <- function(cccn_matrix) {
-  write.table(cccn_to_nodenames(cccn_matrix)$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  cccn_to_nodenames(cccn_matrix)
+  write.table(nodenames$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 #' Find PPI Edges
