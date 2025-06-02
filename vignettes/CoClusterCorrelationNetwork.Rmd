@@ -95,6 +95,23 @@ Requires MakeClusterList to be ran first to create global variables (Euclidian/S
 #### Estimated run-time  
 2hrs 30mins  
 
+## Step 2.5: Plot Correlation Network (OPTIONAL)
+```
+
+```
+#### Description:
+This is an optional step that allows you to visual the matrix made in Step 2. Note that this does not affect any future part of the code and is information purely for the sake of the user.
+
+#### To run: save your matrix as a variable with your desired name and keeplength value.
+- name <- MakeCorrelationNetwork(keeplength)
+
+####Then run this command with your desired name
+- Visualize(name)
+
+####Estimated run-time
+unknown
+
+
 ## Step 3: Retrieve GeneMania Edge File (OPTIONAL)  
 
 ```
