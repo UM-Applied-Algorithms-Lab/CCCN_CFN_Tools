@@ -53,7 +53,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   }
 
   #Find common clusters
-  list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, 1)
+  list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
 
   # Generate the combined adjacency matrix
   adj_matrix <- plyr::rbind.fill.matrix(plyr::llply(list.common, MakeAdjMatrix))
