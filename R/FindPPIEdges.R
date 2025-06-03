@@ -65,19 +65,22 @@ cccn_to_nodenames <- function(cccn_matrix){
   #function to make splitting names more obvious even tho Ik it's just one line
   #let a girl live
   namesplit <- function(ptmname){
-    genename <- strsplit(ptmname, " ")[1]
+    genename <- strsplit(ptmname, " ")[[1]][1]
     return(genename)
   }
 
   #funtion to add the gene name to nodenames ifffff dne
   addname <- function(genename){
-    if (!(genename %in% nodenames)){ #check if the genename is already in the list
+    if (!(genename %in% nodenames$Gene.Names)){ #check if the genename is already in the list
 
-      #go to next entry (which doesn't exist yet)
-      len <- len +1
+      #increment length to go to next entry which doesn't yet exist
+      newlen <- len + 1
+
+      #update this variable in the parent environment so loop continues smoothly
+      assign("len", len + 1, envir = parent.frame())
 
       #create the entry
-      nodenames[len,] <- genename
+      nodenames[newlen,] <- genename
 
     }
   }
@@ -89,7 +92,7 @@ cccn_to_nodenames <- function(cccn_matrix){
     ptmname <- cccn_rows[i]
 
     if(";" %in% ptmname){
-      ptms <- strsplit(ptmname, ";")
+      ptms <- strsplit(ptmname, ";")[[1]]
       ptm1 <- ptms[1]
       ptm2 <- ptms[2]
       gene1 <- namesplit(ptm1)
