@@ -99,6 +99,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
 #' 
 #' This function takes a cccn_matrix as input and plots it
 #' @param matrix A cccn_matrix like the one returned in MakeCorrelationNetwork
+#' @export
 #' 
 #' @examples
 #' Visualize(cccn_matrix)
