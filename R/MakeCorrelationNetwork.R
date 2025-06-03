@@ -48,7 +48,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   MakeAdjMatrix <- function(list.element) {
     list.el.mat <- matrix(1, nrow = length(list.element), ncol = length(list.element))
     rownames(list.el.mat) <- list.element
-    colnames(list.el.mat) <- list.element
+    colnames(list.el.mat) <- list.element 
     return(list.el.mat)
   }
 
@@ -59,33 +59,13 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   adj_matrix <- plyr::rbind.fill.matrix(plyr::llply(list.common, MakeAdjMatrix))
   rownames(adj_matrix) <- colnames(adj_matrix) #Represents a graph
 
-  #Rename the correlation matrix using ptmtable as a reference
-  colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names from MCL
-  rownames(ptm.correlation.matrix) <- rownames(ptmtable)
-
   # Align the correlation matrix with the ordered adjacency matrix
-  matched_rows <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix)) #Use adj_matrix to "filter" out desired data from ptm.correlation
-  matched_cols <- intersect(colnames(adj_matrix), colnames(ptm.correlation.matrix))
-  cccn_matrix  <- ptm.correlation.matrix[matched_rows, matched_cols]
-
-  #Change names
-  names <- rownames(cccn_matrix)
-  for(i in 1:length(names)){
-    temp <- strsplit(names[[i]], ";") #List of Vectors, split in case of ;
-    temp <- lapply(temp, function(x){ #Apply to every element of every vector in the list
-      x <- unlist(strsplit(x, " "))
-      return(x[[1]]) #Only take the first part
-    })
-    temp <- paste(temp, collapse = "; ") #Recombine
-    names[i] <- temp
-  }
-  rownames(cccn_matrix) <- names #Change names
-  colnames(cccn_matrix) <- names
-
+  matched <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix)) #Use adj_matrix to "filter" out desired data from ptm.correlation
+  cccn_matrix  <- ptm.correlation.matrix[matched, matched]
 
   # Replace NA values in the correlation matrix
   na_indices <- which(is.na(adj_matrix), arr.ind = TRUE)
-  cccn_matrix <- replace(cccn_matrix, na_indices, NA)
+  cccn_matrix <- replace(cccn_matrix, na_indices, NA) #Weird line
 
   # Remove self-loops by setting diagonal to NA
   if (any(!is.na(diag(cccn_matrix)))) diag(cccn_matrix) <- NA

@@ -19,7 +19,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   # Calculate Spearman correlation #
   ptmtable.cor <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
-
+ 
   # Replace diagonal with NA #
   diag(ptmtable.cor) <- NA
 
@@ -32,6 +32,8 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
   ptm.correlation.matrix <- as.matrix(ptm.correlation.matrix) #is there a good reason to have this line?
+  colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
+  rownames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
   assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
 
   # Run t-SNE #
