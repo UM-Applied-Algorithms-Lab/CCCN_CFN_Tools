@@ -2,7 +2,7 @@
 % Please edit documentation in R/MakeCorrelationNetwork.R
 \name{Visualize}
 \alias{Visualize}
-\title{Plotting helper function}
+\title{Plotting function}
 \usage{
 Visualize(matrix)
 }

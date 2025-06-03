@@ -1,11 +1,11 @@
-#' Loads and filters the GeneMania file given a vector of gene names.Add commentMore actions
-#'
-#' This helper function loads the GeneMania file
-#' and filters out required nodes.
-#'
-#' @param nodenames A vector containing the names of the relevant genes.
-#' @param gmfilepath The path to the GeneMania file initialized to "genemania-interactions.txt".
-#' @return A data frame with the relevant GeneMania data.
+# Loads and filters the GeneMania file given a vector of gene names.Add commentMore actions
+#
+# This helper function loads the GeneMania file
+# and filters out required nodes.
+#
+# @param nodenames A vector containing the names of the relevant genes.
+# @param gmfilepath The path to the GeneMania file initialized to "genemania-interactions.txt".
+# @return A data frame with the relevant GeneMania data.
 get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"){
 
   #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
@@ -39,12 +39,12 @@ get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"
   assign('gm_edges', gm_edges[ , -5], envir = .GlobalEnv)
 }
 
-#' Pulls nodenames from the cccn_matrix
-#'
-#' This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'
-#'
-#' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
-#' @return data frame of the names of the genes
+# Pulls nodenames from the cccn_matrix
+#
+# This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'
+#
+# @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+# @return data frame of the names of the genes
 cccn_to_nodenames <- function(cccn_matrix){
   # initialize as an empty dataframe
   nodenames <- data.frame(matrix(ncol = 1, nrow = 0))

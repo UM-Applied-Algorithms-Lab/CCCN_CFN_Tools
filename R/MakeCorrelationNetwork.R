@@ -1,12 +1,12 @@
 # Helper function to find intersections of clusters
-#'
-#' Finds common elements between clusters in three lists.
-#'
-#' @param list1 A list of ptms.
-#' @param list2 A list of ptms.
-#' @param list2 A list of ptms.
-#' @param klength Minimum size of intersections to keep.
-#' @return A list of common clusters.
+#
+# Finds common elements between clusters in three lists.
+#
+# @param list1 A list of ptms.
+# @param list2 A list of ptms.
+# @param list2 A list of ptms.
+# @param klength Minimum size of intersections to keep.
+# @return A list of common clusters.
 FindCommonClusters <- function(list1, list2, list3, klength){
 
   #Convert lists into groups of ptms
@@ -71,7 +71,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   assign("cccn_matrix", cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 }
 
-#' Plotting helper function
+#' Plotting function
 #'
 #' This function takes a cccn_matrix as input and plots it
 #' @param matrix A cccn_matrix like the one returned in MakeCorrelationNetwork
