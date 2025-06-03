@@ -31,7 +31,6 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   ptm.correlation.matrix[is.na(ptm.correlation.matrix)] <- max_dissimilarity
 
   # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
-  ptm.correlation.matrix <- as.matrix(ptm.correlation.matrix) #is there a good reason to have this line?
   colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
   rownames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
   assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
