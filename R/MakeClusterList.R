@@ -69,7 +69,6 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   # Return the t-SNE results #
   euclidean_result = eu.ptms.tsne
 
-
   #COMBINED CALCULATION
 
   #this is copy and pasted straight from combinedpar so we don't have to run the calculations again -> lmao not anymore
