@@ -293,53 +293,16 @@ relationships between proteins</li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-2-5-plot-correlation-network-optional">Step 2.5: Plot Correlation Network (OPTIONAL)<a class="anchor" aria-label="anchor" href="#step-2-5-plot-correlation-network-optional"></a>
+<h3 id="step-3-retrieve-genemania-edge-file-optional">Step 3: Retrieve GeneMania Edge File (OPTIONAL)<a class="anchor" aria-label="anchor" href="#step-3-retrieve-genemania-edge-file-optional"></a>
 </h3>
 <div class="section level5">
 <h5 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">Visualize</span><span class="op">(</span><span class="va">correlation_network</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level5">
-<h5 id="description-2">Description<a class="anchor" aria-label="anchor" href="#description-2"></a>
-</h5>
-<p><strong>NOTE:</strong> This step is only for those who wish to
-analyze the data found from Step 2 and has no effect on the rest of the
-program.</p>
-<p>This function shows a plot of the correlation network that was found
-in Step 2.</p>
-</div>
-<div class="section level5">
-<h5 id="input-2">Input<a class="anchor" aria-label="anchor" href="#input-2"></a>
-</h5>
-<ul>
-<li>correlation_network
-<ul>
-<li>correlation_network, a matrix showing strength of relationships
-between proteins (what MakeClusterList puts in the global
-environment)</li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section level5">
-<h5 id="estimated-run-time-2">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-2"></a>
-</h5>
-<p>UNKNOWN</p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="step-3-retrieve-genemania-edge-file-optional">Step 3: Retrieve GeneMania Edge File (OPTIONAL)<a class="anchor" aria-label="anchor" href="#step-3-retrieve-genemania-edge-file-optional"></a>
-</h3>
-<div class="section level5">
-<h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
-</h5>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/make_gm_input.html">make_gm_input</a></span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="description-3">Description<a class="anchor" aria-label="anchor" href="#description-3"></a>
+<h5 id="description-2">Description<a class="anchor" aria-label="anchor" href="#description-2"></a>
 </h5>
 <p><strong>NOTE:</strong> This step is optional but provides more
 information for filtering data.</p>
@@ -348,15 +311,16 @@ the package still attempts to simplify this process. First, the user
 runs make_gm_input in order to produce a text file that has all of the
 gene names in a list. The user then opens the file (which is created in
 their working directory) and copies this entire file (ctrl+A, ctrl+c).
-Finally, the user goes to <a href="https://genemania.org" class="external-link uri">https://genemania.org</a> and pastes the file into the input
-text box. They then click the magnifying glass in order to generate the
-GeneMania information. Finally, press the three dots on the left side of
-the screen and click the file that says “Interactions data”. This will
-save that file. The user then must be sure to move this file into their
-working directory for the rest of the pipeline.</p>
+Next, the user goes to <a href="https://genemania.org" class="external-link uri">https://genemania.org</a> and pastes the file into the input
+text box in the upper left corner. They click the magnifying glass in
+order to generate the GeneMania information. Finally, press the three
+dots on the left side of the screen and click the file that says
+“Interactions data”. This will save that file. The user then must be
+sure to move this file into their working directory for the rest of the
+pipeline.</p>
 </div>
 <div class="section level5">
-<h5 id="input-3">Input<a class="anchor" aria-label="anchor" href="#input-3"></a>
+<h5 id="input-2">Input<a class="anchor" aria-label="anchor" href="#input-2"></a>
 </h5>
 <ul>
 <li>cccn_matrix
@@ -385,7 +349,7 @@ the common clusters between the three distance metrics</li>
 </ul>
 </div>
 <div class="section level5">
-<h5 id="estimated-run-time-3">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-3"></a>
+<h5 id="estimated-run-time-2">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-2"></a>
 </h5>
 <p>UNKNOWN</p>
 </div>
@@ -394,13 +358,13 @@ the common clusters between the three distance metrics</li>
 <h3 id="step-4-find-ppi-edges">Step 4: Find PPI Edges<a class="anchor" aria-label="anchor" href="#step-4-find-ppi-edges"></a>
 </h3>
 <div class="section level5">
-<h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
+<h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, gmfilepath <span class="op">=</span> <span class="st">"genemania-interactions.txt"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="description-4">Description<a class="anchor" aria-label="anchor" href="#description-4"></a>
+<h5 id="description-3">Description<a class="anchor" aria-label="anchor" href="#description-3"></a>
 </h5>
 <p>Protein-Protein Interaction (or PPI) networks are networks that show
 us how different proteins are known interact with each other. The ppi
@@ -411,7 +375,7 @@ both databases are then combined and returned. The returned database
 shows how strongly the proteins interact.</p>
 </div>
 <div class="section level5">
-<h5 id="input-4">Input<a class="anchor" aria-label="anchor" href="#input-4"></a>
+<h5 id="input-3">Input<a class="anchor" aria-label="anchor" href="#input-3"></a>
 </h5>
 <ul>
 <li>cccn_matrix
@@ -444,7 +408,7 @@ interact.</li>
 </ul>
 </div>
 <div class="section level5">
-<h5 id="estimated-run-time-4">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-4"></a>
+<h5 id="estimated-run-time-3">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-3"></a>
 </h5>
 <p>UNKNOWN</p>
 </div>
@@ -453,11 +417,11 @@ interact.</li>
 <h3 id="step-5-cluster-filtered-network">Step 5: Cluster Filtered Network<a class="anchor" aria-label="anchor" href="#step-5-cluster-filtered-network"></a>
 </h3>
 <div class="section level5">
-<h5 id="code-5">Code<a class="anchor" aria-label="anchor" href="#code-5"></a>
+<h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
 </div>
 <div class="section level5">
-<h5 id="description-5">Description<a class="anchor" aria-label="anchor" href="#description-5"></a>
+<h5 id="description-4">Description<a class="anchor" aria-label="anchor" href="#description-4"></a>
 </h5>
 <p>The final step in this analysis package filters the
 combined_ppi_network by the cccn_matrix. The purpose of this function is
@@ -468,7 +432,7 @@ of proteins that interact with each other as well as respond to stimuli
 via ptms under the same conditions.</p>
 </div>
 <div class="section level5">
-<h5 id="input-5">Input<a class="anchor" aria-label="anchor" href="#input-5"></a>
+<h5 id="input-4">Input<a class="anchor" aria-label="anchor" href="#input-4"></a>
 </h5>
 <ul>
 <li>combined_ppi_network
@@ -499,7 +463,7 @@ representative in protein form</li>
 </ul>
 </div>
 <div class="section level5">
-<h5 id="estimated-run-time-5">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-5"></a>
+<h5 id="estimated-run-time-4">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-4"></a>
 </h5>
 <p>UNKNOWN</p>
 </div>

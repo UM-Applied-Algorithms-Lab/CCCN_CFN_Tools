@@ -111,27 +111,6 @@ Requires MakeClusterList to be ran first to create global variables (Euclidian/S
 #### Estimated run-time  
 2hrs 30mins  
 
-## Step 2.5: Plot Correlation Network (OPTIONAL)
-
-#### Code  
-
-```{r eval = FALSE}
-Visualize(correlation_network)
-```
-
-#### Description  
-
-**NOTE:** This step is only for those who wish to visualize the data found from Step 2 and has no effect on the rest of the program.  
-
-This function shows a plot of the correlation network that was found in Step 2. 
-
-#### Input   
-- correlation_network  
-  - correlation_network, a matrix showing strength of relationships between proteins (what MakeClusterList puts in the global environment)
-
-#### Estimated run-time  
-UNKNOWN
-
 ## Step 3: Retrieve GeneMania Edge File (OPTIONAL)  
 
 #### Code  
