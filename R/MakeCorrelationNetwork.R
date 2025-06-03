@@ -53,7 +53,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   }
 
   #Find common clusters
-  list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, 1)
+  list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
 
   # Generate the combined adjacency matrix
   adj_matrix <- plyr::rbind.fill.matrix(plyr::llply(list.common, MakeAdjMatrix))
@@ -99,6 +99,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
 #' 
 #' This function takes a cccn_matrix as input and plots it
 #' @param matrix A cccn_matrix like the one returned in MakeCorrelationNetwork
+#' @export
 #' 
 #' @examples
 #' Visualize(cccn_matrix)
