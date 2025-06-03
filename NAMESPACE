@@ -2,7 +2,6 @@
 
 export(MakeClusterList)
 export(MakeCorrelationNetwork)
-export(Visualize)
 export(find_ppi_edges)
 export(make_gm_input)
 export(process_correlation_edges)
