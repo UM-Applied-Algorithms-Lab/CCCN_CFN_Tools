@@ -89,13 +89,22 @@ Requires MakeClusterList to be ran first to create global variables (Euclidian/S
 #### Input  
 - keeplength  
   - Defaults to 3; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)  
-- From Global Namespace: ptmtable
-  - A data frame with rows of ptms and columns of experimental conditions  
+- From Global Namespace:
   - Should **not** but listed in function call, but user must ensure that it is in the gloal environment
+  - ptmtable
+    - A data frame with rows of ptms and columns of experimental conditions
+  - ptm.correlation.matrix
+    - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.  
+  - eu_ptms_list
+    - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance.  
+  - sp_ptms_list
+    - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on Spearman Dissimilarity.  
+  - sed_ptms_list 
+    - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on the average between Euclidean Distance and Spearman Dissimilarity. 
 
 #### Output  
 - cccn_matrix  
-  - A matrix showing strength of relationships between proteins  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - correlation_network  
   - iGraph object of cccn_matrix, a matrix showing strength of relationships between proteins
 
@@ -144,8 +153,8 @@ make_gm_input(cccn_matrix)
 This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_gm_input in order to produce a text file that has all of the gene names in a list. The user then opens the file (which is created in their working directory) and copies this entire file (ctrl+A, ctrl+c). Finally, the user goes to https://genemania.org and pastes the file into the input text box. They then click the magnifying glass in order to generate the GeneMania information. Finally, press the three dots on the left side of the screen and click the file that says "Interactions data". This will save that file. The user then must be sure to move this file into their working directory for the rest of the pipeline.
 
 #### Input   
-- cccn_matrix
-  - Dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
+- cccn_matrix  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 
 #### Output  
 - gm_nodes.txt
@@ -170,8 +179,8 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 
 #### Input  
 
-- cccn_matrix
-  - Dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters  
+- cccn_matrix  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - gmfilepath  
   - Path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.
 
@@ -198,8 +207,8 @@ The final step in this analysis package filters the combined_ppi_network by the 
 #### Input  
 - combined_ppi_network
   - A dataframe returned by step 3: Find PPI Edges; data frame representing how strongly proteins are known to interact.  
-- cccn_matrix
-  - Dataframe returned by the step 2: Make Correlation Network; dataframe of dataframes that represent the common clusters from the three distance calculations' clusters 
+- cccn_matrix  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 
 #### Output  
 - cccn_cfn_matrix
