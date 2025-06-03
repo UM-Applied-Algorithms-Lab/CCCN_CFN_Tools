@@ -121,7 +121,7 @@ Visualize(correlation_network)
 
 #### Description  
 
-**NOTE:** This step is only for those who wish to analyze the data found from Step 2 and has no effect on the rest of the program.  
+**NOTE:** This step is only for those who wish to visualize the data found from Step 2 and has no effect on the rest of the program.  
 
 This function shows a plot of the correlation network that was found in Step 2. 
 
@@ -144,7 +144,7 @@ make_gm_input(cccn_matrix)
 
 **NOTE:** This step is optional but provides more information for filtering data.  
 
-This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_gm_input in order to produce a text file that has all of the gene names in a list. The user then opens the file (which is created in their working directory) and copies this entire file (ctrl+A, ctrl+c). Finally, the user goes to https://genemania.org and pastes the file into the input text box. They then click the magnifying glass in order to generate the GeneMania information. Finally, press the three dots on the left side of the screen and click the file that says "Interactions data". This will save that file. The user then must be sure to move this file into their working directory for the rest of the pipeline.
+This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_gm_input in order to produce a text file that has all of the gene names in a list. The user then opens the file (which is created in their working directory) and copies this entire file (ctrl+A, ctrl+c). Next, the user goes to https://genemania.org and pastes the file into the input text box in the upper left corner. They click the magnifying glass in order to generate the GeneMania information. Finally, press the three dots on the left side of the screen and click the file that says "Interactions data". This will save that file. The user then must be sure to move this file into their working directory for the rest of the pipeline.
 
 #### Input   
 - cccn_matrix  
