@@ -4,12 +4,10 @@
 \alias{process_correlation_edges}
 \title{Process Correlation Edges}
 \usage{
-process_correlation_edges(cccn_matrix, mode = "lower")
+process_correlation_edges(mode = "lower")
 }
 \arguments{
 \item{mode}{A string specifying the graph mode. Default is "lower".}
-
-\item{cor_matrix}{A correlation matrix.}
 }
 \value{
 A data frame of correlation edges.
