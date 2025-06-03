@@ -36,7 +36,7 @@ get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"
     }
   }
   #Removes the column "Network" that just tells what paper this was published in and assigns it to the namespace
-  assign('gm_edges', gm_edges[ , -5], envir = globalenv())
+  assign('gm_edges', gm_edges[ , -5], envir = .GlobalEnv)
 }
 
 #' Pulls nodenames from the cccn_matrix
@@ -99,7 +99,7 @@ cccn_to_nodenames <- function(cccn_matrix){
 
 
   #return :)
-  assign("nodenames", nodenames, envir = globalenv())
+  assign("nodenames", nodenames, envir = .GlobalEnv)
 }
 
 
@@ -204,7 +204,7 @@ find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.txt
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
   if(exists("gm_edges")){
     combined_ppi_network <- rbind(combined_edges, gm_edges)
-    assign("ppi_network", combined_ppi_network, envir = globalenv())} else{ #if gm_edges does not exist then do not combine and only use those from STRINGdb
-    assign("ppi_network", combined_edges, envir = globalenv())
+    assign("ppi_network", combined_ppi_network, envir = .GlobalEnv)} else{ #if gm_edges does not exist then do not combine and only use those from STRINGdb
+    assign("ppi_network", combined_edges, envir = .GlobalEnv)
   }
 }
