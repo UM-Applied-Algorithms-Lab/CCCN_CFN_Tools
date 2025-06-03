@@ -11,6 +11,8 @@ pepgene <- function(peps) {
 #'
 #' This function processes correlation edges from a given correlation matrix
 #'
+#' @param pBound The minimum value an edge weight can be to make it a positive correlation. Default = 0.5
+#' @param nBound The maximum value an edge weight can be to make it a negative correlation. Default = -0.5
 #' @param mode A string specifying the graph mode. Default is "lower".
 #'
 #' @return A data frame of correlation edges.
@@ -19,13 +21,18 @@ pepgene <- function(peps) {
 #' @examples
 #' process_correlation_edges(cor_matrix)
 # Function to process correlation edges
-process_correlation_edges <- function(mode="lower") {
-  g <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode=mode, diag=FALSE, weighted="Weight")
-  edges <- data.frame(igraph::as_edgelist(g))
-  edges$Weight <- igraph::edge_attr(g)[[1]]
+process_correlation_edges <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
+  #Formatting
+  g <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode=mode, diag=FALSE, weighted="Weight") #If igraph is needed, maybe have MCN "return" igraph instead?
+  edges <- data.frame(igraph::as_edgelist(g)) #Turns igraph into edgelist into dataframe. (Couldn't we just use the correlation matrix? It should have the same info.) 
+  edges$Weight <- igraph::edge_attr(g)[[1]]   #Add weights to edge data frame
+  
+  #Define positive or negative correlation
   edges$edgeType <- "correlation"
-  edges$edgeType[edges$Weight <= -0.5] <- "negative correlation"
-  edges$edgeType[edges$Weight >= 0.5] <- "positive correlation"
+  edges$edgeType[edges$Weight >= pBound] <- "positive correlation" #If weight is greater/equal to pbound, mark correlation as positive
+  edges$edgeType[edges$Weight <= nBound] <- "negative correlation" #If weight is less/equal to nbound, mark correlation as negative
+  
+  
   edges <- edges[!is.na(edges$Weight),]
   names(edges)[1:2] <- c("Peptide.1", "Peptide.2")
   edges$Gene.1 <- sapply(edges$Peptide.1, pepgene)

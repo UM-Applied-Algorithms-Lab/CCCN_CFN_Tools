@@ -4,9 +4,13 @@
 \alias{process_correlation_edges}
 \title{Process Correlation Edges}
 \usage{
-process_correlation_edges(mode = "lower")
+process_correlation_edges(pBound = 0.5, nBound = -0.5, mode = "lower")
 }
 \arguments{
+\item{pBound}{The minimum value an edge weight can be to make it a positive correlation. Default = 0.5}
+
+\item{nBound}{The maximum value an edge weight can be to make it a negative correlation. Default = -0.5}
+
 \item{mode}{A string specifying the graph mode. Default is "lower".}
 }
 \value{
