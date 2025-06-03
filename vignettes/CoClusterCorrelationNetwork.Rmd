@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 # The package  
 The CCCN_CFN package takes experimental data of post-translational modifications based on experimental conditions and generates clusters of likely pathways. These pathways are generated based on analysis of which ptms cluster together compared to how those proteins are known to interact (using GeneMania and STRINGdb databases).
 
-An important note about this package: there are no returned outputs from any of the functions. All outputs listed are assigned to the Global Namespace in order to prevent loss of data and promote ease of use. Some functions also pull variables from the global namespace so ensure that all data is loaded into the global environment; especially if analysis is completed across multiple sessions.
+An important note about this package: there are no returned outputs from any of the functions. All outputs listed are assigned to the Global Namespace in order to prevent loss of data and promote ease of use. Some functions also pull variables from the global namespace. Ensure that all data is loaded into the global environment especially if analysis is completed across multiple sessions.
 
 # This file  
 This vignette is intended to be a step-by-step guide to walk users through the process of using the CCCN_CFN package. It includes an example pipeline demonstrating how to run the full analysis along with descriptions of each function. Estimated run-times are included with each description and are based on a preliminary dataset of \~9,000 post-translational modifications and 70 experimental conditions processed with a 12th Gen i5 processor and 8GB of RAM.  
@@ -72,7 +72,7 @@ Make Cluster list is the first step in the analyzing one's data. This function t
   - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on the average between Euclidean Distance and Spearman Dissimilarity. 
 
 #### Estimated run-time  
-90mins
+1hr 30mins
 
 ## Step 2: Make Correlation Network  
 
@@ -89,18 +89,18 @@ Requires MakeClusterList to be ran first to create global variables (Euclidian/S
 #### Input  
 - keeplength  
   - Defaults to 3; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)  
-- From Global Namespace:
-  - Should **not** but listed in function call, but user must ensure that it is in the gloal environment
-  - ptmtable
+- From Global Namespace:  
+  - Should **not** but listed in function call, but user must ensure that it is in the gloal environment  
+  - ptmtable  
     - A data frame with rows of ptms and columns of experimental conditions
-  - ptm.correlation.matrix
-    - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.  
-  - eu_ptms_list
+  - ptm.correlation.matrix  
+    - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal. 
+  - eu_ptms_list  
     - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance.  
-  - sp_ptms_list
+  - sp_ptms_list  
     - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on Spearman Dissimilarity.  
-  - sed_ptms_list 
-    - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on the average between Euclidean Distance and Spearman Dissimilarity. 
+  - sed_ptms_list  
+    - A three-dimensional data frame used to represent ptms in space to show relationships between them based on distances. Based on the average between Euclidean Distance and Spearman Dissimilarity.  
 
 #### Output  
 - cccn_matrix  
@@ -155,7 +155,11 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - gmfilepath  
-  - Path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.
+  - Path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.  
+- From Global Namespace:  
+  - Should **not** but listed in function call, but user must ensure that it is in the gloal environment  
+  - nodenames (if optional Step 3 has already been completed)  
+    - A dataframe with all of the gene names involved in analysis   
 
 #### Output  
 - ppi_network
