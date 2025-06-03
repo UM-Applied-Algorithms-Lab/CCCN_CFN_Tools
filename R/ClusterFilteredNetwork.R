@@ -32,8 +32,8 @@ process_correlation_edges <- function(pBound = 0.5, nBound = -0.5, mode="lower")
   edges$edgeType[edges$Weight >= pBound] <- "positive correlation" #If weight is greater/equal to pbound, mark correlation as positive
   edges$edgeType[edges$Weight <= nBound] <- "negative correlation" #If weight is less/equal to nbound, mark correlation as negative
   
-  
-  edges <- edges[!is.na(edges$Weight),]
+  #
+  edges <- edges[!is.na(edges$Weight),] #Corrects NA values, but...  
   names(edges)[1:2] <- c("Peptide.1", "Peptide.2")
   edges$Gene.1 <- sapply(edges$Peptide.1, pepgene)
   edges$Gene.2 <- sapply(edges$Peptide.2, pepgene)
