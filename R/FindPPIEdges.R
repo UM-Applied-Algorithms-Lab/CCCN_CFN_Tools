@@ -1,9 +1,3 @@
-# Note for Maddie bc Ik you're gonna forget
-# STRINGdb works, cccn_to_nodenames works (make sure cccn is a dataframe I think; igraph object seems silly to work with)
-# get.GM.edges is the next thing to be fixed; look at making GeneMania work on the command line
-# after that, this file should be done
-
-
 #' Loads and filters the GeneMania file given a vector of gene names.Add commentMore actions
 #'
 #' This helper function loads the GeneMania file
@@ -60,7 +54,7 @@ get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"
 #' @examples
 #' cccn_to_nodenames(cccn_matrix)
 cccn_to_nodenames <- function(cccn_matrix){
-  # initialize as an empty list
+  # initialize as an empty dataframe
   nodenames <- data.frame(matrix(ncol = 1, nrow = 0))
   colnames(nodenames) <- "Gene.Names"
   len <- nrow(nodenames)
@@ -68,14 +62,16 @@ cccn_to_nodenames <- function(cccn_matrix){
   # steal the row names
   cccn_rows <- rownames(cccn_matrix)
 
-  #loop through row names
-  for (i in 1:length(cccn_rows)){
+  #function to make splitting names more obvious even tho Ik it's just one line
+  #let a girl live
+  namesplit <- function(ptmname){
+    genename <- strsplit(ptmname, " ")[1]
+    return(genename)
+  }
 
-    #assign the var genename to the name of the gene
-    genename <- cccn_rows[i]
-
-    #check if the genename is already in the list
-    if (!(genename %in% nodenames)){
+  #funtion to add the gene name to nodenames ifffff dne
+  addname <- function(genename){
+    if (!(genename %in% nodenames)){ #check if the genename is already in the list
 
       #go to next entry (which doesn't exist yet)
       len <- len +1
@@ -86,9 +82,29 @@ cccn_to_nodenames <- function(cccn_matrix){
     }
   }
 
+  #loop through row names
+  for (i in 1:length(cccn_rows)){
+
+    #assign the var genename to the name of the gene
+    ptmname <- cccn_rows[i]
+
+    if(";" %in% ptmname){
+      ptms <- strsplit(ptmname, ";")
+      ptm1 <- ptms[1]
+      ptm2 <- ptms[2]
+      gene1 <- namesplit(ptm1)
+      gene2 <- namesplit(ptm2)
+      addname(gene1)
+      addname(gene2)
+    } else{
+      genename <- namesplit(ptmname)
+      addname(genename)
+    }
+  }
+
+
   #return :)
   assign("nodenames", nodenames, envir = globalenv())
-  assign("nodenames", nodenames)
 }
 
 
