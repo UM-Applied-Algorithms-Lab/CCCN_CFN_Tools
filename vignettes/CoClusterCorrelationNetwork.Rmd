@@ -121,19 +121,13 @@ Visualize(correlation_network)
 
 #### Description  
 
-**NOTE:** This step is optional but provides visualization of the data in Step 2.  
+**NOTE:** This step is only for those who wish to analyze the data found from Step 2 and has no effect on the rest of the program.  
 
-This function plots the correlation network that was found in Step 2. 
+This function shows a plot of the correlation network that was found in Step 2. 
 
 #### Input   
 - correlation_network  
-  - iGraph object of cccn_matrix, a matrix showing strength of relationships between proteins  
-
-#### Output  
-- gm_nodes.txt
-  - A text file with the names of all of the genes   
-- nodenames
-  - A dataframe with all of the gene names involved in analysis   
+  - correlation_network, a matrix showing strength of relationships between proteins (what MakeClusterList puts in the global environment)
 
 #### Estimated run-time  
 UNKNOWN
