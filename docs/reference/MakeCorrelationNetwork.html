@@ -33,9 +33,6 @@
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/CoClusterCorrelationNetwork.html">Filtered Cocluster Correlation Network Creation Guide</a>
     </li>
-    <li>
-      <a href="../articles/Mass_Spec_Data_Processing.html">Mass Spectrometry Pre-Processing Guide</a>
-    </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -65,16 +62,10 @@
 <dd><p>Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep "AARS", "ARMS", "AGRS" but not "AARS", "ARMS")</p></dd>
 
 </dl></div>
-    <div id="value">
-    <h2>Value</h2>
-    
-
-<p>An igraph object representing the correlation network.</p>
-    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">MakeCorrelationNetwork</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">MakeCorrelationNetwork</span><span class="op">(</span>keeplength <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>

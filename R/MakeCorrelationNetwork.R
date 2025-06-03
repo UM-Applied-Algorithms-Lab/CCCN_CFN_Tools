@@ -34,12 +34,10 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' This function creates a square adjacency matrix and aligns it with the correlation network and common clusters found from the data derrived in MakeClusterList,
 #'
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])
-#'
-#' @return An igraph object representing the correlation network.
 #' @export
 #'
 #' @examples
-#' MakeCorrelationNetwork(1)
+#' MakeCorrelationNetwork(keeplength = 1)
 MakeCorrelationNetwork <- function(keeplength = 2){
 
   #This function creates a square adjacency matrix for a given list element.
