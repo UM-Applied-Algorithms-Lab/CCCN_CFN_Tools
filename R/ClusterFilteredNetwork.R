@@ -20,7 +20,7 @@ pepgene <- function(peps) {
 #' process_correlation_edges(cor_matrix)
 # Function to process correlation edges
 process_correlation_edges <- function(mode="lower") {
-  g <- igraph::graph_from_adjacency_matrix(mode=mode, diag=FALSE, weighted="Weight")
+  g <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode=mode, diag=FALSE, weighted="Weight")
   edges <- data.frame(igraph::as_edgelist(g))
   edges$Weight <- igraph::edge_attr(g)[[1]]
   edges$edgeType <- "correlation"
