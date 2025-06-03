@@ -1,6 +1,6 @@
 ##WORK IN PROG. JUST COPIED OVER FROM KEYFUNCTIONS##
 
-#' Process Correlation Edges
+#' ClusterFilteredNetwork
 #'
 #' This function processes correlation edges from a given correlation matrix
 #'
@@ -12,9 +12,9 @@
 #' @export
 #'
 #' @examples
-#' process_correlation_edges(cor_matrix)
+#' ClusterFilteredNetwork()
 # Function to process correlation edges
-process_correlation_edges <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
+ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
   #Formatting
   g <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode=mode, diag=FALSE, weighted="Weight") #If igraph is needed, maybe have MCN "return" igraph instead?
   edges <- data.frame(igraph::as_edgelist(g)) #Turns igraph into edgelist into dataframe. (Couldn't we just use the correlation matrix? It should have the same info.) 
@@ -25,18 +25,11 @@ process_correlation_edges <- function(pBound = 0.5, nBound = -0.5, mode="lower")
   edges$edgeType[edges$Weight >= pBound] <- "positive correlation" #If weight is greater/equal to pbound, mark correlation as positive
   edges$edgeType[edges$Weight <= nBound] <- "negative correlation" #If weight is less/equal to nbound, mark correlation as negative
   
-  return(edges)
-}
-
-# Function to filter dual modifications
-filter_dual_modifications <- function(edges, mod1, mod2) {
-  dual_mod <- edges[intersect(grep(mod1, edges$Peptide.1), grep(mod2, edges$Peptide.2)), ]
-  return(dual_mod)
-}
-
-# Function to analyze negative correlations
-analyze_negative_correlations <- function(edges) {
-  neg <- edges[edges$Weight < 0, ]
+  #Rename
+  names(edges)[1:2] <- c("Peptide.1", "Peptide.2") #Are these supposed to be specific names? 
+  
+  #Analyze negative correlations
+  neg <- edges[edges$Weight < 0, ] 
   vneg <- neg[abs(neg$Weight) >= 0.5, ]
   vvneg <- neg[abs(neg$Weight) > 0.543, ]
   
@@ -44,6 +37,7 @@ analyze_negative_correlations <- function(edges) {
   vneg_genes <- unique(vneg$Gene.1)
   vvneg_genes <- unique(vvneg$Gene.1)
   
-  return(list(neg=neg, vneg=vneg, vvneg=vvneg,
-              neg_genes=neg_genes, vneg_genes=vneg_genes, vvneg_genes=vvneg_genes))
+  #Return
+  negative.cor.list <- list(neg=neg, vneg=vneg, vvneg=vvneg, neg_genes=neg_genes, vneg_genes=vneg_genes, vvneg_genes=vvneg_genes) #needs to have equal signs for sublists to have unique names
+  View(negative.cor.list)
 }

@@ -1,40 +1,117 @@
-<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/articles/CoClusterCorrelationNetwork.html</loc></url>
-<url><loc>/articles/index.html</loc></url>
-<url><loc>/articles/Mass_Spec_Data_Processing.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
-<url><loc>/reference/BindMatrices.html</loc></url>
-<url><loc>/reference/cccn_to_nodenames.html</loc></url>
-<url><loc>/reference/CombinedPar.html</loc></url>
-<url><loc>/reference/CorrelationNetwork.html</loc></url>
-<url><loc>/reference/EuclideanDistance.html</loc></url>
-<url><loc>/reference/extract.gene.names.html</loc></url>
-<url><loc>/reference/FindCommonCluster.html</loc></url>
-<url><loc>/reference/FindCommonClusters.html</loc></url>
-<url><loc>/reference/find_ppi_edges.html</loc></url>
-<url><loc>/reference/genepep.edges.3.html</loc></url>
-<url><loc>/reference/GenerateAndConstructAllptmsNetwork.html</loc></url>
-<url><loc>/reference/GenerateAndConstructptmsNetwork.html</loc></url>
-<url><loc>/reference/get.gene.names.from.peps.html</loc></url>
-<url><loc>/reference/get.GM.edgefile.html</loc></url>
-<url><loc>/reference/get.GM.edges.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/list.common.html</loc></url>
-<url><loc>/reference/MakeAdjMatrix.html</loc></url>
-<url><loc>/reference/MakeClusterList.html</loc></url>
-<url><loc>/reference/MakeCorrelationNetwork.html</loc></url>
-<url><loc>/reference/make_gm_input.html</loc></url>
-<url><loc>/reference/NA.to.zero.func.html</loc></url>
-<url><loc>/reference/Plot.html</loc></url>
-<url><loc>/reference/PlotClusters.html</loc></url>
-<url><loc>/reference/process_correlation_edges.html</loc></url>
-<url><loc>/reference/process_ptms_data.html</loc></url>
-<url><loc>/reference/SpearmanDissimilarity.html</loc></url>
-<url><loc>/reference/Visualize.html</loc></url>
-<url><loc>/reference/zero.to.NA.func.html</loc></url>
-<url><loc>/reference/zero.to.NA.html</loc></url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/404.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>/articles/CoClusterCorrelationNetwork.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Mass_Spec_Data_Processing.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/authors.html</loc>
+  </url>
+  <url>
+    <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/BindMatrices.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ClusterFilteredNetwork.html</loc>
+  </url>
+  <url>
+    <loc>/reference/CombinedPar.html</loc>
+  </url>
+  <url>
+    <loc>/reference/CorrelationNetwork.html</loc>
+  </url>
+  <url>
+    <loc>/reference/EuclideanDistance.html</loc>
+  </url>
+  <url>
+    <loc>/reference/FindCommonCluster.html</loc>
+  </url>
+  <url>
+    <loc>/reference/FindCommonClusters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/GenerateAndConstructAllptmsNetwork.html</loc>
+  </url>
+  <url>
+    <loc>/reference/GenerateAndConstructptmsNetwork.html</loc>
+  </url>
+  <url>
+    <loc>/reference/MakeAdjMatrix.html</loc>
+  </url>
+  <url>
+    <loc>/reference/MakeClusterList.html</loc>
+  </url>
+  <url>
+    <loc>/reference/MakeCorrelationNetwork.html</loc>
+  </url>
+  <url>
+    <loc>/reference/NA.to.zero.func.html</loc>
+  </url>
+  <url>
+    <loc>/reference/Plot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PlotClusters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/SpearmanDissimilarity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/Visualize.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cccn_to_nodenames.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract.gene.names.html</loc>
+  </url>
+  <url>
+    <loc>/reference/find_ppi_edges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/genepep.edges.3.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get.GM.edgefile.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get.GM.edges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get.gene.names.from.peps.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/list.common.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_gm_input.html</loc>
+  </url>
+  <url>
+    <loc>/reference/process_correlation_edges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/process_ptms_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/zero.to.NA.func.html</loc>
+  </url>
+  <url>
+    <loc>/reference/zero.to.NA.html</loc>
+  </url>
 </urlset>
-
