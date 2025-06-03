@@ -7,8 +7,6 @@
 #' @param list2 A list of ptms.
 #' @param klength Minimum size of intersections to keep.
 #' @return A list of common clusters.
-#' @examples
-#' FindCommonClusters(list1, list2, list3, klength)
 FindCommonClusters <- function(list1, list2, list3, klength){
 
   #Convert lists into groups of ptms
@@ -48,7 +46,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   MakeAdjMatrix <- function(list.element) {
     list.el.mat <- matrix(1, nrow = length(list.element), ncol = length(list.element))
     rownames(list.el.mat) <- list.element
-    colnames(list.el.mat) <- list.element 
+    colnames(list.el.mat) <- list.element
     return(list.el.mat)
   }
 
@@ -76,11 +74,11 @@ MakeCorrelationNetwork <- function(keeplength = 2){
 }
 
 #' Plotting helper function
-#' 
+#'
 #' This function takes a cccn_matrix as input and plots it
 #' @param matrix A cccn_matrix like the one returned in MakeCorrelationNetwork
 #' @export
-#' 
+#'
 #' @examples
 #' Visualize(cccn_matrix)
 Visualize <- function(matrix){

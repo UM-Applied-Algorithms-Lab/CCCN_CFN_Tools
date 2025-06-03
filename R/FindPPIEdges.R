@@ -6,10 +6,6 @@
 #' @param nodenames A vector containing the names of the relevant genes.
 #' @param gmfilepath The path to the GeneMania file initialized to "genemania-interactions.txt".
 #' @return A data frame with the relevant GeneMania data.
-#' @export
-#'
-#' @examples
-#' get.GM.edgefile(nodenames, gmfilepath)
 get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"){
 
   #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
@@ -49,10 +45,6 @@ get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"
 #'
 #' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 #' @return data frame of the names of the genes
-#' @export
-#'
-#' @examples
-#' cccn_to_nodenames(cccn_matrix)
 cccn_to_nodenames <- function(cccn_matrix){
   # initialize as an empty dataframe
   nodenames <- data.frame(matrix(ncol = 1, nrow = 0))
@@ -130,7 +122,7 @@ cccn_to_nodenames <- function(cccn_matrix){
 #' @export
 #'
 #' @examples
-#' find_ppi_edges(cccn_matrix)
+#' make_gm_input(cccn_matrix)
 make_gm_input <- function(cccn_matrix) {
   cccn_to_nodenames(cccn_matrix)
   write.table(nodenames$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)

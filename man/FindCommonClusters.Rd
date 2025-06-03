@@ -19,6 +19,3 @@ A list of common clusters.
 \description{
 Finds common elements between clusters in three lists.
 }
-\examples{
-FindCommonClusters(list1, list2, list3, klength)
-}

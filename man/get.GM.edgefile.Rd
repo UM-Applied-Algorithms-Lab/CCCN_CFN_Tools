@@ -18,6 +18,3 @@ A data frame with the relevant GeneMania data.
 This helper function loads the GeneMania file
 and filters out required nodes.
 }
-\examples{
-get.GM.edgefile(nodenames, gmfilepath)
-}

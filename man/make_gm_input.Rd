@@ -16,5 +16,5 @@ A file with all of the gene names which can be copy and pasted into the GeneMani
 This function outputs a file the user can take to create the GeneMania edgefile.
 }
 \examples{
-find_ppi_edges(cccn_matrix)
+make_gm_input(cccn_matrix)
 }
