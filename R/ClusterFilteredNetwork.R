@@ -28,16 +28,17 @@ ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
   #Rename
   names(edges)[1:2] <- c("Peptide.1", "Peptide.2") #Are these supposed to be specific names? 
   
-  #Analyze negative correlations
-  neg <- edges[edges$Weight < 0, ] 
-  vneg <- neg[abs(neg$Weight) >= 0.5, ]
-  vvneg <- neg[abs(neg$Weight) > 0.543, ]
+  #Analyze negative correlations - DO THESE NEED TO BE USER DECIDED?? 
+  neg <- edges[edges$Weight < 0, ]    #Get negative weights
+  vneg <- neg[neg$Weight <= nBound, ] #Get negative correlative weights
+  vvneg <- neg[neg$Weight < -0.543, ]  #Some other parameter? 
   
+  #BROKEN - This implies genepep.edges.3 call. 
   neg_genes <- unique(neg$Gene.1)
   vneg_genes <- unique(vneg$Gene.1)
   vvneg_genes <- unique(vvneg$Gene.1)
   
-  #Return
-  negative.cor.list <- list(neg=neg, vneg=vneg, vvneg=vvneg, neg_genes=neg_genes, vneg_genes=vneg_genes, vvneg_genes=vvneg_genes) #needs to have equal signs for sublists to have unique names
-  View(negative.cor.list)
+  #Output
+  View(edges)
+  View(neg)
 }
