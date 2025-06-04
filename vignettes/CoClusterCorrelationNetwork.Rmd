@@ -148,6 +148,8 @@ find_ppi_edges(cccn_matrix, gmfilepath = "genemania-interactions.txt")
 
 #### Description  
 
+**Note:** Examples take about 5-10 minutes to run.
+
 Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. The ppi networks STRINGdb and GeneMania are consulted to gather this information. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from both databases are then combined and returned. The returned database shows how strongly the proteins interact.
 
 #### Input  
