@@ -51,9 +51,19 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 MakeClusterList(ptmtable, toolong = 3.5)
 ```
 
+#### Outputs  
+
+![](vig_figs/MakeClusterList-1.png)
+**Figure 1** One of three plots produced by MakeClusterList  
+  
+![](vig_figs/ClusterOutput.png)
+**Figure 2** Output of MakeClusterList
+
 ```{r echo = FALSE, eval = TRUE}
-system.file("vig_files", "MakeClusterList-1.png" , package = "cccn.cfn.tools", mustWork = TRUE)
+load('vig_figs/fulleuptmdata.df')
+head(eu_ptms_list, 1)
 ```
+**Figure 3** First cluster created by Euclidean Distance.
 
 #### Description  
 
@@ -85,6 +95,11 @@ Make Cluster list is the first step in the analyzing one's data. This function t
 ```{r eval = FALSE}
 MakeCorrelationNetwork(keeplength = 2)
 ```
+
+#### Outputs  
+
+![](vig_figs/MakeCorrelationNetwork-1.png)
+**Figure 4** Plot produced by MakeCorrelationNetwork.  
 
 #### Description  
 

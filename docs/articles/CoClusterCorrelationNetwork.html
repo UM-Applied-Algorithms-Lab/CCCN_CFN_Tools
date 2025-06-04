@@ -122,6 +122,45 @@ processed with a 12th Gen i5 processor and 8GB of RAM.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeClusterList.html">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
+<h5 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
+</h5>
+<p><img src="vig_figs/MakeClusterList-1.png"><strong>Figure
+1</strong> One of three plots produced by MakeClusterList</p>
+<p><img src="vig_figs/ClusterOutput.png"><strong>Figure 2</strong>
+Output of MakeClusterList</p>
+<pre><code><span><span class="co">#&gt; $`1`</span></span>
+<span><span class="co">#&gt;    PTM.Name group</span></span>
+<span><span class="co">#&gt; 1         1     1</span></span>
+<span><span class="co">#&gt; 2       431     1</span></span>
+<span><span class="co">#&gt; 3      1724     1</span></span>
+<span><span class="co">#&gt; 4      1737     1</span></span>
+<span><span class="co">#&gt; 5      2107     1</span></span>
+<span><span class="co">#&gt; 6      2592     1</span></span>
+<span><span class="co">#&gt; 7      2971     1</span></span>
+<span><span class="co">#&gt; 8      3222     1</span></span>
+<span><span class="co">#&gt; 9      4143     1</span></span>
+<span><span class="co">#&gt; 10     4208     1</span></span>
+<span><span class="co">#&gt; 11     4338     1</span></span>
+<span><span class="co">#&gt; 12     4692     1</span></span>
+<span><span class="co">#&gt; 13     5029     1</span></span>
+<span><span class="co">#&gt; 14     5393     1</span></span>
+<span><span class="co">#&gt; 15     5600     1</span></span>
+<span><span class="co">#&gt; 16     5702     1</span></span>
+<span><span class="co">#&gt; 17     5780     1</span></span>
+<span><span class="co">#&gt; 18     5828     1</span></span>
+<span><span class="co">#&gt; 19     6084     1</span></span>
+<span><span class="co">#&gt; 20     6433     1</span></span>
+<span><span class="co">#&gt; 21     6831     1</span></span>
+<span><span class="co">#&gt; 22     8018     1</span></span>
+<span><span class="co">#&gt; 23     8567     1</span></span>
+<span><span class="co">#&gt; 24     8737     1</span></span>
+<span><span class="co">#&gt; 25     8791     1</span></span>
+<span><span class="co">#&gt; 26     8824     1</span></span>
+<span><span class="co">#&gt; 27     8869     1</span></span></code></pre>
+<p><strong>Figure 3</strong> First cluster created by Euclidean
+Distance.</p>
+</div>
+<div class="section level5">
 <h5 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h5>
 <p>Make Cluster list is the first step in the analyzing one’s data. This
@@ -201,8 +240,14 @@ between Euclidean Distance and Spearman Dissimilarity.</li>
 <div class="section level5">
 <h5 id="code-1">Code<a class="anchor" aria-label="anchor" href="#code-1"></a>
 </h5>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeCorrelationNetwork.html">MakeCorrelationNetwork</a></span><span class="op">(</span>keeplength <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level5">
+<h5 id="outputs-1">Outputs<a class="anchor" aria-label="anchor" href="#outputs-1"></a>
+</h5>
+<p><img src="vig_figs/MakeCorrelationNetwork-1.png"><strong>Figure
+4</strong> Plot produced by MakeCorrelationNetwork.</p>
 </div>
 <div class="section level5">
 <h5 id="description-1">Description<a class="anchor" aria-label="anchor" href="#description-1"></a>
@@ -301,7 +346,7 @@ relationships between proteins</li>
 <div class="section level5">
 <h5 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h5>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/make_gm_input.html">make_gm_input</a></span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
@@ -363,7 +408,7 @@ the common clusters between the three distance metrics</li>
 <div class="section level5">
 <h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, gmfilepath <span class="op">=</span> <span class="st">"genemania-interactions.txt"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
