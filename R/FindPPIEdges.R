@@ -140,7 +140,7 @@ make_gm_input <- function(cccn_matrix) {
 #'
 #' @examples
 #' gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
-#' find_ppi_edges(cccn_matrix, gmfilepath = '~/CCCN_CFN_Tools/data/genemania/genemania-interactions.txt')
+#' find_ppi_edges(cccn_matrix, gmfile)
 find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.txt") {
 
   #test if nodenames already exists and therefore if they ran optional step 3
