@@ -19,7 +19,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   # Calculate Spearman correlation #
   ptmtable.cor <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
- 
+
   # Replace diagonal with NA #
   diag(ptmtable.cor) <- NA
 
@@ -33,7 +33,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
   colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
   rownames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
-  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
+  assign("ptm.correlation.matrix", ptmtable.cor, envir = .GlobalEnv) #Correlation Matrix for later use
 
   # Run t-SNE #
   tsne_results <- Rtsne::Rtsne(ptm.correlation.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
@@ -74,9 +74,11 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   #no need for its own function I suppose because it's only three lines of code
 
   #fix spearman thing; so do the exact same thing but no absolute value
+  ############ NEED TO NORMALIZE SPEARMAN TO EUCLIDEAN SCALE? OR THE REVERSE ############
   sp.diss.calc <- 1 - ptmtable.cor
   max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)
-  sp.diss.calc[is.na(sp.diss.calc)] <- max_dissimilarity
+  sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp)
+  sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max_dissimilarity
   sp.diss.calc <- as.matrix(sp.diss.calc)
 
   #fix euclidean rq
