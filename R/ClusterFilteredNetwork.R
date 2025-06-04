@@ -39,6 +39,6 @@ ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
   vvneg_genes <- unique(vvneg$Gene.1)
   
   #Output
-  View(edges)
-  View(neg)
+  print("Edges:")
+  print(edges)
 }
