@@ -53,17 +53,17 @@ MakeClusterList(ptmtable, toolong = 3.5)
 
 #### Outputs  
 
-![](vig_figs/MakeClusterList-1.png)
+![](vig_figs/MakeClusterList-1.png)  
 **Figure 1** One of three plots produced by MakeClusterList  
   
-![](vig_figs/ClusterOutput.png)
-**Figure 2** Output of MakeClusterList
+![](vig_figs/ClusterOutput.png)  
+**Figure 2** Output of MakeClusterList  
 
 ```{r echo = FALSE, eval = TRUE}
 load('vig_figs/fulleuptmdata.df')
 head(eu_ptms_list, 1)
 ```
-**Figure 3** First cluster created by Euclidean Distance.
+**Figure 3** First cluster created by Euclidean Distance.  
 
 #### Description  
 
@@ -98,7 +98,7 @@ MakeCorrelationNetwork(keeplength = 2)
 
 #### Outputs  
 
-![](vig_figs/MakeCorrelationNetwork-1.png)
+![](vig_figs/MakeCorrelationNetwork-1.png)  
 **Figure 4** Plot produced by MakeCorrelationNetwork.  
 
 #### Description  
@@ -107,7 +107,7 @@ Requires MakeClusterList to be ran first to create global variables (Euclidian/S
 
 #### Input  
 - keeplength  
-  - Defaults to 3; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)  
+  - Defaults to 2; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)  
 - From Global Namespace:  
   - Should **not** but listed in function call, but user must ensure that it is in the gloal environment  
   - ptmtable  
