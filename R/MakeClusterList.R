@@ -70,7 +70,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   #COMBINED CALCULATION
 
-  #this is copy and pasted straight from combinedpar so we don't have to run the calculations again -> lmao not anymore
+  #this is copy and pasted straight from combinedpar so we don't have to run the calculations again
   #no need for its own function I suppose because it's only three lines of code
 
   #fix spearman thing; so do the exact same thing but no absolute value

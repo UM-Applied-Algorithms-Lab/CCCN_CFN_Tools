@@ -49,6 +49,7 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 
 ```{r eval = FALSE}
 MakeClusterList(ptmtable, toolong = 3.5)
+
 ```
 
 #### Description  

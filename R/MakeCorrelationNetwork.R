@@ -58,10 +58,12 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   # Align the correlation matrix with the ordered adjacency matrix
   matched <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix)) #Use adj_matrix to "filter" out desired data from ptm.correlation
   cccn_matrix  <- ptm.correlation.matrix[matched, matched]
+  
+  ## FOR DEBUGGING ## 
+  assign("DEBUG_matrix", cccn_matrix, envir = .GlobalEnv) 
 
-  # Replace NA values in the correlation matrix
-  na_indices <- which(is.na(adj_matrix), arr.ind = TRUE)
-  cccn_matrix <- replace(cccn_matrix, na_indices, NA) #Weird line
+  # Replace 0 with NA in the correlation matrix
+  cccn_matrix[cccn_matrix==0] <- NA
 
   # Remove self-loops by setting diagonal to NA
   if (any(!is.na(diag(cccn_matrix)))) diag(cccn_matrix) <- NA
