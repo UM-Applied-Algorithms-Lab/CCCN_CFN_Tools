@@ -18,5 +18,5 @@ A data frame of combined edges from STRINGdb and GeneMANIA.
 This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
 }
 \examples{
-find_ppi_edges(cccn_matrix, gmfilepath = 'genemania/genemania-interactions.txt')
+find_ppi_edges(cccn_matrix, gmfilepath = '~/CCCN_CFN_Tools/data/genemania/genemania-interactions.txt')
 }

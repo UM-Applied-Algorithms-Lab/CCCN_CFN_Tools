@@ -154,7 +154,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- gmfilepath  
+- gmfilepath (optional)  
   - Path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.  
 - From Global Namespace:  
   - Should **not** but listed in function call, but user must ensure that it is in the gloal environment  
