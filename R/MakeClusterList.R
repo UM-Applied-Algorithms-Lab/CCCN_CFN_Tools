@@ -27,16 +27,16 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   sp.diss.matrix <- 1 - abs(ptm.correlation.matrix)
 
   # Handle any remaining NA values by setting them to the maximum dissimilarity #
-  max_dissimilarity <- max(sp.diss.matrix, na.rm = TRUE)
-  sp.diss.matrix[is.na(sp.diss.matrix)] <- max_dissimilarity
+  max_dist_eu <- max(sp.diss.matrix, na.rm = TRUE)
+  sp.diss.matrix[is.na(sp.diss.matrix)] <- max_dist_eu
 
   # Fix names of correlation matrix
-  colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
-  rownames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
+  colnames(ptm.correlation.matrix) <- rownames(ptmtable)
+  rownames(ptm.correlation.matrix) <- rownames(ptmtable)
 
   # Fix names of dissimilarity matrix
-  colnames(sp.diss.matrix) <- rownames(ptmtable) #Repair names
-  rownames(sp.diss.matrix) <- rownames(ptmtable) #Repair names
+  colnames(sp.diss.matrix) <- rownames(ptmtable)
+  rownames(sp.diss.matrix) <- rownames(ptmtable)
 
   # Run t-SNE #
   tsne_results <- Rtsne::Rtsne(sp.diss.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
@@ -66,22 +66,16 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   eu.ptms.tsne.list <- Rtsne::Rtsne(as.matrix(eu.diss.calc), dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
 
   # Extract the t-SNE results from the output list #
-  eu.ptms.tsne <- eu.ptms.tsne.list$Y
-
-  # Return the t-SNE results #
-  euclidean_result = eu.ptms.tsne
+  euclidean_result <- eu.ptms.tsne.list$Y
 
   #COMBINED CALCULATION
 
-  #this is copy and pasted straight from combinedpar so we don't have to run the calculations again
-  #no need for its own function I suppose because it's only three lines of code
-
   #fix spearman thing; so do the exact same thing but no absolute value
-  sp.diss.calc <- 1 - ptm.correlation.matrix
-  max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)
-  sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp)
-  sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max_dissimilarity
-  sp.diss.calc <- as.matrix(sp.diss.calc)
+  sp.diss.calc <- 1 - ptm.correlation.matrix                        # range goes from (-1 to 1) to (0 to 2)
+  max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)                    # find the max value (around 2)
+  sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp)           # SCALING. THIS IS WHERE SCALING OCCURS. All the values are scaled so biggest sp = biggest eu
+  sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max_dist_eu             # make the NAs roughly equal to 100
+  sp.diss.calc <- as.matrix(sp.diss.calc)                           # turn into a matrix
 
   #fix euclidean rq
   eu.diss.calc <- as.matrix(eu.diss.calc)
@@ -123,5 +117,5 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   assign("eu_ptms_list", clustercreate(euclidean_result, ptmtable), envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
   assign("sp_ptms_list", clustercreate(spearman_result, ptmtable), envir = .GlobalEnv)  #Matrix containing Spearman t-SNE coords
   assign("sed_ptms_list", clustercreate(sed_result, ptmtable), envir = .GlobalEnv)      #Matrix containing combined t-SNE coords
-  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv)                    #Correlation Matrix for later use
+  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv)          #Correlation Matrix for later use
 }
