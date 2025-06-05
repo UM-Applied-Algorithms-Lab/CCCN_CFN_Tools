@@ -21,10 +21,16 @@ FindCommonClusters <- function(list1, list2, list3, klength){
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
-        if(length(temp) > klength) returnme[[length(returnme)+1]] <- temp               #And only add it to the list to return if it has enough values
-      }
+        if(length(temp) > klength) {
+          temp <- lapply(temp, function (x){ #Trim the names
+            unlist(strsplit(x, " ",  fixed=TRUE))[1]})
+          returnme[[length(returnme)+1]] <- unique(temp)  #And only add it to the list to return if it has enough values
+          }
+        }
     }
   }
+  
+  
   if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
   return(returnme)
 }
@@ -52,7 +58,8 @@ MakeCorrelationNetwork <- function(keeplength = 2){
   list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
 
   # Generate the combined adjacency matrix
-  adj_matrix <- plyr::rbind.fill.matrix(plyr::llply(list.common, MakeAdjMatrix))
+  submatrix.list <- plyr::llply(list.common, MakeAdjMatrix)
+  adj_matrix <- plyr::rbind.fill.matrix(submatrix.list)
   rownames(adj_matrix) <- colnames(adj_matrix) #Represents a graph
 
   # Align the correlation matrix with the ordered adjacency matrix
