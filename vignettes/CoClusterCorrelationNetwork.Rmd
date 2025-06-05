@@ -53,8 +53,8 @@ MakeClusterList(ptmtable, toolong = 3.5)
 
 #### Outputs  
 
-![](vig_figs/MakeClusterList-1.png)  
-**Figure 1** One of three plots produced by MakeClusterList  
+![](vig_figs/SED_MCL.png)  
+**Figure 1** Example plot produced by the average of Spearman Dissimilarity and Euclidean Distance as produced by MakeClusterList.  
   
 ![](vig_figs/ClusterOutput.png)  
 **Figure 2** Output of MakeClusterList  
