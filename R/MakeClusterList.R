@@ -74,7 +74,6 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   #no need for its own function I suppose because it's only three lines of code
 
   #fix spearman thing; so do the exact same thing but no absolute value
-  ############ NEED TO NORMALIZE SPEARMAN TO EUCLIDEAN SCALE? OR THE REVERSE ############
   sp.diss.calc <- 1 - ptmtable.cor
   max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)
   sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp)
