@@ -18,25 +18,25 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   ptmtable.sp <- as.data.frame(lapply(ptmtable, as.numeric))
 
   # Calculate Spearman correlation #
-  ptmtable.cor <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
+  ptm.correlation.matrix <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
 
   # Replace diagonal with NA #
-  diag(ptmtable.cor) <- NA
+  diag(ptm.correlation.matrix) <- NA
 
   # Calculate dissimilarity #
-  ptm.correlation.matrix <- 1 - abs(ptmtable.cor)
+  sp.diss.matrix <- 1 - abs(ptm.correlation.matrix)
 
   # Handle any remaining NA values by setting them to the maximum dissimilarity #
-  max_dissimilarity <- max(ptm.correlation.matrix, na.rm = TRUE)
-  ptm.correlation.matrix[is.na(ptm.correlation.matrix)] <- max_dissimilarity
+  max_dissimilarity <- max(sp.diss.matrix, na.rm = TRUE)
+  sp.diss.matrix[is.na(sp.diss.matrix)] <- max_dissimilarity
 
   # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
-  colnames(ptmtable.cor) <- rownames(ptmtable) #Repair names
-  rownames(ptmtable.cor) <- rownames(ptmtable) #Repair names
-  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
+  colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
+  rownames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
+  assign("sp.diss.matrix", sp.diss.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
 
   # Run t-SNE #
-  tsne_results <- Rtsne::Rtsne(ptm.correlation.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
+  tsne_results <- Rtsne::Rtsne(sp.diss.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
   # Return t-SNE results #
   spearman_result = tsne_results$Y
 
@@ -74,7 +74,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   #no need for its own function I suppose because it's only three lines of code
 
   #fix spearman thing; so do the exact same thing but no absolute value
-  sp.diss.calc <- 1 - ptmtable.cor
+  sp.diss.calc <- 1 - ptm.correlation.matrix
   max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)
   sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp)
   sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max_dissimilarity
@@ -120,7 +120,5 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   assign("eu_ptms_list", clustercreate(euclidean_result, ptmtable), envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
   assign("sp_ptms_list", clustercreate(spearman_result, ptmtable), envir = .GlobalEnv)  #Matrix containing Spearman t-SNE coords
   assign("sed_ptms_list", clustercreate(sed_result, ptmtable), envir = .GlobalEnv)      #Matrix containing combined t-SNE coords
-  assign("ptm.correlation.matrix", ptmtable.cor, envir = .GlobalEnv)                    #Correlation Matrix for later use
-  ########## FIX ME!!!!!! This requires changing the name here back to ptm.cor and then changing every single place it's mentioned in the other files ##########
-  ##### Not actually that long but I don't have time rn #####
+  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv)                    #Correlation Matrix for later use
 }
