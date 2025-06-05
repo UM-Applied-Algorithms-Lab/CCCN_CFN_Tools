@@ -33,7 +33,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
   colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
   rownames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
-  assign("ptm.correlation.matrix", ptmtable.cor, envir = .GlobalEnv) #Correlation Matrix for later use
+  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
 
   # Run t-SNE #
   tsne_results <- Rtsne::Rtsne(ptm.correlation.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
@@ -120,4 +120,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   assign("eu_ptms_list", clustercreate(euclidean_result, ptmtable), envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
   assign("sp_ptms_list", clustercreate(spearman_result, ptmtable), envir = .GlobalEnv)  #Matrix containing Spearman t-SNE coords
   assign("sed_ptms_list", clustercreate(sed_result, ptmtable), envir = .GlobalEnv)      #Matrix containing combined t-SNE coords
+  assign("ptm.correlation.matrix", ptmtable.cor, envir = .GlobalEnv)                    #Correlation Matrix for later use
+  ########## FIX ME!!!!!! This requires changing the name here back to ptm.cor and then changing every single place it's mentioned in the other files ##########
+  ##### Not actually that long but I don't have time rn #####
 }
