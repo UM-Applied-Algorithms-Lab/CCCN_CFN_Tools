@@ -30,10 +30,13 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   max_dissimilarity <- max(sp.diss.matrix, na.rm = TRUE)
   sp.diss.matrix[is.na(sp.diss.matrix)] <- max_dissimilarity
 
-  # Make sure the dissimilarity matrix is numeric and suitable for t-SNE #
+  # Fix names of correlation matrix
   colnames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
   rownames(ptm.correlation.matrix) <- rownames(ptmtable) #Repair names
-  assign("sp.diss.matrix", sp.diss.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
+
+  # Fix names of dissimilarity matrix
+  colnames(sp.diss.matrix) <- rownames(ptmtable) #Repair names
+  rownames(sp.diss.matrix) <- rownames(ptmtable) #Repair names
 
   # Run t-SNE #
   tsne_results <- Rtsne::Rtsne(sp.diss.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
