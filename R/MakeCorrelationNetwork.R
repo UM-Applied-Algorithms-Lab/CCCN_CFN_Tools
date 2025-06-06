@@ -25,10 +25,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
           temp <- lapply(temp, function (x){ #Trim the names
             unlist(strsplit(x, " ",  fixed=TRUE))[1]})
           returnme[[length(returnme)+1]] <- unique(temp)  #And only add it to the list to return if it has enough values
-          }
-        }
-    }
-  }
+  }}}}
   
   if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
   return(returnme)
