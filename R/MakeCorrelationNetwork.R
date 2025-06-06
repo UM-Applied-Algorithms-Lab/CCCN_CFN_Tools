@@ -30,7 +30,6 @@ FindCommonClusters <- function(list1, list2, list3, klength){
     }
   }
   
-  
   if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
   return(returnme)
 }
@@ -51,7 +50,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
     r <- ptm.correlation.matrix[
       grep(Gene1, rownames(ptm.correlation.matrix), value = TRUE), 
       grep(Gene2, colnames(ptm.correlation.matrix), value = TRUE)]
-    r <- as.matrix(r)
+    r <- as.matrix(r) #Unsure if neeeded
     r[is.na(r)] <- 0 #Replace NA with 0 - CHANGE THIS - Remove this line if NA exists want sum to be NA
     return(sum(r) / (nrow(r)*ncol(r))) #Return average
   }
