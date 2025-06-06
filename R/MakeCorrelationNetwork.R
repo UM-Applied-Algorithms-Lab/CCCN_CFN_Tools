@@ -46,23 +46,23 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' MakeCorrelationNetwork(keeplength = 1)
 MakeCorrelationNetwork <- function(keeplength = 2){
 
-  #This function creates a square adjacency matrix for a given list element.
-  MakeAdjMatrix <- function(list.element) {
-    list.el.mat <- matrix(1, nrow = length(list.element), ncol = length(list.element))
-    rownames(list.el.mat) <- list.element
-    colnames(list.el.mat) <- list.element
-    return(list.el.mat)
-  }
-
   #Find common clusters
   list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
 
   # Generate the combined adjacency matrix
-  submatrix.list <- plyr::llply(list.common, MakeAdjMatrix)
-  adj_matrix <- plyr::rbind.fill.matrix(submatrix.list)
-  rownames(adj_matrix) <- colnames(adj_matrix) #Represents a graph
+  ulist <- unique(unlist(list.common)) #Use this for rownames and colnames
+  
+  adj_matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix 
+  #Populate the empty matrix
+  for(d in 1:length(list.common)){#For every cluster
+    for(e in list.common[[d]]){   #For every element in cluster
+      for(f in list.common[[d]]){ #Connect to every other element in cluster
+        adj_matrix[e, f] <- 1     
+  }}}
+  
 
   # Align the correlation matrix with the ordered adjacency matrix
+  #BROKE HERE - rownames formatted differently
   matched <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix)) #Use adj_matrix to "filter" out desired data from ptm.correlation
   cccn_matrix  <- ptm.correlation.matrix[matched, matched]
   
