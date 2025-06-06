@@ -46,25 +46,30 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' MakeCorrelationNetwork(keeplength = 1)
 MakeCorrelationNetwork <- function(keeplength = 2){
 
+  #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
+  correlation.value <- function(Gene1, Gene2){
+    r <- ptm.correlation.matrix[
+      grep(Gene1, rownames(ptm.correlation.matrix), value = TRUE), 
+      grep(Gene2, colnames(ptm.correlation.matrix), value = TRUE)]
+    r <- as.matrix(r)
+    r[is.na(r)] <- 0 #Replace NA with 0 - CHANGE THIS - Remove this line if NA exists want sum to be NA
+    return(sum(r) / (nrow(r)*ncol(r))) #Return average
+  }
+  
   #Find common clusters
   list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
 
   # Generate the combined adjacency matrix
   ulist <- unique(unlist(list.common)) #Use this for rownames and colnames
   
-  adj_matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix 
-  #Populate the empty matrix
-  for(d in 1:length(list.common)){#For every cluster
-    for(e in list.common[[d]]){   #For every element in cluster
-      for(f in list.common[[d]]){ #Connect to every other element in cluster
-        adj_matrix[e, f] <- 1     
+  cccn_matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix 
+  # Populate the empty matrix
+  for(d in 1:length(list.common)){ #For every cluster
+    cluster <- list.common[[d]]    #Save the current cluster
+    for(e in cluster){             #For every element in the cluster
+      for(f in cluster){           #Connect E to F
+        cccn_matrix[e, f] <- correlation.value(e, f) #This adds the correlation value 
   }}}
-  
-
-  # Align the correlation matrix with the ordered adjacency matrix
-  #BROKE HERE - rownames formatted differently
-  matched <- intersect(rownames(adj_matrix), rownames(ptm.correlation.matrix)) #Use adj_matrix to "filter" out desired data from ptm.correlation
-  cccn_matrix  <- ptm.correlation.matrix[matched, matched]
   
   ## FOR DEBUGGING ## 
   assign("DEBUG_matrix", cccn_matrix, envir = .GlobalEnv) 
