@@ -31,12 +31,12 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   sp.diss.matrix[is.na(sp.diss.matrix)] <- max_dist_eu
 
   # Fix names of correlation matrix
-  colnames(ptm.correlation.matrix) <- rownames(ptmtable)
-  rownames(ptm.correlation.matrix) <- rownames(ptmtable)
+  colnames(ptm.correlation.matrix) <- ptmtable$PTM
+  rownames(ptm.correlation.matrix) <- ptmtable$PTM
 
   # Fix names of dissimilarity matrix
-  colnames(sp.diss.matrix) <- rownames(ptmtable)
-  rownames(sp.diss.matrix) <- rownames(ptmtable)
+  colnames(sp.diss.matrix) <- ptmtable$PTM
+  rownames(sp.diss.matrix) <- ptmtable$PTM
 
   # Run t-SNE #
   tsne_results <- Rtsne::Rtsne(sp.diss.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
