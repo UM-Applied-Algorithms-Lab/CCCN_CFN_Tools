@@ -59,7 +59,7 @@ MakeClusterList(ptmtable, toolong = 3.5)
 ![](vig_figs/ClusterOutput.png)  
 **Figure 2** Output of MakeClusterList  
 
-```{r echo = FALSE, eval = TRUE}
+```{r echo = FALSE, eval = FALSE}
 load('vig_figs/fulleuptmdata.df')
 head(eu_ptms_list, 1)
 ```
