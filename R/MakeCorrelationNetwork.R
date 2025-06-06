@@ -49,7 +49,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
       grep(Gene2, colnames(ptm.correlation.matrix), value = TRUE)]
     r <- as.matrix(r) #Unsure if neeeded
     r[is.na(r)] <- 0 #Replace NA with 0 - CHANGE THIS - Remove this line if NA exists want sum to be NA
-    return(sum(r) / (nrow(r)*ncol(r))) #Return average
+    return(sum(r)) #Return average
   }
   
   #Find common clusters
