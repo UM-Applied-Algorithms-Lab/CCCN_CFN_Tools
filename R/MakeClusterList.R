@@ -103,7 +103,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
     vegan::ordihull(result, result.disc2, col="red", lwd=2)
 
     #Format a data frame
-    result.span2.df <- data.frame(rownames(ptmtable))
+    result.span2.df <- data.frame(ptmtable$PTM)
     names(result.span2.df) <- "PTM.Name"
     result.span2.df$group <- result.disc2 #Add groups found above to the data frame
 
