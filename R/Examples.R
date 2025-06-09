@@ -1,4 +1,5 @@
-# Make Cluster List Example
+#' Make Cluster List Example
+#' @keywords internal
 ex.MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   #SPEARMAN CALCULATION
@@ -115,6 +116,7 @@ ex.MakeClusterList <- function(ptmtable, toolong = 3.5){
 
 
 #' Make Correlation Network Example
+#' @keywords internal
 ex.MakeCorrelationNetwork <- function(keeplength = 2){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
@@ -162,7 +164,8 @@ ex.MakeCorrelationNetwork <- function(keeplength = 2){
 
 
 
-# Make GM Input Example
+#' Make GM Input Example
+#' @keywords internal
 ex.make_gm_input <- function(cccn_matrix) {
   cat(ex.nodenames[[1]], sep = "\n")
 }
@@ -171,7 +174,8 @@ ex.make_gm_input <- function(cccn_matrix) {
 
 
 
-# Find PPI Edges Example
+#' Find PPI Edges Example
+#' @keywords internal
 ex.find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.txt") {
 
   #test if nodenames already exists and therefore if they ran optional step 3
@@ -245,6 +249,7 @@ ex.find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.
 
 
 
-# Cluster Filtered Network Example
+#' Cluster Filtered Network Example
+#' @keywords internal
 ex.ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
 }
