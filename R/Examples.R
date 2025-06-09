@@ -164,6 +164,8 @@ ex.MakeCorrelationNetwork <- function(keeplength = 2){
 
 
 
+########## FIX THIS ONE IDK WHAT IS REALLY HAPPENING WHEN THE EXAMPLE IS CALLED ##########
+
 #' Make GM Input Example
 #' @keywords internal
 ex.make_gm_input <- function(cccn_matrix) {

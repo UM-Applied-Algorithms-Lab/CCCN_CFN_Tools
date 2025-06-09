@@ -39,7 +39,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @export
 #'
 #' @examples
-#' ex.MakeCorrelationNetwork(keeplength = 1)
+#' cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
 MakeCorrelationNetwork <- function(keeplength = 2){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2

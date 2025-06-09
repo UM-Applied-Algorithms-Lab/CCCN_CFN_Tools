@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
+#' cccn.cfn.tools:::ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
 MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   #SPEARMAN CALCULATION
