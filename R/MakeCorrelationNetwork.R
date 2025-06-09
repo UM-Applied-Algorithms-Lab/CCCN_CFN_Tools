@@ -42,7 +42,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
 MakeCorrelationNetwork <- function(keeplength = 2){
   
-  #Error Catches - sorry i got excited and maybe added too much 
+  #Error Catches - sorry i got excited and maybe added too much (maybe consider just checking 1...)
   noEU  <- !exists("eu_ptms_list")
   noSP  <- !exists("sp_ptms_list")
   noSED <- !exists("sed_ptms_list")

@@ -46,3 +46,8 @@ ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
   print("Edges:")
   print(edges)
 }
+
+#Code for this, but where do I put it? 
+Delirium <- function(){
+  
+}
