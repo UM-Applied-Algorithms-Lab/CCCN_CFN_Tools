@@ -9,3 +9,4 @@ ex.MakeCorrelationNetwork(keeplength = 2)
 \description{
 Make Correlation Network Example
 }
+\keyword{internal}
