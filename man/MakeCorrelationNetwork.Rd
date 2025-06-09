@@ -13,5 +13,5 @@ MakeCorrelationNetwork(keeplength = 2)
 This function creates a square adjacency matrix and aligns it with the correlation network and common clusters found from the data derrived in MakeClusterList,
 }
 \examples{
-MakeCorrelationNetwork(keeplength = 1)
+ex.MakeCorrelationNetwork(keeplength = 1)
 }

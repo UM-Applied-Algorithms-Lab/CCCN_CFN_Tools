@@ -16,5 +16,5 @@ This function groups t-SNE data points into clusters using a specified threshold
 and visualizes the clusters.
 }
 \examples{
-MakeClusterList(ptmtable, toolong =  3.5)
+ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
 }
