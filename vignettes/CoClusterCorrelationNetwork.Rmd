@@ -1,5 +1,5 @@
 ---
-title: "Filtered Cocluster Correlation Network Creation Guide"
+title: "Filtered CoCluster Correlation Network Creation Guide"
 author: "Nagashree A, McKayl Bailey, Grant Smith, Madison Moffett"
 output: 
   html_document:
@@ -39,7 +39,7 @@ The CCCN_CFN package takes experimental data of post-translational modifications
 An important note about this package: there are no returned outputs from any of the functions. All outputs listed are assigned to the Global Namespace in order to prevent loss of data and promote ease of use. Some functions also pull variables from the global namespace. Ensure that all data is loaded into the global environment especially if analysis is completed across multiple sessions. **BE ADVISED: Because all data is assigned to the global namespace, it is vital that the user does not run examples in a working session. The data will get overwritten by example data.**
 
 # This file  
-This vignette is intended to be a step-by-step guide to walk users through the process of using the CCCN_CFN package. It includes an example pipeline demonstrating how to run the full analysis along with descriptions of each function. Estimated run-times are included with each description and are based on a preliminary dataset of \~9,000 post-translational modifications and 70 experimental conditions processed with a 12th Gen i5 processor and 8GB of RAM.  
+This vignette is intended to be a step-by-step guide to walk users through the process of using the CCCN_CFN package. It includes an example pipeline demonstrating how to run the full analysis along with descriptions of each function. this pipeline must be run in order as subsequent steps require the data produced in previous steps. Estimated run-times are included with each description and are based on a preliminary dataset of \~9,000 post-translational modifications and 70 experimental conditions processed with a 12th Gen i5 processor and 8GB of RAM.  
 
 # Pipeline  
 
@@ -67,7 +67,7 @@ head(eu_ptms_list, 1)
 
 #### Description  
 
-Make Cluster list is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through tsne in order to put them into a 3-dimensional space. Please note: tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Dissimilarity table before it is run through tsne.  
+Make Cluster list is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through Tsne in order to put them into a 3-dimensional space. Please note: Tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Dissimilarity table before it is run through Tsne.  
 
 #### Input  
 - ptmtable
@@ -103,7 +103,7 @@ MakeCorrelationNetwork(keeplength = 2)
 
 #### Description  
 
-Requires MakeClusterList to be ran first to create global variables (Euclidian/Spearman/SED Tsne Matrices). Finds the intersection between the Euclidian, Spearman, and SED Tsne matrices and turns it into an adjacency matrix. Then uses that matrix to filter relevant data from the Spearman correlation matrix and processes the result into an igraph object.  
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED Tsne matrices in order to find the common clusters between the three groups. It then merges these common clusters into an adjacency matrix. This adjacency matrix is used to filter relevant data--clusters--from the Spearman correlation matrix.The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned as both a matrix.  
 
 #### Input  
 - keeplength  
@@ -122,8 +122,6 @@ Requires MakeClusterList to be ran first to create global variables (Euclidian/S
 #### Output  
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- correlation_network  
-  - iGraph object of cccn_matrix, a matrix showing strength of relationships between proteins
 
 #### Estimated run-time  
 2hrs 30mins  
