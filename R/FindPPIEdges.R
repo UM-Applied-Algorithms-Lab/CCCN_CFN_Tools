@@ -39,73 +39,6 @@ get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"
   assign('gm_edges', gm_edges[ , -5], envir = .GlobalEnv)
 }
 
-# Pulls nodenames from the cccn_matrix
-#
-# This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'
-#
-# @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
-# @return data frame of the names of the genes
-cccn_to_nodenames <- function(cccn_matrix){
-  # initialize as an empty dataframe
-  nodenames <- data.frame(matrix(ncol = 1, nrow = 0))
-  colnames(nodenames) <- "Gene.Names"
-  len <- nrow(nodenames)
-
-  # steal the row names
-  cccn_rows <- rownames(cccn_matrix)
-
-  #function to make splitting names more obvious even tho Ik it's just one line
-  #let a girl live
-  namesplit <- function(ptmname){
-    genename <- strsplit(ptmname, " ")[[1]][1]
-    return(genename)
-  }
-
-  #funtion to add the gene name to nodenames ifffff dne
-  addname <- function(genename){
-    if (!(genename %in% nodenames$Gene.Names)){ #check if the genename is already in the list
-
-      #increment length to go to next entry which doesn't yet exist
-      newlen <- len + 1
-
-      #update this variable in the parent environment so loop continues smoothly
-      assign("len", len + 1, envir = parent.frame())
-
-      #create the entry
-      nodenames[newlen,] <- genename
-
-    }
-  }
-
-  #loop through row names
-  for (i in 1:length(cccn_rows)){
-
-    #assign the var genename to the name of the gene
-    ptmname <- cccn_rows[i]
-
-    #split it by semicolons; will not change the og string if no semicolons --> vibes.
-    ptms <- strsplit(ptmname, ";")[[1]]    # make sure to take the first list element (I hate this in R there is only one list element why are you obsessed with lists of lists of lists)
-    for(ptm in ptms){                      # loop through the ptms, will only be one loop through if no semicolons and only one ptm
-      genename <- namesplit(ptm)           # get the genename out of it
-      addname(genename)                    # append!
-      }
-    }
-
-
-
-  #return :)
-  assign("nodenames", nodenames, envir = .GlobalEnv)
-}
-
-
-
-#eu.sp.sed.ptms.data into something cccn_matrix - like:
-#  for(i in 1:nrow(nodenames)){
-#    name <- strsplit(nodenames[i, 1], ' ')[[1]][1]
-#    nodenames[i,1] <- name
-#  }
-
-
 
 #' Make file for GeneMania input
 #'
@@ -119,8 +52,7 @@ cccn_to_nodenames <- function(cccn_matrix){
 #' @examples
 #' cccn.cfn.tools:::ex.make_gm_input(ex.cccn_matrix)
 make_gm_input <- function(cccn_matrix) {
-  cccn_to_nodenames(cccn_matrix)
-  write.table(nodenames$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  write.table(rownames(cccn_matrix), file = "gm_ex.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 #' Find PPI Edges
