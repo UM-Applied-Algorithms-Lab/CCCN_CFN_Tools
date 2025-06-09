@@ -117,7 +117,7 @@ cccn_to_nodenames <- function(cccn_matrix){
 #' @export
 #'
 #' @examples
-#' make_gm_input(cccn_matrix)
+#' ex.make_gm_input(ex.cccn_matrix)
 make_gm_input <- function(cccn_matrix) {
   cccn_to_nodenames(cccn_matrix)
   write.table(nodenames$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
@@ -135,7 +135,7 @@ make_gm_input <- function(cccn_matrix) {
 #'
 #' @examples
 #' gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
-#' find_ppi_edges(cccn_matrix, gmfile)
+#' ex.find_ppi_edges(ex.cccn_matrix)
 find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.txt") {
 
   #test if nodenames already exists and therefore if they ran optional step 3

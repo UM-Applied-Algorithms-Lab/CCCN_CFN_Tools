@@ -164,8 +164,7 @@ ex.MakeCorrelationNetwork <- function(keeplength = 2){
 
 # Make GM Input Example
 ex.make_gm_input <- function(cccn_matrix) {
-  cccn_to_nodenames(cccn_matrix)
-  write.table(nodenames$Gene.Names, file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  cat(ex.nodenames[[1]], sep = "\n")
 }
 
 

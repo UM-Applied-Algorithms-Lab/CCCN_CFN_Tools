@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' MakeClusterList(ptmtable, toolong =  3.5)
+#' ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
 MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   #SPEARMAN CALCULATION
