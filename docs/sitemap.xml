@@ -12,7 +12,11 @@
 <url><loc>/reference/CombinedPar.html</loc></url>
 <url><loc>/reference/CorrelationNetwork.html</loc></url>
 <url><loc>/reference/EuclideanDistance.html</loc></url>
+<url><loc>/reference/ex.ClusterFilteredNetwork.html</loc></url>
+<url><loc>/reference/ex.find_ppi_edges.html</loc></url>
+<url><loc>/reference/ex.MakeClusterList.html</loc></url>
 <url><loc>/reference/ex.MakeCorrelationNetwork.html</loc></url>
+<url><loc>/reference/ex.make_gm_input.html</loc></url>
 <url><loc>/reference/extract.gene.names.html</loc></url>
 <url><loc>/reference/FindCommonCluster.html</loc></url>
 <url><loc>/reference/FindCommonClusters.html</loc></url>
