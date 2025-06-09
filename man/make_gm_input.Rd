@@ -16,5 +16,5 @@ A file with all of the gene names which can be copy and pasted into the GeneMani
 This function outputs a file the user can take to create the GeneMania edgefile.
 }
 \examples{
-ex.make_gm_input(ex.cccn_matrix)
+cccn.cfn.tools:::ex.make_gm_input(ex.cccn_matrix)
 }

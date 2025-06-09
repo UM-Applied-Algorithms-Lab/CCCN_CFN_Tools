@@ -19,5 +19,5 @@ This function finds protein-protein interaction edges by combining STRINGdb and 
 }
 \examples{
 gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
-ex.find_ppi_edges(ex.cccn_matrix)
+cccn.cfn.tools:::ex.find_ppi_edges(ex.cccn_matrix)
 }

@@ -20,5 +20,5 @@ A data frame of correlation edges.
 This function processes correlation edges from a given correlation matrix
 }
 \examples{
-ClusterFilteredNetwork()
+cccn.cfn.tools:::ClusterFilteredNetwork()
 }
