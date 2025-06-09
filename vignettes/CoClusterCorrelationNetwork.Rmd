@@ -110,8 +110,6 @@ Requires MakeClusterList to be ran first to create global variables (Euclidian/S
   - Defaults to 2; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)  
 - From Global Namespace:  
   - Should **not** but listed in function call, but user must ensure that it is in the gloal environment  
-  - ptmtable  
-    - A data frame with rows of ptms and columns of experimental conditions
   - ptm.correlation.matrix  
     - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal. 
   - eu_ptms_list  
