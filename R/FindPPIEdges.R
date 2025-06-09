@@ -83,19 +83,14 @@ cccn_to_nodenames <- function(cccn_matrix){
     #assign the var genename to the name of the gene
     ptmname <- cccn_rows[i]
 
-    if(";" %in% ptmname){
-      ptms <- strsplit(ptmname, ";")[[1]]
-      ptm1 <- ptms[1]
-      ptm2 <- ptms[2]
-      gene1 <- namesplit(ptm1)
-      gene2 <- namesplit(ptm2)
-      addname(gene1)
-      addname(gene2)
-    } else{
-      genename <- namesplit(ptmname)
-      addname(genename)
+    #split it by semicolons; will not change the og string if no semicolons --> vibes.
+    ptms <- strsplit(ptmname, ";")[[1]]    # make sure to take the first list element (I hate this in R there is only one list element why are you obsessed with lists of lists of lists)
+    for(ptm in ptms){                      # loop through the ptms, will only be one loop through if no semicolons and only one ptm
+      genename <- namesplit(ptm)           # get the genename out of it
+      addname(genename)                    # append!
+      }
     }
-  }
+
 
 
   #return :)
