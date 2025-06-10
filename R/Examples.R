@@ -1,36 +1,3 @@
-#Debug help Function for loading all sample data to global environment without loading package
-loadSamples <- function(){
-  #Error Catch
-  if(!file.exists("data")) stop("No 'data' folder found. Are you in the correct working directory (CCCN_CFN_Tools)?")
-  files <- list.files("data") #List of files to loop over
-  
-  #Start loading files
-  setwd("data")
-  for(a in files){
-    load(a, envir = .GlobalEnv)
-  }
-  
-  #Go back to CCCN_CFN_Tools
-  setwd("..")
-}
-
-#Debug help Function for removing all sample data 
-rmSamples <- function(){
-  if(!file.exists("data")) stop("No 'data' folder found. Are you in the correct working directory (CCCN_CFN_Tools)?")
-  files <- list.files("data")
-  
-  #Start unloading files
-  setwd("data")
-  for(b in files){
-    b <- unlist(strsplit(b, ".", fixed=TRUE))[1]
-    b <- paste("ex.", b, sep="")
-    rm(b, envir = .GlobalEnv)
-  }
-  
-  #Go back to CCCN_CFN
-  setwd("..")
-}
-
 #' Make Cluster List Example
 #' @keywords internal
 ex.MakeClusterList <- function(ptmtable, toolong = 3.5){
