@@ -253,19 +253,20 @@ ex.find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.
 
 #' Cluster Filtered Network Example
 #' @keywords internal
-ex.ClusterFilteredNetwork <- function() {
+ex.ClusterFilteredNetwork <- function(accuracy = 0.000001) {
   #Loop through ppi_network and assign every row that matches genenames to an include vector
   include <- c()
   for(a in 1:length(rownames(ex.ppi_network))){
     Gene1 <- ex.ppi_network[a, 1] #Get gene from row a, first col
     Gene2 <- ex.ppi_network[a, 2] #Get gene from row a, second col
-    ex.ppi_weight <- as.numeric(ex.ppi_network[a, 3]) #Get the weight of row a
+    ppi_weight <- as.numeric(ex.ppi_network[a, 3]) #Get the weight of row a
     
     #If the ppi_weight equals the value that appears in the cccn_matrix for the same genes, add the row number to include
-    if(all.equal(ex.ppi_weight, ex.cccn_matrix[Gene1, Gene2], tolerance=.0001) == TRUE) include[length(include)+1] <- a
+    if(all.equal(ppi_weight, ex.cccn_matrix[Gene1, Gene2], tolerance=accuracy) == TRUE) include[length(include)+1] <- a #all.equal does not return false
   }
   
   #Assign
-  ex.cfn_network <- ex.ppi_network[include, ]
-  assign("ex.cfn_network", ex.cfn_network, envir = .GlobalEnv) #Cluster Filtered Network
+  ex.cfn_network <- ex.ppi_network
+  if(nrow(ex.cfn_network) == 0) stop("No common edges between PPI edges and cccn_matrix")
+  print(ex.cfn_network)
 }
