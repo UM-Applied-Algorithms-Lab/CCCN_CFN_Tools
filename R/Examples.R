@@ -180,11 +180,6 @@ ex.make_db_input <- function(ex.cccn_matrix) {
 #' @keywords internal
 ex.find_ppi_edges <- function(ex.cccn_matrix, db_filepaths = c()) {
 
-  #test if nodenames already exists and therefore if they ran optional step 3
-  if(!exists("nodenames")){
-    #find the nodenames
-    cccn_to_nodenames(ex.cccn_matrix)}
-
   # Initialize the STRING database object
   string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, link_data="detailed", input_directory="")
 
