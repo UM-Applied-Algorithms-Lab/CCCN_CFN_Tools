@@ -103,7 +103,7 @@ MakeCorrelationNetwork(keeplength = 2)
 
 #### Description  
 
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED Tsne matrices in order to find the common clusters between the three groups. It then merges these common clusters into an adjacency matrix. This adjacency matrix is used to filter relevant data--clusters--from the Spearman correlation matrix.The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned as both a matrix.  
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED Tsne matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data--clusters--from the Spearman correlation matrix. The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned as both a matrix.  
 
 #### Input  
 - keeplength  
@@ -191,22 +191,23 @@ UNKNOWN
 #### Code  
 
 ```{r eval = FALSE}
-
+ClusterFilteredNetwork(accuracy)
 ```
 
 #### Description  
 
-The final step in this analysis package filters the combined_ppi_network by the cccn_matrix. The purpose of this function is to take the proteins in the user's study that are known to interact and only take the interactions whose ptms are shown to be correlated in the user's ptm data. This suggests metabolic pathways by producing clusters of proteins that interact with each other as well as respond to stimuli via ptms under the same conditions.
+**Note:** This function, like the ones before it, will pull required data from the global enviroment. 
+Requires both a cccn_matrix and a list of PPI edges. Checks all PPI edges to see if their edge weight is equal to the weight of the same edge in the matrix. If it is not, then it will be removed from the list of PPI edges. 
 
-#### Input  
-- combined_ppi_network
+#### Input (from global namespace)
+- ppi_network
   - A dataframe returned by step 3: Find PPI Edges; data frame representing how strongly proteins are known to interact.  
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 
 #### Output  
-- cccn_cfn_matrix
-  - Dataframe of dataframes suggesting metabolic pathways; representative in protein form  
+- cfn_network
+  - A version of ppi_network with all edges that do not exist in cccn_matrix removed.
 
 #### Estimated run-time  
 UNKNOWN

@@ -10,7 +10,7 @@ ClusterFilteredNetwork(accuracy = 1e-06)
 \item{accuracy}{How close can a PPI weight be to a correlation weight to accept the edge}
 }
 \description{
-This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn_network variable to the global environment, which is a list of the common edges between the PPI edges and cccn_matrix
+This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn_network variable to the global environment, which is a list of the common edges between the PPI edges and cccn_matrix.
 }
 \examples{
 ClusterFilteredNetwork()
