@@ -117,7 +117,7 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
   cccn_to_nodenames(cccn_matrix)
 
   # Initialize the STRING database object
-  string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, link_data="detailed", input_directory="")
+  string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, input_directory="")
 
   # Retrieve the proteins from the STRING database
   string_proteins <- string_db$get_proteins()
