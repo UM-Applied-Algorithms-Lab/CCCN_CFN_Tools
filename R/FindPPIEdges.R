@@ -49,7 +49,7 @@ get.DB.edgefile <- function(nodenames, db_filepath){
 #' @export
 #'
 #' @examples
-#' cccn.cfn.tools:::ex.make_gm_input(ex.cccn_matrix)
+#' cccn.cfn.tools:::ex.make_db_input(ex.cccn_matrix)
 make_db_input <- function(cccn_matrix) {
   write.table(rownames(cccn_matrix), file = "db_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
