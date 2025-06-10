@@ -38,6 +38,51 @@ get.DB.edgefile <- function(nodenames, db_filepath){
   return(db_edges)
 }
 
+# Pulls nodenames from the cccn_matrix
+#
+# This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'
+#
+# @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+# @return data frame of the names of the genes
+cccn_to_nodenames <- function(cccn_matrix){
+  # initialize as an empty dataframe
+  nodenames <- data.frame(matrix(ncol = 1, nrow = 0))
+  colnames(nodenames) <- "Gene.Names"
+  len <- nrow(nodenames)
+
+  # steal the row names
+  cccn_rows <- rownames(cccn_matrix)
+
+  #funtion to add the gene name to nodenames ifffff dne
+  addname <- function(genename){
+    if (!(genename %in% nodenames$Gene.Names)){ #check if the genename is already in the list
+
+      #increment length to go to next entry which doesn't yet exist
+      newlen <- len + 1
+
+      #update this variable in the parent environment so loop continues smoothly
+      assign("len", len + 1, envir = parent.frame())
+
+      #create the entry
+      nodenames[newlen,] <- genename
+
+    }
+  }
+
+  #loop through row names
+  for (i in 1:length(cccn_rows)){
+
+    #assign the var genename to the name of the gene
+    genename <- cccn_rows[i]
+    addname(genename)   # append
+
+  }
+
+
+
+  #return :)
+  assign("nodenames", nodenames, envir = .GlobalEnv)
+}
 
 #' Make file for GeneMania input
 #'
@@ -69,10 +114,7 @@ make_db_input <- function(cccn_matrix) {
 #' cccn.cfn.tools:::ex.find_ppi_edges(ex.cccn_matrix)
 find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
 
-  #test if nodenames already exists and therefore if they ran optional step 3
-  if(!exists("nodenames")){
-    #find the nodenames
-    cccn_to_nodenames(cccn_matrix)}
+  cccn_to_nodenames(cccn_matrix)
 
   # Initialize the STRING database object
   string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, link_data="detailed", input_directory="")
