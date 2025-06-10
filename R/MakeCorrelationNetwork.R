@@ -80,9 +80,6 @@ MakeCorrelationNetwork <- function(keeplength = 2){
         cccn_matrix[e, f] <- correlation.value(e, f) #This adds the correlation value
   }}}
 
-  ## FOR DEBUGGING ##
-  assign("DEBUG_matrix", cccn_matrix, envir = .GlobalEnv)
-
   # Replace 0 with NA in the correlation matrix
   cccn_matrix[cccn_matrix==0] <- NA
 
