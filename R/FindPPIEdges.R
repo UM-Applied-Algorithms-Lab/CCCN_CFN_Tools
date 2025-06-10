@@ -52,7 +52,7 @@ get.GM.edgefile <- function(nodenames, gmfilepath = "genemania-interactions.txt"
 #' @examples
 #' cccn.cfn.tools:::ex.make_gm_input(ex.cccn_matrix)
 make_gm_input <- function(cccn_matrix) {
-  write.table(rownames(cccn_matrix), file = "gm_ex.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  write.table(rownames(cccn_matrix), file = "gm_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 #' Find PPI Edges
