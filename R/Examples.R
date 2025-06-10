@@ -253,5 +253,19 @@ ex.find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.
 
 #' Cluster Filtered Network Example
 #' @keywords internal
-ex.ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
+ex.ClusterFilteredNetwork <- function() {
+  #Loop through ppi_network and assign every row that matches genenames to an include vector
+  include <- c()
+  for(a in 1:length(rownames(ex.ppi_network))){
+    Gene1 <- ex.ppi_network[a, 1] #Get gene from row a, first col
+    Gene2 <- ex.ppi_network[a, 2] #Get gene from row a, second col
+    ex.ppi_weight <- as.numeric(ex.ppi_network[a, 3]) #Get the weight of row a
+    
+    #If the ppi_weight equals the value that appears in the cccn_matrix for the same genes, add the row number to include
+    if(all.equal(ex.ppi_weight, ex.cccn_matrix[Gene1, Gene2], tolerance=.0001) == TRUE) include[length(include)+1] <- a
+  }
+  
+  #Assign
+  ex.cfn_network <- ex.ppi_network[include, ]
+  assign("ex.cfn_network", ex.cfn_network, envir = .GlobalEnv) #Cluster Filtered Network
 }

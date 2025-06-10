@@ -4,50 +4,29 @@
 #'
 #' This function processes correlation edges from a given correlation matrix
 #'
-#' @param pBound The minimum value an edge weight can be to make it a positive correlation. Default = 0.5
-#' @param nBound The maximum value an edge weight can be to make it a negative correlation. Default = -0.5
-#' @param mode A string specifying the graph mode. Default is "lower".
-#'
 #' @return A data frame of correlation edges.
 #' @export
 #'
 #' @examples
 #' cccn.cfn.tools:::ClusterFilteredNetwork()
 # Function to process correlation edges
-ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
+ClusterFilteredNetwork <- function() {
   #Error Catch
   if(!exists("cccn_matrix")) stop("cccn_matrix not found. Consider running MakeCorrelationNetwork(keeplength) to make one.")
   if(!exists("ppi_network")) stop("ppi_network not found. Consider looking at step 3 & 4 in https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/articles/CoClusterCorrelationNetwork.html to make one.")
   
-  #Formatting
-  g <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode=mode, diag=FALSE, weighted="Weight") #If igraph is needed, maybe have MCN "return" igraph instead?
-  edges <- data.frame(igraph::as_edgelist(g)) #Turns igraph into edgelist into dataframe. (Couldn't we just use the correlation matrix? It should have the same info.)
-  edges$Weight <- igraph::edge_attr(g)[[1]]   #Add weights to edge data frame
-
-  #Define positive or negative correlation
-  edges$edgeType <- "correlation"
-  edges$edgeType[edges$Weight >= pBound] <- "positive correlation" #If weight is greater/equal to pbound, mark correlation as positive
-  edges$edgeType[edges$Weight <= nBound] <- "negative correlation" #If weight is less/equal to nbound, mark correlation as negative
-
-  #Rename
-  names(edges)[1:2] <- c("Peptide.1", "Peptide.2") #Are these supposed to be specific names?
-
-  #Analyze negative correlations - DO THESE NEED TO BE USER DECIDED??
-  neg <- edges[edges$Weight < 0, ]    #Get negative weights
-  vneg <- neg[neg$Weight <= nBound, ] #Get negative correlative weights
-  vvneg <- neg[neg$Weight < -0.543, ]  #Some other parameter?
-
-  #BROKEN - This implies genepep.edges.3 call.
-  neg_genes <- unique(neg$Gene.1)
-  vneg_genes <- unique(vneg$Gene.1)
-  vvneg_genes <- unique(vvneg$Gene.1)
-
-  #Output
-  print("Edges:")
-  print(edges)
-}
-
-#Code for this, but where do I put it? 
-Delirium <- function(){
+  #Loop through ppi_network and assign every row that matches genenames to an include vector
+  include <- c()
+  for(a in 1:length(rownames(ppi_network))){
+    Gene1 <- ppi_network[a, 1] #Get gene from row a, first col
+    Gene2 <- ppi_network[a, 2] #Get gene from row a, second col
+    ppi_weight <- as.numeric(ppi_network[a, 3]) #Get the weight of row a
+    
+    #If the ppi_weight equals the value that appears in the cccn_matrix for the same genes, add the row number to include
+    if(all.equal(ppi_weight, cccn_matrix[Gene1, Gene2], tolerance=.0001) == TRUE) include[length(include)+1] <- a #all.equal does not return false
+  }
   
+  #Assign
+  cfn_network <- ppi_network[include, ]
+  assign("cfn_network", cfn_network, envir = .GlobalEnv) #Cluster Filtered Network
 }
