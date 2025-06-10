@@ -4,14 +4,7 @@
 \alias{ClusterFilteredNetwork}
 \title{ClusterFilteredNetwork}
 \usage{
-ClusterFilteredNetwork(pBound = 0.5, nBound = -0.5, mode = "lower")
-}
-\arguments{
-\item{pBound}{The minimum value an edge weight can be to make it a positive correlation. Default = 0.5}
-
-\item{nBound}{The maximum value an edge weight can be to make it a negative correlation. Default = -0.5}
-
-\item{mode}{A string specifying the graph mode. Default is "lower".}
+ClusterFilteredNetwork()
 }
 \value{
 A data frame of correlation edges.

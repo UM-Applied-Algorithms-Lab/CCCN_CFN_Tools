@@ -4,7 +4,7 @@
 \alias{ex.ClusterFilteredNetwork}
 \title{Cluster Filtered Network Example}
 \usage{
-ex.ClusterFilteredNetwork(pBound = 0.5, nBound = -0.5, mode = "lower")
+ex.ClusterFilteredNetwork()
 }
 \description{
 Cluster Filtered Network Example

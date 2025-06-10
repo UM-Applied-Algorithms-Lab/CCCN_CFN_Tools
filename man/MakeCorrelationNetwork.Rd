@@ -10,7 +10,7 @@ MakeCorrelationNetwork(keeplength = 2)
 \item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep \link{"AARS", "ARMS", "AGRS"} but not \link{"AARS", "ARMS"})}
 }
 \description{
-This function creates a square adjacency matrix and aligns it with the correlation network and common clusters found from the data derrived in MakeClusterList,
+This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
 }
 \examples{
 cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
