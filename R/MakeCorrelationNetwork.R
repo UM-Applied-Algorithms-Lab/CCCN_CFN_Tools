@@ -41,6 +41,20 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @examples
 #' cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
 MakeCorrelationNetwork <- function(keeplength = 2){
+  
+  #Error Catches - sorry i got excited and maybe added too much (maybe consider just checking 1...)
+  noEU  <- !exists("eu_ptms_list")
+  noSP  <- !exists("sp_ptms_list")
+  noSED <- !exists("sed_ptms_list")
+  noCOR <- !exists("ptm.correlation.matrix")
+  if(noEU || noSP || noSED || noCOR){
+    string <- "Data not found. Consider running MakeClusterList(ptmtable) to make some. Missing Variables: "
+    if(noEU)  string <- cat(string, "\n", "Not Found: eu_ptms_list")
+    if(noSP)  string <- cat(string, "\n", "Not Found: sp_ptms_list")
+    if(noSED) string <- cat(string, "\n", "Not Found: sed_ptms_list")
+    if(noCOR) string <- cat(string, "\n", "Not Found: ptm.correlation.matrix")
+    stop(string)
+  }
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){

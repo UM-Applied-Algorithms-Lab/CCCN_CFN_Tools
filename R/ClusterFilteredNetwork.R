@@ -15,6 +15,10 @@
 #' cccn.cfn.tools:::ClusterFilteredNetwork()
 # Function to process correlation edges
 ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
+  #Error Catch
+  if(!exists("cccn_matrix")) stop("cccn_matrix not found. Consider running MakeCorrelationNetwork(keeplength) to make one.")
+  if(!exists("ppi_network")) stop("ppi_network not found. Consider looking at step 3 & 4 in https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/articles/CoClusterCorrelationNetwork.html to make one.")
+  
   #Formatting
   g <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode=mode, diag=FALSE, weighted="Weight") #If igraph is needed, maybe have MCN "return" igraph instead?
   edges <- data.frame(igraph::as_edgelist(g)) #Turns igraph into edgelist into dataframe. (Couldn't we just use the correlation matrix? It should have the same info.)
@@ -41,4 +45,9 @@ ClusterFilteredNetwork <- function(pBound = 0.5, nBound = -0.5, mode="lower") {
   #Output
   print("Edges:")
   print(edges)
+}
+
+#Code for this, but where do I put it? 
+Delirium <- function(){
+  
 }
