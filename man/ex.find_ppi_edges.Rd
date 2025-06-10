@@ -4,7 +4,7 @@
 \alias{ex.find_ppi_edges}
 \title{Find PPI Edges Example}
 \usage{
-ex.find_ppi_edges(cccn_matrix, gmfilepath = "genemania-interactions.txt")
+ex.find_ppi_edges(ex.cccn_matrix, db_filepaths = c())
 }
 \description{
 Find PPI Edges Example

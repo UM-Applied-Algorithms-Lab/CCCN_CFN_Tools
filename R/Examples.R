@@ -168,7 +168,7 @@ ex.MakeCorrelationNetwork <- function(keeplength = 2){
 
 #' Make GM Input Example
 #' @keywords internal
-ex.make_gm_input <- function(cccn_matrix) {
+ex.make_db_input <- function(ex.cccn_matrix) {
   cat(ex.nodenames[[1]], sep = "\n")
 }
 
@@ -178,15 +178,7 @@ ex.make_gm_input <- function(cccn_matrix) {
 
 #' Find PPI Edges Example
 #' @keywords internal
-ex.find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.txt") {
-
-  #test if nodenames already exists and therefore if they ran optional step 3
-  if(!exists("nodenames")){
-    #find the nodenames
-    cccn_to_nodenames(cccn_matrix)} else{ #if nodenames does exist then they should have ran step 3 and have gm data
-      # Get GeneMANIA edges (Reminder these ^ V are both assigned to the global)
-      get.GM.edgefile(nodenames, gmfilepath)
-    }
+ex.find_ppi_edges <- function(ex.cccn_matrix, db_filepaths = c()) {
 
   # Initialize the STRING database object
   string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, link_data="detailed", input_directory="")
@@ -240,9 +232,13 @@ ex.find_ppi_edges <- function(cccn_matrix, gmfilepath = "genemania-interactions.
   combined_edges <- combined_interactions[, c("Gene.1", "Gene.2", "Weight", "edgeType")]
 
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
-  if(exists("gm_edges")){
-    combined_ppi_network <- rbind(combined_edges, gm_edges)
-    assign("ex.ppi_network", combined_ppi_network, envir = .GlobalEnv)} else{ #if gm_edges does not exist then do not combine and only use those from STRINGdb
+  if(len(db_filepaths) != 0){
+    combined_ppi_network <- combined_edges
+    for(path in db_filepaths){
+      db_edges <- get.DB.edgefile(path)
+      combined_ppi_network <- rbind(combined_ppi_network, db_edges)
+    }
+    assign("ex.ppi_network", combined_ppi_network, envir = .GlobalEnv)} else{ #if db_edges does not exist then do not combine and only use those from STRINGdb
       assign("ex.ppi_network", combined_edges, envir = .GlobalEnv)
     }
 }
@@ -260,11 +256,11 @@ ex.ClusterFilteredNetwork <- function(accuracy = 0.000001) {
     Gene1 <- ex.ppi_network[a, 1] #Get gene from row a, first col
     Gene2 <- ex.ppi_network[a, 2] #Get gene from row a, second col
     ppi_weight <- as.numeric(ex.ppi_network[a, 3]) #Get the weight of row a
-    
+
     #If the ppi_weight equals the value that appears in the cccn_matrix for the same genes, add the row number to include
     if(all.equal(ppi_weight, ex.cccn_matrix[Gene1, Gene2], tolerance=accuracy) == TRUE) include[length(include)+1] <- a #all.equal does not return false
   }
-  
+
   #Assign
   ex.cfn_network <- ex.ppi_network
   if(nrow(ex.cfn_network) == 0) stop("No common edges between PPI edges and cccn_matrix")

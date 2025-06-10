@@ -126,7 +126,7 @@ Make Correlation Network first finds the intersection between the Euclidian, Spe
 #### Estimated run-time  
 2hrs 30mins  
 
-## Step 3: Retrieve GeneMania Edge File (OPTIONAL)  
+## Step 3: Retrieve Alternate Edge Files (OPTIONAL)  
 
 #### Code  
 
@@ -138,15 +138,16 @@ make_gm_input(cccn_matrix)
 
 **NOTE:** This step is optional but provides more information for filtering data.  
 
-This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_gm_input in order to produce a text file that has all of the gene names in a list. The user then opens the file (which is created in their working directory) and copies this entire file (ctrl+A, ctrl+c). Next, the user goes to https://genemania.org and pastes the file into the input text box in the upper left corner. They click the magnifying glass in order to generate the GeneMania information. Finally, press the three dots on the left side of the screen and click the file that says "Interactions data". This will save that file. The user then must be sure to move this file into their working directory for the rest of the pipeline.
+This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. Examples within the package as well as package testinghave used GeneMania, which can be installed on the Cytoscape app.
 
 #### Input   
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 
 #### Output  
-- gm_nodes.txt
+- db_nodes.txt
   - A text file with the names of all of the genes   
+  - Saved into the user's working directory  
 - nodenames
   - A dataframe with all of the gene names involved in analysis   
 
@@ -158,14 +159,14 @@ UNKNOWN
 #### Code  
 
 ```{r eval = FALSE}
-find_ppi_edges(cccn_matrix, gmfilepath = "genemania-interactions.txt")
+find_ppi_edges(cccn_matrix, db_file_paths = c())
 ```
 
 #### Description  
 
 **Note:** Examples take about 5-10 minutes to run.
 
-Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. The ppi networks STRINGdb and GeneMania are consulted to gather this information. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from both databases are then combined and returned. The returned database shows how strongly the proteins interact.
+Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. STRINGdb--a database of these PPI networks--is automatically consulted along with any other database files that are generated and entered by the user. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from both databases are then combined and returned. The returned data frame shows how strongly the proteins interact.
 
 #### Input  
 
@@ -174,7 +175,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 - gmfilepath (optional)  
   - Path to the genemania-interactions file. This is initialized to 'genemania-interactions.txt' which is the default from downloading the data. This information is not needed if the user did not do the optional Step 3.  
 - From Global Namespace:  
-  - Should **not** but listed in function call, but user must ensure that it is in the gloal environment  
+  - Should **not** but listed in function call, but user must ensure that it is in the global environment  
   - nodenames (if optional Step 3 has already been completed)  
     - A dataframe with all of the gene names involved in analysis   
 
