@@ -3,4 +3,4 @@
 export(MakeClusterList)
 export(MakeCorrelationNetwork)
 export(find_ppi_edges)
-export(make_gm_input)
+export(make_db_input)
