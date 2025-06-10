@@ -4,14 +4,14 @@
 \alias{ClusterFilteredNetwork}
 \title{ClusterFilteredNetwork}
 \usage{
-ClusterFilteredNetwork()
+ClusterFilteredNetwork(accuracy = 1e-06)
 }
-\value{
-A data frame of correlation edges.
+\arguments{
+\item{accuracy}{How close can a PPI weight be to a correlation weight to accept the edge}
 }
 \description{
-This function processes correlation edges from a given correlation matrix
+This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn_network variable to the global environment, which is a list of the common edges between the PPI edges and cccn_matrix
 }
 \examples{
-cccn.cfn.tools:::ClusterFilteredNetwork()
+ClusterFilteredNetwork()
 }

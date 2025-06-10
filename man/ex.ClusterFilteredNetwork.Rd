@@ -4,7 +4,7 @@
 \alias{ex.ClusterFilteredNetwork}
 \title{Cluster Filtered Network Example}
 \usage{
-ex.ClusterFilteredNetwork()
+ex.ClusterFilteredNetwork(accuracy = 1e-06)
 }
 \description{
 Cluster Filtered Network Example
