@@ -250,13 +250,13 @@ between Euclidean Distance and Spearman Dissimilarity.</li>
 <h5 id="description-1">Description<a class="anchor" aria-label="anchor" href="#description-1"></a>
 </h5>
 <p>Make Correlation Network first finds the intersection between the
-Euclidian, Spearman, and SED Tsne matrices in order to find the common
-clusters between the three groups. It then merges these common clusters
-into an adjacency matrix. This adjacency matrix is used to filter
-relevant data–clusters–from the Spearman correlation matrix.The
-resultant cccn_matrix showing strength of relationships between proteins
-using the common clusters between the three distance metrics is returned
-as both a matrix.</p>
+Euclidian, Spearman, and SED Tsne matrices in order to find the
+intersection between the three groups. It then adds the Genes in these
+PTMs to a list of common clusters and turns it into an adjacency matrix.
+This adjacency matrix is used to filter relevant data–clusters–from the
+Spearman correlation matrix. The resultant cccn_matrix showing strength
+of relationships between proteins using the common clusters between the
+three distance metrics is returned as both a matrix.</p>
 </div>
 <div class="section level5">
 <h5 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
@@ -327,13 +327,13 @@ the common clusters between the three distance metrics</li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-3-retrieve-genemania-edge-file-optional">Step 3: Retrieve GeneMania Edge File (OPTIONAL)<a class="anchor" aria-label="anchor" href="#step-3-retrieve-genemania-edge-file-optional"></a>
+<h3 id="step-3-retrieve-alternate-edge-files-optional">Step 3: Retrieve Alternate Edge Files (OPTIONAL)<a class="anchor" aria-label="anchor" href="#step-3-retrieve-alternate-edge-files-optional"></a>
 </h3>
 <div class="section level5">
 <h5 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h5>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/make_gm_input.html">make_gm_input</a></span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">make_gm_input</span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="description-2">Description<a class="anchor" aria-label="anchor" href="#description-2"></a>
@@ -342,16 +342,11 @@ the common clusters between the three distance metrics</li>
 information for filtering data.</p>
 <p>This step requires more effort from the user than any other step but
 the package still attempts to simplify this process. First, the user
-runs make_gm_input in order to produce a text file that has all of the
-gene names in a list. The user then opens the file (which is created in
-their working directory) and copies this entire file (ctrl+A, ctrl+c).
-Next, the user goes to <a href="https://genemania.org" class="external-link uri">https://genemania.org</a> and pastes the file into the input
-text box in the upper left corner. They click the magnifying glass in
-order to generate the GeneMania information. Finally, press the three
-dots on the left side of the screen and click the file that says
-“Interactions data”. This will save that file. The user then must be
-sure to move this file into their working directory for the rest of the
-pipeline.</p>
+runs make_db_input in order to produce a text file that has all of the
+gene names separated by new lines. This information can then be put into
+the user’s choice of databases to find more interactions. Examples
+within the package as well as package testinghave used GeneMania, which
+can be installed on the Cytoscape app.</p>
 </div>
 <div class="section level5">
 <h5 id="input-2">Input<a class="anchor" aria-label="anchor" href="#input-2"></a>
@@ -369,9 +364,11 @@ the common clusters between the three distance metrics</li>
 <h5 id="output-2">Output<a class="anchor" aria-label="anchor" href="#output-2"></a>
 </h5>
 <ul>
-<li>gm_nodes.txt
+<li>db_nodes.txt
 <ul>
 <li>A text file with the names of all of the genes<br>
+</li>
+<li>Saved into the user’s working directory<br>
 </li>
 </ul>
 </li>
@@ -395,19 +392,20 @@ the common clusters between the three distance metrics</li>
 <h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, gmfilepath <span class="op">=</span> <span class="st">"genemania-interactions.txt"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="description-3">Description<a class="anchor" aria-label="anchor" href="#description-3"></a>
 </h5>
 <p><strong>Note:</strong> Examples take about 5-10 minutes to run.</p>
 <p>Protein-Protein Interaction (or PPI) networks are networks that show
-us how different proteins are known interact with each other. The ppi
-networks STRINGdb and GeneMania are consulted to gather this
-information. It then gathers data from the PPI networks and filters them
-down to only examine the determined genes of interest. The data from
-both databases are then combined and returned. The returned database
-shows how strongly the proteins interact.</p>
+us how different proteins are known interact with each other. STRINGdb–a
+database of these PPI networks–is automatically consulted along with any
+other database files that are generated and entered by the user. It then
+gathers data from the PPI networks and filters them down to only examine
+the determined genes of interest. The data from both databases are then
+combined and returned. The returned data frame shows how strongly the
+proteins interact.</p>
 </div>
 <div class="section level5">
 <h5 id="input-3">Input<a class="anchor" aria-label="anchor" href="#input-3"></a>
@@ -432,7 +430,7 @@ Step 3.<br>
 <li>From Global Namespace:
 <ul>
 <li>Should <strong>not</strong> but listed in function call, but user
-must ensure that it is in the gloal environment<br>
+must ensure that it is in the global environment<br>
 </li>
 <li>nodenames (if optional Step 3 has already been completed)
 <ul>
@@ -467,33 +465,27 @@ interact.</li>
 <div class="section level5">
 <h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ClusterFilteredNetwork.html">ClusterFilteredNetwork</a></span><span class="op">(</span><span class="va">accuracy</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="description-4">Description<a class="anchor" aria-label="anchor" href="#description-4"></a>
 </h5>
-<p>The final step in this analysis package filters the
-combined_ppi_network by the cccn_matrix. The purpose of this function is
-to take the proteins in the user’s study that are known to interact and
-only take the interactions whose ptms are shown to be correlated in the
-user’s ptm data. This suggests metabolic pathways by producing clusters
-of proteins that interact with each other as well as respond to stimuli
-via ptms under the same conditions.</p>
+<p><strong>Note:</strong> This function, like the ones before it, will
+pull required data from the global environment. Requires both a
+cccn_matrix and a list of PPI edges. Checks all PPI edges to see if
+their edge weight is equal (or under the bounds of the accuracy
+parameter) to the weight of the same edge in the matrix. If it is not,
+then it will be removed from the list of PPI edges.</p>
 </div>
 <div class="section level5">
-<h5 id="input-4">Input<a class="anchor" aria-label="anchor" href="#input-4"></a>
+<h5 id="input-from-global-namespace">Input (from global namespace)<a class="anchor" aria-label="anchor" href="#input-from-global-namespace"></a>
 </h5>
 <ul>
-<li>combined_ppi_network
+<li>Accuracy
 <ul>
-<li>A dataframe returned by step 3: Find PPI Edges; data frame
-representing how strongly proteins are known to interact.<br>
-</li>
-</ul>
-</li>
-<li>cccn_matrix
-<ul>
-<li>A matrix showing strength of relationships between proteins using
-the common clusters between the three distance metrics</li>
+<li>The maximum difference allowed for a PPI edge to still be “equal” to
+the cccn value</li>
 </ul>
 </li>
 </ul>
@@ -502,10 +494,10 @@ the common clusters between the three distance metrics</li>
 <h5 id="output-4">Output<a class="anchor" aria-label="anchor" href="#output-4"></a>
 </h5>
 <ul>
-<li>cccn_cfn_matrix
+<li>cfn_network
 <ul>
-<li>Dataframe of dataframes suggesting metabolic pathways;
-representative in protein form</li>
+<li>A version of ppi_network with all edges that do not exist in
+cccn_matrix removed.</li>
 </ul>
 </li>
 </ul>
