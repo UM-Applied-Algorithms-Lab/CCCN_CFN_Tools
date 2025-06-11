@@ -16,6 +16,7 @@ ClusterFilteredNetwork <- function(accuracy = 0.000001) {
   #Loop through ppi_network and assign every row that matches genenames to an include vector
   include <- c()
   for(a in 1:length(rownames(ppi_network))){
+    #Initilization
     Gene1 <- ppi_network[a, 1] #Get gene from row a, first col
     Gene2 <- ppi_network[a, 2] #Get gene from row a, second col
     ppi_weight <- as.numeric(ppi_network[a, 3]) #Get the weight of row a
@@ -25,7 +26,7 @@ ClusterFilteredNetwork <- function(accuracy = 0.000001) {
   }
   
   #Assign
-  cfn_network <- ppi_network[include, ]
+  cfn_network <- ppi_network[include, ] #cfn network should only take rows that have been identified by include
   if(nrow(cfn_network) == 0) stop("No common edges between PPI edges and cccn_matrix") #Throw error if no intersection found
   assign("cfn_network", cfn_network, envir = .GlobalEnv) #Cluster Filtered Network
 }
