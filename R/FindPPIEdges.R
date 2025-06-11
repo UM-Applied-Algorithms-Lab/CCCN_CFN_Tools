@@ -146,7 +146,7 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
   str.e <- interactions[interactions$experimental > 0, ]
   str.n <- interactions[interactions$neighborhood > 0, ]
   str.d <- interactions[interactions$database > 0, ]
-  str.co <- interactions[interactions$cooccurence > 0, ]
+  str.co <- interactions[interactions$cooccurrence > 0, ]
   str.ce <- interactions[interactions$coexpression > 0, ]
 
   # Combine filtered interactions
@@ -157,11 +157,11 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
   combined_interactions[combined_interactions$database > 0, "edgeType"] <- "database"
   combined_interactions[combined_interactions$neighborhood > 0, "edgeType"] <- "neighborhood"
   combined_interactions[combined_interactions$experimental > 0, "edgeType"] <- "experimental"
-  combined_interactions[combined_interactions$cooccurence > 0, "edgeType"] <- "cooccurence"
+  combined_interactions[combined_interactions$cooccurrence > 0, "edgeType"] <- "cooccurrence"
   combined_interactions[combined_interactions$coexpression > 0, "edgeType"] <- "coexpression"
 
   # Calculate weights
-  combined_interactions$Weight <- rowSums(combined_interactions[, c("experimental", "database", "neighborhood", "cooccurence", "coexpression")])
+  combined_interactions$Weight <- rowSums(combined_interactions[, c("experimental", "database", "neighborhood", "cooccurrence", "coexpression")])
   combined_interactions$Weight <- combined_interactions$Weight / 1000
 
   # Create the final edges dataframe from STRINGdb
