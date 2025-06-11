@@ -62,14 +62,15 @@
 
 
 <dl><dt id="arg-accuracy">accuracy<a class="anchor" aria-label="anchor" href="#arg-accuracy"></a></dt>
-<dd><p>How close can a PPI weight be to a correlation weight to accept the edge</p></dd>
+<dd><p>How close a PPI can weight be to a correlation weight to accept the edge. It is recommeneded that genemania users do not increase this parameter as it defaults to the maximum sig figs for a genemania egde weight.</p></dd>
 
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ClusterFilteredNetwork</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ClusterFilteredNetwork():</span> cccn_matrix not found. Consider running MakeCorrelationNetwork(keeplength) to make one.</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">cccn.cfn.tools</span><span class="fu">:::</span><span class="fu"><a href="ex.ClusterFilteredNetwork.html">ex.ClusterFilteredNetwork</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Gene.1 Gene.2 Weight     edgeType</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 ABHD11 ACADVL  0.401 coexpression</span>
 </code></pre></div>
     </div>
   </div>
