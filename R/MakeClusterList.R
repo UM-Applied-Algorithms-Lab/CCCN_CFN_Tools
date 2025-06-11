@@ -15,7 +15,8 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   # Add if statement here to make sure functions are formatted correctly #
   # Ensure ptmtable is a data frame with numeric values #
-  ptmtable.sp <- as.data.frame(lapply(ptmtable, as.numeric))
+  ptmtable.rmnames <- ptmtable[, !colnames(ptmtable) %in% "PTM"] #Remove ANY column that contains strings as such as PTM names, otherwise lappy will return NA
+  ptmtable.sp <- as.data.frame(lapply(ptmtable.rmnames, as.numeric))
 
   # Calculate Spearman correlation #
   ptm.correlation.matrix <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
@@ -48,7 +49,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   # Add if statement here to make sure functions are formatted correctly #
   # Convert the dataframe to a distance matrix using Euclidean distance #
-  ptmtable.dist = as.matrix(stats::dist(ptmtable, method = "euclidean"))
+  ptmtable.dist = as.matrix(stats::dist(ptmtable.rmnames, method = "euclidean"))
 
   # Compute the maximum distance in the matrix, excluding NA values #
   max_dist = max(ptmtable.dist, na.rm = TRUE)
