@@ -45,40 +45,10 @@ get.DB.edgefile <- function(nodenames, db_filepath){
 # @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 # @return data frame of the names of the genes
 cccn_to_nodenames <- function(cccn_matrix){
-  # initialize as an empty dataframe
-  nodenames <- data.frame(matrix(ncol = 1, nrow = 0))
-  colnames(nodenames) <- "Gene.Names"
-  len <- nrow(nodenames)
 
-  # steal the row names
-  cccn_rows <- rownames(cccn_matrix)
+  gene_names <- unique(rownames(cccn_matrix))
 
-  #funtion to add the gene name to nodenames ifffff dne
-  addname <- function(genename){
-    if (!(genename %in% nodenames$Gene.Names)){ #check if the genename is already in the list
-
-      #increment length to go to next entry which doesn't yet exist
-      newlen <- len + 1
-
-      #update this variable in the parent environment so loop continues smoothly
-      assign("len", len + 1, envir = parent.frame())
-
-      #create the entry
-      nodenames[newlen,] <- genename
-
-    }
-  }
-
-  #loop through row names
-  for (i in 1:length(cccn_rows)){
-
-    #assign the var genename to the name of the gene
-    genename <- cccn_rows[i]
-    addname(genename)   # append
-
-  }
-
-
+  nodenames <- data.frame(Gene.Names = gene_names, stringsAsFactors = FALSE)
 
   #return :)
   assign("nodenames", nodenames, envir = .GlobalEnv)
