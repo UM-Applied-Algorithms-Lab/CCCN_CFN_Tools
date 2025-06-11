@@ -20,7 +20,7 @@ ClusterFilteredNetwork <- function() {
     #Initilization
     Gene1 <- ppi_network[a, 1] #Get gene from row a, first col
     Gene2 <- ppi_network[a, 2] #Get gene from row a, second col
-    cmw <- cccn_matrix[Gene1, Gene2]
+    if(Gene1 %in% rownames(cccn_matrix) && Gene2 %in% colnames(cccn_matrix)) {cmw <- cccn_matrix[Gene1, Gene2]}else{cmw <- 0}
     
     #If the same edge in the cccn_matrix has any nonzero correlation, add it to the matrix
     if(cmw != 0){
