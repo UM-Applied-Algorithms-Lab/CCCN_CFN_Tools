@@ -24,7 +24,7 @@ ClusterFilteredNetwork <- function() {
       cmw <- cccn_matrix[Gene1, Gene2] #Get the weight 
       if(cmw != 0){ #If the weight is nonzero
         include[length(include)+1] <- a
-        weights[length(include)+1] <- cmw
+        weights[length(weights)+1] <- cmw
   }}}
   
   #Assign
