@@ -7,11 +7,11 @@
 ClusterFilteredNetwork(accuracy = 1e-06)
 }
 \arguments{
-\item{accuracy}{How close can a PPI weight be to a correlation weight to accept the edge}
+\item{accuracy}{How close a PPI can weight be to a correlation weight to accept the edge. It is recommeneded that genemania users do not increase this parameter as it defaults to the maximum sig figs for a genemania egde weight.}
 }
 \description{
 This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn_network variable to the global environment, which is a list of the common edges between the PPI edges and cccn_matrix.
 }
 \examples{
-ClusterFilteredNetwork()
+ex.ClusterFilteredNetwork()
 }
