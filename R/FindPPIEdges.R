@@ -111,7 +111,7 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
   interactions$Gene.2 <- sapply(interactions$to, function(x) string_proteins[match(x, string_proteins$protein_external_id), "preferred_name"])
 
   # Create the final edges dataframe from STRINGdb
-  combined_edges <- combined_interactions[, c("Gene.1", "Gene.2", "Weight")]
+  combined_edges <- interactions[, c("Gene.1", "Gene.2", "Weight")]
   colnames(combined_edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
 
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
