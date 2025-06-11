@@ -20,18 +20,16 @@ ClusterFilteredNetwork <- function() {
     #Initilization
     Gene1 <- ppi_network[a, 1] #Get gene from row a, first col
     Gene2 <- ppi_network[a, 2] #Get gene from row a, second col
-    if(Gene1 %in% rownames(cccn_matrix) && Gene2 %in% colnames(cccn_matrix)) {cmw <- cccn_matrix[Gene1, Gene2]}else{cmw <- 0}
-    
-    #If the same edge in the cccn_matrix has any nonzero correlation, add it to the matrix
-    if(cmw != 0){
-      include[length(include)+1] <- a
-      weights[length(include)+1] <- cmw
-      }
-  }
+    if(Gene1 %in% rownames(cccn_matrix) && Gene2 %in% colnames(cccn_matrix)){
+      cmw <- cccn_matrix[Gene1, Gene2] #Get the weight 
+      if(cmw != 0){ #If the weight is nonzero
+        include[length(include)+1] <- a
+        weights[length(include)+1] <- cmw
+  }}}
   
   #Assign
   cfn_network <- ppi_network[include, ] #cfn network should only take rows that have been identified by include
-  cfn_network$cor_weight <- cmw
   if(nrow(cfn_network) == 0) stop("No common edges between PPI edges and cccn_matrix") #Throw error if no intersection found
+  cfn_network$cor_weight <- weights
   assign("cfn_network", cfn_network, envir = .GlobalEnv) #Cluster Filtered Network
 }
