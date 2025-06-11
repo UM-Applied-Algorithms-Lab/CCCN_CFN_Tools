@@ -7,7 +7,7 @@
 #' 
 #' @export
 #' @examples
-#' ex.ClusterFilteredNetwork()
+#' cccn.cfn.tools:::ex.ClusterFilteredNetwork()
 ClusterFilteredNetwork <- function(accuracy = 0.000001) {
   #Error Catch
   if(!exists("cccn_matrix")) stop("cccn_matrix not found. Consider running MakeCorrelationNetwork(keeplength) to make one.")
