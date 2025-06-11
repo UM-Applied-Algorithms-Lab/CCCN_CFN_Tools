@@ -115,7 +115,7 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
   colnames(combined_edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
 
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
-  if(len(db_filepaths) != 0){
+  if(length(db_filepaths) != 0){
     combined_ppi_network <- combined_edges
     for(path in db_filepaths){
       db_edges <- get.DB.edgefile(path)
