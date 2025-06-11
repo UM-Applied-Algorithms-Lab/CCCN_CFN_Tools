@@ -2,10 +2,7 @@
 set.seed(1)                       #Set the seed (very important)
 
 #Load Sample data
-load("~/CCCN_CFN_Tools/data/ptmtable.rda")
-
 sink("noprint")                 #Suppress print statements from function
-suppressWarnings(warning("MakeClusterList"))
 MakeClusterList(ex.ptmtable)       #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
 sink()
 
