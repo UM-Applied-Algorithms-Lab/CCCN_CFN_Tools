@@ -149,8 +149,17 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
   str.co <- interactions[interactions$cooccurrence > 0, ]
   str.ce <- interactions[interactions$coexpression > 0, ]
 
+  cat("Filter result sizes:\n")
+  cat("  Experimental:", nrow(str.e), "\n")
+  cat("  Neighborhood:", nrow(str.n), "\n")
+  cat("  Database:", nrow(str.d), "\n")
+  cat("  Cooccurrence:", nrow(str.co), "\n")
+  cat("  Coexpression:", nrow(str.ce), "\n")
+
   # Combine filtered interactions
   combined_interactions <- unique(rbind(str.e, str.n, str.d, str.co, str.ce))
+
+  cat("Combined interactions:", nrow(combined_interactions), "rows\n")
 
   # Assign edge types
   combined_interactions$edgeType <- "STRINGdb"
