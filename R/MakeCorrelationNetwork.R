@@ -31,8 +31,6 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   return(returnme)
 }
 
-#' Make Correlation Network
-#'
 #' This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.  
 #'
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])

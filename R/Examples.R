@@ -143,9 +143,6 @@ ex.MakeCorrelationNetwork <- function(keeplength = 2){
         cccn_matrix[e, f] <- correlation.value(e, f) #This adds the correlation value
       }}}
 
-  ## FOR DEBUGGING ##
-  assign("DEBUG_matrix", cccn_matrix, envir = .GlobalEnv)
-
   # Replace 0 with NA in the correlation matrix
   cccn_matrix[cccn_matrix==0] <- NA
 
@@ -154,7 +151,6 @@ ex.MakeCorrelationNetwork <- function(keeplength = 2){
 
   # Make igraph object, replacing NA with 0
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
-  assign("ex.cccn_matrix", cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 
   graph <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode = "lower", diag = FALSE, weighted = "Weight")
   plot(graph)
