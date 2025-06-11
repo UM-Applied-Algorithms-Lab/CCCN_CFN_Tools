@@ -15,7 +15,7 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
 
   # Add if statement here to make sure functions are formatted correctly #
   # Ensure ptmtable is a data frame with numeric values #
-  ptmtable.rmnames <- ptmtable[, !colnames(ptmtable) %in% "PTM"] #Remove ANY column that contains strings as such as PTM names, otherwise lappy will return NA
+  ptmtable.rmnames <- ptmtable[, !colnames(ptmtable) %in% "PTM"] #Remove ANY column that contains strings as such as PTM names, otherwise as.numeric will return NA
   ptmtable.sp <- as.data.frame(lapply(ptmtable.rmnames, as.numeric))
 
   # Calculate Spearman correlation #
