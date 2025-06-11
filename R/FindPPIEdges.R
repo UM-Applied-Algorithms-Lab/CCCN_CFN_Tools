@@ -156,7 +156,7 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
   combined_interactions$edgeType <- "STRINGdb"
   combined_interactions[combined_interactions$database > 0, "edgeType"] <- "database"
   combined_interactions[combined_interactions$neighborhood > 0, "edgeType"] <- "neighborhood"
-  combined_interactions[combined_interactions$experimenal > 0, "edgeType"] <- "experimental"
+  combined_interactions[combined_interactions$experimental > 0, "edgeType"] <- "experimental"
   combined_interactions[combined_interactions$cooccurence > 0, "edgeType"] <- "cooccurence"
   combined_interactions[combined_interactions$coexpression > 0, "edgeType"] <- "coexpression"
 
