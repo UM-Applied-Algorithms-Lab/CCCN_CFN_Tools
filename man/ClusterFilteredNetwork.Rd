@@ -4,7 +4,7 @@
 \alias{ClusterFilteredNetwork}
 \title{ClusterFilteredNetwork}
 \usage{
-ClusterFilteredNetwork(accuracy = 1e-06)
+ClusterFilteredNetwork()
 }
 \arguments{
 \item{accuracy}{How close a PPI can weight be to a correlation weight to accept the edge. It is recommeneded that genemania users do not increase this parameter as it defaults to the maximum sig figs for a genemania egde weight.}
