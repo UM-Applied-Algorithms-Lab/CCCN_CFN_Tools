@@ -86,14 +86,15 @@ McKayl Bailey, Grant Smith, Madison Moffett</h4>
 <p>The CCCN_CFN package takes experimental data of post-translational
 modifications based on experimental conditions and generates clusters of
 likely pathways. These pathways are generated based on analysis of which
-ptms cluster together compared to how those proteins are known to
-interact (using GeneMania and STRINGdb databases).</p>
-<p>An important note about this package: there are no returned outputs
-from any of the functions. All outputs listed are assigned to the Global
-Namespace in order to prevent loss of data and promote ease of use. Some
-functions also pull variables from the global namespace. Ensure that all
-data is loaded into the global environment especially if analysis is
-completed across multiple sessions.</p>
+ptms cluster together (in their ptms based on the same environmental
+conditions) compared to how those proteins are known to interact (using
+the STRINGdb database).</p>
+<p><strong>An important note about this package:</strong> there are no
+returned outputs from any of the functions. All outputs listed are
+assigned to the Global Namespace in order to prevent loss of data and
+promote ease of use. Some functions also pull variables from the global
+namespace. Ensure that all data is loaded into the global environment
+especially if analysis is completed across multiple sessions.</p>
 </div>
 <div class="section level2">
 <h2 id="this-file">This File<a class="anchor" aria-label="anchor" href="#this-file"></a>
@@ -124,7 +125,7 @@ of RAM.</p>
 <h5 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
 </h5>
 <p><img src="vig_figs/EU_MCL.png"><br><strong>Figure 1</strong> Example plot produced by MakeClusterList
-calculated using Euclidean Distance.</p>
+calculated using Euclidean Distance</p>
 <p><img src="vig_figs/MCL-output.png"><br><strong>Figure 2</strong> Output of MakeClusterList</p>
 <pre><code><span><span class="co">#&gt; $`1`</span></span>
 <span><span class="co">#&gt;                                             PTM.Name group</span></span>
@@ -156,7 +157,7 @@ calculated using Euclidean Distance.</p>
 <span><span class="co">#&gt; 26                                    VAMP7 ubi K125     1</span></span>
 <span><span class="co">#&gt; 27                                      VCP ubi K295     1</span></span></code></pre>
 <p><strong>Figure 3</strong> First cluster created by Euclidean
-Distance.</p>
+Distance</p>
 </div>
 <div class="section level5">
 <h5 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
@@ -170,7 +171,7 @@ under what conditions they occur. These matricies are then run through
 Tsne in order to put them into a 3-dimensional space. Please note: Tsne
 involves an element of randomness; in order to get the same results,
 set.seed(#) must be called. A correlation table is also produced based
-on the Spearman Dissimilarity table before it is run through Tsne.</p>
+on the Spearman Correlation table.</p>
 </div>
 <div class="section level5">
 <h5 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
@@ -197,7 +198,7 @@ conditions<br>
 <li>ptm.correlation.matrix
 <ul>
 <li>A data frame showing the correlation between ptms (as the rows and
-the columns). NAs are placed along the diagonal.<br>
+the columns). NAs are placed along the diagonal<br>
 </li>
 </ul>
 </li>
@@ -205,7 +206,7 @@ the columns). NAs are placed along the diagonal.<br>
 <ul>
 <li>A three-dimensional data frame used to represent ptms in space to
 show relationships between them based on distances. Based on Euclidean
-Distance.<br>
+Distance<br>
 </li>
 </ul>
 </li>
@@ -213,7 +214,7 @@ Distance.<br>
 <ul>
 <li>A three-dimensional data frame used to represent ptms in space to
 show relationships between them based on distances. Based on Spearman
-Dissimilarity.<br>
+Dissimilarity<br>
 </li>
 </ul>
 </li>
@@ -244,7 +245,8 @@ between Euclidean Distance and Spearman Dissimilarity.</li>
 <div class="section level5">
 <h5 id="outputs-1">Outputs<a class="anchor" aria-label="anchor" href="#outputs-1"></a>
 </h5>
-<p><img src="vig_figs/MakeCorrelationNetwork-1.png"><br><strong>Figure 4</strong> Plot produced by MakeCorrelationNetwork.</p>
+<p><img src="vig_figs/cccn_matrix.png"><br><strong>Figure 4</strong> First 17 rows and columns of the cccn_matrix
+produced by MakeCorrelationNetwork</p>
 </div>
 <div class="section level5">
 <h5 id="description-1">Description<a class="anchor" aria-label="anchor" href="#description-1"></a>
@@ -256,7 +258,7 @@ PTMs to a list of common clusters and turns it into an adjacency matrix.
 This adjacency matrix is used to filter relevant data–clusters–from the
 Spearman correlation matrix. The resultant cccn_matrix showing strength
 of relationships between proteins using the common clusters between the
-three distance metrics is returned as both a matrix.</p>
+three distance metrics is returned a matrix.</p>
 </div>
 <div class="section level5">
 <h5 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
@@ -285,7 +287,7 @@ the columns). NAs are placed along the diagonal.</li>
 <ul>
 <li>A three-dimensional data frame used to represent ptms in space to
 show relationships between them based on distances. Based on Euclidean
-Distance.<br>
+Distance<br>
 </li>
 </ul>
 </li>
@@ -293,7 +295,7 @@ Distance.<br>
 <ul>
 <li>A three-dimensional data frame used to represent ptms in space to
 show relationships between them based on distances. Based on Spearman
-Dissimilarity.<br>
+Dissimilarity<br>
 </li>
 </ul>
 </li>
@@ -301,7 +303,7 @@ Dissimilarity.<br>
 <ul>
 <li>A three-dimensional data frame used to represent ptms in space to
 show relationships between them based on distances. Based on the average
-between Euclidean Distance and Spearman Dissimilarity.</li>
+between Euclidean Distance and Spearman Dissimilarity</li>
 </ul>
 </li>
 </ul>
@@ -315,7 +317,7 @@ between Euclidean Distance and Spearman Dissimilarity.</li>
 <li>cccn_matrix
 <ul>
 <li>A matrix showing strength of relationships between proteins using
-the common clusters between the three distance metrics</li>
+common clusters between the three distance metrics</li>
 </ul>
 </li>
 </ul>
@@ -327,13 +329,19 @@ the common clusters between the three distance metrics</li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-3-retrieve-alternate-edge-files-optional">Step 3: Retrieve Alternate Edge Files (OPTIONAL)<a class="anchor" aria-label="anchor" href="#step-3-retrieve-alternate-edge-files-optional"></a>
+<h3 id="optional-pre-step-3-retrieve-alternate-edgefiles">Optional Pre-Step 3: Retrieve Alternate Edgefiles<a class="anchor" aria-label="anchor" href="#optional-pre-step-3-retrieve-alternate-edgefiles"></a>
 </h3>
 <div class="section level5">
 <h5 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h5>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">make_gm_input</span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/make_db_input.html">make_db_input</a></span><span class="op">(</span><span class="va">cccn_matrix</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level5">
+<h5 id="output-2">Output<a class="anchor" aria-label="anchor" href="#output-2"></a>
+</h5>
+<p><img src="vig_figs/db_nodes-txt.png"><strong>Figure 5</strong>
+First 15 lines from the produced text file</p>
 </div>
 <div class="section level5">
 <h5 id="description-2">Description<a class="anchor" aria-label="anchor" href="#description-2"></a>
@@ -345,7 +353,7 @@ the package still attempts to simplify this process. First, the user
 runs make_db_input in order to produce a text file that has all of the
 gene names separated by new lines. This information can then be put into
 the user’s choice of databases to find more interactions. Examples
-within the package as well as package testinghave used GeneMania, which
+within the package as well as package testing have used GeneMANIA, which
 can be installed on the Cytoscape app.</p>
 </div>
 <div class="section level5">
@@ -361,20 +369,14 @@ the common clusters between the three distance metrics</li>
 </ul>
 </div>
 <div class="section level5">
-<h5 id="output-2">Output<a class="anchor" aria-label="anchor" href="#output-2"></a>
+<h5 id="output-3">Output<a class="anchor" aria-label="anchor" href="#output-3"></a>
 </h5>
 <ul>
 <li>db_nodes.txt
 <ul>
 <li>A text file with the names of all of the genes<br>
 </li>
-<li>Saved into the user’s working directory<br>
-</li>
-</ul>
-</li>
-<li>nodenames
-<ul>
-<li>A dataframe with all of the gene names involved in analysis</li>
+<li>Saved into the user’s working directory</li>
 </ul>
 </li>
 </ul>
@@ -386,13 +388,19 @@ the common clusters between the three distance metrics</li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-4-find-ppi-edges">Step 4: Find PPI Edges<a class="anchor" aria-label="anchor" href="#step-4-find-ppi-edges"></a>
+<h3 id="step-3-find-ppi-edges">Step 3: Find PPI Edges<a class="anchor" aria-label="anchor" href="#step-3-find-ppi-edges"></a>
 </h3>
 <div class="section level5">
 <h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level5">
+<h5 id="outputs-2">Outputs<a class="anchor" aria-label="anchor" href="#outputs-2"></a>
+</h5>
+<p><img src="vig_figs/ppi_network.png"><br><strong>Figure 6</strong> First 19 rows of the ppi_network produced by
+find_ppi_edges</p>
 </div>
 <div class="section level5">
 <h5 id="description-3">Description<a class="anchor" aria-label="anchor" href="#description-3"></a>
@@ -405,7 +413,7 @@ other database files that are generated and entered by the user. It then
 gathers data from the PPI networks and filters them down to only examine
 the determined genes of interest. The data from both databases are then
 combined and returned. The returned data frame shows how strongly the
-proteins interact.</p>
+proteins are known to interact.</p>
 </div>
 <div class="section level5">
 <h5 id="input-3">Input<a class="anchor" aria-label="anchor" href="#input-3"></a>
@@ -418,37 +426,22 @@ the common clusters between the three distance metrics<br>
 </li>
 </ul>
 </li>
-<li>gmfilepath (optional)
+<li>db_file_paths (optional)
 <ul>
-<li>Path to the genemania-interactions file. This is initialized to
-‘genemania-interactions.txt’ which is the default from downloading the
-data. This information is not needed if the user did not do the optional
-Step 3.<br>
-</li>
-</ul>
-</li>
-<li>From Global Namespace:
-<ul>
-<li>Should <strong>not</strong> but listed in function call, but user
-must ensure that it is in the global environment<br>
-</li>
-<li>nodenames (if optional Step 3 has already been completed)
-<ul>
-<li>A dataframe with all of the gene names involved in analysis</li>
-</ul>
-</li>
+<li>A vector of paths to the additional ppi network files. This is
+initialized to an empty vector</li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section level5">
-<h5 id="output-3">Output<a class="anchor" aria-label="anchor" href="#output-3"></a>
+<h5 id="output-4">Output<a class="anchor" aria-label="anchor" href="#output-4"></a>
 </h5>
 <ul>
 <li>ppi_network
 <ul>
 <li>A dataframe representing how strongly proteins are known to
-interact.</li>
+interact</li>
 </ul>
 </li>
 </ul>
@@ -460,13 +453,19 @@ interact.</li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-5-cluster-filtered-network">Step 5: Cluster Filtered Network<a class="anchor" aria-label="anchor" href="#step-5-cluster-filtered-network"></a>
+<h3 id="step-4-cluster-filtered-network">Step 4: Cluster Filtered Network<a class="anchor" aria-label="anchor" href="#step-4-cluster-filtered-network"></a>
 </h3>
 <div class="section level5">
 <h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ClusterFilteredNetwork.html">ClusterFilteredNetwork</a></span><span class="op">(</span><span class="va">accuracy</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level5">
+<h5 id="outputs-3">Outputs<a class="anchor" aria-label="anchor" href="#outputs-3"></a>
+</h5>
+<p><img src="vig_figs/cfn.png"><br><strong>Figure 7</strong> First 19 rows of the cfn_network produced by
+ClusterfilteredNetwork</p>
 </div>
 <div class="section level5">
 <h5 id="description-4">Description<a class="anchor" aria-label="anchor" href="#description-4"></a>
@@ -479,25 +478,49 @@ parameter) to the weight of the same edge in the matrix. If it is not,
 then it will be removed from the list of PPI edges.</p>
 </div>
 <div class="section level5">
-<h5 id="input-from-global-namespace">Input (from global namespace)<a class="anchor" aria-label="anchor" href="#input-from-global-namespace"></a>
+<h5 id="input-4">Input<a class="anchor" aria-label="anchor" href="#input-4"></a>
 </h5>
 <ul>
-<li>Accuracy
+<li>accuracy
 <ul>
 <li>The maximum difference allowed for a PPI edge to still be “equal” to
-the cccn value</li>
+the cccn value<br>
+</li>
+</ul>
+</li>
+<li>From Global Namespace:
+<ul>
+<li>Should <strong>not</strong> but listed in function call, but user
+must ensure that it is in the gloal environment<br>
+</li>
+<li>cccn_matrix
+<ul>
+<li>A matrix showing strength of relationships between proteins using
+the common clusters between the three distance metrics<br>
+</li>
+</ul>
+</li>
+<li>ppi_network
+<ul>
+<li>A dataframe representing how strongly proteins are known to
+interact</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section level5">
-<h5 id="output-4">Output<a class="anchor" aria-label="anchor" href="#output-4"></a>
+<h5 id="output-5">Output<a class="anchor" aria-label="anchor" href="#output-5"></a>
 </h5>
 <ul>
 <li>cfn_network
 <ul>
-<li>A version of ppi_network with all edges that do not exist in
-cccn_matrix removed.</li>
+<li>A version of ppi_network with only the edges that exist in
+cccn_matrix<br>
+</li>
+<li>Note that the STRINGdb.combined_score is on a scale of 0-1000 while
+cor_weight is on a scale of 0-1</li>
 </ul>
 </li>
 </ul>
