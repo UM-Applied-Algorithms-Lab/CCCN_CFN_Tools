@@ -2,7 +2,7 @@
 % Please edit documentation in R/MakeCorrelationNetwork.R
 \name{MakeCorrelationNetwork}
 \alias{MakeCorrelationNetwork}
-\title{Make Correlation Network}
+\title{This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.}
 \usage{
 MakeCorrelationNetwork(keeplength = 2)
 }

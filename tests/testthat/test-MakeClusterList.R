@@ -1,13 +1,9 @@
 #Setup
-set.seed(1)                       #Set the seed (very important)
+set.seed(1) #Set the seed (very important)
 
 #Load Sample data
-load("~/CCCN_CFN_Tools/data/ptmtable.rda")
-
-supress
-sink("noprint")                 #Suppress print statements from function
-suppressWarnings(warning("MakeClusterList"))
-MakeClusterList(ex.ptmtable)       #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
+sink("noprint")              #Suppress print statements from function
+MakeClusterList(ex.ptmtable) #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
 sink()
 
 #Unit Tests for the global variables (lists of dataframes) created by MakeClusterList. Check PTMs Names.
@@ -25,5 +21,5 @@ test_that("Testing sp_ptms_list Cluster 8, PTM 1", {expect_equal(sp_ptms_list[[8
 test_that("Testing sp_ptms_list Cluster 13, PTM 1", {expect_equal(sp_ptms_list[[13]]$PTM.Name[1], "ABCC1 ubi K290")})
 test_that("Testing sp_ptms_list Cluster 21, PTM 2", {expect_equal(sp_ptms_list[[21]]$PTM.Name[2], "ACKR3 ubi K362")})
 
-#Clean Up
+#Cleanup
 if(file.exists("noprint")) file.remove("noprint") #Clean up file created by sink()

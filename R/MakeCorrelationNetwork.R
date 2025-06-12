@@ -31,8 +31,6 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   return(returnme)
 }
 
-#' Make Correlation Network
-#'
 #' This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.  
 #'
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])
@@ -43,6 +41,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 MakeCorrelationNetwork <- function(keeplength = 2){
   
   #Error Catches - sorry i got excited and maybe added too much (maybe consider just checking 1...)
+  if(!exists("DEBUG")){
   noEU  <- !exists("eu_ptms_list")
   noSP  <- !exists("sp_ptms_list")
   noSED <- !exists("sed_ptms_list")
@@ -54,7 +53,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
     if(noSED) string <- cat(string, "\n", "Not Found: sed_ptms_list")
     if(noCOR) string <- cat(string, "\n", "Not Found: ptm.correlation.matrix")
     stop(string)
-  }
+  }}
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
