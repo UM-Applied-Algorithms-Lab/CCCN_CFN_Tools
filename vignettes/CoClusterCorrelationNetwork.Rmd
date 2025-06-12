@@ -143,7 +143,7 @@ make_db_input(cccn_matrix)
 
 **NOTE:** This step is optional but provides more information for filtering data.  
 
-This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. Suggested databases include GeneMANIA--which can be installed on the Cytoscape app--and Pathway Commons Network.
+This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. Suggested databases include GeneMANIA and Pathway Commons Network--both of which can be installed on the Cytoscape App.
 
 #### Input   
 - cccn_matrix  
@@ -174,7 +174,7 @@ find_ppi_edges(cccn_matrix, db_file_paths = c())
 
 **Note:** Examples take about 5-10 minutes to run.
 
-Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. STRINGdb--a database of these PPI networks--is automatically consulted along with any other database files that are generated and entered by the user. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from both databases are then combined and returned. The returned data frame shows how strongly the proteins are known to interact.
+Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. STRINGdb--a database of these PPI networks--is automatically consulted along with any other database files that are generated and entered by the user. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from STRINGdb and any provided files are then combined and returned. The returned data frame shows how strongly the proteins are known to interact.
 
 #### Input  
 
