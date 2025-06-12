@@ -148,7 +148,7 @@ This step requires more effort from the user than any other step but the package
   - Saved into the user's working directory  
 
 #### Estimated run-time  
-1s to get text file
+1s (to get text file)
 
 ## Step 3: Find PPI Edges 
 
@@ -217,7 +217,7 @@ Requires both a cccn_matrix and a list of PPI edges. Checks all PPI edges to see
   - Note that the STRINGdb.combined_score is on a scale of 0-1000 while cor_weight is on a scale of 0-1
 
 #### Estimated run-time  
-UNKNOWN
+10mins
 
 
 
