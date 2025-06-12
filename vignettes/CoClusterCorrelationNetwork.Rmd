@@ -143,7 +143,7 @@ make_db_input(cccn_matrix)
 
 **NOTE:** This step is optional but provides more information for filtering data.  
 
-This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. Examples within the package as well as package testing have used GeneMANIA, which can be installed on the Cytoscape app.
+This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. Suggested databases include GeneMANIA--which can be installed on the Cytoscape app--and Pathway Commons Network.
 
 #### Input   
 - cccn_matrix  
@@ -155,7 +155,7 @@ This step requires more effort from the user than any other step but the package
   - Saved into the user's working directory  
 
 #### Estimated run-time  
-UNKNOWN
+1s to get text file
 
 ## Step 3: Find PPI Edges 
 
@@ -188,7 +188,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
   - A dataframe representing how strongly proteins are known to interact  
 
 #### Estimated run-time  
-UNKNOWN
+20mins (only using STRINGdb)
 
 ## Step 4: Cluster Filtered Network  
 
