@@ -7,6 +7,7 @@
 <url><loc>/index.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/reference/BindMatrices.html</loc></url>
+<url><loc>/reference/bioplanet.innit.html</loc></url>
 <url><loc>/reference/cccn_to_nodenames.html</loc></url>
 <url><loc>/reference/ClusterFilteredNetwork.html</loc></url>
 <url><loc>/reference/CombinedPar.html</loc></url>
@@ -18,6 +19,7 @@
 <url><loc>/reference/ex.MakeCorrelationNetwork.html</loc></url>
 <url><loc>/reference/ex.make_db_input.html</loc></url>
 <url><loc>/reference/ex.make_gm_input.html</loc></url>
+<url><loc>/reference/ex.processGMedgefile.html</loc></url>
 <url><loc>/reference/extract.gene.names.html</loc></url>
 <url><loc>/reference/FindCommonCluster.html</loc></url>
 <url><loc>/reference/FindCommonClusters.html</loc></url>
@@ -36,8 +38,10 @@
 <url><loc>/reference/make_db_input.html</loc></url>
 <url><loc>/reference/make_gm_input.html</loc></url>
 <url><loc>/reference/NA.to.zero.func.html</loc></url>
+<url><loc>/reference/PathwayCrosstalkNetwork.html</loc></url>
 <url><loc>/reference/Plot.html</loc></url>
 <url><loc>/reference/PlotClusters.html</loc></url>
+<url><loc>/reference/processGMedgefile.html</loc></url>
 <url><loc>/reference/process_correlation_edges.html</loc></url>
 <url><loc>/reference/process_ptms_data.html</loc></url>
 <url><loc>/reference/SpearmanDissimilarity.html</loc></url>
