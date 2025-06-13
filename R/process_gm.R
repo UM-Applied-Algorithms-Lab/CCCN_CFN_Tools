@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#'
+#'cccn.cfn.tools::ex.processGMedgefile(ex.gm.network)
 processGMedgefile <- function(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm_network"){
   edgetable <- utils::read.csv(gm.edgefile.path, header = TRUE)   # read the edgefile
   nodetable <- utils::read.csv(gm.nodetable.path, header = TRUE)  # read the nodetable

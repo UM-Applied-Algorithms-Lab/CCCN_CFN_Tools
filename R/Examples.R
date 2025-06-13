@@ -172,6 +172,17 @@ ex.make_db_input <- function(ex.cccn_matrix) {
 
 
 
+#' Process GeneMANIA example
+#' @keywords internal
+ex.processGMedgefile <- function(ex.gm.network){
+  gm.ex <- head(ex.gm.network)
+  print(gm.ex)
+}
+
+
+
+
+
 #' Find PPI Edges Example
 #' @keywords internal
 ex.find_ppi_edges <- function(ex.cccn_matrix, db_filepaths = c()) {
