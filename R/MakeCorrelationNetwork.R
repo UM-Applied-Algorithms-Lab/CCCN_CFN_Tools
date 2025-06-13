@@ -31,21 +31,29 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   return(returnme)
 }
 
+#' Make Correlation Network
+#' 
 #' This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
 #'
+#' @param eu_ptms_list #Matrix containing Euclidean t-SNE coords
+#' @param sp_ptms_list #Matrix containing Spearman t-SNE coords
+#' @param sed_ptms_list #Matrix containing combined t-SNE coords
+#' @param ptm.correlation.matrix #Correlation matrix made from ptm table
+#' @param clusters.name #The desired name for the output of the list of common clusters
+#' @param cccn.name #The desired name for the output of the Correlation Network Matrix
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])
 #' @export
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
-MakeCorrelationNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptm.corelation.matrix, cccn.name = "cccn_matrix", keeplength = 2){
+MakeCorrelationNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptm.corelation.matrix, clusters.name = "list.common", cccn.name = "cccn_matrix", keeplength = 2){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
     r <- ptm.correlation.matrix[
       grep(Gene1, rownames(ptm.correlation.matrix), value = TRUE),
       grep(Gene2, colnames(ptm.correlation.matrix), value = TRUE)]
-    r <- as.matrix(r) #Unsure if neeeded
+    r <- as.matrix(r) #Unsure if needed
     return(sum(r, na.rm = TRUE)) #Return average
   }
 
@@ -72,6 +80,7 @@ MakeCorrelationNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list, pt
 
   # Make igraph object, replacing NA with 0
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
+  assign(clusters.name, list.common, envir = .GlobalEnv) #List of common clusters
   assign(cccn.name, cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 
   graph <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode = "lower", diag = FALSE, weighted = "Weight")
