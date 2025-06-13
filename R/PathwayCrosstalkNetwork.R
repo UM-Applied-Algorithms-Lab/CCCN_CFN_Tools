@@ -58,10 +58,4 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   bioplanetjaccardedges$interaction <- "pathway Jaccard similarity" 
   
   #BEFORE SAVING JACCARD SET DIAGION = 1
-  
-  
-  
-  
-  
-  
 }

@@ -4,13 +4,14 @@
 #' and visualizes the clusters.
 #'
 #' @param ptmtable A dataset for post-translational modifications.
+#' @param correlation.matrix.name The desired name for the PTM correlation matrix created
+#' @param tsne.list.name The desired name for the data structure storing the 3 t-SNE matrices
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
 #' @export
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
-MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.matrix", eu.tsne.name = "eu_ptms_list",
-                            sp.tsne.name = "sp_ptms_list", sed.tsne.name = "sed_ptms_list", toolong = 3.5){
+MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.matrix", tsne.data.name = "tsne.matrices", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -90,7 +91,7 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.
 
 
   #Nested function to analyze result
-  clustercreate <- function(result, ptmtable){
+  clustercreate <- function(result){
 
     #Compute the minimum spanning tree connecting the points
     tsne.span2 <- vegan::spantree(stats::dist(result), toolong=toolong)
@@ -115,9 +116,11 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.
 
   } #END of nested function
 
-  #Assign different analysises to global enviroment
-  assign(eu.tsne.name, clustercreate(euclidean_result, ptmtable), envir = .GlobalEnv)  #Matrix containing Euclidean t-SNE coords
-  assign(sp.tsne.name, clustercreate(spearman_result, ptmtable), envir = .GlobalEnv)   #Matrix containing Spearman t-SNE coords
-  assign(sed.tsne.name, clustercreate(sed_result, ptmtable), envir = .GlobalEnv)       #Matrix containing combined t-SNE coords
-  assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv)              #Correlation Matrix for later use
+  #Assign different tsne matrices to global environment
+  tsne.matrices <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
+  names(tsne.matrices) <- c("Euclidean", "Spearman", "SED")
+  
+  #Assign
+  assign(tsne.data.name, tsne.matrices, envir = .GlobalEnv)  #Matrix containing Euclidean t-SNE coords
+  assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
 }
