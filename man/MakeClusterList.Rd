@@ -2,19 +2,21 @@
 % Please edit documentation in R/MakeClusterList.R
 \name{MakeClusterList}
 \alias{MakeClusterList}
-\title{Populates the global environment with cluster groupings based on t-SNE data}
+\title{Make Cluster List}
 \usage{
 MakeClusterList(
   ptmtable,
-  correlation.matrix.name = "ptmcorrelation.matrix",
-  eu.tsne.name = "eu_ptms_list",
-  sp.tsne.name = "sp_ptms_list",
-  sed.tsne.name = "sed_ptms_list",
+  correlation.matrix.name = "ptm.correlation.matrix",
+  list.name = "tsne.matrices",
   toolong = 3.5
 )
 }
 \arguments{
 \item{ptmtable}{A dataset for post-translational modifications.}
+
+\item{correlation.matrix.name}{The desired name for the PTM correlation matrix created}
+
+\item{list.name}{The desired name for the data structure storing the 3 t-SNE matrices}
 
 \item{toolong}{A numeric threshold for cluster separation, defaults to 3.5.}
 }
