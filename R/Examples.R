@@ -174,7 +174,7 @@ ex.make_db_input <- function(ex.cccn_matrix) {
 
 #' Process GeneMANIA example
 #' @keywords internal
-ex.processGMedgefile <- function(ex.gm.network){
+ex.processGMedgefile <- function(epath, npath, ex.nodenames, ex.gm.network){
   gm.ex <- head(ex.gm.network)
   print(gm.ex)
 }

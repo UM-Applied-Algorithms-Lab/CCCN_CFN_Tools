@@ -4,7 +4,7 @@
 \alias{make_db_input}
 \title{Make file for GeneMania input}
 \usage{
-make_db_input(cccn_matrix)
+make_db_input(cccn_matrix, file.path.name = "db_nodes.txt")
 }
 \arguments{
 \item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
