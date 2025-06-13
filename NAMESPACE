@@ -4,5 +4,10 @@ export(ClusterFilteredNetwork)
 export(MakeClusterList)
 export(MakeCorrelationNetwork)
 export(PathwayCrosstalkNetwork)
+<<<<<<< HEAD
+=======
+export(bioplanet.innit)
+>>>>>>> GM
 export(find_ppi_edges)
 export(make_db_input)
+export(processGMedgefile)
