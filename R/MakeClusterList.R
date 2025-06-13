@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
-MakeClusterList <- function(ptmtable, correlation.matrix.name = ptmcorrelation.matrix, eu.tsne.name = "eu_ptms_list",
+MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.matrix", eu.tsne.name = "eu_ptms_list",
                             sp.tsne.name = "sp_ptms_list", sed.tsne.name = "sed_ptms_list", toolong = 3.5){
 
   #SPEARMAN CALCULATION
