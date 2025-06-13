@@ -5,13 +5,13 @@
 #'
 #' @param ptmtable A dataset for post-translational modifications.
 #' @param correlation.matrix.name The desired name for the PTM correlation matrix created
-#' @param tsne.list.name The desired name for the data structure storing the 3 t-SNE matrices
+#' @param list.name The desired name for the data structure storing the 3 t-SNE matrices
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
 #' @export
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
-MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.matrix", tsne.data.name = "tsne.matrices", toolong = 3.5){
+MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.matrix", list.name = "tsne.matrices", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -117,10 +117,10 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptmcorrelation.
   } #END of nested function
 
   #Assign different tsne matrices to global environment
-  tsne.matrices <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
-  names(tsne.matrices) <- c("Euclidean", "Spearman", "SED")
+  tsne.matrix.list <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
+  names(tsne.matrix.list) <- c("Euclidean", "Spearman", "SED")
   
   #Assign
-  assign(tsne.data.name, tsne.matrices, envir = .GlobalEnv)  #Matrix containing Euclidean t-SNE coords
+  assign(list.name, tsne.matrix.list, envir = .GlobalEnv)  #Matrix containing Euclidean t-SNE coords
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
 }
