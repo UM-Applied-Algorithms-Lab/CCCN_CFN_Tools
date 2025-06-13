@@ -3,7 +3,7 @@ set.seed(1) #Set the seed (very important)
 
 #Load Sample data
 sink("noprint")              #Suppress print statements from function
-MakeClusterList(ex.ptmtable) #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
+temp(ex.ptmtable) #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
 sink()
 
 #Unit Tests for the global variables (lists of dataframes) created by MakeClusterList. Check PTMs Names.

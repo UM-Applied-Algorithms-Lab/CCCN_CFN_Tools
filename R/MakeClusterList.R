@@ -1,4 +1,4 @@
-#' Populates the global enviroment with cluster groupings based on t-SNE data
+#' Populates the global environment with cluster groupings based on t-SNE data
 #'
 #' This function groups t-SNE data points into clusters using a specified threshold
 #' and visualizes the clusters.
