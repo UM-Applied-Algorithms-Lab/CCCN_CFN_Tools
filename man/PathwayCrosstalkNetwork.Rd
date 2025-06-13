@@ -2,7 +2,7 @@
 % Please edit documentation in R/PathwayCrosstalkNetwork.R
 \name{PathwayCrosstalkNetwork}
 \alias{PathwayCrosstalkNetwork}
-\title{Converts Bioplanet pathways from (\url{https://tripod.nih.gov/bioplanet/})  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.}
+\title{Pathway Crosstalk Network}
 \usage{
 PathwayCrosstalkNetwork(
   file = "bioplanet.csv",
