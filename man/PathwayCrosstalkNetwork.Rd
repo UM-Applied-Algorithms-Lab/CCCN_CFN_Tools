@@ -4,10 +4,14 @@
 \alias{PathwayCrosstalkNetwork}
 \title{Converts Bioplanet pathways from (\url{https://tripod.nih.gov/bioplanet/})  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.}
 \usage{
-PathwayCrosstalkNetwork(file, clusterlist, PCNname = "pcn_matrix")
+PathwayCrosstalkNetwork(
+  file = "bioplanet.csv",
+  clusterlist,
+  PCNname = "pcn_matrix"
+)
 }
 \arguments{
-\item{file}{The name of the bioplanet pathway .csv file}
+\item{file}{Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"}
 
 \item{clusterlist}{The list of coclusters made in MakeCorrelationNetwork}
 }
