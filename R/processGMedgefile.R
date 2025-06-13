@@ -39,5 +39,5 @@ processGMedgefile <- function(gm.edgefile.path, gm.nodetable.path, nodenames, gm
   keep <- edges$Gene.1 %in% nodenames & edges$Gene.2 %in% nodenames      # which rows are we keeping
   all.edges <- edges[keep,]                                              # copy 'em over
 
-  assign(gm.network.name, all.edges, envir = .GlobalEnv)                     # assign :)
+  assign(gm.network.name, all.edges, envir = .GlobalEnv)                 # assign :)
 }
