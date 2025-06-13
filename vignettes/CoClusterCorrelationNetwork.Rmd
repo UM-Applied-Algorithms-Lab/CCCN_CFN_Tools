@@ -125,18 +125,21 @@ Make Correlation Network first finds the intersection between the Euclidian, Spe
 
 ```{r eval = FALSE}
 make_db_input(cccn_matrix)
+processGMedgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm_network")
 ```
 
 #### Output  
 
 ![](vig_figs/db_nodes-txt.png) 
-**Figure 5** First 15 lines from the produced text file 
+**Figure 5** First 15 lines from the produced text file  
+![](vig_figs/gm_network.png) 
+**Figure 6** First 44 rows of the GeneMANIA network 
 
 #### Description  
 
 **NOTE:** This step is optional but provides more information for filtering data.  
 
-This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. Suggested databases include GeneMANIA and Pathway Commons Network--both of which can be installed on the Cytoscape App.
+This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. If GeneMANIA on the Cytoscape app is the chosen database, another function processes this file for the user. If other databases are used, the user of the package must process this data themselves. The file put into Step 3 should have three columns as follows: Gene.1, Gene.2, and the edgeweight of that specified database.  
 
 #### Input   
 - cccn_matrix  
@@ -161,7 +164,7 @@ find_ppi_edges(cccn_matrix, db_file_paths = c())
 #### Outputs  
 
 ![](vig_figs/ppi_network.png)  
-**Figure 6** First 19 rows of the ppi_network produced by find_ppi_edges  
+**Figure 7** First 19 rows of the ppi_network produced by find_ppi_edges  
 
 #### Description  
 
@@ -194,7 +197,7 @@ ClusterFilteredNetwork(accuracy)
 #### Outputs  
 
 ![](vig_figs/cfn.png)  
-**Figure 7** First 19 rows of the cfn_network produced by ClusterfilteredNetwork  
+**Figure 8** First 19 rows of the cfn_network produced by ClusterfilteredNetwork  
 
 #### Description  
 
