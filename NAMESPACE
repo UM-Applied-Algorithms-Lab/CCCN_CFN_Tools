@@ -3,5 +3,6 @@
 export(ClusterFilteredNetwork)
 export(MakeClusterList)
 export(MakeCorrelationNetwork)
+export(PathwayCrosstalkNetwork)
 export(find_ppi_edges)
 export(make_db_input)

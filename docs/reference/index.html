@@ -56,17 +56,21 @@
         </td>
         <td><p>ClusterFilteredNetwork</p></td>
       </tr><tr><td>
-          <p><code><a href="find_ppi_edges.html">find_ppi_edges()</a></code> </p>
-        </td>
-        <td><p>Find PPI Edges</p></td>
-      </tr><tr><td>
           <p><code><a href="MakeClusterList.html">MakeClusterList()</a></code> </p>
         </td>
-        <td><p>Populates the global enviroment with cluster groupings based on t-SNE data</p></td>
+        <td><p>Populates the global environment with cluster groupings based on t-SNE data</p></td>
       </tr><tr><td>
           <p><code><a href="MakeCorrelationNetwork.html">MakeCorrelationNetwork()</a></code> </p>
         </td>
         <td><p>This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.</p></td>
+      </tr><tr><td>
+          <p><code><a href="PathwayCrosstalkNetwork.html">PathwayCrosstalkNetwork()</a></code> </p>
+        </td>
+        <td><p>Converts Bioplanet pathways from (<a href="https://tripod.nih.gov/bioplanet/" class="external-link">https://tripod.nih.gov/bioplanet/</a>) into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.</p></td>
+      </tr><tr><td>
+          <p><code><a href="find_ppi_edges.html">find_ppi_edges()</a></code> </p>
+        </td>
+        <td><p>Find PPI Edges</p></td>
       </tr><tr><td>
           <p><code><a href="make_db_input.html">make_db_input()</a></code> </p>
         </td>

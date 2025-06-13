@@ -4,7 +4,11 @@
 \alias{find_ppi_edges}
 \title{Find PPI Edges}
 \usage{
-find_ppi_edges(cccn_matrix, db_filepaths = c())
+find_ppi_edges(
+  cccn_matrix,
+  db_filepaths = c(),
+  ppi.network.name = "ppi_network"
+)
 }
 \arguments{
 \item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
