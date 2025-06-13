@@ -11,30 +11,9 @@ get.DB.edgefile <- function(nodenames, db_filepath){
   #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
   dbtable = read.table(db-filepath, header = TRUE, sep = "\t")
 
-  #creates a copy
-  db_edges = dbtable
+  keep <- dbtable[,1] %in% nodenames & db_table[,2] %in% nodenames     # which rows are we keeping
+  db_edges <- db_table[keep,]                                          # copy 'em over
 
-  #you'll see in about 18 lines
-  adjustment = 0
-
-  #iterate through the original table
-  for (row in 1:nrow(dbtable)){
-
-    #check to see if both of the genes are in the vector nodenames
-    if (dbtable[row, 1] %in% nodenames & dbtable[row, 2] %in% nodenames){
-
-      #nothing happens; I know this is ugly but trust the process
-
-    } else { #if they are NOT in the vector nodenames
-
-      #remove that row (note the adjustment!)
-      db_edges <- db_edges[-(row + adjustment), ]
-
-      #because we just deleted a row, row 3 in the original is now row 2 for the saved copy
-      #so we have to adjust!!
-      adjustment = adjustment - 1
-    }
-  }
   return(db_edges)
 }
 
