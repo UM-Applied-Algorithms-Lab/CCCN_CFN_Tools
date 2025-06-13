@@ -35,9 +35,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' 
 #' This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
 #'
-#' @param eu_ptms_list #Matrix containing Euclidean t-SNE coords
-#' @param sp_ptms_list #Matrix containing Spearman t-SNE coords
-#' @param sed_ptms_list #Matrix containing combined t-SNE coords
+#' @param tsne.matrices #List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively
 #' @param ptm.correlation.matrix #Correlation matrix made from ptm table
 #' @param clusters.name #The desired name for the output of the list of common clusters
 #' @param cccn.name #The desired name for the output of the Correlation Network Matrix
@@ -46,7 +44,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
-MakeCorrelationNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptm.corelation.matrix, clusters.name = "list.common", cccn.name = "cccn_matrix", keeplength = 2){
+MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, clusters.name = "list.common", cccn.name = "cccn_matrix", keeplength = 2){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
@@ -58,7 +56,7 @@ MakeCorrelationNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list, pt
   }
 
   #Find common clusters
-  list.common <- FindCommonClusters(eu_ptms_list, sp_ptms_list, sed_ptms_list, keeplength)
+  list.common <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
 
   # Generate the combined adjacency matrix
   ulist <- unique(unlist(list.common)) #Use this for rownames and colnames
@@ -83,6 +81,7 @@ MakeCorrelationNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list, pt
   assign(clusters.name, list.common, envir = .GlobalEnv) #List of common clusters
   assign(cccn.name, cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 
+  #Graphing
   graph <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode = "lower", diag = FALSE, weighted = "Weight")
   plot(graph)
 }
