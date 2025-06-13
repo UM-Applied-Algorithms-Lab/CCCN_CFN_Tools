@@ -9,7 +9,8 @@
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
-MakeClusterList <- function(ptmtable, toolong = 3.5){
+MakeClusterList <- function(ptmtable, correlation.matrix.name = ptmcorrelation.matrix, eu.tsne.name = "eu_ptms_list",
+                            sp.tsne.name = "sp_ptms_list", sed.tsne.name = "sed_ptms_list", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -115,8 +116,8 @@ MakeClusterList <- function(ptmtable, toolong = 3.5){
   } #END of nested function
 
   #Assign different analysises to global enviroment
-  assign("eu_ptms_list", clustercreate(euclidean_result, ptmtable), envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
-  assign("sp_ptms_list", clustercreate(spearman_result, ptmtable), envir = .GlobalEnv)  #Matrix containing Spearman t-SNE coords
-  assign("sed_ptms_list", clustercreate(sed_result, ptmtable), envir = .GlobalEnv)      #Matrix containing combined t-SNE coords
-  assign("ptm.correlation.matrix", ptm.correlation.matrix, envir = .GlobalEnv)          #Correlation Matrix for later use
+  assign(eu.tsne.name, clustercreate(euclidean_result, ptmtable), envir = .GlobalEnv)  #Matrix containing Euclidean t-SNE coords
+  assign(sp.tsne.name, clustercreate(spearman_result, ptmtable), envir = .GlobalEnv)   #Matrix containing Spearman t-SNE coords
+  assign(sed.tsne.name, clustercreate(sed_result, ptmtable), envir = .GlobalEnv)       #Matrix containing combined t-SNE coords
+  assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv)              #Correlation Matrix for later use
 }

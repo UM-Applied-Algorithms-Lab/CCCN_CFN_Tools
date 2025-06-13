@@ -31,29 +31,14 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   return(returnme)
 }
 
-#' This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.  
+#' This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
 #'
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])
 #' @export
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
-MakeCorrelationNetwork <- function(keeplength = 2){
-  
-  #Error Catches - sorry i got excited and maybe added too much (maybe consider just checking 1...)
-  if(!exists("DEBUG")){
-  noEU  <- !exists("eu_ptms_list")
-  noSP  <- !exists("sp_ptms_list")
-  noSED <- !exists("sed_ptms_list")
-  noCOR <- !exists("ptm.correlation.matrix")
-  if(noEU || noSP || noSED || noCOR){
-    string <- "Data not found. Consider running MakeClusterList(ptmtable) to make some. Missing Variables: "
-    if(noEU)  string <- cat(string, "\n", "Not Found: eu_ptms_list")
-    if(noSP)  string <- cat(string, "\n", "Not Found: sp_ptms_list")
-    if(noSED) string <- cat(string, "\n", "Not Found: sed_ptms_list")
-    if(noCOR) string <- cat(string, "\n", "Not Found: ptm.correlation.matrix")
-    stop(string)
-  }}
+MakeCorrelationNetwork <- function(eu_ptms_list, sp_ptms_list, sed_ptms_list, ptm.corelation.matrix, cccn.name = 'cccn_matrix', keeplength = 2){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
@@ -87,7 +72,7 @@ MakeCorrelationNetwork <- function(keeplength = 2){
 
   # Make igraph object, replacing NA with 0
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
-  assign("cccn_matrix", cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
+  assign(cccn.name, cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 
   graph <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode = "lower", diag = FALSE, weighted = "Weight")
   plot(graph)

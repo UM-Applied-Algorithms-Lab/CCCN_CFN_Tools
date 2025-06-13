@@ -8,10 +8,7 @@
 #' @export
 #' @examples
 #' cccn.cfn.tools:::ex.ClusterFilteredNetwork()
-ClusterFilteredNetwork <- function() {
-  #Error Catch
-  if(!exists("cccn_matrix")) stop("cccn_matrix not found. Consider running MakeCorrelationNetwork(keeplength) to make one.")
-  if(!exists("ppi_network")) stop("ppi_network not found. Consider looking at step 3 & 4 in https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/articles/CoClusterCorrelationNetwork.html to make one.")
+ClusterFilteredNetwork <- function(cccn_matrix, ppi_network, cfn.name = "cfn") {
 
   #Loop through ppi_network and assign every row that matches genenames to an include vector
   include <- c()
@@ -31,5 +28,5 @@ ClusterFilteredNetwork <- function() {
   cfn_network <- ppi_network[include, ] #cfn network should only take rows that have been identified by include
   if(nrow(cfn_network) == 0) stop("No common edges between PPI edges and cccn_matrix") #Throw error if no intersection found
   cfn_network$cor_weight <- weights
-  assign("cfn_network", cfn_network, envir = .GlobalEnv) #Cluster Filtered Network
+  assign(cfn.name, cfn_network, envir = .GlobalEnv) #Cluster Filtered Network
 }

@@ -44,14 +44,14 @@ get.DB.edgefile <- function(nodenames, db_filepath){
 #
 # @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 # @return data frame of the names of the genes
-cccn_to_nodenames <- function(cccn_matrix){
+cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
 
   gene_names <- unique(rownames(cccn_matrix))
 
   nodenames <- data.frame(Gene.Names = gene_names, stringsAsFactors = FALSE)
 
   #return :)
-  assign("nodenames", nodenames, envir = .GlobalEnv)
+  assign(nodenames.name, nodenames, envir = .GlobalEnv)
 }
 
 #' Make file for GeneMania input
@@ -65,8 +65,8 @@ cccn_to_nodenames <- function(cccn_matrix){
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.make_db_input(ex.cccn_matrix)
-make_db_input <- function(cccn_matrix) {
-  write.table(rownames(cccn_matrix), file = "db_nodes.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+make_db_input <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
+  write.table(rownames(cccn_matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 #' Find PPI Edges
@@ -82,7 +82,7 @@ make_db_input <- function(cccn_matrix) {
 #' @examples
 #' gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
 #' cccn.cfn.tools:::ex.find_ppi_edges(ex.cccn_matrix)
-find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
+find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), ppi.network.name = "ppi_network") {
 
   cccn_to_nodenames(cccn_matrix)
 
@@ -121,7 +121,7 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c()) {
       db_edges <- get.DB.edgefile(path)
       combined_ppi_network <- rbind(combined_ppi_network, db_edges)
     }
-    assign("ppi_network", combined_ppi_network, envir = .GlobalEnv)} else{ #if db_edges does not exist then do not combine and only use those from STRINGdb
-    assign("ppi_network", combined_edges, envir = .GlobalEnv)
+    assign(ppi.network.name, combined_ppi_network, envir = .GlobalEnv)} else{ #if db_edges does not exist then do not combine and only use those from STRINGdb
+    assign(ppi.network.name, combined_edges, envir = .GlobalEnv)
   }
 }
