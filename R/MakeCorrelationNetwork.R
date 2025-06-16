@@ -6,7 +6,7 @@
 # @param list2 A list of ptms.
 # @param list2 A list of ptms.
 # @param klength Minimum size of intersections to keep.
-# @return A list containing, 1: A list of common clusters and 2: A list of common, ambiguous PTMs .
+# @return A list containing, 1: A list of common clusters and 2: A character vector of removed, ambiguous PTMs .
 FindCommonClusters <- function(list1, list2, list3, klength){
 
   #Convert lists into groups of ptms
@@ -33,10 +33,8 @@ FindCommonClusters <- function(list1, list2, list3, klength){
           for(i in a.temp){
             x <- unlist(strsplit(as.character(i), "; ", fixed=TRUE)) #Split semicolons
             genes <- (sapply(as.character(x),  function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #For new vectors split by semicolons, trim their names
-            vec.temp <- c(vec.temp, genes) #Add the proteins to a temp
+            ambiguous <- c(ambiguous, unlist(genes)) #Add all the Genes to temp
           }
-    
-          if(length(vec.temp) != 0) ambiguous[[length(ambiguous)+1]] <- vec.temp #Add ambiguous PTMs found to a cluster 
           
           
           ### Handle Common Cluster ###
