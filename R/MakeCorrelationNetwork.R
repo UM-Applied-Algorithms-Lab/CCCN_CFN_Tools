@@ -6,7 +6,7 @@
 # @param list2 A list of ptms.
 # @param list2 A list of ptms.
 # @param klength Minimum size of intersections to keep.
-# @return A list of common clusters.
+# @return A list containing, 1: A list of common clusters and 2: A list of common, ambiguous PTMs .
 FindCommonClusters <- function(list1, list2, list3, klength){
 
   #Convert lists into groups of ptms
@@ -15,19 +15,27 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
 
   #Find all the matching intersections of list1 and list2
-  returnme <- list()  #Create an empty list to hold those intersections
+  common <- list()  #Create an empty list to hold those intersections
+  ambiguous <- list()
 
   for(a in 1:length(list1.ptms)){ #Triple loop to look through elements of the list and compare them
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
         if(length(temp) > klength) {
-          temp <- lapply(temp, function (x){ #Trim the names
-            unlist(strsplit(x, " ",  fixed=TRUE))[1]})
-          returnme[[length(returnme)+1]] <- temp  #And only add it to the list to return if it has enough values
+          
+          #Handle Ambiguous Cluster
+          a.temp <- unique(temp[grep(";", temp)])
+          if(length(a.temp) != 0) ambiguous[[length(ambiguous)+1]] <- a.temp #Add ambiguous PTMs found
+          
+          #Handle Common Cluster
+          temp <- lapply(temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
+          common[[length(common)+1]] <- unique(temp)  #And only add it to the list to return if it has enough values
   }}}}
-
-  if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
+  #Return
+  if(length(common) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
+  returnme <- list(common, ambiguous)
+  names(returnme) <- c("Common Genes", "Ambiguous PTMs")
   return(returnme)
 }
 
@@ -37,14 +45,14 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #'
 #' @param tsne.matrices #List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively
 #' @param ptm.correlation.matrix #Correlation matrix made from ptm table
-#' @param clusters.name #The desired name for the output of the list of common clusters
+#' @param clusters.name #The desired name for the output of the list containing common and ambigious clusters
 #' @param cccn.name #The desired name for the output of the Correlation Network Matrix
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])
 #' @export
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeCorrelationNetwork(keeplength = 1)
-MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, clusters.name = "list.common", cccn.name = "cccn_matrix", keeplength = 2){
+MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeplength = 2, lists.name = "list.found", cccn.name = "cccn_matrix"){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
@@ -56,7 +64,8 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, cluste
   }
 
   #Find common clusters
-  list.common <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
+  list.found <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
+  list.common <- list.found[[1]]
 
   # Generate the combined adjacency matrix
   ulist <- unique(unlist(list.common)) #Use this for rownames and colnames
@@ -78,7 +87,7 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, cluste
 
   # Make igraph object, replacing NA with 0
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
-  assign(clusters.name, list.common, envir = .GlobalEnv) #List of common clusters
+  assign(lists.name, list.found, envir = .GlobalEnv) #List of common clusters
   assign(cccn.name, cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 
   #Graphing
