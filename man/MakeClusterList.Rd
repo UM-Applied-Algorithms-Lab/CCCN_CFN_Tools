@@ -2,7 +2,7 @@
 % Please edit documentation in R/MakeClusterList.R
 \name{MakeClusterList}
 \alias{MakeClusterList}
-\title{Make Cluster List}
+\title{Populates the global environment with cluster groupings based on t-SNE data}
 \usage{
 MakeClusterList(
   ptmtable,
