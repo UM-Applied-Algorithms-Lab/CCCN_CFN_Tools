@@ -15,8 +15,8 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
 
   #Find all the matching intersections of list1 and list2
-  common <- list()  #Create an empty list to hold those intersections
-  ambiguous <- list()
+  common <- c()  #Create an empty list to hold those intersections
+  ambiguous <- c()
 
   for(a in 1:length(list1.ptms)){ #Triple loop to look through elements of the list and compare them
     for(b in 1:length(list2.ptms)){
@@ -25,8 +25,18 @@ FindCommonClusters <- function(list1, list2, list3, klength){
         if(length(temp) > klength) {
           
           #Handle Ambiguous Cluster
-          a.temp <- unique(temp[grep(";", temp)])
-          if(length(a.temp) != 0) ambiguous[[length(ambiguous)+1]] <- a.temp #Add ambiguous PTMs found
+          a.temp <- unique(temp[grep("; ", temp)])
+          vec.temp <- c()
+          
+          #Handling semicolons. Thank you Mark amazing code. I was struggling with this one
+          for(i in a.temp){
+            x <- unlist(strsplit(as.character(i), "; ", fixed=TRUE)) #Split semicolons
+            genes <- (sapply(as.character(x),  function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #For new vectors split by semicolons, trim their names
+            vec.temp <- c(vec.temp, genes) #Add the proteins to a temp
+          }
+    
+          if(length(vec.temp) != 0) ambiguous[[length(ambiguous)+1]] <- vec.temp #Add ambiguous PTMs found to a cluster 
+          
           
           #Handle Common Cluster
           temp <- lapply(temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
@@ -60,7 +70,7 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeple
       grep(Gene1, rownames(ptm.correlation.matrix), value = TRUE),
       grep(Gene2, colnames(ptm.correlation.matrix), value = TRUE)]
     r <- as.matrix(r) #Unsure if needed
-    return(sum(r, na.rm = TRUE)) #Return average
+    return(sum(r, na.rm = TRUE)) #Return sum
   }
 
   #Find common clusters
