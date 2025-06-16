@@ -15,8 +15,8 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
 
   #Find all the matching intersections of list1 and list2
-  common <- c()  #Create an empty list to hold those intersections
-  ambiguous <- c()
+  common <- c()    #Create an empty list to hold those intersections
+  ambiguous <- c() #Hold onto ambiguous clusters, (ones with semicolons)
 
   for(a in 1:length(list1.ptms)){ #Triple loop to look through elements of the list and compare them
     for(b in 1:length(list2.ptms)){
