@@ -26,37 +26,26 @@ FindCommonClusters <- function(list1, list2, list3, klength){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
         if(length(temp) > klength) {
           
+          clustername <- paste("Cluster", length(common)+1)
+          
           ### Handle Ambiguous Cluster ###
           ambiguous.PTMs <- grep("; ", temp) #Vector of indecies that contain ambigious PTMs
-          a.temp <- temp[ambiguous.PTMs]
-          temp.vec <- c()
-
-          #Handling semicolons. Thank you Mark amazing code. I was struggling with this one
-          for(i in a.temp){
-            x <- unlist(strsplit(as.character(i), "; ", fixed=TRUE)) #Split semicolons
-            genes <- (sapply(as.character(x),  function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #For new vectors split by semicolons, trim their names
-            temp.vec <- c(temp.vec, unlist(genes)) #Add all the Genes to temp. Use a temp.vec if you want to seperate it by clusters
-          }
-          
-          if(length(temp.vec) != 0) { #Only add to ambiguous if a ; is actually found
-            ambiguous[[length(ambiguous)+1]] <- temp.vec #Add the temp vector to the ambiguous vectors list
-            a.names <- c(a.names, paste("From Cluster", length(common)+1)) #Save name for what cluster the ambiguous ptm is taken from 
+          if(length(ambiguous.PTMs != 0)){ #If an ambiguous PTM was found
+            a.temp <- temp[ambiguous.PTMs]
+            a.names <- c(a.names, clustername)
+            ambiguous[[length(ambiguous)+1]] <- a.temp 
           }
           
           ### Handle Common Cluster ###
-          if(length(ambiguous.PTMs) != 0) b.temp <- temp[-ambiguous.PTMs] #For non-ambiguous PTMs
-          else b.temp <- temp #Really ugly solution but it works
-          
-          #Append solution
-          names(b.temp) <- b.temp #Helps a bunch
-          b.temp <- lapply(b.temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
-          common[[length(common)+1]] <- b.temp  #And only add it to the list to return if it has enough values
+          names(temp) <- temp #Helps a bunch
+          temp <- lapply(temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
+          common[[length(common)+1]] <- temp  #And only add it to the list to return if it has enough values
   }}}}
   #Return
   if(length(common) == 0 && length(ambiguous) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
   names(ambiguous) <- a.names #Rename (ugly solution but struggling to do it another way)
   returnme <- list(common, ambiguous)
-  names(returnme) <- c("Common Genes", "Ambiguous PTMs")
+  names(returnme) <- c("Common Clusters", "Ambiguous PTMs")
   return(returnme)
 }
 

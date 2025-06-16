@@ -26,7 +26,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   pathways.list <- lapply(pathways.list, unlist, use.names = FALSE) #Since data frames are 1 row, turn data frames into character vectors
   
   
-#Jaccard Similarity#
+  ###Jaccard Similarity###
   #Create a matrix whose [i, j] values are the intersection/union between the genes in pathway i and j
   matrix.jaccard <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
   
@@ -58,7 +58,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   bioplanetjaccardedges$interaction <- "pathway Jaccard similarity" 
   
   ##filter the network of bioplanet pathway interactions based on PTM clusters (clusterlist)
-  #Create copy of clusterlist with ;'s "unpacked" 
+  
 
 
   
