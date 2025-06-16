@@ -27,13 +27,12 @@ FindCommonClusters <- function(list1, list2, list3, klength){
           ### Handle Ambiguous Cluster ###
           ambiguous.PTMs <- grep("; ", temp) #Vector of indecies that contain ambigious PTMs
           a.temp <- temp[ambiguous.PTMs]
-          vec.temp <- c()
-          
+
           #Handling semicolons. Thank you Mark amazing code. I was struggling with this one
           for(i in a.temp){
             x <- unlist(strsplit(as.character(i), "; ", fixed=TRUE)) #Split semicolons
             genes <- (sapply(as.character(x),  function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #For new vectors split by semicolons, trim their names
-            ambiguous <- c(ambiguous, unlist(genes)) #Add all the Genes to temp
+            ambiguous <- c(ambiguous, unlist(genes)) #Add all the Genes to temp. Use a temp.vec if you want to seperate it by clusters
           }
           
           
