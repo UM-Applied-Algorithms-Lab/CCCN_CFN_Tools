@@ -24,8 +24,9 @@ FindCommonClusters <- function(list1, list2, list3, klength){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
         if(length(temp) > klength) {
           
-          #Handle Ambiguous Cluster
-          a.temp <- unique(temp[grep("; ", temp)])
+          ### Handle Ambiguous Cluster ###
+          ambiguous.PTMs <- grep("; ", temp) #Vector of indecies that contain ambigious PTMs
+          a.temp <- temp[ambiguous.PTMs]
           vec.temp <- c()
           
           #Handling semicolons. Thank you Mark amazing code. I was struggling with this one
@@ -38,12 +39,17 @@ FindCommonClusters <- function(list1, list2, list3, klength){
           if(length(vec.temp) != 0) ambiguous[[length(ambiguous)+1]] <- vec.temp #Add ambiguous PTMs found to a cluster 
           
           
-          #Handle Common Cluster
-          temp <- lapply(temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
-          common[[length(common)+1]] <- unique(temp)  #And only add it to the list to return if it has enough values
+          ### Handle Common Cluster ###
+          if(length(ambiguous.PTMs) != 0) b.temp <- temp[-ambiguous.PTMs] #For non-ambiguous PTMs
+          else b.temp <- temp #Really ugly solution but it works
+          
+          #Append solution
+          names(b.temp) <- b.temp #Helps a bunch
+          b.temp <- lapply(b.temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
+          common[[length(common)+1]] <- b.temp  #And only add it to the list to return if it has enough values
   }}}}
   #Return
-  if(length(common) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
+  if(length(common) == 0 && length(ambiguous) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
   returnme <- list(common, ambiguous)
   names(returnme) <- c("Common Genes", "Ambiguous PTMs")
   return(returnme)
