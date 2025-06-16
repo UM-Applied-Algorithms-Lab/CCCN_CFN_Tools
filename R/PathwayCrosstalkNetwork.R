@@ -54,13 +54,13 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   #Interpret the jaccard matrix as an edgelist
   bioplanetjaccardedges <- data.frame(igraph::as_edgelist(pathways.graph)) #Convert to edgelist
   names(bioplanetjaccardedges) <- c("source", "target") #Rest is just renaming
-  bioplanetjaccardedges$Weight <- edge_attr(pathways.graph)[[1]]
+  bioplanetjaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
   bioplanetjaccardedges$interaction <- "pathway Jaccard similarity" 
   
-  
   ##filter the network of bioplanet pathway interactions based on PTM clusters (clusterlist)
-  
-  
+  #Create copy of clusterlist with ;'s "unpacked" 
+
+
   
   
   
