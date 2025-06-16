@@ -27,7 +27,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   
   
 #Jaccard Similarity#
-  #Create a matrix whose [i, j] values are the intersection between the genes in pathway i and j
+  #Create a matrix whose [i, j] values are the intersection/union between the genes in pathway i and j
   matrix.jaccard <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
   
   #Rename
@@ -37,11 +37,11 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   #Populate matrix, diagonals must be 0 in order to prevent self-loops in 
   for (i in 1:length(pathways.list)) {
     if(i > length(pathways.list)) break #Or else out of bounds error will occur
-    for (j in (i+1):length(pathways.list)) { #Populate upper triangular portion of the matrix
-      p.intersect <- intersect(unlist(pathways.list[i]), unlist(pathways.list[j])) #Intersect
-      p.union     <- union(unlist(pathways.list[i]), unlist(pathways.list[j]))     #Union 
-      value <- length(p.intersect)/length(p.union) #Number of genes in intersect / Number of genes in union 
-      if(value > 0) { #If value happens to be zero, just don't assign anything since NA is already there
+    for (j in (i+1):length(pathways.list)) { #Populate symmetrical matrix
+      p.intersect <- length(intersect(unlist(pathways.list[i]), unlist(pathways.list[j]))) #Intersect
+      p.union     <- length(pathways.list[i]) + length(pathways.list[i]) - p.intersect     #Union
+      value <- p.intersect/p.union #Number of genes in intersect / Number of genes in union 
+      if(value > 0) { #If value happens to be zero, just don't assign anything since 0 is already there
         matrix.jaccard[i, j] <- value #Number of genes pathway i and j share
         matrix.jaccard[j, i] <- value #Since matrix is symmetrical
       }
