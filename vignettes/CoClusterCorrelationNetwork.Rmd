@@ -44,8 +44,6 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 MakeClusterList(ptmtable, toolong = 3.5)
 ```
 
-#### Outputs  
-
 ![](vig_figs/EU_MCL.png)  
 **Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance  
   
@@ -60,7 +58,7 @@ head(eu_ptms_list, 1)
 
 #### Description  
 
-Make Cluster list is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through Tsne in order to put them into a 3-dimensional space. Please note: Tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
+Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through Tsne in order to put them into a 3-dimensional space. Please note: Tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
 
 #### Input  
 - ptmtable
@@ -89,14 +87,12 @@ Make Cluster list is the first step in the analyzing one's data. This function t
 MakeCorrelationNetwork(keeplength = 2)
 ```
 
-#### Outputs  
-
 ![](vig_figs/cccn_matrix.png)  
 **Figure 4** First 17 rows and columns of the cccn_matrix produced by MakeCorrelationNetwork  
 
 #### Description  
 
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED Tsne matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data--clusters--from the Spearman correlation matrix. The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned a matrix.  
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED Tsne matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned a matrix.  
 
 #### Input  
 - keeplength  
@@ -119,53 +115,67 @@ Make Correlation Network first finds the intersection between the Euclidian, Spe
 #### Estimated run-time  
 2hrs 30mins  
 
-## Optional Pre-Step 3: Retrieve Alternate Edgefiles
+## Pre-Step 3: Retrieve Alternate Edgefiles (OPTIONAL)  
+
+### Description  
+
+**NOTE:** This step is optional but provides more information for filtering data.  
+
+This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. If GeneMANIA on the Cytoscape app is the chosen database, another function (processGMedgefile) processes this file for the user. If other databases are used, the user of the package must process this data themselves. The file put into Step 3 should have three columns as follows: Gene.1, Gene.2, and the edgeweight of that specified database. Note that Gene.1 and Gene.2 are strict headers and must be named as such for proper integration with other PPI networks.
+
+### Part 1: Get File for Database Input
 
 #### Code  
 
 ```{r eval = FALSE}
-make_db_input(cccn_matrix)
-processGMedgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm_network")
+make_db_input(cccn_matrix, file.path.name = "db_nodes.txt")
 ```
-
-#### Output  
 
 ![](vig_figs/db_nodes-txt.png) 
 **Figure 5** First 15 lines from the produced text file  
+
+#### Input   
+- cccn_matrix  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+- file.path.name
+  - Desired path for file to be saved as  
+
+#### Output  
+- db_nodes.txt (or other name provided in file.path.name)
+  - A text file with the names of all of the genes   
+  - Saved into the user's working directory unless otherwise stated in file.path.name  
+
+#### Estimated run-time  
+1s  
+
+### Part 2 --- Process GeneMANIA File
+
+#### Code  
+
+```{r eval = FALSE}
+processGMedgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm_network")
+```
+
 ![](vig_figs/gm_network.png) 
 **Figure 6** First 44 rows of the GeneMANIA network 
 
-#### Description  
-
-**NOTE:** This step is optional but provides more information for filtering data.  
-
-This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. If GeneMANIA on the Cytoscape app is the chosen database, another function processes this file for the user. If other databases are used, the user of the package must process this data themselves. The file put into Step 3 should have three columns as follows: Gene.1, Gene.2, and the edgeweight of that specified database.  
-
 #### Input   
-- for make_db_input
-  - cccn_matrix  
-    - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- for processGMedgefile
-  - gm.edgefile.path  
-    - Path to the GeneMANIA edgefile
-  - gm.nodetable.path  
-    - Path to the GeneMANIA nodetable
-  - db_nodes.path  
-    - Path to the nodenames file created in make_db_input
-  - gm.network.name  
-    - Desired name for the output of the GeneMANIA network
+- gm.edgefile.path  
+  - Path to the GeneMANIA edgefile
+- gm.nodetable.path  
+  - Path to the GeneMANIA nodetable
+- db_nodes.path  
+  - Path to the nodenames file created in make_db_input
+- gm.network.name  
+  - Desired name for the output of the GeneMANIA network
 
 #### Output  
-- db_nodes.txt
-  - A text file with the names of all of the genes   
-  - Saved into the user's working directory  
 - gm.network
   - A matrix consisting of the network between genes of study  
   - The user can use any database they'd like other than GeneMANIA, but the package processes only a GeneMANIA file  
 
 #### Estimated run-time  
-1s (to get text file)
-1min (to process GM file)
+1min  
 
 ## Step 3: Find PPI Edges 
 
@@ -175,8 +185,6 @@ This step requires more effort from the user than any other step but the package
 find_ppi_edges(cccn_matrix, db_file_paths = c())
 ```
 
-#### Outputs  
-
 ![](vig_figs/ppi_network.png)  
 **Figure 7** First 19 rows of the ppi_network produced by find_ppi_edges  
 
@@ -184,7 +192,7 @@ find_ppi_edges(cccn_matrix, db_file_paths = c())
 
 **Note:** Examples take about 5-10 minutes to run.
 
-Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. STRINGdb--a database of these PPI networks--is automatically consulted along with any other database files that are generated and entered by the user. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from STRINGdb and any provided files are then combined and returned. The returned data frame shows how strongly the proteins are known to interact.
+Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. STRINGdb --- a database of these PPI networks --- is automatically consulted along with any other database files that are generated and entered by the user. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from STRINGdb and any provided files are then combined and returned. The returned data frame shows how strongly the proteins are known to interact.
 
 #### Input  
 
@@ -207,8 +215,6 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 ```{r eval = FALSE}
 ClusterFilteredNetwork(accuracy)
 ```
-
-#### Outputs  
 
 ![](vig_figs/cfn.png)  
 **Figure 8** First 19 rows of the cfn_network produced by ClusterFilteredNetwork  
