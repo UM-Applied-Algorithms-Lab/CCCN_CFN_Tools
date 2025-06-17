@@ -103,7 +103,7 @@ Make Correlation Network first finds the intersection between the Euclidian, Spe
   - Defaults to 2; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)
 - common.clusters.name  
   - Desired name for the common clusters output; defaults to common.clusters  
-- cccn.name
+- cccn.name  
   - Desired name for the cocluster combined network matrix; defaults to cccn_matrix  
 
 #### Output  
@@ -137,8 +137,8 @@ make_db_input(cccn_matrix, file.path.name = "db_nodes.txt")
 #### Input   
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- file.path.name
-  - Desired path for file to be saved as  
+- file.path.name  
+  - Desired path for file to be saved as; defaults to db_nodes.txt  
 
 #### Output  
 - db_nodes.txt (or otherwise named by file.path.name)
@@ -167,7 +167,7 @@ processGMedgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 - db_nodes.path  
   - Path to the nodenames file created in make_db_input
 - gm.network.name  
-  - Desired name for the output of the GeneMANIA network
+  - Desired name for the output of the GeneMANIA network, defaults to gm.network
 
 #### Output  
 - gm.network (or otherwise named by gm.network.name)
@@ -198,11 +198,15 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- db_file_paths (optional)  
+- db_file_paths (optional pre-step 3)  
   - A vector of paths to the additional ppi network files. This is initialized to an empty vector  
+- gm.network (optional pre-step 3)  
+  - GeneMANIA network produced in optional pre-step 3; defaults to NA  
+- ppi.network.name  
+  - Desired name of the output for the ppi network; defaults to ppi.network  
 
 #### Output  
-- ppi.network (or otherwise named by ppi.network.name)
+- ppi.network (or otherwise named by ppi.network.name)  
   - A dataframe representing how strongly proteins are known to interact  
 
 #### Estimated run-time  

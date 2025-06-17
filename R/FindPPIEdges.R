@@ -3,9 +3,9 @@
 # This helper function loads the GeneMania file
 # and filters out required nodes.
 #
-# @param nodenames A vector containing the names of the relevant genes.
-# @param dbfilepath The path to the GeneMania file initialized to "genemania-interactions.txt".
-# @return A data frame with the relevant GeneMania data.
+# @param nodenames A vector containing the names of the relevant genes
+# @param dbfilepath The path to the database file
+# @return A data frame with the relevant database entries
 get.DB.edgefile <- function(nodenames, db_filepath){
 
   #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
@@ -61,7 +61,7 @@ make_db_input <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
 #' @examples
 #' gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
 #' cccn.cfn.tools:::ex.find_ppi_edges(ex.cccn_matrix)
-find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), ppi.network.name = "ppi.network") {
+find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), gm.network = NA, ppi.network.name = "ppi.network") {
 
   cccn_to_nodenames(cccn_matrix)
 
@@ -92,6 +92,10 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), ppi.network.name = "
   # Create the final edges dataframe from STRINGdb
   combined_edges <- interactions[, c("Gene.1", "Gene.2", "combined_score")]
   colnames(combined_edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
+
+  if (!is.na(gm.network)){
+    combined_edges <- rbind(combined_edges, gm.network)
+  }
 
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
   if(length(db_filepaths) != 0){

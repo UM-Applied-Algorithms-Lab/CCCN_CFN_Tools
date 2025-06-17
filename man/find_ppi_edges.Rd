@@ -7,7 +7,8 @@
 find_ppi_edges(
   cccn_matrix,
   db_filepaths = c(),
-  ppi.network.name = "ppi_network"
+  gm.network = NA,
+  ppi.network.name = "ppi.network"
 )
 }
 \arguments{

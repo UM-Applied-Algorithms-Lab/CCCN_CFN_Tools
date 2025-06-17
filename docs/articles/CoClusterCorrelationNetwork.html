@@ -360,7 +360,7 @@ the common clusters between the three distance metrics<br>
 </li>
 <li>file.path.name
 <ul>
-<li>Desired path for file to be saved as</li>
+<li>Desired path for file to be saved as; defaults to db_nodes.txt</li>
 </ul>
 </li>
 </ul>
@@ -417,7 +417,8 @@ file.path.name</li>
 </li>
 <li>gm.network.name
 <ul>
-<li>Desired name for the output of the GeneMANIA network</li>
+<li>Desired name for the output of the GeneMANIA network, defaults to
+gm.network</li>
 </ul>
 </li>
 </ul>
@@ -478,10 +479,24 @@ the common clusters between the three distance metrics<br>
 </li>
 </ul>
 </li>
-<li>db_file_paths (optional)
+<li>db_file_paths (optional pre-step 3)
 <ul>
 <li>A vector of paths to the additional ppi network files. This is
-initialized to an empty vector</li>
+initialized to an empty vector<br>
+</li>
+</ul>
+</li>
+<li>gm.network (optional pre-step 3)
+<ul>
+<li>GeneMANIA network produced in optional pre-step 3; defaults to
+NA<br>
+</li>
+</ul>
+</li>
+<li>ppi.network.name
+<ul>
+<li>Desired name of the output for the ppi network; defaults to
+ppi.network</li>
 </ul>
 </li>
 </ul>
