@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#'cccn.cfn.tools::ex.processGMedgefile("path/to/edgefile", "path/to/nodetable", ex.nodenames, ex.gm.network)
+#' cccn.cfn.tools::ex.processGMedgefile("path/to/edgefile", "path/to/nodetable", ex.nodenames, ex.gm.network)
 processGMedgefile <- function(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm_network"){
   edgetable <- utils::read.csv(gm.edgefile.path, header = TRUE)   # read the edgefile
   nodetable <- utils::read.csv(gm.nodetable.path, header = TRUE)  # read the nodetable
@@ -27,6 +27,8 @@ processGMedgefile <- function(gm.edgefile.path, gm.nodetable.path, nodenames, gm
   edgetable$Gene.2 <- sapply(edgetable$Gene.2, function(x)nodetable$query.term[nodetable$name == x])   # turn the ID into the gene name!
 
   edges <- edgetable[, c("Gene.1", "Gene.2", "raw.weights")]             # sort into a new table with only our information and in the order we want
+
+  colnames(edges) <- c("Gene.1", "Gene.2", "GM.raw.weights")             # rename so when put with everything, clearer where came from
 
   split_weights <- strsplit(edges$raw.weights, "\\|")                    # split up the weights because they have between 1 and SIX-GODDAMN-TEEN possible weights
 
