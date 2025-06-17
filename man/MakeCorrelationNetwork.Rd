@@ -7,9 +7,9 @@
 MakeCorrelationNetwork(
   tsne.matrices,
   ptm.correlation.matrix,
-  clusters.name = "list.common",
-  cccn.name = "cccn_matrix",
-  keeplength = 2
+  keeplength = 2,
+  lists.name = "list.found",
+  cccn.name = "cccn_matrix"
 )
 }
 \arguments{
@@ -17,11 +17,11 @@ MakeCorrelationNetwork(
 
 \item{ptm.correlation.matrix}{#Correlation matrix made from ptm table}
 
-\item{clusters.name}{#The desired name for the output of the list of common clusters}
+\item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep \link{"AARS", "ARMS", "AGRS"} but not \link{"AARS", "ARMS"})}
+
+\item{lists.name}{#The desired name for the output of the list containing common and ambigious clusters}
 
 \item{cccn.name}{#The desired name for the output of the Correlation Network Matrix}
-
-\item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep \link{"AARS", "ARMS", "AGRS"} but not \link{"AARS", "ARMS"})}
 }
 \description{
 This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
