@@ -197,7 +197,7 @@ ClusterFilteredNetwork(accuracy)
 #### Outputs  
 
 ![](vig_figs/cfn.png)  
-**Figure 8** First 19 rows of the cfn_network produced by ClusterfilteredNetwork  
+**Figure 8** First 19 rows of the cfn_network produced by ClusterFilteredNetwork  
 
 #### Description  
 
