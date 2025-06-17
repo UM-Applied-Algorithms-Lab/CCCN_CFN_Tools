@@ -119,8 +119,8 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   #Assign different tsne matrices to global environment
   tsne.matrix.list <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
   names(tsne.matrix.list) <- c("Euclidean", "Spearman", "SED")
-  
+
   #Assign
-  assign(list.name, tsne.matrix.list, envir = .GlobalEnv)  #Matrix containing Euclidean t-SNE coords
-  assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) #Correlation Matrix for later use
+  assign(list.name, tsne.matrix.list, envir = .GlobalEnv)                     # list of the tsne data for Euclidean, Spearman, and SED
+  assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
 }
