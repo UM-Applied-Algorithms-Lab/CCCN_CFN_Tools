@@ -41,9 +41,12 @@ FindCommonClusters <- function(list1, list2, list3, klength){
             }} #Add ambigious PTMs to the list
           
           ### Handle Common Cluster ###
-          names(temp) <- temp #Helps a bunch
-          temp <- lapply(temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
-          common[[length(common)+1]] <- temp  #And only add it to the list to return if it has enough values
+          if(length(ambiguous.PTMs) != 0) b.temp <- temp[-ambiguous.PTMs] #Ugly solution but otherwise -ambiguous returns 0 
+          else b.temp <- temp 
+          
+          names(b.temp) <- b.temp #Helps a bunch
+          b.temp <- lapply(b.temp, function (x){unlist(strsplit(x, " ",  fixed=TRUE))[1]}) #Trim names from PTMs to Gene Names
+          common[[length(common)+1]] <- b.temp  #And only add it to the list to return if it has enough values
   }}}}
   #Return
   if(length(common) == 0 && length(ambiguous) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
