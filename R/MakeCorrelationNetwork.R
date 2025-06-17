@@ -41,7 +41,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
             }} #Add ambigious PTMs to the list
           
           ### Handle Common Cluster ###
-          if(length(ambiguous.PTMs) != 0) b.temp <- temp[-ambiguous.PTMs] #Ugly solution but otherwise -ambiguous returns 0 
+          if(length(ambiguous.PTMs) != 0) b.temp <- temp[-ambiguous.PTMs] #Ugly solution but otherwise -ambiguous returns 0
           else b.temp <- temp 
           
           names(b.temp) <- b.temp #Helps a bunch
@@ -82,7 +82,7 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeple
 
   #Find common clusters
   list.found <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
-  list.common <- list.found[[1]]
+  list.common <- c(list.found[[1]], list.found[[2]])
 
   # Generate the combined adjacency matrix
   ulist <- unique(unlist(list.common)) #Use this for rownames and colnames
