@@ -365,10 +365,39 @@ of that specified database.</p>
 <h5 id="input-2">Input<a class="anchor" aria-label="anchor" href="#input-2"></a>
 </h5>
 <ul>
+<li>for make_db_input
+<ul>
 <li>cccn_matrix
 <ul>
 <li>A matrix showing strength of relationships between proteins using
-the common clusters between the three distance metrics</li>
+the common clusters between the three distance metrics<br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>for processGMedgefile
+<ul>
+<li>gm.edgefile.path
+<ul>
+<li>Path to the GeneMANIA edgefile</li>
+</ul>
+</li>
+<li>gm.nodetable.path
+<ul>
+<li>Path to the GeneMANIA nodetable</li>
+</ul>
+</li>
+<li>db_nodes.path
+<ul>
+<li>Path to the nodenames file created in make_db_input</li>
+</ul>
+</li>
+<li>gm.network.name
+<ul>
+<li>Desired name for the output of the GeneMANIA network</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -381,7 +410,16 @@ the common clusters between the three distance metrics</li>
 <ul>
 <li>A text file with the names of all of the genes<br>
 </li>
-<li>Saved into the user’s working directory</li>
+<li>Saved into the user’s working directory<br>
+</li>
+</ul>
+</li>
+<li>gm.network
+<ul>
+<li>A matrix consisting of the network between genes of study<br>
+</li>
+<li>The user can use any database they’d like other than GeneMANIA, but
+the package processes only a GeneMANIA file</li>
 </ul>
 </li>
 </ul>
@@ -389,7 +427,7 @@ the common clusters between the three distance metrics</li>
 <div class="section level5">
 <h5 id="estimated-run-time-2">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-2"></a>
 </h5>
-<p>1s (to get text file)</p>
+<p>1s (to get text file) 1min (to process GM file)</p>
 </div>
 </div>
 <div class="section level3">
@@ -470,7 +508,7 @@ interact</li>
 <h5 id="outputs-3">Outputs<a class="anchor" aria-label="anchor" href="#outputs-3"></a>
 </h5>
 <p><img src="vig_figs/cfn.png"><br><strong>Figure 8</strong> First 19 rows of the cfn_network produced by
-ClusterfilteredNetwork</p>
+ClusterFilteredNetwork</p>
 </div>
 <div class="section level5">
 <h5 id="description-4">Description<a class="anchor" aria-label="anchor" href="#description-4"></a>
