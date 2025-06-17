@@ -61,7 +61,7 @@ make_db_input <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
 #' @examples
 #' gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
 #' cccn.cfn.tools:::ex.find_ppi_edges(ex.cccn_matrix)
-find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), ppi.network.name = "ppi_network") {
+find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), ppi.network.name = "ppi.network") {
 
   cccn_to_nodenames(cccn_matrix)
 

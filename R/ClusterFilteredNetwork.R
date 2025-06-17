@@ -8,15 +8,15 @@
 #' @export
 #' @examples
 #' cccn.cfn.tools:::ex.ClusterFilteredNetwork()
-ClusterFilteredNetwork <- function(cccn_matrix, ppi_network, cfn.name = "cfn") {
+ClusterFilteredNetwork <- function(cccn_matrix, ppi.network, cfn.name = "cfn") {
 
-  #Loop through ppi_network and assign every row that matches genenames to an include vector
+  #Loop through ppi.network and assign every row that matches genenames to an include vector
   include <- c()
   weights <- c() #CFN
-  for(a in 1:length(rownames(ppi_network))){
+  for(a in 1:length(rownames(ppi.network))){
     #Initilization
-    Gene1 <- ppi_network[a, 1] #Get gene from row a, first col
-    Gene2 <- ppi_network[a, 2] #Get gene from row a, second col
+    Gene1 <- ppi.network[a, 1] #Get gene from row a, first col
+    Gene2 <- ppi.network[a, 2] #Get gene from row a, second col
     if(Gene1 %in% colnames(cccn_matrix) && Gene2 %in% rownames(cccn_matrix)){
       cmw <- cccn_matrix[Gene1, Gene2] #Get the weight
       if(cmw != 0){ #If the weight is nonzero
@@ -25,7 +25,7 @@ ClusterFilteredNetwork <- function(cccn_matrix, ppi_network, cfn.name = "cfn") {
   }}}
 
   #Assign
-  cfn_network <- ppi_network[include, ] #cfn network should only take rows that have been identified by include
+  cfn_network <- ppi.network[include, ] #cfn network should only take rows that have been identified by include
   if(nrow(cfn_network) == 0) stop("No common edges between PPI edges and cccn_matrix") #Throw error if no intersection found
   cfn_network$cor_weight <- weights
   assign(cfn.name, cfn_network, envir = .GlobalEnv) #Cluster Filtered Network

@@ -119,7 +119,7 @@ of RAM.</p>
 <h5 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a>
 </h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeClusterList.html">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeClusterList.html">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, correlation.matrix.name <span class="op">=</span> <span class="st">"ptm.correlation.matrix"</span>, list.name <span class="op">=</span> <span class="st">"tsne.matrices"</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/EU_MCL.png"><br><strong>Figure 1</strong> Example plot produced by MakeClusterList
 calculated using Euclidean Distance</p>
 <p><img src="vig_figs/MCL-output.png"><br><strong>Figure 2</strong> Output of MakeClusterList</p>
@@ -180,6 +180,18 @@ conditions<br>
 </li>
 </ul>
 </li>
+<li>correlation.matrix.name
+<ul>
+<li>Desired name for the correlation matrix to be saved as; defaults to
+ptm.correlation.matrix</li>
+</ul>
+</li>
+<li>list.name
+<ul>
+<li>Desired name for the list of tsne data to be saved as; defaults to
+tsne.matrices</li>
+</ul>
+</li>
 <li>toolong
 <ul>
 <li>Defaults to 3.5; threshold for cluster separation</li>
@@ -191,34 +203,20 @@ conditions<br>
 <h5 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h5>
 <ul>
-<li>ptm.correlation.matrix
+<li>ptm.correlation.matrix (or otherwise named by
+correlation.matrix.name)
 <ul>
 <li>A data frame showing the correlation between ptms (as the rows and
 the columns). NAs are placed along the diagonal<br>
 </li>
 </ul>
 </li>
-<li>eu_ptms_list
+<li>tsne.matrices (or otherwise named by list.name)
 <ul>
-<li>A three-dimensional data frame used to represent ptms in space to
-show relationships between them based on distances. Based on Euclidean
-Distance<br>
-</li>
-</ul>
-</li>
-<li>sp_ptms_list
-<ul>
-<li>A three-dimensional data frame used to represent ptms in space to
-show relationships between them based on distances. Based on Spearman
-Dissimilarity<br>
-</li>
-</ul>
-</li>
-<li>sed_ptms_list
-<ul>
-<li>A three-dimensional data frame used to represent ptms in space to
-show relationships between them based on distances. Based on the average
-between Euclidean Distance and Spearman Dissimilarity.</li>
+<li>A list of three-dimensional data frames used to represent ptms in
+space to show relationships between them based on distances. Based on
+Euclidean Distance, Spearman Dissimilarity, and SED (the average between
+the two)</li>
 </ul>
 </li>
 </ul>
@@ -236,7 +234,7 @@ between Euclidean Distance and Spearman Dissimilarity.</li>
 <h5 id="code-1">Code<a class="anchor" aria-label="anchor" href="#code-1"></a>
 </h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeCorrelationNetwork.html">MakeCorrelationNetwork</a></span><span class="op">(</span>keeplength <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeCorrelationNetwork.html">MakeCorrelationNetwork</a></span><span class="op">(</span><span class="va">tsne.matrices</span>, <span class="va">ptm.correlation.matrix</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, common.clusters.name <span class="op">=</span> <span class="st">"common.clusters"</span>, cccn.name <span class="op">=</span> <span class="st">"cccn_matrix"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/cccn_matrix.png"><br><strong>Figure 4</strong> First 17 rows and columns of the cccn_matrix
 produced by MakeCorrelationNetwork</p>
 </div>
@@ -256,18 +254,14 @@ between the three distance metrics is returned a matrix.</p>
 <h5 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
 </h5>
 <ul>
-<li>keeplength
+<li>tsne.matrices
 <ul>
-<li>Defaults to 2; MakeClusterList only saves subsets whose size is
-strictly <em>greater</em> than keeplength. (I.e. [‘AARS’, ‘ABR’] will be
-discarded unless keeplength &lt; 2)<br>
+<li>A list of three-dimensional data frames used to represent ptms in
+space to show relationships between them based on distances. Based on
+Euclidean Distance, Spearman Dissimilarity, and SED (the average between
+the two)<br>
 </li>
 </ul>
-</li>
-<li>From Global Namespace:
-<ul>
-<li>Should <strong>not</strong> but listed in function call, but user
-must ensure that it is in the gloal environment<br>
 </li>
 <li>ptm.correlation.matrix
 <ul>
@@ -275,29 +269,24 @@ must ensure that it is in the gloal environment<br>
 the columns). NAs are placed along the diagonal.</li>
 </ul>
 </li>
-<li>eu_ptms_list
+<li>keeplength
 <ul>
-<li>A three-dimensional data frame used to represent ptms in space to
-show relationships between them based on distances. Based on Euclidean
-Distance<br>
+<li>Defaults to 2; MakeClusterList only saves subsets whose size is
+strictly <em>greater</em> than keeplength. (I.e. [‘AARS’, ‘ABR’] will be
+discarded unless keeplength &lt; 2)</li>
+</ul>
+</li>
+<li>common.clusters.name
+<ul>
+<li>Desired name for the common clusters output; defaults to
+common.clusters<br>
 </li>
 </ul>
 </li>
-<li>sp_ptms_list
+<li>cccn.name
 <ul>
-<li>A three-dimensional data frame used to represent ptms in space to
-show relationships between them based on distances. Based on Spearman
-Dissimilarity<br>
-</li>
-</ul>
-</li>
-<li>sed_ptms_list
-<ul>
-<li>A three-dimensional data frame used to represent ptms in space to
-show relationships between them based on distances. Based on the average
-between Euclidean Distance and Spearman Dissimilarity</li>
-</ul>
-</li>
+<li>Desired name for the cocluster combined network matrix; defaults to
+cccn_matrix</li>
 </ul>
 </li>
 </ul>
@@ -306,7 +295,13 @@ between Euclidean Distance and Spearman Dissimilarity</li>
 <h5 id="output-1">Output<a class="anchor" aria-label="anchor" href="#output-1"></a>
 </h5>
 <ul>
-<li>cccn_matrix
+<li>common.clusters (or otherwise named by common.clusters.name)
+<ul>
+<li>The list of common clusters between all three distance metrics
+(Euclidean, Spearman, and SED)</li>
+</ul>
+</li>
+<li>cccn_matrix (or otherwise named by cccn.name)
 <ul>
 <li>A matrix showing strength of relationships between proteins using
 common clusters between the three distance metrics</li>
@@ -374,7 +369,7 @@ the common clusters between the three distance metrics<br>
 <h5 id="output-2">Output<a class="anchor" aria-label="anchor" href="#output-2"></a>
 </h5>
 <ul>
-<li>db_nodes.txt (or other name provided in file.path.name)
+<li>db_nodes.txt (or otherwise named by file.path.name)
 <ul>
 <li>A text file with the names of all of the genes<br>
 </li>
@@ -397,7 +392,7 @@ file.path.name</li>
 <h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/processGMedgefile.html">processGMedgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm_network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/processGMedgefile.html">processGMedgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/gm_network.png"><strong>Figure 6</strong> First
 44 rows of the GeneMANIA network</p>
 </div>
@@ -431,7 +426,7 @@ file.path.name</li>
 <h5 id="output-3">Output<a class="anchor" aria-label="anchor" href="#output-3"></a>
 </h5>
 <ul>
-<li>gm.network
+<li>gm.network (or otherwise named by gm.network.name)
 <ul>
 <li>A matrix consisting of the network between genes of study<br>
 </li>
@@ -455,7 +450,7 @@ the package processes only a GeneMANIA file</li>
 <h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/ppi_network.png"><br><strong>Figure 7</strong> First 19 rows of the ppi_network produced by
 find_ppi_edges</p>
 </div>
@@ -495,7 +490,7 @@ initialized to an empty vector</li>
 <h5 id="output-4">Output<a class="anchor" aria-label="anchor" href="#output-4"></a>
 </h5>
 <ul>
-<li>ppi_network
+<li>ppi.network (or otherwise named by ppi.network.name)
 <ul>
 <li>A dataframe representing how strongly proteins are known to
 interact</li>
@@ -516,7 +511,7 @@ interact</li>
 <h5 id="code-5">Code<a class="anchor" aria-label="anchor" href="#code-5"></a>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ClusterFilteredNetwork.html">ClusterFilteredNetwork</a></span><span class="op">(</span><span class="va">accuracy</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ClusterFilteredNetwork.html">ClusterFilteredNetwork</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, <span class="va">ppi.network</span>, cfn.name <span class="op">=</span> <span class="st">"cfn"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/cfn.png"><br><strong>Figure 8</strong> First 19 rows of the cfn_network produced by
 ClusterFilteredNetwork</p>
 </div>
@@ -534,18 +529,6 @@ then it will be removed from the list of PPI edges.</p>
 <h5 id="input-5">Input<a class="anchor" aria-label="anchor" href="#input-5"></a>
 </h5>
 <ul>
-<li>accuracy
-<ul>
-<li>The maximum difference allowed for a PPI edge to still be “equal” to
-the cccn value<br>
-</li>
-</ul>
-</li>
-<li>From Global Namespace:
-<ul>
-<li>Should <strong>not</strong> but listed in function call, but user
-must ensure that it is in the gloal environment<br>
-</li>
 <li>cccn_matrix
 <ul>
 <li>A matrix showing strength of relationships between proteins using
@@ -560,20 +543,18 @@ interact</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
 </div>
 <div class="section level5">
 <h5 id="output-5">Output<a class="anchor" aria-label="anchor" href="#output-5"></a>
 </h5>
 <ul>
-<li>cfn_network
+<li>cfn (or otherwise named by cfn.name)
 <ul>
 <li>A version of ppi_network with only the edges that exist in
 cccn_matrix<br>
 </li>
 <li>Note that the STRINGdb.combined_score is on a scale of 0-1000 while
-cor_weight is on a scale of 0-1</li>
+cor_weight (and GM.raw.weights) is on a scale of 0-1</li>
 </ul>
 </li>
 </ul>
