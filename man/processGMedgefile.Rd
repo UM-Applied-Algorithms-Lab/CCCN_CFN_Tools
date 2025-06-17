@@ -7,7 +7,7 @@
 processGMedgefile(
   gm.edgefile.path,
   gm.nodetable.path,
-  nodenames,
+  db_nodes.path,
   gm.network.name = "gm_network"
 )
 }

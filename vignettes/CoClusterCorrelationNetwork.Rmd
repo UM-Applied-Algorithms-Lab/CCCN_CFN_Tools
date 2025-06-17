@@ -142,16 +142,30 @@ processGMedgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. If GeneMANIA on the Cytoscape app is the chosen database, another function processes this file for the user. If other databases are used, the user of the package must process this data themselves. The file put into Step 3 should have three columns as follows: Gene.1, Gene.2, and the edgeweight of that specified database.  
 
 #### Input   
-- cccn_matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+- for make_db_input
+  - cccn_matrix  
+    - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+- for processGMedgefile
+  - gm.edgefile.path  
+    - Path to the GeneMANIA edgefile
+  - gm.nodetable.path  
+    - Path to the GeneMANIA nodetable
+  - db_nodes.path  
+    - Path to the nodenames file created in make_db_input
+  - gm.network.name  
+    - Desired name for the output of the GeneMANIA network
 
 #### Output  
 - db_nodes.txt
   - A text file with the names of all of the genes   
   - Saved into the user's working directory  
+- gm.network
+  - A matrix consisting of the network between genes of study  
+  - The user can use any database they'd like other than GeneMANIA, but the package processes only a GeneMANIA file  
 
 #### Estimated run-time  
 1s (to get text file)
+1min (to process GM file)
 
 ## Step 3: Find PPI Edges 
 
