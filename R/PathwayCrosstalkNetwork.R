@@ -52,20 +52,28 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   #plot(pathways.graph) #plot if desired
   
   #Interpret the jaccard matrix as an edgelist
-  bioplanetjaccardedges <- data.frame(igraph::as_edgelist(pathways.graph)) #Convert to edgelist
-  names(bioplanetjaccardedges) <- c("source", "target") #Rest is just renaming
-  bioplanetjaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
-  bioplanetjaccardedges$interaction <- "pathway Jaccard similarity" 
+  jaccardedges <- data.frame(igraph::as_edgelist(pathways.graph)) #Convert to edgelist
+  names(jaccardedges) <- c("source", "target") #Rest is just renaming
+  jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
+  jaccardedges$interaction <- "pathway Jaccard similarity" 
   
-  ##filter the network of bioplanet pathway interactions based on PTM clusters (clusterlist)
-  matrix.bio.
-  for (g in 1:length(pathways.list)){
-    
-    for(j in 1:length(pathways.list)){
-      
-  }}
-
-
+  
+  ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
+  gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms 
+  temp.ambig.weights <- unlist(sapply(clusterlist[[2]], function(x){return(rep(1/length(x), length(x)))})) #Weights of ambiguous PTMs are 1/# of ptms in the series. so Aars ubi k454; Abui Or an; Aars ubi k983 splits into 3 genes w/ weight of 1/3rd
+  gene.weights <- c(gene.weights, temp.ambig.weights) #Should look like a bunch of ones at the start followed by various weights < 1
+  
+  
+  ###Generating pathway cluster evidence###
+  #Innit
+  MCN.data <- do.call(c, clusterlist[[1]]) #Clusters no longer matter - So convert into a vector. Called genevec in Mark's .rmd
+  geneweights <- rep(1, length(MCN.data)) #Create a vector of gene weights
+  
+  pathways.genes <- unique(do.call(c, pathways.list)) #Character vector of genes from list of pathways
+  genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights need replacement
+  
+  #Denominator? Get dimensions to match
+  geneweights[genesinpathways] <- 1/pathways.genes[match(MCN.data[genesinpathways], pathways.genes), "no.pathways"]
   
   
   
