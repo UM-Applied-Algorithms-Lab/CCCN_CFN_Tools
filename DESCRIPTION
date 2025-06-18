@@ -1,5 +1,5 @@
 Package: cccn.cfn.tools
-Title: A package for mass spec data processing
+Title: Filtered CoCluster Correlation Network Guide
 Version: 0.0.0.9000
 Authors@R: c(
     person("Mckayl", "Bailey", email = "first.last@example.com", role = c("aut")),
@@ -7,30 +7,25 @@ Authors@R: c(
     person("Grant", "Smith", email = "first.last@example.com", role = c("aut")),
     person("Madison", "Moffett", email = "first.last@example.com", role = c("aut"))
            )
-Description: Multiple seperate functions for processing mass spec data into usable and interactive data structures
+Description: A collection of functions in order to process mass spectrometry data of post-translational modifications into possible pathways.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports:
     Rtsne,
-    parallel,
-    foreach,
-    doParallel,
-    rgl,
     plyr,
     igraph,
     vegan,
     STRINGdb,
     dplyr,
-    grDevices,
-    graphics,
     utils
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-VignetteBuilder: knitr
+VignetteBuilder:
+    knitr
 Depends: 
     R (>= 3.5)
 LazyData: true

@@ -7,7 +7,14 @@
 ClusterFilteredNetwork(cccn_matrix, ppi.network, cfn.name = "cfn")
 }
 \arguments{
-\item{accuracy}{How close a PPI can weight be to a correlation weight to accept the edge. It is recommeneded that genemania users do not increase this parameter as it defaults to the maximum sig figs for a genemania egde weight.}
+\item{cccn_matrix}{Matrix representing the common clusters from the three distance calculations' clusters}
+
+\item{ppi.network}{A data frame of combined edges from STRINGdb and provided database entries}
+
+\item{cfn.name}{Desired name of the output cluster filtered network}
+}
+\value{
+cluster filtered network
 }
 \description{
 This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn_network variable to the global environment, which is a list of the common edges between the PPI edges and cccn_matrix.

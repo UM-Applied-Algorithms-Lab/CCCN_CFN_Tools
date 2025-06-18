@@ -8,10 +8,10 @@ output:
     toc_depth: 4
     theme: cosmo
     highlight: tango
-vignette:
-  VignetteIndexEntry: "Mass_Spec_Data_Processing"
-  VignetteEngine: "knitr::rmarkdown"
-  VignetteEncoding: "UTF-8"
+vignette: >
+  %\VignetteIndexEntry{Mass_Spec_Data_Processing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, echo=FALSE}
@@ -128,7 +128,7 @@ This step requires more effort from the user than any other step but the package
 #### Code  
 
 ```{r eval = FALSE}
-make_db_input(cccn_matrix, file.path.name = "db_nodes.txt")
+MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 ```
 
 ![](vig_figs/db_nodes-txt.png) 
@@ -153,7 +153,7 @@ make_db_input(cccn_matrix, file.path.name = "db_nodes.txt")
 #### Code  
 
 ```{r eval = FALSE}
-processGMedgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm.network")
+ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm.network")
 ```
 
 ![](vig_figs/gm_network.png) 
@@ -182,7 +182,7 @@ processGMedgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 #### Code  
 
 ```{r eval = FALSE}
-find_ppi_edges(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
+FindPPIEdges(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
 ```
 
 ![](vig_figs/ppi_network.png)  

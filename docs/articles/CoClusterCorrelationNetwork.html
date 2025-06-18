@@ -343,7 +343,7 @@ integration with other PPI networks.</p>
 <h5 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h5>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/make_db_input.html">make_db_input</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, file.path.name <span class="op">=</span> <span class="st">"db_nodes.txt"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeDBInput.html">MakeDBInput</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, file.path.name <span class="op">=</span> <span class="st">"db_nodes.txt"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/db_nodes-txt.png"><strong>Figure 5</strong>
 First 15 lines from the produced text file</p>
 </div>
@@ -392,7 +392,7 @@ file.path.name</li>
 <h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/processGMedgefile.html">processGMedgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ProcessGMEdgefile.html">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/gm_network.png"><strong>Figure 6</strong> First
 44 rows of the GeneMANIA network</p>
 </div>
@@ -451,7 +451,7 @@ the package processes only a GeneMANIA file</li>
 <h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/find_ppi_edges.html">find_ppi_edges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/FindPPIEdges.html">FindPPIEdges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/ppi_network.png"><br><strong>Figure 7</strong> First 19 rows of the ppi_network produced by
 find_ppi_edges</p>
 </div>

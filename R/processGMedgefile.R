@@ -1,22 +1,41 @@
+#' Make file for GeneMania input
+#'
+#' This function outputs a file the user can take to create the GeneMania edgefile.
+#'
+#' @param cccn_matrix matrix representing the common clusters from the three distance calculations' clusters
+#' @param file.path.name path for the output file; defaultsto db_nodes.txt
+#'
+#' @return A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes
+#' @export
+#'
+#' @examples
+#' cccn.cfn.tools:::ex.make_db_input(ex.cccn_matrix)
+MakeDBInput <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
+  utils::write.table(rownames(cccn_matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
+}
+
+
 #' Process GM Edge File
 #'
 #' This function process GM edgefile.
 #'
 #' @param gm.edgefile.path path to GeneMANIA edgefile
 #' @param gm.nodetable.path path to GeneMANIA nodetable
+#' @param db_nodes.path path to the node file from MakeDBInput
+#' @param gm.network.name desired name for the output genemania network; defaulted to gm.network
 #'
 #' @return GeneMANIA ppi network table
 #' @export
 #'
 #' @examples
 #' cccn.cfn.tools::ex.processGMedgefile("path/to/edgefile", "path/to/nodetable", ex.nodenames, ex.gm.network)
-processGMedgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path, gm.network.name = "gm.network"){
+ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path, gm.network.name = "gm.network"){
   edgetable <- utils::read.csv(gm.edgefile.path, header = TRUE)        # read the edgefile
   nodetable <- utils::read.csv(gm.nodetable.path, header = TRUE)       # read the nodetable
   nodenames <- utils::read.table(db_nodes.path, header = FALSE)[[1]]   # read the nodenames file
 
-  edgetable <- subset(edgetable, select = c(name, raw.weights))   # only look at the name and raw.weights columns
-  nodetable <- subset(nodetable, select = c(name, query.term))    # only look at the names (GM ID) and query.term (real names) columns
+  edgetable <- subset(edgetable, select = c(name, raw.weights))        # only look at the name and raw.weights columns
+  nodetable <- subset(nodetable, select = c(name, query.term))         # only look at the names (GM ID) and query.term (real names) columns
 
   edgetable$Gene.1 <- 'null'   # make new columns!
   edgetable$Gene.2 <- 'null'

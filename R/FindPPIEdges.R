@@ -1,22 +1,3 @@
-# Loads and filters the GeneMania file given a vector of gene names.Add commentMore actions
-#
-# This helper function loads the GeneMania file
-# and filters out required nodes.
-#
-# @param nodenames A vector containing the names of the relevant genes
-# @param dbfilepath The path to the database file
-# @return A data frame with the relevant database entries
-get.DB.edgefile <- function(nodenames, db_filepath){
-
-  #reads the file as a table using the first row as a header and tabs as separators (standared for GeneMania interactions)
-  dbtable = read.table(db-filepath, header = TRUE, sep = "\t")
-
-  keep <- dbtable[,1] %in% nodenames & db_table[,2] %in% nodenames     # which rows are we keeping
-  db_edges <- db_table[keep,]                                          # copy 'em over
-
-  return(db_edges)
-}
-
 # Pulls nodenames from the cccn_matrix
 #
 # This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'
@@ -33,21 +14,6 @@ cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
   assign(nodenames.name, nodenames, envir = .GlobalEnv)
 }
 
-#' Make file for GeneMania input
-#'
-#' This function outputs a file the user can take to create the GeneMania edgefile.
-#'
-#' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
-#'
-#' @return A file with all of the gene names which can be copy and pasted into the GeneMania website, data frame of the names of the genes
-#' @export
-#'
-#' @examples
-#' cccn.cfn.tools:::ex.make_db_input(ex.cccn_matrix)
-make_db_input <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
-  write.table(rownames(cccn_matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
-}
-
 #' Find PPI Edges
 #'
 #' This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
@@ -61,7 +27,7 @@ make_db_input <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
 #' @examples
 #' gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
 #' cccn.cfn.tools:::ex.find_ppi_edges(ex.cccn_matrix)
-find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), gm.network = NA, ppi.network.name = "ppi.network") {
+FindPPIEdges <- function(cccn_matrix, db_filepaths = c(), gm.network = NA, ppi.network.name = "ppi.network") {
 
   cccn_to_nodenames(cccn_matrix)
 
@@ -101,7 +67,7 @@ find_ppi_edges <- function(cccn_matrix, db_filepaths = c(), gm.network = NA, ppi
   if(length(db_filepaths) != 0){
     combined_ppi_network <- combined_edges
     for(path in db_filepaths){
-      db_edges <- get.DB.edgefile(path)
+      db_edges <- utils::read.table(path)
       combined_ppi_network <- rbind(combined_ppi_network, db_edges)
     }
     assign(ppi.network.name, combined_ppi_network, envir = .GlobalEnv)} else{ #if db_edges does not exist then do not combine and only use those from STRINGdb
