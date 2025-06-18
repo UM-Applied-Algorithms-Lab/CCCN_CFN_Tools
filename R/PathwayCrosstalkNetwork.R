@@ -1,20 +1,45 @@
+#' Cluster Pathway Evidence
+#' 
+#' Helper function for obtaining cluster pathway evidence given a Cluster and Pathway
+#' 
+#' @param cluster A cluster of genes/proteins (cannot be PTMs)
+#' @param pathway A pathway of genes/proteins
+#' @param p.list  A list of pathways to calculate the # of pathways a gene, k, is in 
+#' 
+#' @return A float value representing cluster pathway evidence between a cluster and pathway
+ClusterPathwayEvidence <- function(cluster, pathway, p.list){
+  # Cluster Pathway Evidence = ∑( 1 /  # of pathways Gene k is in * size of cluster)
+  #Currently just works with the denominator (Treats numerator as 1) as current iteration of the code cannot easily access the # of PTMs a Gene has
+  sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
+  
+  #Denominator for CPE function - NEVER UNIQUE -> only do this per column, like mark's solution! 
+  for(k in 1:length(pathway)) sigma[k] <- sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Assigns values to sigma for each K of the # of pathways that Gene k is in
+  #NOTE TO SELF: Code should definitely be changed as even if this is a suitable solution (it is not) cluster should work way differently (Only used to *length??)
+  sigma <- sigma * length(cluster) #Multiply by the length of cluster - Sigma should now contain denominators
+  sigma <- 1/sigma #Divide all values of sigma by 1 (Should be PTMs from gene(i) pathway in cluster) to complete
+  
+  return(sum(sigma)) #Return the CPE
+}
+
 #' Pathway Crosstalk Network
 #' 
 #' Converts Bioplanet pathways from (<https://tripod.nih.gov/bioplanet/>)  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
 #' 
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"
 #' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
+#' @param PCN.jaccard.name The desired name for the data structure containing jaccard edges
+#' @param PCN.CPE.name The desired name for the data structure containing CPE edges
 #' @return No clue (The result is a matrix with pathway names in columns and individual clusters as rows.)
 #' @export
 #'
 #' @examples
 #' print("TO DO")
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname = "pcn_matrix"){
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "pcn_jaccard_edges", PCN.CPE.name = "pcn_cpe_edges"){
 #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL  
   #Loading .csv
   if(class(file) == "character"){
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory.")) #Error Catch
-    bioplanet <- read.csv(file, stringsAsFactors = F) 
+    bioplanet <- utils::read.csv(file, stringsAsFactors = F) 
   }
   
   #Loading a dataframe for examples
@@ -52,28 +77,40 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCNname
   #plot(pathways.graph) #plot if desired
   
   #Interpret the jaccard matrix as an edgelist
-  jaccardedges <- data.frame(igraph::as_edgelist(pathways.graph)) #Convert to edgelist
-  names(jaccardedges) <- c("source", "target") #Rest is just renaming
-  jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
-  jaccardedges$interaction <- "pathway Jaccard similarity" 
+  PCN.jaccardedges <- data.frame(igraph::as_edgelist(pathways.graph)) #Convert to edgelist
+  names(PCN.jaccardedges) <- c("source", "target") #Rest is just renaming
+  PCN.jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
+  PCN.jaccardedges$interaction <- "pathway Jaccard similarity" 
   
   
   ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
-  gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms 
-  temp.ambig.weights <- unlist(sapply(clusterlist[[2]], function(x){return(rep(1/length(x), length(x)))})) #Weights of ambiguous PTMs are 1/# of ptms in the series. so Aars ubi k454; Abui Or an; Aars ubi k983 splits into 3 genes w/ weight of 1/3rd
-  gene.weights <- c(gene.weights, temp.ambig.weights) #Should look like a bunch of ones at the start followed by various weights < 1
+  #gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms 
+  #temp.ambig.weights <- unlist(sapply(clusterlist[[2]], function(x){return(rep(1/length(x), length(x)))})) #Weights of ambiguous PTMs are 1/# of ptms in the series. so Aars ubi k454; Abui Or an; Aars ubi k983 splits into 3 genes w/ weight of 1/3rd
+  #gene.weights <- c(gene.weights, temp.ambig.weights) #Should look like a bunch of ones at the start followed by various weights < 1
   
   
-  ###Generating pathway cluster evidence###
-  #Innit
-  MCN.data <- do.call(c, clusterlist[[1]]) #Clusters no longer matter - So convert into a vector. Called genevec in Mark's .rmd
-  geneweights <- rep(1, length(MCN.data)) #Create a vector of gene weights
+  ###Generating pathway cluster evidence matrix###
+  #A more correct way of doing things  
+  #MCN.data <- do.call(c, clusterlist[[1]]) #Clusters no longer matter - So convert into a list containing genenames. Called genevec in Mark's .rmd
+  #geneweights <- rep(1, length(MCN.data)) #Create a vector of gene weights
+  #genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights cannot be 1. 
   
-  pathways.genes <- unique(do.call(c, pathways.list)) #Character vector of genes from list of pathways
-  genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights need replacement
+  #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
+  CPE.Matrix <- matrix(0, nrow = length(list.found[[1]]), ncol = length(pathways.list))
+  rownames(CPE.Matrix) <- list.found[[1]] #Naming, will look very ugly. 
+  colnames(CPE.Matrix) <- pathways.list
   
-  #Denominator? Get dimensions to match
-  geneweights[genesinpathways] <- 1/pathways.genes[match(MCN.data[genesinpathways], pathways.genes), "no.pathways"]
+  #Populate Matrix - TODO do NOT make CPE it's own function
+  for(a in 1:nrow(CPE.Matrix)){
+    for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
+      CPE.Matrix[a, b] <- ClusterPathwayEvidence(list.found$`Common Clusters`[[a]], pathways.list[[b]], pathways.list)
+  }}
+  
+  ###Assign Variable Names###
+  assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
+  assign(PCN.CPE.name, CPE.Matrix, envir = .GlobalEnv)
+
+  
   
   
   
