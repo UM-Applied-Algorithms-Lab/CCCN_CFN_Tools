@@ -26,7 +26,7 @@ cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
 #'
 #' @examples
 #' gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
-#' cccn.cfn.tools:::ex.find_ppi_edges(ex.cccn_matrix)
+#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, db_filepaths = c(), gm.network = NA, ppi.network.name = ex.ppi_network)
 FindPPIEdges <- function(cccn_matrix, db_filepaths = c(), gm.network = NA, ppi.network.name = "ppi.network") {
 
   cccn_to_nodenames(cccn_matrix)

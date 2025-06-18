@@ -27,5 +27,5 @@ GeneMANIA ppi network table
 This function process GM edgefile.
 }
 \examples{
-cccn.cfn.tools::ex.processGMedgefile("path/to/edgefile", "path/to/nodetable", ex.nodenames, ex.gm.network)
+cccn.cfn.tools:::ex.ProcessGMEdgefile("path/to/edgefile", "path/to/nodetable", ex.nodenames, ex.gm.network)
 }

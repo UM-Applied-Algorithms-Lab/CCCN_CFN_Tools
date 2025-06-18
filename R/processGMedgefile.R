@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' cccn.cfn.tools:::ex.make_db_input(ex.cccn_matrix)
+#' cccn.cfn.tools:::ex.MakeDBInput(ex.nodenames)
 MakeDBInput <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
   utils::write.table(rownames(cccn_matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
@@ -28,7 +28,7 @@ MakeDBInput <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
 #' @export
 #'
 #' @examples
-#' cccn.cfn.tools::ex.processGMedgefile("path/to/edgefile", "path/to/nodetable", ex.nodenames, ex.gm.network)
+#' cccn.cfn.tools:::ex.ProcessGMEdgefile("path/to/edgefile", "path/to/nodetable", ex.nodenames, ex.gm.network)
 ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path, gm.network.name = "gm.network"){
   edgetable <- utils::read.csv(gm.edgefile.path, header = TRUE)        # read the edgefile
   nodetable <- utils::read.csv(gm.nodetable.path, header = TRUE)       # read the nodetable

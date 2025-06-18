@@ -25,5 +25,5 @@ This function groups t-SNE data points into clusters using a specified threshold
 and visualizes the clusters.
 }
 \examples{
-cccn.cfn.tools:::ex.MakeClusterList(ex.ptmtable, toolong =  3.5)
+MakeClusterList(ex.ptmtable, correlation.matrix.name = "example.cor", list.name = "example.tsne", toolong =  3.5)
 }
