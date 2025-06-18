@@ -20,6 +20,8 @@ cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
 #'
 #' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 #' @param db_filepaths vector of filepaths to data from other databases; defaults to empty vector
+#' @param gm.network network produced by GeneMANIA if that was used; defaults to NA
+#' @param ppi.network.name desired name of the output ppi network; defaults to "ppi.network"
 #'
 #' @return A data frame of combined edges from STRINGdb and provided database entries
 #' @export

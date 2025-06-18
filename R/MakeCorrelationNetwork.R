@@ -57,11 +57,11 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #'
 #' This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
 #'
-#' @param tsne.matrices #List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively
-#' @param ptm.correlation.matrix #Correlation matrix made from ptm table
-#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ["AARS", "ARMS", "AGRS"] but not ["AARS", "ARMS"])
-#' @param lists.name #The desired name for the output of the list containing common and ambigious clusters
-#' @param cccn.name #The desired name for the output of the Correlation Network Matrix
+#' @param tsne.matrices List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively
+#' @param ptm.correlation.matrix Correlation matrix made from ptm table
+#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))
+#' @param lists.name The desired name for the output of the list containing common and ambigious clusters
+#' @param cccn.name The desired name for the output of the Correlation Network Matrix
 #' @export
 #'
 #' @examples
