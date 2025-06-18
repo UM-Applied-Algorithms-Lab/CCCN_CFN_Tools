@@ -7,8 +7,8 @@
 PathwayCrosstalkNetwork(
   file = "bioplanet.csv",
   clusterlist,
-  PCN.jaccard.name = "pcn_jaccard_edges",
-  PCN.CPE.name = "pcn_cpe_edges"
+  PCN.jaccard.name = "PCN.jaccardedges",
+  PCN.CPE.name = "CPE.Matrix"
 )
 }
 \arguments{
@@ -27,5 +27,5 @@ No clue (The result is a matrix with pathway names in columns and individual clu
 Converts Bioplanet pathways from (\url{https://tripod.nih.gov/bioplanet/})  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
 }
 \examples{
-print("TO DO")
+PathwayCrosstalkNetwork(ex.bioplanet, list.common)
 }
