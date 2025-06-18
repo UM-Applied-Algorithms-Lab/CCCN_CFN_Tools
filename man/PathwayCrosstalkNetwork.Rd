@@ -7,13 +7,18 @@
 PathwayCrosstalkNetwork(
   file = "bioplanet.csv",
   clusterlist,
-  PCNname = "pcn_matrix"
+  PCN.jaccard.name = "pcn_jaccard_edges",
+  PCN.CPE.name = "pcn_cpe_edges"
 )
 }
 \arguments{
 \item{file}{Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"}
 
 \item{clusterlist}{The list of coclusters made in MakeCorrelationNetwork}
+
+\item{PCN.jaccard.name}{The desired name for the data structure containing jaccard edges}
+
+\item{PCN.CPE.name}{The desired name for the data structure containing CPE edges}
 }
 \value{
 No clue (The result is a matrix with pathway names in columns and individual clusters as rows.)
