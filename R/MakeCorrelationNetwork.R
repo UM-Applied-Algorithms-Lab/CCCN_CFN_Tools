@@ -56,13 +56,13 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeple
   list.common <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
 
   # Generate the combined adjacency matrix by taking PTMs to Genes
-  list.common <- lapply(list.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
-  ulist <- unique(unlist(list.common)) #Use this for rownames and colnames
+  gene.common <- lapply(list.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
+  ulist <- unique(unlist(gene.common)) #Use this for rownames and colnames
 
   cccn_matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
   # Populate the empty matrix
-  for(d in 1:length(list.common)){ #For every cluster
-    cluster <- list.common[[d]]    #Save the current cluster
+  for(d in 1:length(gene.common)){ #For every cluster
+    cluster <- gene.common[[d]]    #Save the current cluster
     for(e in cluster){             #For every element in the cluster
       for(f in cluster){           #Connect E to F
         cccn_matrix[e, f] <- correlation.value(e, f) #This adds the correlation value
