@@ -9,14 +9,12 @@
 #' @return A float value representing cluster pathway evidence between a cluster and pathway
 ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   # Cluster Pathway Evidence = ∑( 1 /  # of pathways Gene k is in * size of cluster)
-  #Currently just works with the denominator (Treats numerator as 1) as current iteration of the code cannot easily access the # of PTMs a Gene has
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
   
-  #Denominator for CPE function - NEVER UNIQUE -> only do this per column, like mark's solution! 
-  for(k in 1:length(pathway)) sigma[k] <- sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Assigns values to sigma for each K of the # of pathways that Gene k is in
-  #NOTE TO SELF: Code should definitely be changed as even if this is a suitable solution (it is not) cluster should work way differently (Only used to *length??)
-  sigma <- sigma * length(cluster) #Multiply by the length of cluster - Sigma should now contain denominators
-  sigma <- 1/sigma #Divide all values of sigma by 1 (Should be PTMs from gene(i) pathway in cluster) to complete
+  #Numerator for CPE function
+  for(k in 1:length(pathway)) sigma[k] <- length(grep(pathway[k], cluster)) #Numerator: Number of PTMs from Gene K in cluster 
+  for(k in 1:length(pathway)) sigma[k] <- sigma[k]/sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Assigns values to sigma for each K of the # of pathways that Gene k is in
+  sigma <- sigma * (1/length(cluster)) #Divide by length of the cluster
   
   return(sum(sigma)) #Return the CPE
 }
@@ -103,7 +101,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
     for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
-      CPE.Matrix[a, b] <- ClusterPathwayEvidence(list.found$`Common Clusters`[[a]], pathways.list[[b]], pathways.list)
+      CPE.Matrix[a, b] <- ClusterPathwayEvidence(list.common, pathways.list[[b]], pathways.list)
   }}
   
   ###Assign Variable Names###
