@@ -2,7 +2,7 @@
 #'
 #' (description)
 #'
-#' @format :
+#' @format Dataframe with 100 rows and 4 columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -17,7 +17,7 @@
 #'
 #' Network of relationships between ptms based on clustering from the three distance metrics.
 #'
-#' @format :
+#' @format Square matrix with 19 rows and columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -28,26 +28,11 @@
 #' head(ex.cccn_matrix)
 "ex.cccn_matrix"
 
-#' Ptms Data
-#'
-#' (description)
-#'
-#' @format :
-#' \describe{
-#'   \item{}{}
-#'   ...
-#' }
-#' @source "mass spectroscopy data"
-#' @examples
-#' data(ex.eu.sp.sed.ptms.data)
-#' head(ex.eu.sp.sed.ptms.data)
-"ex.eu.sp.sed.ptms.data"
-
 #' Pathways List Example
 #'
 #' (description)
 #'
-#' @format :
+#' @format List of 1657 elements:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -58,11 +43,11 @@
 #' head(ex.pathways.list)
 "ex.pathways.list"
 
-#' GeneMANIA Edges Example
+#' Full GeneMANIA Edges Example
 #'
 #' Edges from the GeneMANIA database.
 #'
-#' @format :
+#' @format Dataframe of 601,552 rows and 10 columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -73,11 +58,11 @@
 #' head(ex.gm.edges)
 "ex.gm.edges"
 
-#' GeneMANIA Network Example
+#' Full GeneMANIA Network Example
 #'
 #' Network of relationships between genes based on information from the GeneMANIA database.
 #'
-#' @format :
+#' @format Dataframe of 601,552 rows and 3 columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -92,7 +77,7 @@
 #'
 #' Dataframe from GeneMANIA relating GeneMANIA IDs to common gene names.
 #'
-#' @format :
+#' @format Dataframe of 2762 rows and 16 columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -107,7 +92,7 @@
 #'
 #' Empty GeneMANIA structure. TODO: fix.
 #'
-#' @format :
+#' @format Dataframe of 0 rows and 4 columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -122,7 +107,7 @@
 #'
 #' (description)
 #'
-#' @format :
+#' @format List of 12 variables:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -137,7 +122,7 @@
 #'
 #' List of gene names in dataset.
 #'
-#' @format :
+#' @format Dataframe of 10 rows and 1 column:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -152,7 +137,7 @@
 #'
 #' Network of relationships between genes based on PPI database STRINGdb.
 #'
-#' @format :
+#' @format Dataframe of 1 row and 4 columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -167,7 +152,7 @@
 #'
 #' Matrix relating the correlation values between ptms based on Spearman Similarity.
 #'
-#' @format :
+#' @format Square matrix of 100 rows and columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -182,7 +167,7 @@
 #'
 #' Post-translational modification data under certain environmental conditions.
 #'
-#' @format :
+#' @format Dataframe of 100 rows and 70 columns:
 #' \describe{
 #'   \item{}{}
 #'   ...
@@ -195,9 +180,9 @@
 
 #' TSNE matrices Example
 #'
-#' List of dataframes of ptm positions in 3D space to show their relationships with each other based on distance.
+#' List of of lists of dataframes of ptm positions in 3D space to show their relationships with each other based on distance.
 #'
-#' @format :
+#' @format List of 3 lists of 6 (Euclidean and SED) or 88 (Spearman) dataframes of varying sizes:
 #' \describe{
 #'   \item{}{}
 #'   ...
