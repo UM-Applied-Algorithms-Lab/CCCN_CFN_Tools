@@ -15,14 +15,13 @@
 
 #' CoCluster Correlation Network
 #'
-#' Network of relationships between ptms based on clustering from the three distance metrics.
+#' Network of relationships between genes based on clustering of ptms from the three distance metrics.
 #'
 #' @format Square matrix with 19 rows and columns:
 #' \describe{
-#'   \item{}{}
-#'   ...
+#'   \item{rows/columns}{Gene}
 #' }
-#' @source source info (or `"manually created"`)
+#' @source "created by MakeCorrelationNetwork"
 #' @examples
 #' data(ex.cccn_matrix)
 #' head(ex.cccn_matrix)
@@ -34,8 +33,7 @@
 #'
 #' @format List of 1657 elements:
 #' \describe{
-#'   \item{}{}
-#'   ...
+#'   \item{pathway}{A pathway name with the list of genes involved}
 #' }
 #' @source source info (or `"manually created"`)
 #' @examples
@@ -45,14 +43,23 @@
 
 #' Full GeneMANIA Edges Example
 #'
-#' Edges from the GeneMANIA database.
+#' Network of interactions from the GeneMANIA database.
 #'
 #' @format Dataframe of 601,552 rows and 10 columns:
 #' \describe{
-#'   \item{}{}
+#'   \item{data.type}{Type of interaction; typically co-expression}
+#'   \item{highlight}{UNKNOWN}
+#'   \item{interaction}{UNKNOWN}
+#'   \item{name}{The names of the two genes interacting as well as the data type}
+#'   \item{networks}{Source of information}
+#'   \item{normalized.max.weight}{UNKNOWN}
+#'   \item{raw.weights}{A number weighting the strength of the interaction}
+#'   \item{selected}{UNKNOWN}
+#'   \item{shared.interaction}{UNKNOWN}
+#'   \item{shared.name}{UNKNOWN}
 #'   ...
 #' }
-#' @source source info (or `"manually created"`)
+#' @source \url{https://apps.cytoscape.org/apps/genemania}
 #' @examples
 #' data(ex.gm.edges)
 #' head(ex.gm.edges)
@@ -67,7 +74,7 @@
 #'   \item{}{}
 #'   ...
 #' }
-#' @source source info (or `"manually created"`)
+#' @source \url{https://apps.cytoscape.org/apps/genemania}
 #' @examples
 #' data(ex.gm.network)
 #' head(ex.gm.network)
@@ -82,7 +89,7 @@
 #'   \item{}{}
 #'   ...
 #' }
-#' @source source info (or `"manually created"`)
+#' @source \url{https://apps.cytoscape.org/apps/genemania}
 #' @examples
 #' data(ex.gm.nodes)
 #' head(ex.gm.nodes)
@@ -97,7 +104,7 @@
 #'   \item{}{}
 #'   ...
 #' }
-#' @source source info (or `"manually created"`)
+#' @source \url{https://genemania.org}
 #' @examples
 #' data(ex.gm_edges)
 #' head(ex.gm_edges)

@@ -19,11 +19,7 @@ MakeCorrelationNetwork(
 
 \item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))}
 
-<<<<<<< HEAD
 \item{lists.name}{The desired name for the output of the list containing common and ambigious clusters}
-=======
-\item{lists.name}{#The desired name for the output of the list containing common and ambigious clusters}
->>>>>>> 0f9467ce5c6c0be14dd57afad29aeda3db689eea
 
 \item{cccn.name}{The desired name for the output of the Correlation Network Matrix}
 }
