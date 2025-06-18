@@ -15,7 +15,7 @@
 
 #' CoCluster Correlation Network
 #'
-#' (description)
+#' Network of relationships between ptms based on clustering from the three distance metrics.
 #'
 #' @format :
 #' \describe{
@@ -60,7 +60,7 @@
 
 #' GeneMANIA Edges Example
 #'
-#' (description)
+#' Edges from the GeneMANIA database.
 #'
 #' @format :
 #' \describe{
@@ -75,7 +75,7 @@
 
 #' GeneMANIA Network Example
 #'
-#' (description)
+#' Network of relationships between genes based on information from the GeneMANIA database.
 #'
 #' @format :
 #' \describe{
@@ -90,7 +90,7 @@
 
 #' GeneMANIA Nodes Example
 #'
-#' (description)
+#' Dataframe from GeneMANIA relating GeneMANIA IDs to common gene names.
 #'
 #' @format :
 #' \describe{
@@ -105,7 +105,7 @@
 
 #' GeneMANIA Empty Edges Example
 #'
-#' (description)
+#' Empty GeneMANIA structure. TODO: fix.
 #'
 #' @format :
 #' \describe{
@@ -135,7 +135,7 @@
 
 #' Nodenames Example
 #'
-#' (description)
+#' List of gene names in dataset.
 #'
 #' @format :
 #' \describe{
@@ -150,7 +150,7 @@
 
 #' PPI Network Example
 #'
-#' (description)
+#' Network of relationships between genes based on PPI database STRINGdb.
 #'
 #' @format :
 #' \describe{
@@ -165,7 +165,7 @@
 
 #' Correlation Matrix Example
 #'
-#' (description)
+#' Matrix relating the correlation values between ptms based on Spearman Similarity.
 #'
 #' @format :
 #' \describe{
@@ -180,7 +180,7 @@
 
 #' PTM Table Example
 #'
-#' (description)
+#' Post-translational modification data under certain environmental conditions.
 #'
 #' @format :
 #' \describe{
@@ -195,7 +195,7 @@
 
 #' TSNE matrices Example
 #'
-#' (description)
+#' List of dataframes of ptm positions in 3D space to show their relationships with each other based on distance.
 #'
 #' @format :
 #' \describe{
