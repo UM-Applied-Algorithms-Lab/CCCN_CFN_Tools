@@ -110,6 +110,21 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   
+  #Create data frame
+  size <- sum(sapply(temp.rows, function(x) factorial(length(x))/(factorial(length(x) - 2)*2))) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package 
+  PCN.network <- data.frame(source = rep("-", size), target = rep("-", size), weight = rep(0, size)) #Empty data frame
+  
+  #Populate data frame
+  track <- 1 #Empty location in the data frame
+  for(i in temp.rows){
+    nodes <- t(combn(i, 2)) #Get every node pair (connection)
+    for(j in asplit(nodes, 1)) {
+      PCN.network[track, 1:2] <- j
+      track <- track+1
+      }
+  }
+  
+  
   
   ###Assign Variable Names###
   assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
