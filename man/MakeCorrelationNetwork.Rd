@@ -8,7 +8,7 @@ MakeCorrelationNetwork(
   tsne.matrices,
   ptm.correlation.matrix,
   keeplength = 2,
-  lists.name = "list.found",
+  lists.name = "list.common",
   cccn.name = "cccn_matrix"
 )
 }
@@ -19,7 +19,7 @@ MakeCorrelationNetwork(
 
 \item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))}
 
-\item{lists.name}{The desired name for the output of the list containing common and ambigious clusters}
+\item{lists.name}{The desired name for the output of the list containing clusters of PTMs and Genes}
 
 \item{cccn.name}{The desired name for the output of the Correlation Network Matrix}
 }

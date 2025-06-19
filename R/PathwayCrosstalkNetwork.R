@@ -8,17 +8,15 @@
 #' 
 #' @return A float value representing cluster pathway evidence between a cluster and pathway
 ClusterPathwayEvidence <- function(cluster, pathway, p.list){
-  # Cluster Pathway Evidence = ∑( 1 /  # of pathways Gene k is in * size of cluster)
-  #Currently just works with the denominator (Treats numerator as 1) as current iteration of the code cannot easily access the # of PTMs a Gene has
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
   
-  #Denominator for CPE function - NEVER UNIQUE -> only do this per column, like mark's solution! 
-  for(k in 1:length(pathway)) sigma[k] <- sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Assigns values to sigma for each K of the # of pathways that Gene k is in
-  #NOTE TO SELF: Code should definitely be changed as even if this is a suitable solution (it is not) cluster should work way differently (Only used to *length??)
-  sigma <- sigma * length(cluster) #Multiply by the length of cluster - Sigma should now contain denominators
-  sigma <- 1/sigma #Divide all values of sigma by 1 (Should be PTMs from gene(i) pathway in cluster) to complete
-  
-  return(sum(sigma)) #Return the CPE
+  for(k in 1:length(pathway)){
+    temp <- length(grep(pathway[k], cluster)) #Numerator: The amount of times Gene k appears in cluster
+    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in the pathway list
+    sigma[k] <- temp #Assign this value to sigma[k]
+  } 
+  sigma <- sigma*(1/length(cluster)) #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
+  return(sum(sigma))
 }
 
 #' Pathway Crosstalk Network
@@ -33,8 +31,8 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' @export
 #'
 #' @examples
-#' print("TO DO")
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "pcn_jaccard_edges", PCN.CPE.name = "pcn_cpe_edges"){
+#' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common)
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.jaccardedges", PCN.CPE.name = "CPE.Matrix"){
 #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL  
   #Loading .csv
   if(class(file) == "character"){
@@ -96,14 +94,14 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights cannot be 1. 
   
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
-  CPE.Matrix <- matrix(0, nrow = length(list.found[[1]]), ncol = length(pathways.list))
-  rownames(CPE.Matrix) <- list.found[[1]] #Naming, will look very ugly. 
+  CPE.Matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
+  rownames(CPE.Matrix) <- clusterlist #Naming, will look very ugly. 
   colnames(CPE.Matrix) <- pathways.list
   
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
     for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
-      CPE.Matrix[a, b] <- ClusterPathwayEvidence(list.found$`Common Clusters`[[a]], pathways.list[[b]], pathways.list)
+      CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list)
   }}
   
   ###Assign Variable Names###
