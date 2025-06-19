@@ -95,7 +95,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
   CPE.Matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
-  rownames(CPE.Matrix) <- clusterlist #Naming, will look very ugly. 
+  rownames(CPE.Matrix) <- names(clusterlist) #Names 
   colnames(CPE.Matrix) <- names(pathways.list)
   
   #Populate Matrix - TODO do NOT make CPE it's own function
@@ -107,11 +107,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   ###Generate PCN network###
   
   #Isolate rows from CPE.Matrix
-  temp.rows <- apply(CPE.Matrix, 1, function(x){x[x!=0]}) #Creates a list of vectors that contain nonzero values in the rows of CPE.Matrix. 1 Vector per row.
-  keep.rows <- sapply(temp.rows, function(y){length(y)>=2}) #Vector TRUE for the rows we want to keep 
-  
-  #Convert the above into a list of edges
-  
+  temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
+  temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   
   
   ###Assign Variable Names###
