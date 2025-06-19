@@ -203,7 +203,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 - gm.network (optional pre-step 3)  
   - GeneMANIA network produced in optional pre-step 3; defaults to NA  
 - ppi.network.name  
-  - Desired name of the output for the ppi network; defaults to ppi.network  
+  - Desired name for the output of FindPPIEdges; defaults to ppi.network  
 
 #### Output  
 - ppi.network (or otherwise named by ppi.network.name)  
@@ -225,22 +225,57 @@ ClusterFilteredNetwork(cccn_matrix, ppi.network, cfn.name = "cfn")
 
 #### Description  
 
-**Note:** This function, like the ones before it, will pull required data from the global environment. 
-Requires both a cccn_matrix and a list of PPI edges. Checks all PPI edges to see if their edge weight is equal (or under the bounds of the accuracy parameter) to the weight of the same edge in the matrix. If it is not, then it will be removed from the list of PPI edges.  
+Cluster Filtered Network checks all of the edges in the PPI network to see ensure that both of the genes are within our cocluster correlation network and that its weight is nonzero. If either of these conditions are not met, then it will be removed from the list of PPI edges. This new, cluster filtered network is then returned.  
 
 #### Input  
 - cccn_matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - ppi_network  
   - A dataframe representing how strongly proteins are known to interact  
+- cfn.name  
+  - Desired name for the output of ClusterFilteredNetwork; defaults to cfn  
 
 #### Output  
 - cfn (or otherwise named by cfn.name)
-  - A version of ppi_network with only the edges that exist in cccn_matrix  
+  - A version of ppi_network with only the edges that exist in cccn_matrix and have non-zero weights  
   - Note that the STRINGdb.combined_score is on a scale of 0-1000 while cor_weight (and GM.raw.weights) is on a scale of 0-1
 
 #### Estimated run-time  
 10mins
+
+## Step 5: Pathway Crosstalk Network  
+
+#### Code  
+
+```{r eval = FALSE}
+PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "pcn_jaccard_edges", PCN.CPE.name = "pcn_cpe_edges")
+```
+
+  
+**Figure 9** Will exist at some point  
+
+#### Description  
+
+The final step in this pipeline is the PathwayCrosstalkNetwork.  
+
+#### Input  
+- file  
+  - File path for the pathway data from Bioplanet  
+- clusterlist  
+  - List of clusters from MakeCorrelationNetwork  
+- PCN.jaccard.name  
+  - Desired name for an output of PathwayCrosstalkNetwork; defaults to pcn_jaccard_edges  
+- PCN.CPE.name  
+  - Desired name for an output of PathwayCrosstalkNetwork; defaults to pcn_cpe_edges  
+
+#### Output  
+- pcn_jaccard_edges (or otherwise named by PCN.jaccard.name)
+  - output  
+- pcn_cpe_edges (or otherwise named by PCN.CPE.name)
+  - output  
+
+#### Estimated run-time  
+UNKNOWN
 
 
 

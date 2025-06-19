@@ -61,16 +61,27 @@
     <h2>Arguments</h2>
 
 
-<dl><dt id="arg-accuracy">accuracy<a class="anchor" aria-label="anchor" href="#arg-accuracy"></a></dt>
-<dd><p>How close a PPI can weight be to a correlation weight to accept the edge. It is recommeneded that genemania users do not increase this parameter as it defaults to the maximum sig figs for a genemania egde weight.</p></dd>
+<dl><dt id="arg-cccn-matrix">cccn_matrix<a class="anchor" aria-label="anchor" href="#arg-cccn-matrix"></a></dt>
+<dd><p>Matrix representing the common clusters from the three distance calculations' clusters</p></dd>
+
+
+<dt id="arg-ppi-network">ppi.network<a class="anchor" aria-label="anchor" href="#arg-ppi-network"></a></dt>
+<dd><p>A data frame of combined edges from STRINGdb and provided database entries</p></dd>
+
+
+<dt id="arg-cfn-name">cfn.name<a class="anchor" aria-label="anchor" href="#arg-cfn-name"></a></dt>
+<dd><p>Desired name of the output cluster filtered network</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>cluster filtered network</p>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">cccn.cfn.tools</span><span class="fu">:::</span><span class="fu"><a href="ex.ClusterFilteredNetwork.html">ex.ClusterFilteredNetwork</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Gene.1 Gene.2 Weight     edgeType</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 ABHD11 ACADVL  0.401 coexpression</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ClusterFilteredNetwork</span><span class="op">(</span><span class="va">ex.cccn_matrix</span>, <span class="va">ex.ppi_network</span>, cfn.name <span class="op">=</span> <span class="st">"example.cfn"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ClusterFilteredNetwork(ex.cccn_matrix, ex.ppi_network, cfn.name = "example.cfn"):</span> No common edges between PPI edges and cccn_matrix</span>
 </code></pre></div>
     </div>
   </div>

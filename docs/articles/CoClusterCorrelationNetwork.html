@@ -495,7 +495,7 @@ NA<br>
 </li>
 <li>ppi.network.name
 <ul>
-<li>Desired name of the output for the ppi network; defaults to
+<li>Desired name for the output of FindPPIEdges; defaults to
 ppi.network</li>
 </ul>
 </li>
@@ -533,12 +533,11 @@ ClusterFilteredNetwork</p>
 <div class="section level5">
 <h5 id="description-4">Description<a class="anchor" aria-label="anchor" href="#description-4"></a>
 </h5>
-<p><strong>Note:</strong> This function, like the ones before it, will
-pull required data from the global environment. Requires both a
-cccn_matrix and a list of PPI edges. Checks all PPI edges to see if
-their edge weight is equal (or under the bounds of the accuracy
-parameter) to the weight of the same edge in the matrix. If it is not,
-then it will be removed from the list of PPI edges.</p>
+<p>Cluster Filtered Network checks all of the edges in the PPI network
+to see ensure that both of the genes are within our cocluster
+correlation network and that its weight is nonzero. If either of these
+conditions are not met, then it will be removed from the list of PPI
+edges. This new, cluster filtered network is then returned.</p>
 </div>
 <div class="section level5">
 <h5 id="input-5">Input<a class="anchor" aria-label="anchor" href="#input-5"></a>
@@ -554,7 +553,14 @@ the common clusters between the three distance metrics<br>
 <li>ppi_network
 <ul>
 <li>A dataframe representing how strongly proteins are known to
-interact</li>
+interact<br>
+</li>
+</ul>
+</li>
+<li>cfn.name
+<ul>
+<li>Desired name for the output of ClusterFilteredNetwork; defaults to
+cfn</li>
 </ul>
 </li>
 </ul>
@@ -566,7 +572,7 @@ interact</li>
 <li>cfn (or otherwise named by cfn.name)
 <ul>
 <li>A version of ppi_network with only the edges that exist in
-cccn_matrix<br>
+cccn_matrix and have non-zero weights<br>
 </li>
 <li>Note that the STRINGdb.combined_score is on a scale of 0-1000 while
 cor_weight (and GM.raw.weights) is on a scale of 0-1</li>
@@ -578,6 +584,75 @@ cor_weight (and GM.raw.weights) is on a scale of 0-1</li>
 <h5 id="estimated-run-time-5">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-5"></a>
 </h5>
 <p>10mins</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="step-5-pathway-crosstalk-network">Step 5: Pathway Crosstalk Network<a class="anchor" aria-label="anchor" href="#step-5-pathway-crosstalk-network"></a>
+</h3>
+<div class="section level5">
+<h5 id="code-6">Code<a class="anchor" aria-label="anchor" href="#code-6"></a>
+</h5>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/PathwayCrosstalkNetwork.html">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">clusterlist</span>, PCN.jaccard.name <span class="op">=</span> <span class="st">"pcn_jaccard_edges"</span>, PCN.CPE.name <span class="op">=</span> <span class="st">"pcn_cpe_edges"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Figure 9</strong> Will exist at some point</p>
+</div>
+<div class="section level5">
+<h5 id="description-5">Description<a class="anchor" aria-label="anchor" href="#description-5"></a>
+</h5>
+<p>The final step in this pipeline is the PathwayCrosstalkNetwork.</p>
+</div>
+<div class="section level5">
+<h5 id="input-6">Input<a class="anchor" aria-label="anchor" href="#input-6"></a>
+</h5>
+<ul>
+<li>file
+<ul>
+<li>File path for the pathway data from Bioplanet<br>
+</li>
+</ul>
+</li>
+<li>clusterlist
+<ul>
+<li>List of clusters from MakeCorrelationNetwork<br>
+</li>
+</ul>
+</li>
+<li>PCN.jaccard.name
+<ul>
+<li>Desired name for an output of PathwayCrosstalkNetwork; defaults to
+pcn_jaccard_edges<br>
+</li>
+</ul>
+</li>
+<li>PCN.CPE.name
+<ul>
+<li>Desired name for an output of PathwayCrosstalkNetwork; defaults to
+pcn_cpe_edges</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section level5">
+<h5 id="output-6">Output<a class="anchor" aria-label="anchor" href="#output-6"></a>
+</h5>
+<ul>
+<li>pcn_jaccard_edges (or otherwise named by PCN.jaccard.name)
+<ul>
+<li>output<br>
+</li>
+</ul>
+</li>
+<li>pcn_cpe_edges (or otherwise named by PCN.CPE.name)
+<ul>
+<li>output</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section level5">
+<h5 id="estimated-run-time-6">Estimated run-time<a class="anchor" aria-label="anchor" href="#estimated-run-time-6"></a>
+</h5>
+<p>UNKNOWN</p>
 </div>
 </div>
 </div>

@@ -62,17 +62,21 @@
 
 
 <dl><dt id="arg-cccn-matrix">cccn_matrix<a class="anchor" aria-label="anchor" href="#arg-cccn-matrix"></a></dt>
-<dd><p>dataframe of dataframes that represent the common clusters from the three distance calculations' clusters</p></dd>
+<dd><p>matrix representing the common clusters from the three distance calculations' clusters</p></dd>
+
+
+<dt id="arg-file-path-name">file.path.name<a class="anchor" aria-label="anchor" href="#arg-file-path-name"></a></dt>
+<dd><p>path for the output file; defaultsto db_nodes.txt</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A file with all of the gene names which can be copy and pasted into the GeneMania website, data frame of the names of the genes</p>
+    <p>A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">cccn.cfn.tools</span><span class="fu">:::</span><span class="fu"><a href="ex.make_db_input.html">ex.make_db_input</a></span><span class="op">(</span><span class="va">ex.cccn_matrix</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">cccn.cfn.tools</span><span class="fu">:::</span><span class="fu"><a href="ex.MakeDBInput.html">ex.MakeDBInput</a></span><span class="op">(</span><span class="va">ex.nodenames</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ABHD11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ABI2</span>
