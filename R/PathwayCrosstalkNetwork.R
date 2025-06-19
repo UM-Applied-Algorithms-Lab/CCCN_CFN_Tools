@@ -12,7 +12,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   
   for(k in 1:length(pathway)){
     temp <- length(grep(pathway[k], cluster)) #Numerator: The amount of times Gene k appears in cluster
-    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in the pathway list
+    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list 
     sigma[k] <- temp #Assign this value to sigma[k]
   } 
   sigma <- sigma*(1/length(cluster)) #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
