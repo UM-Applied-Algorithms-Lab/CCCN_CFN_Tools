@@ -118,11 +118,12 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   track <- 1 #Empty location in the data frame
   for(i in temp.rows){
     nodes <- t(combn(i, 2)) #Get every node pair (connection)
-    for(j in asplit(nodes, 1)) {
-      PCN.network[track, 1:2] <- j
-      track <- track+1
-      }
-  }
+    for(j in asplit(nodes, 1)) { #Add all node pairings to data frame
+      PCN.network[track, 1:2] <- j #Add row from nodes to empty spot in PCN.network
+      PCN.network[track, 3] <- CPE.Matrix[names(i) ,j[[1]]]*2 #Add weight from cluster and first pathway intersection
+      track <- track+1 #Increase tracker
+    }}
+  
   
   
   
