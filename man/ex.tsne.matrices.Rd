@@ -5,14 +5,15 @@
 \alias{ex.tsne.matrices}
 \title{TSNE matrices Example}
 \format{
-List of 3 lists of 6 (Euclidean and SED) or 88 (Spearman) dataframes of varying sizes:
+List of 3 Distance metrics (Euclidean, Spearman, and the average of Spearman and Euclidean (SED)) and the clusters that form when they are run through tsne:
 \describe{
-\item{}{}
-...
+\item{Euclidean}{A list of 6 clusters of ptms based on their Euclidean distance and positional distance determined by tsne}
+\item{Spearman}{A list of 6 clusters of ptms based on their Spearman dissimilarity and positional distance determined by tsne}
+\item{SED}{A list of 6 clusters of ptms based on the average of their Euclidean distance and Spearman Dissimilarity and positional distance determined by tsne}
 }
 }
 \source{
-source info (or \code{"manually created"})
+"created by MakeClusterList"
 }
 \usage{
 ex.tsne.matrices

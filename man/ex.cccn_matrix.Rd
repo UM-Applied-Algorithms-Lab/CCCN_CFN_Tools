@@ -8,6 +8,7 @@
 Square matrix with 19 rows and columns:
 \describe{
 \item{rows/columns}{Gene}
+\item{values}{Strength of correlation}
 }
 }
 \source{

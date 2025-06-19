@@ -7,12 +7,11 @@
 \format{
 Dataframe of 10 rows and 1 column:
 \describe{
-\item{}{}
-...
+\item{Gene.Names}{Name of the gene}
 }
 }
 \source{
-source info (or \code{"manually created"})
+"created by MakeDBInput"
 }
 \usage{
 ex.nodenames

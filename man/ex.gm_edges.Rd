@@ -7,8 +7,10 @@
 \format{
 Dataframe of 0 rows and 4 columns:
 \describe{
-\item{}{}
-...
+\item{Gene.1}{The gene interacting with Gene.2}
+\item{Gene.2}{The gene interacting with Gene.1}
+\item{Weight}{Strength of the interaction}
+\itm{Network.group}{Type of interaction}
 }
 }
 \source{

@@ -8,16 +8,15 @@
 Dataframe of 601,552 rows and 10 columns:
 \describe{
 \item{data.type}{Type of interaction; typically co-expression}
-\item{highlight}{UNKNOWN}
-\item{interaction}{UNKNOWN}
+\item{highlight}{Internal flag}
+\item{interaction}{Type of interaction}
 \item{name}{The names of the two genes interacting as well as the data type}
 \item{networks}{Source of information}
-\item{normalized.max.weight}{UNKNOWN}
+\item{normalized.max.weight}{raw.weights scaled to be consistent}
 \item{raw.weights}{A number weighting the strength of the interaction}
-\item{selected}{UNKNOWN}
-\item{shared.interaction}{UNKNOWN}
-\item{shared.name}{UNKNOWN}
-...
+\item{selected}{Internal flag}
+\item{shared.interaction}{Type of interaction}
+\item{shared.name}{The names of the two genes interacting as well as the data type}
 }
 }
 \source{

@@ -7,8 +7,21 @@
 \format{
 Dataframe of 2762 rows and 16 columns:
 \describe{
-\item{}{}
-...
+\item{annotation.name}{Note about the gene}
+\item{annotations}{Processes associated with this gene according to Gene Ontology}
+\item{Ensemble.Gene.ID}{ID of the gene in Ensemble}
+\item{Entrez.Gene.ID}{ID of the gene in Entrez}
+\item{gene.name}{Common name fo the gene}
+\item{log.score}{Association strength to the set of entered genes on a log scale}
+\item{name}{Name of the gene in GeneMANIA}
+\item{node.type}{Why the node is in the list}
+\item{query.term}{What was searched for; typically the common name of the gene}
+\item{RefSeq.Protein.ID}{ID of the gene in RefSeq}
+\item{score}{Predicted association strength to the set of entered genes}
+\item{selected}{Internal flag}
+\item{shared.name}{Name of the gene in GeneMANIA}
+\item{Synonym}{Gene synonym in another database}
+\item{Uniprot.ID}{ID of the gene in Uniprot}
 }
 }
 \source{

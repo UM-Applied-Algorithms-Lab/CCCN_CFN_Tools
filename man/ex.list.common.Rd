@@ -5,10 +5,9 @@
 \alias{ex.list.common}
 \title{List of Common Clusters Example}
 \format{
-List of 12 variables:
+List of 12 lists:
 \describe{
-\item{}{}
-...
+\item{list}{Common cluster between the three distance metrics}
 }
 }
 \source{

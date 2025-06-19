@@ -7,8 +7,9 @@
 \format{
 Dataframe of 601,552 rows and 3 columns:
 \describe{
-\item{}{}
-...
+\item{Gene.1}{The gene interacting with Gene.2}
+\item{Gene.2}{The gene interacting with Gene.1}
+\item{raw.weights}{Strength of the interaction}
 }
 }
 \source{

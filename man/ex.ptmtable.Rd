@@ -7,12 +7,13 @@
 \format{
 Dataframe of 100 rows and 70 columns:
 \describe{
-\item{}{}
-...
+\item{rows}{Post-translational modifications}
+\item{columns}{Experimental condition}
+\item{values}{Expression as found by mass spectrometry}
 }
 }
 \source{
-source info (or \code{"manually created"})
+"manually created"
 }
 \usage{
 ex.ptmtable
