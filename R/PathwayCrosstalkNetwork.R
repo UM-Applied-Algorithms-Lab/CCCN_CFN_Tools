@@ -12,7 +12,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   
   for(k in 1:length(pathway)){
     temp <- length(grep(pathway[k], cluster)) #Numerator: The amount of times Gene k appears in cluster
-    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in the pathway list
+    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list 
     sigma[k] <- temp #Assign this value to sigma[k]
   } 
   sigma <- sigma*(1/length(cluster)) #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
@@ -54,8 +54,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   matrix.jaccard <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
   
   #Rename
-  rownames(matrix.jaccard) <- pathways.list
-  colnames(matrix.jaccard) <- pathways.list
+  rownames(matrix.jaccard) <- names(pathways.list)
+  colnames(matrix.jaccard) <- names(pathways.list)
 
   #Populate matrix, diagonals must be 0 in order to prevent self-loops in 
   for (i in 1:length(pathways.list)) {
@@ -95,14 +95,37 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
   CPE.Matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
-  rownames(CPE.Matrix) <- clusterlist #Naming, will look very ugly. 
-  colnames(CPE.Matrix) <- pathways.list
+  rownames(CPE.Matrix) <- names(clusterlist) #Names 
+  colnames(CPE.Matrix) <- names(pathways.list)
   
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
     for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
       CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list)
   }}
+  
+  ###Generate PCN network###
+  
+  #Isolate rows from CPE.Matrix
+  temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
+  temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
+  
+  #Create data frame
+  size <- sum(sapply(temp.rows, function(x) factorial(length(x))/(factorial(length(x) - 2)*2))) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package 
+  PCN.network <- data.frame(source = rep("-", size), target = rep("-", size), weight = rep(0, size)) #Empty data frame
+  
+  #Populate data frame
+  track <- 1 #Empty location in the data frame
+  for(i in temp.rows){
+    nodes <- t(combn(i, 2)) #Get every node pair (connection)
+    for(j in asplit(nodes, 1)) { #Add all node pairings to data frame
+      PCN.network[track, 1:2] <- j #Add row from nodes to empty spot in PCN.network
+      PCN.network[track, 3] <- CPE.Matrix[names(i) ,j[[1]]]*2 #Add weight from cluster and first pathway intersection
+      track <- track+1 #Increase tracker
+    }}
+  
+  
+  
   
   ###Assign Variable Names###
   assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
