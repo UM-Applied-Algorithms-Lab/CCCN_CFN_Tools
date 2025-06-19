@@ -27,5 +27,7 @@ MakeCorrelationNetwork(
 This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
 }
 \examples{
-MakeCorrelationNetwork(ex.tsne.matrices, ex.ptm.correlation.matrix, 1, "example.list.found", "example.cccn")
+tsnes <- ex.tesne.matrices
+ptm.cor <- ex.ptm.correlation.matrix
+MakeCorrelationNetwork(tsnes, ptm.cor, 1, "example.list.found", "example.cccn")
 }

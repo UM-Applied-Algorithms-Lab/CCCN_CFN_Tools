@@ -27,6 +27,8 @@ A data frame of combined edges from STRINGdb and provided database entries
 This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
 }
 \examples{
-gmfile <- system.file("genemania", "genemania-interactions.txt", package = "cccn.cfn.tools", mustWork = TRUE)
+gmpath <- "genemania-interactions.txt"
+pack <- "cccn.cfn.tools"
+gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
 cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, ppi.network.name = "ex.ppi_network")
 }
