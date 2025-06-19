@@ -13,15 +13,15 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   list1.ptms <- lapply(list1, function(x){x$"PTM.Name"}) #These are lists of character vectors
   list2.ptms <- lapply(list2, function(y){y$"PTM.Name"})
   list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
-  
+
   returnme <- list() #Innit empty list
 
   #Triple loop to look through elements of the list and compare them
-  for(a in 1:length(list1.ptms)){ 
+  for(a in 1:length(list1.ptms)){
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
-        if(length(temp) > klength) returnme[[length(returnme)+1]] <- as.list(temp) #Add temp as a cluster (character vector) to returnme 
+        if(length(temp) > klength) returnme[[length(returnme)+1]] <- as.list(temp) #Add temp as a cluster (character vector) to returnme
   }}}
   #Return
   if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
@@ -40,7 +40,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @export
 #'
 #' @examples
-#' MakeCorrelationNetwork(ex.tsne.matrices, ex.ptm.correlation.matrix, keeplength = 1, lists.name = "example.list.found", cccn.name = "example.cccn")
+#' MakeCorrelationNetwork(ex.tsne.matrices, ex.ptm.correlation.matrix, 1, "example.list.found", "example.cccn")
 MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeplength = 2, lists.name = "list.common", cccn.name = "cccn_matrix"){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
