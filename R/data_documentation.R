@@ -183,7 +183,7 @@
 #'   \item{Gene.1}{The gene interacting with Gene.2}
 #'   \item{Gene.2}{The gene interacting with Gene.1}
 #'   \item{Weight}{Strength of the interaction}
-#'   \itm{edgeType}{Type of interaction between Gene.1 and Gene.2}
+#'   \item{edgeType}{Type of interaction between Gene.1 and Gene.2}
 #' }
 #' @source "created by FindPPIEdges"
 #' @examples
