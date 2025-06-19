@@ -54,8 +54,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   matrix.jaccard <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
   
   #Rename
-  rownames(matrix.jaccard) <- pathways.list
-  colnames(matrix.jaccard) <- pathways.list
+  rownames(matrix.jaccard) <- names(pathways.list)
+  colnames(matrix.jaccard) <- names(pathways.list)
 
   #Populate matrix, diagonals must be 0 in order to prevent self-loops in 
   for (i in 1:length(pathways.list)) {
@@ -96,7 +96,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
   CPE.Matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.Matrix) <- clusterlist #Naming, will look very ugly. 
-  colnames(CPE.Matrix) <- pathways.list
+  colnames(CPE.Matrix) <- names(pathways.list)
   
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
@@ -109,11 +109,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #Isolate rows from CPE.Matrix
   temp.rows <- apply(CPE.Matrix, 1, function(x){x[x!=0]}) #Creates a list of vectors that contain nonzero values in the rows of CPE.Matrix. 1 Vector per row.
   keep.rows <- sapply(temp.rows, function(y){length(y)>=2}) #Vector TRUE for the rows we want to keep 
-  
-  egdelist <- data.frame(source = )
-  for(i in CPE.Matrix[keep.rows, ]){ #For every kept row in CPE.Matrix, connect all 
-    
-  }
   
   #Convert the above into a list of edges
   
