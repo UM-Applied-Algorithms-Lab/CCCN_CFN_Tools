@@ -104,6 +104,21 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
       CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list)
   }}
   
+  ###Generate PCN network###
+  
+  #Isolate rows from CPE.Matrix
+  temp.rows <- apply(CPE.Matrix, 1, function(x){x[x!=0]}) #Creates a list of vectors that contain nonzero values in the rows of CPE.Matrix. 1 Vector per row.
+  keep.rows <- sapply(temp.rows, function(y){length(y)>=2}) #Vector TRUE for the rows we want to keep 
+  
+  egdelist <- data.frame(source = )
+  for(i in CPE.Matrix[keep.rows, ]){ #For every kept row in CPE.Matrix, connect all 
+    
+  }
+  
+  #Convert the above into a list of edges
+  
+  
+  
   ###Assign Variable Names###
   assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
   assign(PCN.CPE.name, CPE.Matrix, envir = .GlobalEnv)
