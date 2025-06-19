@@ -7,12 +7,12 @@
 \format{
 Square matrix of 100 rows and columns:
 \describe{
-\item{}{}
-...
+\item{rows and columns}{Ptm names}
+\item{values}{Strength of correlation}
 }
 }
 \source{
-source info (or \code{"manually created"})
+"created by MakeClusterList"
 }
 \usage{
 ex.ptm.correlation.matrix

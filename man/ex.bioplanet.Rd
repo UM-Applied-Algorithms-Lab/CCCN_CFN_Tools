@@ -7,12 +7,14 @@
 \format{
 Dataframe with 100 rows and 4 columns:
 \describe{
-\item{}{}
-...
+\item{PATHWAY_ID}{ID of the pathway in bioplanet}
+\item{PATHWAY_NAME}{Common name of the pathway}
+\item{GENE_ID}{ID of the gene in bioplanet}
+\item{GENE_SYMBOL}{Common name of the gene}
 }
 }
 \source{
-source info (or \code{"manually created"})
+\url{https://tripod.nih.gov/bioplanet/}
 }
 \usage{
 ex.bioplanet
