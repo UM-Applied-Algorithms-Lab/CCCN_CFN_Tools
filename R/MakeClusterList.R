@@ -38,7 +38,7 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   rownames(ptm.correlation.matrix) <- ptmtable$PTM
 
   # Fix names of dissimilarity matrix
-  colnames(sp.diss.matrix) <- ptmtable$PTM
+  colnames(sp.diss.matrix) <- ptmtable$PTM 
   rownames(sp.diss.matrix) <- ptmtable$PTM
 
   # Run t-SNE #

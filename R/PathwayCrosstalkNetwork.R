@@ -94,7 +94,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #temp.ambig.weights <- unlist(sapply(clusterlist[[2]], function(x){return(rep(1/length(x), length(x)))})) #Weights of ambiguous PTMs are 1/# of ptms in the series. so Aars ubi k454; Abui Or an; Aars ubi k983 splits into 3 genes w/ weight of 1/3rd
   #gene.weights <- c(gene.weights, temp.ambig.weights) #Should look like a bunch of ones at the start followed by various weights < 1
   
-  
   ###Generating pathway cluster evidence matrix###
   #A more correct way of doing things  
   #MCN.data <- do.call(c, clusterlist[[1]]) #Clusters no longer matter - So convert into a list containing genenames. Called genevec in Mark's .rmd
