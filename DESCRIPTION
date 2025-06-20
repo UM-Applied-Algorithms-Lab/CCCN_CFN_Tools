@@ -20,7 +20,6 @@ Imports:
     STRINGdb,
     dplyr,
     utils,
-    methods
 Suggests: 
     knitr,
     rmarkdown,
