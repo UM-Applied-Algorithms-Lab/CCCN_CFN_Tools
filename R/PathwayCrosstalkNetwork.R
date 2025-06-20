@@ -80,7 +80,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   PCN.jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
   PCN.jaccardedges$interaction <- "pathway Jaccard similarity" 
   
-  
   ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
   #gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms 
   #temp.ambig.weights <- unlist(sapply(clusterlist[[2]], function(x){return(rep(1/length(x), length(x)))})) #Weights of ambiguous PTMs are 1/# of ptms in the series. so Aars ubi k454; Abui Or an; Aars ubi k983 splits into 3 genes w/ weight of 1/3rd
@@ -98,10 +97,15 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   rownames(CPE.Matrix) <- names(clusterlist) #Names 
   colnames(CPE.Matrix) <- names(pathways.list)
   
+  #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
+  As.Genes <- sapply(ex.list.common, function(x) sapply(x, function(y) strsplit(y, "; ", fixed=TRUE))) #Turn any ambiguous PTMs (seperated by ;) inside into a list
+  As.Genes <- c(As.Genes, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with
+  As.Genes <- unique(sapply(As.Genes,  function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates! 
+  
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
     for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
-      CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list)
+      CPE.Matrix[a, b] <- ClusterPathwayEvidence(As.Genes, pathways.list[[b]], pathways.list)
   }}
   
   ###Generate PCN network###
