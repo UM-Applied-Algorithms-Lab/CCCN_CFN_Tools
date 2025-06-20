@@ -37,7 +37,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' @export
 #'
 #' @examples
-#' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common)
+#' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common, PCN.jaccard.name = "example.PCN.Jaccardedges", PCN.CPE.name = "example.CPE.Edgelist")
 PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.Jaccardedges", PCN.CPE.name = "CPE.Edgelist"){
 #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL  
   #Loading .csv

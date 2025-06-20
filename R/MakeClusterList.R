@@ -116,7 +116,7 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
 
   } #END of nested function
 
-  #Assign different tsne matrices to global environment
+  #Assign distance clusters as a list to global environment
   distance.clusters <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
   names(distance.clusters) <- c("Euclidean", "Spearman", "SED")
 
