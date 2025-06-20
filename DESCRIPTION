@@ -19,7 +19,7 @@ Imports:
     vegan,
     STRINGdb,
     dplyr,
-    utils
+    utils,
 Suggests: 
     knitr,
     rmarkdown,
