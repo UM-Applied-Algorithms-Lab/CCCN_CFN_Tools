@@ -256,9 +256,7 @@ PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = 
 
 #### Description  
 
-We hypothesized that patterns of PTMs could be used to identify relationships among known biological pathways in human cells, which we call pathway crosstalk. Therefore, we extended our CCCN/CFN model of lung cancer PTM data to investigate relationships among 1657 curated pathways from NCATS BioPlanet, which consists of groups of genes (proteins) involved in various cellular processes. To model interactions among pathways, we constructed a pathway crosstalk network (PCN) where pathway-pathway relationships (network edges) are defined by pathway genes whose PTMs co-cluster. The edge weight on the interactions between pathways (called PTM cluster weight) is defined by the number of each pathway’s proteins whose PTMs co-cluster (defined by t-SNE as described above), normalized to give less weight to genes found in many pathways and genes represented in large clusters (see Methods).
-
-The PCN is constructed using BioPlanet pathways downloaded from the NCATS website (<https://tripod.nih.gov/bioplanet/>) as gene sets and converted into a list of pathway names whose elements are the genes in each pathway. In the PCN, each BioPlanet pathway is represented as a node. Pathways are joined by edges weighted according to the PTM Cluster Weight (pathway interaction based on co-clustering of PTMs), or Jaccard Similarity (pathway interaction based on shared protein members). The PCN consists of 645,709 pathway-pathway interactions with non-zero PTM cluster weight.
+Pathway Crosstalk Network is the final step in the pipeline. It requires input of an external database, bioplanet, which consists of groups of genes (proteins) involved in various cellular processes. The PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity and a score derrived from Cluster-Pathway Evidence using common clusters found in Make Correlation Network. 
 
 #### Input  
 - file  
