@@ -10,11 +10,18 @@
 ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
   
+  #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
+  cluster.format <- sapply(cluster, function(x) strsplit(y, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
+  cluster.format <- c(cluster.format, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part 
+  cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates! 
+  
+  #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
-    temp <- length(grep(pathway[k], cluster)) #Numerator: The amount of times Gene k appears in cluster
+    temp <- length(grep(pathway[k], cluster.format)) #Numerator: The amount of times Gene k appears in cluster
     temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list 
     sigma[k] <- temp #Assign this value to sigma[k]
   } 
+  
   sigma <- sigma*(1/length(cluster)) #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
   return(sum(sigma))
 }
@@ -79,7 +86,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   PCN.jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
   PCN.jaccardedges$interaction <- "pathway Jaccard similarity" 
   
-  ###Jaccard Edges assignment must be here in case of error throw in CPE step 
+  ###Jaccard Edges assignment must be here in case of error throw in CPE step
   assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
   
   ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
@@ -99,15 +106,10 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   rownames(CPE.Matrix) <- names(clusterlist) #Names 
   colnames(CPE.Matrix) <- names(pathways.list)
   
-  #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
-  As.Genes <- sapply(ex.list.common, function(x) sapply(x, function(y) strsplit(y, "; ", fixed=TRUE))) #Turn any ambiguous PTMs (seperated by ;) inside into a list
-  As.Genes <- c(As.Genes, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with
-  As.Genes <- unique(sapply(As.Genes,  function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates! 
-  
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
     for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
-      CPE.Matrix[a, b] <- ClusterPathwayEvidence(As.Genes, pathways.list[[b]], pathways.list)
+      CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list)
   }}
   
   ###Generate PCN network###
