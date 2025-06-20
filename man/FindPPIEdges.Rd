@@ -6,15 +6,15 @@
 \usage{
 FindPPIEdges(
   string.edges = NA,
-  db_filepaths = c(),
   gm.network = NA,
+  db_filepaths = c(),
   ppi.network.name = "ppi.network"
 )
 }
 \arguments{
-\item{db_filepaths}{vector of filepaths to data from other databases; defaults to empty vector}
-
 \item{gm.network}{network produced by GeneMANIA if that was used; defaults to NA}
+
+\item{db_filepaths}{vector of filepaths to data from other databases; defaults to empty vector}
 
 \item{ppi.network.name}{desired name of the output ppi network; defaults to "ppi.network"}
 

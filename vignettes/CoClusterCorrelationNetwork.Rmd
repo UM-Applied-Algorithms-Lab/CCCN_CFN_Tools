@@ -115,15 +115,45 @@ Make Correlation Network first finds the intersection between the Euclidian, Spe
 #### Estimated run-time  
 2hrs 30mins  
 
-## Pre-Step 3: Retrieve Alternate Edgefiles (OPTIONAL)  
+## Step 3: Retrieve Database Edgefiles  
 
 ### Description  
 
-**NOTE:** This step is optional but provides more information for filtering data.  
+PPI (protein-protein interaction) databases are consulted in order to filter the clusters by proteins that are known to interact with each other as well as how strongly they are known to interact. The standard PPI database that is used is STRINGdb, and getting data from this database is the first step. This is accomplished with the function GetSTRINGdb. Please note, however, that the user may consult any database that they choose. After getting STRINGdb data (or not), the user runs MakeDBInput which produces a text file of all of their gene names. This information can be copy and pasted into any database that the user chooses in order to get other PPI networks. Step three is getting a GeneMANIA network, which is also optional but recommended. The user pastes their input data into GeneMANIA on the Cytoscape app and saves the edgefile and the nodetable. These files are then input into ProcessGMEdgefile in order to sort the data.  
 
-This step requires more effort from the user than any other step but the package still attempts to simplify this process. First, the user runs make_db_input in order to produce a text file that has all of the gene names separated by new lines. This information can then be put into the user's choice of databases to find more interactions. If GeneMANIA on the Cytoscape app is the chosen database, another function (processGMedgefile) processes this file for the user. If other databases are used, the user of the package must process this data themselves. The file put into Step 3 should have three columns as follows: Gene.1, Gene.2, and the edgeweight of that specified database. Note that Gene.1 and Gene.2 are strict headers and must be named as such for proper integration with other PPI networks.
+Note again that the database input can be used in any PPI database that the user chooses, though this package only explicitly supports STRINGdb and GeneMANIA. If another database is chosen, its file will have to be filtered manually by the user before moving on to step 4. The file should have three columns. Column one and two should strictly be labeled "Gene.1" and "Gene.2" in order to integrate with other PPI databases. The third column should contain the edgeweight and may be named however the user chooses. It is recommended, though, that the database is specified as well as the term 'weight' in the column name.  
 
-### Part 1: Get File for Database Input
+### Part 1 --- Get STRINGdb Data
+
+#### Code  
+
+```{r eval = FALSE}
+GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames")
+```
+
+![](vig_figs/string-edges.png)  
+**Figure 5** First 18 rows of string.edges produced by GetSTRINGdb  
+![](vig_figs/nodenames.png)  
+**Figure 6** First 18 rows of nodenames produced by GetSTRINGdb  
+
+#### Input   
+- cccn_matrix  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+- STRINGdb.name  
+  - Desired name for STRINGdb data; defaults to string.edges  
+- nodenames.name  
+  - Desired name for list of gene names; defaults to nodenames
+
+#### Output  
+- string.edges (or otherwise named by STRINGdb.name)  
+  - Data frame of consisting of the network of interactions from the genes of study  
+- nodenames (or otherwise named by nodenames.name)  
+  - List of gene names  
+
+#### Estimated run-time  
+1s  
+
+### Part 2 --- Get File for Database Input
 
 #### Code  
 
@@ -132,7 +162,7 @@ MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 ```
 
 ![](vig_figs/db_nodes-txt.png) 
-**Figure 5** First 15 lines from the produced text file  
+**Figure 7** First 15 lines from the produced text file  
 
 #### Input   
 - cccn_matrix  
@@ -141,14 +171,14 @@ MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
   - Desired path for file to be saved as; defaults to db_nodes.txt  
 
 #### Output  
-- db_nodes.txt (or otherwise named by file.path.name)
+- db_nodes.txt (or otherwise named by file.path.name)  
   - A text file with the names of all of the genes   
   - Saved into the user's working directory unless otherwise stated in file.path.name  
 
 #### Estimated run-time  
 1s  
 
-### Part 2 --- Process GeneMANIA File
+### Part 3 --- Process GeneMANIA File
 
 #### Code  
 
@@ -157,7 +187,7 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 ```
 
 ![](vig_figs/gm_network.png) 
-**Figure 6** First 44 rows of the GeneMANIA network 
+**Figure 8** First 44 rows of the GeneMANIA network 
 
 #### Input   
 - gm.edgefile.path  
@@ -171,13 +201,12 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 
 #### Output  
 - gm.network (or otherwise named by gm.network.name)
-  - A matrix consisting of the network between genes of study  
-  - The user can use any database they'd like other than GeneMANIA, but the package processes only a GeneMANIA file  
+  - Data frame of consisting of the network of interactions from the genes of study
 
 #### Estimated run-time  
 1min  
 
-## Step 3: Find PPI Edges 
+## Step 4: Find PPI Edges 
 
 #### Code  
 
@@ -186,7 +215,7 @@ FindPPIEdges(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
 ```
 
 ![](vig_figs/ppi_network.png)  
-**Figure 7** First 19 rows of the ppi_network produced by find_ppi_edges  
+**Figure 9** First 19 rows of the ppi_network produced by find_ppi_edges  
 
 #### Description  
 
@@ -212,7 +241,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 #### Estimated run-time  
 20mins (only using STRINGdb)
 
-## Step 4: Cluster Filtered Network  
+## Step 5: Cluster Filtered Network  
 
 #### Code  
 
@@ -221,7 +250,7 @@ ClusterFilteredNetwork(cccn_matrix, ppi.network, cfn.name = "cfn")
 ```
 
 ![](vig_figs/cfn.png)  
-**Figure 8** First 19 rows of the cfn_network produced by ClusterFilteredNetwork  
+**Figure 10** First 19 rows of the cfn_network produced by ClusterFilteredNetwork  
 
 #### Description  
 
@@ -243,7 +272,7 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 #### Estimated run-time  
 10mins
 
-## Step 5: Pathway Crosstalk Network  
+## Step 6: Pathway Crosstalk Network  
 
 #### Code  
 
@@ -252,7 +281,7 @@ PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = 
 ```
 
   
-**Figure 9** Will exist at some point  
+**Figure 11** Will exist at some point  
 
 #### Description  
 

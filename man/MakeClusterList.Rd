@@ -7,7 +7,7 @@
 MakeClusterList(
   ptmtable,
   correlation.matrix.name = "ptm.correlation.matrix",
-  list.name = "tsne.matrices",
+  list.name = "distance.clusters",
   toolong = 3.5
 )
 }
