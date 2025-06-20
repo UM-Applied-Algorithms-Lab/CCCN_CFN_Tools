@@ -5,20 +5,20 @@
 \title{Find PPI Edges}
 \usage{
 FindPPIEdges(
-  cccn_matrix,
+  string.edges = NA,
   db_filepaths = c(),
   gm.network = NA,
   ppi.network.name = "ppi.network"
 )
 }
 \arguments{
-\item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
-
 \item{db_filepaths}{vector of filepaths to data from other databases; defaults to empty vector}
 
 \item{gm.network}{network produced by GeneMANIA if that was used; defaults to NA}
 
 \item{ppi.network.name}{desired name of the output ppi network; defaults to "ppi.network"}
+
+\item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
 }
 \value{
 A data frame of combined edges from STRINGdb and provided database entries

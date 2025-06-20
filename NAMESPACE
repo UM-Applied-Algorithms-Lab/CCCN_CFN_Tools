@@ -2,6 +2,7 @@
 
 export(ClusterFilteredNetwork)
 export(FindPPIEdges)
+export(GetSTRINGdb)
 export(MakeClusterList)
 export(MakeCorrelationNetwork)
 export(MakeDBInput)
