@@ -1,6 +1,6 @@
 ---
 title: "Filtered CoCluster Correlation Network Creation Guide"
-author: "Nagashree A, McKayl Bailey, Grant Smith, Madison Moffett"
+author: "Nagashree Avabhrath, McKayl Bailey, Grant Smith, Madison Moffett"
 output: 
   html_document:
     toc: true
