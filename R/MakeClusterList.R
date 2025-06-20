@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' MakeClusterList(ex.ptmtable, "example.cor", "example.tsne", 3.5)
-MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "tsne.matrices", toolong = 3.5){
+MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "distance.clusters", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -74,11 +74,11 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   #COMBINED CALCULATION
 
   #fix spearman thing; so do the exact same thing but no absolute value
-  sp.diss.calc <- 1 - ptm.correlation.matrix                        # range goes from (-1 to 1) to (0 to 2)
-  max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)                    # find the max value (around 2)
-  sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp)           # SCALING. THIS IS WHERE SCALING OCCURS. All the values are scaled so biggest sp = biggest eu
-  sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max_dist_eu             # make the NAs roughly equal to 100
-  sp.diss.calc <- as.matrix(sp.diss.calc)                           # turn into a matrix
+  sp.diss.calc <- 1 - ptm.correlation.matrix              # range goes from (-1 to 1) to (0 to 2)
+  max_diss_sp <- max(sp.diss.calc, na.rm = TRUE)          # find the max value (around 2)
+  sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp) # SCALING. THIS IS WHERE SCALING OCCURS. All the values are scaled so biggest sp = biggest eu
+  sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max_dist_eu   # make the NAs roughly equal to 100
+  sp.diss.calc <- as.matrix(sp.diss.calc)                 # turn into a matrix
 
   #fix euclidean rq
   eu.diss.calc <- as.matrix(eu.diss.calc)
@@ -117,10 +117,10 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   } #END of nested function
 
   #Assign different tsne matrices to global environment
-  tsne.matrix.list <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
-  names(tsne.matrix.list) <- c("Euclidean", "Spearman", "SED")
+  distance.clusters <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
+  names(distance.clusters) <- c("Euclidean", "Spearman", "SED")
 
   #Assign
-  assign(list.name, tsne.matrix.list, envir = .GlobalEnv)                     # list of the tsne data for Euclidean, Spearman, and SED
+  assign(list.name, distance.clusters, envir = .GlobalEnv) # list of the tsne data for Euclidean, Spearman, and SED
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
 }
