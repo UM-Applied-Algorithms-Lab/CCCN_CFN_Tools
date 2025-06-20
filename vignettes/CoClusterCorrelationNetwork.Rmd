@@ -256,23 +256,25 @@ PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = 
 
 #### Description  
 
-The final step in this pipeline is the PathwayCrosstalkNetwork.  
+We hypothesized that patterns of PTMs could be used to identify relationships among known biological pathways in human cells, which we call pathway crosstalk. Therefore, we extended our CCCN/CFN model of lung cancer PTM data to investigate relationships among 1657 curated pathways from NCATS BioPlanet, which consists of groups of genes (proteins) involved in various cellular processes. To model interactions among pathways, we constructed a pathway crosstalk network (PCN) where pathway-pathway relationships (network edges) are defined by pathway genes whose PTMs co-cluster. The edge weight on the interactions between pathways (called PTM cluster weight) is defined by the number of each pathway’s proteins whose PTMs co-cluster (defined by t-SNE as described above), normalized to give less weight to genes found in many pathways and genes represented in large clusters (see Methods).
+
+The PCN is constructed using BioPlanet pathways downloaded from the NCATS website (<https://tripod.nih.gov/bioplanet/>) as gene sets and converted into a list of pathway names whose elements are the genes in each pathway. In the PCN, each BioPlanet pathway is represented as a node. Pathways are joined by edges weighted according to the PTM Cluster Weight (pathway interaction based on co-clustering of PTMs), or Jaccard Similarity (pathway interaction based on shared protein members). The PCN consists of 645,709 pathway-pathway interactions with non-zero PTM cluster weight.
 
 #### Input  
 - file  
-  - File path for the pathway data from Bioplanet  
+  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended) 
 - clusterlist  
   - List of clusters from MakeCorrelationNetwork  
 - PCN.jaccard.name  
-  - Desired name for an output of PathwayCrosstalkNetwork; defaults to pcn_jaccard_edges  
+  - Desired name for the jaccard similarity matrix created; defaults to PCN.jaccardedges  
 - PCN.CPE.name  
-  - Desired name for an output of PathwayCrosstalkNetwork; defaults to pcn_cpe_edges  
+  - Desired name for the Cluster Pathway Evidence edgelist created; defaults to CPE.Edgelist  
 
 #### Output  
-- pcn_jaccard_edges (or otherwise named by PCN.jaccard.name)
-  - output  
-- pcn_cpe_edges (or otherwise named by PCN.CPE.name)
-  - output  
+- PCN.jaccardedges (or otherwise named by PCN.jaccard.name)
+  - A matrix of pathways x pathways with the similarity between two pathways as values
+- CPE.Edgelist (or otherwise named by PCN.CPE.name)
+  - An edgelist of pathways to pathways, with the weight being the sum? of the two pathways Cluster Pathway Evidence score for a specific Cluster. More information about the process of Cluster Pathway Evidence can be found in <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
 
 #### Estimated run-time  
 UNKNOWN
