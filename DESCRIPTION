@@ -19,7 +19,8 @@ Imports:
     vegan,
     STRINGdb,
     dplyr,
-    utils
+    utils,
+    methods
 Suggests: 
     knitr,
     rmarkdown,
