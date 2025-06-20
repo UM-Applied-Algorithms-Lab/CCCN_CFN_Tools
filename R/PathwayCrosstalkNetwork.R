@@ -27,12 +27,11 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
 #' @param PCN.jaccard.name The desired name for the data structure containing jaccard edges
 #' @param PCN.CPE.name The desired name for the data structure containing CPE edges
-#' @return No clue (The result is a matrix with pathway names in columns and individual clusters as rows.)
 #' @export
 #'
 #' @examples
 #' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common)
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.jaccardedges", PCN.CPE.name = "CPE.Matrix"){
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.Jaccardedges", PCN.CPE.name = "CPE.Edgelist"){
 #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL  
   #Loading .csv
   if(class(file) == "character"){
@@ -79,6 +78,9 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   names(PCN.jaccardedges) <- c("source", "target") #Rest is just renaming
   PCN.jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
   PCN.jaccardedges$interaction <- "pathway Jaccard similarity" 
+  
+  ###Jaccard Edges assignment must be here in case of error throw in CPE step 
+  assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
   
   ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
   #gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms 
@@ -130,9 +132,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
       track <- track+1 #Increase tracker
     }}
 
-  
   ###Assign Variable Names###
-  assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
   assign(PCN.CPE.name, CPE.Matrix, envir = .GlobalEnv)
   #Add PCN network, drop above two
 
