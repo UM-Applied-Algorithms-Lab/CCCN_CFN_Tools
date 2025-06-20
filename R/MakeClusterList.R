@@ -61,12 +61,13 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
 
   # Normalize the distance matrix by scaling it to a range from 0 to 100 #
   eu.diss.calc <- 100 * ptmtable.dist / max_dist
+  eu.diss.calc <- as.matrix(eu.diss.calc) #Fix eu.diss.calc RQ
 
   # Apply t-SNE to the distance matrix to reduce dimensions to 3 #
   # Parameters: dims = 3 (3D output), perplexity = 15, theta = 0.25 (speed/accuracy trade-off) #
   # max_iter = 5000 (number of iterations), check_duplicates = FALSE (treat rows as unique) #
   # pca = FALSE (no initial PCA) #
-  eu.ptms.tsne.list <- Rtsne::Rtsne(as.matrix(eu.diss.calc), dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
+  eu.ptms.tsne.list <- Rtsne::Rtsne(eu.diss.calc, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
 
   # Extract the t-SNE results from the output list #
   euclidean_result <- eu.ptms.tsne.list$Y
@@ -79,9 +80,6 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   sp.diss.calc <- sp.diss.calc * (max_dist / max_diss_sp) # SCALING. THIS IS WHERE SCALING OCCURS. All the values are scaled so biggest sp = biggest eu
   sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max_dist_eu   # make the NAs roughly equal to 100
   sp.diss.calc <- as.matrix(sp.diss.calc)                 # turn into a matrix
-
-  #fix euclidean rq
-  eu.diss.calc <- as.matrix(eu.diss.calc)
 
   #find average
   combined_distance <- (sp.diss.calc + eu.diss.calc) / 2
