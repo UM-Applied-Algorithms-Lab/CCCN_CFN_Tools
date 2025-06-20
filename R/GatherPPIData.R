@@ -48,17 +48,17 @@ cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
 GetSTRINGdb <- function(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames") {
   cccn_to_nodenames(cccn_matrix, nodenames.name)
 
-  if (!exists("STRINGdb")){                                # check if stringdb is libraried
+  if (!exists("STRINGdb")){                          # check if stringdb is libraried
 
-    if(length(system.file(package="STRINGdb")) == 1){      # check if stringdb is installed at all
+    if(system.file(package="STRINGdb") == ""){       # check if stringdb is installed at all
 
-      if (!require("BiocManager", quietly = TRUE))         # if not, install stringdb
+      if (!require("BiocManager", quietly = TRUE))   # if not, install stringdb
 
         install.packages("BiocManager")
 
       BiocManager::install("STRINGdb")
     }
-    library(STRINGdb)                                       # library it
+    library(STRINGdb)                                # library it
   }
 
   # Initialize the STRING database object

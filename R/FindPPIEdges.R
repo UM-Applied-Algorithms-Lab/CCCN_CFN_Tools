@@ -23,6 +23,45 @@ FindPPIEdges <- function(string.edges = NA, gm.network = NA, db_filepaths = c(),
 
   ppi.network <- data.frame()
 
+  bind_ppis <- function(ppi.network, edgefile){
+
+    columname <- colnames(edgefile)[3]            # name the column
+    ppi.network[[columname]] <- NA                # make new column
+    len <- length(colnames(ppi.network))          # record num cols
+
+    for(i in 1:length(rownames(edgefile))){       # iterate through rows
+
+      gene1 <- edgefile[i,1]
+      gene2 <- edgefile[i,2]
+      weight <- edgefile[i,3]
+
+      row <- which(ppi.network[[1]] == gene1 & ppi.network[[2]] == gene2)
+
+      if(length(row) == 0){
+        row <- which(ppi.network[[1]] == gene2 & ppi.network[[2]] == gene1)
+
+        if(length(rownames(row)) == 0){                             # if this combo DNE in ppi
+
+          newrow <- as.data.frame(matrix(NA, nrow = 1, ncol = len)) # make a new dataframe with our info
+          colnames(newrow) <- colnames(ppi.network)                 # make the column names the same
+          newrow[[1]] <- gene1                                      # add the data
+          newrow[[2]] <- gene2
+          newrow[[len]] <- weight
+
+          ppi.network <- rbind(ppi.network, newrow)                 # combine
+
+          next # DON'T DOUBLE ASSIGN, DUMMY
+
+                  }
+      }
+
+      for(index in row){
+      ppi.network[index, len] <- weight
+      }
+
+      }
+    }
+
   if(is.data.frame(string.edges)){
     if(!is.data.frame(string.edges)){
       stop("string.edges is not a dataframe; invalid formatting")
@@ -31,17 +70,14 @@ FindPPIEdges <- function(string.edges = NA, gm.network = NA, db_filepaths = c(),
   }
 
   if (is.data.frame(gm.network)){
-    if(!is.data.frame(string.edges)){
-      stop("gm.network is not a dataframe; invalid formatting")
-    ppi.network <- rbind(ppi.network, gm.network)
-    }
+    ppi.network <- bind_ppis(ppi.network, gm.network)
   }
 
   # Combine STRINGdb and GeneMANIA edges if gm_edges exists
   if(length(db_filepaths) != 0){
     for(path in db_filepaths){
       db_edges <- utils::read.table(path)
-      ppi.network <- rbind(ppi.network, db_edges)
+      ppi.network <- bind_ppis(ppi.network, db_edges)
     }
   }
 
