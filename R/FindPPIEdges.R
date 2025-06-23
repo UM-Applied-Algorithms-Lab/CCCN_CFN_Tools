@@ -59,7 +59,10 @@ FindPPIEdges <- function(string.edges = NA, gm.network = NA, db_filepaths = c(),
       ppi.network[index, len] <- weight
       }
 
-      }
+    }
+
+    return(ppi.network)
+
     }
 
   if(is.data.frame(string.edges)){
