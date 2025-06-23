@@ -289,7 +289,7 @@ Pathway Crosstalk Network is the final step in the pipeline. It requires input o
 
 #### Input  
 - file  
-  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended) 
+  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly) 
 - clusterlist  
   - List of clusters from MakeCorrelationNetwork  
 - PCN.jaccard.name  

@@ -18,7 +18,6 @@ GetRtsne <- function(table, iter=5000){
   return(Rtsne::Rtsne(table, dims = 3, perplexity = 15, theta = 0.25, max_iter = iter, check_duplicates = FALSE, pca = FALSE)) 
 }
 
-
 #' Populates the global environment with cluster groupings based on t-SNE data
 #'
 #' This function groups t-SNE data points into clusters using a specified threshold
