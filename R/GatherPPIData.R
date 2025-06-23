@@ -52,11 +52,7 @@ GetSTRINGdb <- function(cccn_matrix, STRINGdb.name = "string.edges", nodenames.n
 
     if(system.file(package="STRINGdb") == ""){       # check if stringdb is installed at all
 
-      if (!require("BiocManager", quietly = TRUE))   # if not, install stringdb
-
-        install.packages("BiocManager")
-
-      BiocManager::install("STRINGdb")
+      BiocManager::install("STRINGdb")               # install!
     }
     library(STRINGdb)                                # library it
   }

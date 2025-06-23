@@ -20,6 +20,7 @@ Imports:
     STRINGdb,
     dplyr,
     utils,
+    BiocManager
 Suggests: 
     knitr,
     rmarkdown,
