@@ -11,6 +11,9 @@ GetRtsne(table, iter = 5000)
 
 \item{max_iter}{Number of iterations, defaults 5000}
 }
+\value{
+A matrix where each row has 3 dimensionial t-SNE coords for a given matrix.
+}
 \description{
 This function is made to help people new to the Rtsne function understand parameters.
 }
