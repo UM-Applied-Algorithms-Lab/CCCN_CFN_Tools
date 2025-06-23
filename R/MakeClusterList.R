@@ -1,6 +1,6 @@
 #' Helper function for Rtsne since parameters are set
 #' 
-#' This function is made to help people new to the Rtsne function understand parameters. 
+#' This function is made to help people new to the Rtsne function understand parameters and organize code. All it does is call Rtsne with set parameters. If you understand R code, feel free to modify the parameters and resource the function. 
 #'
 #' @param table The matrix that Rtsne needs to be performed on. It's called table because a lot of operations contain the word "matrix" so it was called something else to not be confusing.
 #' @param max_iter Number of iterations, defaults 5000
