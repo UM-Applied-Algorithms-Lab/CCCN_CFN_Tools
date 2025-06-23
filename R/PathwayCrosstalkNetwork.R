@@ -12,7 +12,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   
   #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
   #cluster.format <- sapply(cluster, function(x) strsplit(y, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
-  cluster.format <- c(cluster.format, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part 
+  cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part 
   cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates! 
   
   #Calculate CPE score and add it to sigma
