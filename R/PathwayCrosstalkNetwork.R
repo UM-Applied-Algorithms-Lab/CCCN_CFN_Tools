@@ -133,8 +133,12 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
       edgefile.jaccard[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles 
       edgefile.evidence[track, 1:2] <- j
       
-      edgefile.jaccard[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add weight from cluster and first pathway intersection
-      edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight 
+      ##Weights idea
+      #edgefile.jaccard[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add weight from cluster and first pathway intersection
+      #edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight 
+      
+      edgefile.jaccard[track, 4] <- 1 #Set weights to 1 until figure out how to do weights
+      edgefile.evidence[track, 4] <- 1
       
       track <- track+1 #Increase tracker
     }}
