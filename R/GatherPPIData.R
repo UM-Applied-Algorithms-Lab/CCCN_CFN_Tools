@@ -32,9 +32,9 @@ cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
 }
 
 
-#' Find PPI Edges
+#' Get STRINGdb
 #'
-#' This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
+#' This function finds protein-protein interaction edges by consulting utilizing the STRINGdb database.
 #'
 #' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 #' @param STRINGdb.name desired name for the output STRINGdb data frame; defaults to "string.edges"
@@ -95,7 +95,7 @@ GetSTRINGdb <- function(cccn_matrix, STRINGdb.name = "string.edges", nodenames.n
 
 #' Process GM Edge File
 #'
-#' This function process GM edgefile.
+#' This function processes the GM edgefile and translates it back into gene names using the nodetable.
 #'
 #' @param gm.edgefile.path path to GeneMANIA edgefile
 #' @param gm.nodetable.path path to GeneMANIA nodetable

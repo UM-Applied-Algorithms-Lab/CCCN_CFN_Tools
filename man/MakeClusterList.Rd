@@ -7,12 +7,12 @@
 MakeClusterList(
   ptmtable,
   correlation.matrix.name = "ptm.correlation.matrix",
-  list.name = "distance.clusters",
+  list.name = "clusters.list",
   toolong = 3.5
 )
 }
 \arguments{
-\item{ptmtable}{A dataset for post-translational modifications.}
+\item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
 
 \item{correlation.matrix.name}{The desired name for the PTM correlation matrix created}
 
