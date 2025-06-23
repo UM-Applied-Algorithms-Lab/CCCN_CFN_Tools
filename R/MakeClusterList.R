@@ -6,7 +6,7 @@
 #' @param table The matrix that Rtsne needs to be performed on. It's called table because a lot of operations contain the word "matrix" so it was called something else to not be confusing.
 #' @param max_iter Number of iterations, defaults 5000
 #' 
-#' @return 
+#' @return A matrix where each row has 3 dimensionial t-SNE coords for a given matrix.  
 GetRtsne <- function(table, iter=5000){
   if(!is.matrix(table)) table <- as.matrix(table) #Force parameter to be a matrix if it is not already
   
