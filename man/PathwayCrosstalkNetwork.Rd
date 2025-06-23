@@ -25,5 +25,9 @@ PathwayCrosstalkNetwork(
 Converts Bioplanet pathways from (\url{https://tripod.nih.gov/bioplanet/})  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
 }
 \examples{
-PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common, PCN.jaccard.name = "example.PCN.Jaccardedges", PCN.CPE.name = "example.CPE.Edgelist", PCN.network.name = "example.PCN.network")
+ex.list <- ex.list.common
+jaccard.name <- "example.PCN.Jaccardedges"
+CPE.name <- "example.CPE.Edgelist"
+PCN <- "example.PCN.network"
+PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common, jaccard.name, CPE.name, PCN)
 }

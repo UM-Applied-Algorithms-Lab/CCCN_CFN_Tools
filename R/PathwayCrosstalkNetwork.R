@@ -1,35 +1,35 @@
 #' Cluster Pathway Evidence
-#' 
+#'
 #' Helper function for obtaining cluster pathway evidence given a Cluster and Pathway
-#' 
+#'
 #' @param cluster A cluster of genes/proteins (cannot be PTMs)
 #' @param pathway A pathway of genes/proteins
 #' @param p.list  A list of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
-#' 
+#'
 #' @return A float value representing cluster pathway evidence between a cluster and pathway
 ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
-  
+
   #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
   #cluster.format <- sapply(cluster, function(x) strsplit(y, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
-  cluster.format <- c(cluster.format, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part 
-  cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates! 
-  
+  cluster.format <- c(cluster.format, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
+  cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
+
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
     temp <- length(grep(pathway[k], cluster.format)) #Numerator: The amount of times Gene k appears in cluster
-    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list 
+    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list
     sigma[k] <- temp #Assign this value to sigma[k]
-  } 
-  
+  }
+
   sigma <- sigma*(1/length(cluster)) #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
   return(sum(sigma))
 }
 
 #' Pathway Crosstalk Network
-#' 
+#'
 #' Converts Bioplanet pathways from (<https://tripod.nih.gov/bioplanet/>)  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
-#' 
+#'
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"
 #' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
 #' @param PCN.jaccard.name The desired name for the data structure containing jaccard edges
@@ -37,123 +37,127 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' @export
 #'
 #' @examples
-#' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common, PCN.jaccard.name = "example.PCN.Jaccardedges", PCN.CPE.name = "example.CPE.Edgelist", PCN.network.name = "example.PCN.network")
+#' ex.list <- ex.list.common
+#' jaccard.name <- "example.PCN.Jaccardedges"
+#' CPE.name <- "example.CPE.Edgelist"
+#' PCN <- "example.PCN.network"
+#' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common, jaccard.name, CPE.name, PCN)
 PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.Jaccardedges", PCN.CPE.name = "CPE.Edgelist", PCN.network.name = "PCN.network"){
-#Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL  
+#Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
   #Loading .csv
   if(class(file) == "character"){
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory.")) #Error Catch
-    bioplanet <- utils::read.csv(file, stringsAsFactors = F) 
+    bioplanet <- utils::read.csv(file, stringsAsFactors = F)
   }
-  
+
   #Loading a dataframe for examples
   if(class(file) == "data.frame") bioplanet <- file
-  
-  #Turn bioplanet into a list of pathways. Pathways are character vectors comprised of gene names 
-  pathways.list <- plyr::dlply(bioplanet, plyr::.(PATHWAY_NAME)) #Turn the bioplanet .csv into a list of data frames. Each data frame stores genes with the same PATHWAY_ID 
+
+  #Turn bioplanet into a list of pathways. Pathways are character vectors comprised of gene names
+  pathways.list <- plyr::dlply(bioplanet, plyr::.(PATHWAY_NAME)) #Turn the bioplanet .csv into a list of data frames. Each data frame stores genes with the same PATHWAY_ID
   pathways.list <- lapply(pathways.list, `[`, -c(1:3)) #Removes PATHWAY_ID | PATHWAY_NAME | GENE_ID from every single data frame in the list
   pathways.list <- lapply(pathways.list, unlist, use.names = FALSE) #Since data frames are 1 row, turn data frames into character vectors
-  
-  
+
+
   ###Jaccard Similarity###
   #Create a matrix whose [i, j] values are the intersection/union between the genes in pathway i and j
   matrix.jaccard <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
-  
+
   #Rename
   rownames(matrix.jaccard) <- names(pathways.list)
   colnames(matrix.jaccard) <- names(pathways.list)
 
-  #Populate matrix, diagonals must be 0 in order to prevent self-loops in 
+  #Populate matrix, diagonals must be 0 in order to prevent self-loops in
   for (i in 1:length(pathways.list)) {
     if(i > length(pathways.list)) break #Or else out of bounds error will occur
     for (j in (i+1):length(pathways.list)) { #Populate symmetrical matrix
       p.intersect <- length(intersect(unlist(pathways.list[i]), unlist(pathways.list[j]))) #Intersect
       p.union     <- length(pathways.list[i]) + length(pathways.list[i]) - p.intersect     #Union
-      value <- p.intersect/p.union #Number of genes in intersect / Number of genes in union 
+      value <- p.intersect/p.union #Number of genes in intersect / Number of genes in union
       if(value > 0) { #If value happens to be zero, just don't assign anything since 0 is already there
         matrix.jaccard[i, j] <- value #Number of genes pathway i and j share
         matrix.jaccard[j, i] <- value #Since matrix is symmetrical
       }
     }}
-  
-  #Create igraph object using the matrix 
+
+  #Create igraph object using the matrix
   pathways.graph <- igraph::graph_from_adjacency_matrix(matrix.jaccard, mode="lower", diag=FALSE, weighted="Weight")
   #plot(pathways.graph) #plot if desired
-  
+
   #Interpret the jaccard matrix as an edgelist
   PCN.jaccardedges <- data.frame(igraph::as_edgelist(pathways.graph)) #Convert to edgelist
   names(PCN.jaccardedges) <- c("source", "target") #Rest is just renaming
   PCN.jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
-  PCN.jaccardedges$interaction <- "pathway Jaccard similarity" 
-  
-  
+  PCN.jaccardedges$interaction <- "pathway Jaccard similarity"
+
+
   ###Jaccard Edges assignment must be here in case of error throw in CPE step
   assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
-  
+
   ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
-  #gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms 
+  #gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms
   #temp.ambig.weights <- unlist(sapply(clusterlist[[2]], function(x){return(rep(1/length(x), length(x)))})) #Weights of ambiguous PTMs are 1/# of ptms in the series. so Aars ubi k454; Abui Or an; Aars ubi k983 splits into 3 genes w/ weight of 1/3rd
   #gene.weights <- c(gene.weights, temp.ambig.weights) #Should look like a bunch of ones at the start followed by various weights < 1
-  
+
   ###Generating pathway cluster evidence matrix###
-  #A more correct way of doing things  
+  #A more correct way of doing things
   #MCN.data <- do.call(c, clusterlist[[1]], recursive = TRUE) #Clusters no longer matter - So convert into a list containing genenames. Called genevec in Mark's .rmd
   #geneweights <- rep(1, length(MCN.data)) #Create a vector of gene weights
-  #genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights cannot be 1. 
-  
+  #genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights cannot be 1.
+
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
   CPE.Matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
-  rownames(CPE.Matrix) <- names(clusterlist) #Names 
+  rownames(CPE.Matrix) <- names(clusterlist) #Names
   colnames(CPE.Matrix) <- names(pathways.list)
-  
+
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
     for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
       CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list) #Call Cluster Pathway Evidence (above)
   }}
-  
+
   ###Generate PCN network###
-  
+
   #Isolate rows from CPE.Matrix
   temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found") #Error catch- Not worth continuing as a less helpful error happens in the loop 
+  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found") #Error catch- Not worth continuing as a less helpful error happens in the loop
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
-  
+
   #Create data frame
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
   edgefile.jaccard <- data.frame(source = rep("-", size), target = rep("-", size), interaction = rep("Jaccard", size), weight = rep(0, size))
   edgefile.evidence <- data.frame(source = rep("-", size), target = rep("-", size), interaction = rep("Evidence", size), weight = rep(0, size))
-  
+
   #Populate data frame
   track <- 1 #Empty location in the data frame
   for(i in temp.rows){
     #Note to self - *Remove transpose*
     #if breaking use t(combin(i, 2)) and change next line to asplit(nodes, 1)
-    nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector) 
+    nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector)
     for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
-      edgefile.jaccard[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles 
+      edgefile.jaccard[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
       edgefile.evidence[track, 1:2] <- j
-      
+
       ##Weights idea
       #edgefile.jaccard[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add weight from cluster and first pathway intersection
-      #edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight 
-      
+      #edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight
+
       edgefile.jaccard[track, 4] <- 1 #Set weights to 1 until figure out how to do weights
       edgefile.evidence[track, 4] <- 1
-      
+
       track <- track+1 #Increase tracker
     }}
-  
-  #"Edge filtering" goes here 
+
+  #"Edge filtering" goes here
 
   ###Assign Variable Names###
   assign(PCN.CPE.name, CPE.Matrix, envir = .GlobalEnv) #DEBUGS
-  assign(PCN.network.name, PCN.network, envir = .GlobalEnv) 
-  
+  assign(PCN.network.name, PCN.network, envir = .GlobalEnv)
+
   #Save edgefiles for cytoscape plotting
   savedir <- getwd() #Save working directory
-  setwd("..") #Put files OUTSIDE of CCCN_CFN_Tools... hopefully. Could try ~/Desktop ? 
-  save(edgefile.jaccard, file = "jaccard_PCN.Rdata") #Save to files for cytoscape... Correct formatting? 
+  setwd("..") #Put files OUTSIDE of CCCN_CFN_Tools... hopefully. Could try ~/Desktop ?
+  save(edgefile.jaccard, file = "jaccard_PCN.Rdata") #Save to files for cytoscape... Correct formatting?
   save(edgefile.evidence, file = "evidence_PCN.Rdata")
   setwd(savedir) #Reset directory to proper place so user doesn't get confused
 }
