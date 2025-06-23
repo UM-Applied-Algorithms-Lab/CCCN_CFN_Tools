@@ -127,6 +127,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #Populate data frame
   track <- 1 #Empty location in the data frame
   for(i in temp.rows){
+    #Note to self - *Remove transpose*
     nodes <- t(combn(i, 2)) #Get every node pair (permutations where order doesn't matter of a string vector) 
     for(j in asplit(nodes, 1)) { #Add all node pairings to data frame
       edgefile.jaccard[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles 
