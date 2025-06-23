@@ -11,7 +11,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
   
   #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
-  cluster.format <- sapply(cluster, function(x) strsplit(y, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
+  #cluster.format <- sapply(cluster, function(x) strsplit(y, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
   cluster.format <- c(cluster.format, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part 
   cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates! 
   
@@ -37,8 +37,8 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' @export
 #'
 #' @examples
-#' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common, PCN.jaccard.name = "example.PCN.Jaccardedges", PCN.CPE.name = "example.CPE.Edgelist")
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.Jaccardedges", PCN.CPE.name = "CPE.Edgelist"){
+#' PathwayCrosstalkNetwork(ex.bioplanet, ex.list.common, PCN.jaccard.name = "example.PCN.Jaccardedges", PCN.CPE.name = "example.CPE.Edgelist", PCN.network.name = "example.PCN.network")
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.Jaccardedges", PCN.CPE.name = "CPE.Edgelist", PCN.network.name = "PCN.network"){
 #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL  
   #Loading .csv
   if(class(file) == "character"){
@@ -115,28 +115,41 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   
   #Isolate rows from CPE.Matrix
   temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found")
+  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found") #Error catch- Not worth continuing as a less helpful error happens in the loop 
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   
   #Create data frame
-  size <- sum(sapply(temp.rows, function(x) factorial(length(x))/(factorial(length(x) - 2)*2))) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package 
-  PCN.network <- data.frame(source = rep("-", size), target = rep("-", size), CPE_weight = rep(0, size), jaccard_weight = rep(0, size)) #Empty data frame
+  size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
+  edgefile.jaccard <- data.frame(source = rep("-", size), target = rep("-", size), interaction = rep("Jaccard", size), weight = rep(0, size))
+  edgefile.evidence <- data.frame(source = rep("-", size), target = rep("-", size), interaction = rep("Evidence", size), weight = rep(0, size))
   
   #Populate data frame
   track <- 1 #Empty location in the data frame
   for(i in temp.rows){
-    nodes <- t(combn(i, 2)) #Get every node pair (connection)
+    nodes <- t(combn(i, 2)) #Get every node pair (permutations where order doesn't matter of a string vector) 
     for(j in asplit(nodes, 1)) { #Add all node pairings to data frame
-      PCN.network[track, 1:2] <- j #Add row from nodes to empty spot in PCN.network
-      PCN.network[track, 3] <- CPE.Matrix[names(i) ,j[[1]]]*2 #Add weight from cluster and first pathway intersection
-      PCN.network[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight 
+      edgefile.jaccard[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles 
+      edgefile.evidence[track, 1:2] <- j
+      
+      edgefile.jaccard[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add weight from cluster and first pathway intersection
+      edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight 
+      
       track <- track+1 #Increase tracker
     }}
+  
+  #"Edge filtering" goes here 
 
   ###Assign Variable Names###
-  assign(PCN.CPE.name, CPE.Matrix, envir = .GlobalEnv)
-  #Add PCN network, drop above two
-
+  assign(PCN.CPE.name, CPE.Matrix, envir = .GlobalEnv) #DEBUGS
+  assign(PCN.network.name, PCN.network, envir = .GlobalEnv) 
+  
+  #Save edgefiles for cytoscape plotting
+  savedir <- getwd() #Save working directory
+  setwd("..") #Put files OUTSIDE of CCCN_CFN_Tools... hopefully. Could try ~/Desktop ? 
+  save(edgefile.jaccard, file = "jaccard_PCN.Rdata") #Save to files for cytoscape... Correct formatting? 
+  save(edgefile.evidence, file = "evidence_PCN.Rdata")
+  setwd(savedir)
+  
   
   
   
