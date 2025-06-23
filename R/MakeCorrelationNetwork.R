@@ -44,7 +44,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' tsnes <- ex.tesne.matrices
 #' ptm.cor <- ex.ptm.correlation.matrix
 #' MakeCorrelationNetwork(tsnes, ptm.cor, 1, "example.list.found", "example.cccn")
-MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeplength = 2, lists.name = "list.common", cccn.name = "cccn_matrix"){
+MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeplength = 2, clusters.name = "common.clusters", cccn.name = "cccn_matrix"){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
@@ -56,10 +56,10 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeple
   }
 
   #Find common clusters
-  list.common <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
+  clusters.common <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
 
   # Generate the combined adjacency matrix by taking PTMs to Genes
-  gene.common <- lapply(list.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
+  gene.common <- lapply(clusters.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
   ulist <- unique(unlist(gene.common)) #Use this for rownames and colnames
 
   cccn_matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
@@ -79,7 +79,7 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeple
 
   # Make igraph object, replacing NA with 0
   cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
-  assign(lists.name, list.common, envir = .GlobalEnv) #List of common clusters
+  assign(clusters.name, clusters.common, envir = .GlobalEnv) #List of common clusters
   assign(cccn.name, cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 
   #Graphing

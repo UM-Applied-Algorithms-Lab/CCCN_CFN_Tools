@@ -11,7 +11,7 @@ ClusterPathwayEvidence(cluster, pathway, p.list)
 
 \item{pathway}{A pathway of genes/proteins}
 
-\item{p.list}{A list of pathways to calculate the # of pathways a gene, k, is in}
+\item{p.list}{A list of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)}
 }
 \value{
 A float value representing cluster pathway evidence between a cluster and pathway

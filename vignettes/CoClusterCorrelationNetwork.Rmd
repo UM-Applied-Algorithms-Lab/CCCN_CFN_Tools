@@ -58,7 +58,11 @@ head(eu_ptms_list, 1)
 
 #### Description  
 
+<<<<<<< HEAD
 Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through Tsne in order to put them into a 3-dimensional space. A correlation table is also produced based on the Spearman Correlation table. Please note: Tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called.  
+=======
+Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through t-SNE in order to put them into a 3-dimensional space. Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
+>>>>>>> 64fa34fe4dc34332a66d1bace5babc0ab4c9d3d0
 
 #### Input  
 - ptmtable
@@ -66,7 +70,7 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 - correlation.matrix.name  
   - Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 - list.name  
-  - Desired name for the list of tsne data to be saved as; defaults to tsne.matrices
+  - Desired name for the list of t-SNE data to be saved as; defaults to tsne.matrices
 - toolong
   - Defaults to 3.5; threshold for cluster separation  
 
@@ -92,7 +96,7 @@ MakeCorrelationNetwork(tsne.matrices, ptm.correlation.matrix, keeplength = 2, co
 
 #### Description  
 
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED Tsne matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned a matrix.  
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED t-SNE matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned a matrix.  
 
 #### Input  
 - tsne.matrices 
@@ -289,7 +293,7 @@ Pathway Crosstalk Network is the final step in the pipeline. It requires input o
 
 #### Input  
 - file  
-  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended) 
+  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly) 
 - clusterlist  
   - List of clusters from MakeCorrelationNetwork  
 - PCN.jaccard.name  

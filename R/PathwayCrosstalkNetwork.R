@@ -4,7 +4,7 @@
 #' 
 #' @param cluster A cluster of genes/proteins (cannot be PTMs)
 #' @param pathway A pathway of genes/proteins
-#' @param p.list  A list of pathways to calculate the # of pathways a gene, k, is in 
+#' @param p.list  A list of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
 #' 
 #' @return A float value representing cluster pathway evidence between a cluster and pathway
 ClusterPathwayEvidence <- function(cluster, pathway, p.list){
@@ -86,6 +86,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   PCN.jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
   PCN.jaccardedges$interaction <- "pathway Jaccard similarity" 
   
+  
   ###Jaccard Edges assignment must be here in case of error throw in CPE step
   assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
   
@@ -96,7 +97,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   
   ###Generating pathway cluster evidence matrix###
   #A more correct way of doing things  
-  #MCN.data <- do.call(c, clusterlist[[1]]) #Clusters no longer matter - So convert into a list containing genenames. Called genevec in Mark's .rmd
+  #MCN.data <- do.call(c, clusterlist[[1]], recursive = TRUE) #Clusters no longer matter - So convert into a list containing genenames. Called genevec in Mark's .rmd
   #geneweights <- rep(1, length(MCN.data)) #Create a vector of gene weights
   #genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights cannot be 1. 
   
@@ -108,7 +109,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #Populate Matrix - TODO do NOT make CPE it's own function
   for(a in 1:nrow(CPE.Matrix)){
     for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
-      CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list)
+      CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list) #Call Cluster Pathway Evidence (above)
   }}
   
   ###Generate PCN network###
@@ -126,13 +127,19 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #Populate data frame
   track <- 1 #Empty location in the data frame
   for(i in temp.rows){
-    nodes <- t(combn(i, 2)) #Get every node pair (permutations where order doesn't matter of a string vector) 
-    for(j in asplit(nodes, 1)) { #Add all node pairings to data frame
+    #Note to self - *Remove transpose*
+    #if breaking use t(combin(i, 2)) and change next line to asplit(nodes, 1)
+    nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector) 
+    for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
       edgefile.jaccard[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles 
       edgefile.evidence[track, 1:2] <- j
       
-      edgefile.jaccard[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add weight from cluster and first pathway intersection
-      edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight 
+      ##Weights idea
+      #edgefile.jaccard[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add weight from cluster and first pathway intersection
+      #edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight 
+      
+      edgefile.jaccard[track, 4] <- 1 #Set weights to 1 until figure out how to do weights
+      edgefile.evidence[track, 4] <- 1
       
       track <- track+1 #Increase tracker
     }}
@@ -148,7 +155,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   setwd("..") #Put files OUTSIDE of CCCN_CFN_Tools... hopefully. Could try ~/Desktop ? 
   save(edgefile.jaccard, file = "jaccard_PCN.Rdata") #Save to files for cytoscape... Correct formatting? 
   save(edgefile.evidence, file = "evidence_PCN.Rdata")
-  setwd(savedir)
+  setwd(savedir) #Reset directory to proper place so user doesn't get confused
   
   
   
