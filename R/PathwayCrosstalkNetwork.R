@@ -116,7 +116,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   
   #Isolate rows from CPE.Matrix
   temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found") #Error catch- Not worth continuing as a less helpful error happens in the loop 
+  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error happens in the loop 
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   
   #Create data frame
