@@ -58,7 +58,7 @@ head(eu_ptms_list, 1)
 
 #### Description  
 
-Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through Tsne in order to put them into a 3-dimensional space. Please note: Tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
+Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through Tsne in order to put them into a 3-dimensional space. A correlation table is also produced based on the Spearman Correlation table. Please note: Tsne involves an element of randomness; in order to get the same results, set.seed(#) must be called.  
 
 #### Input  
 - ptmtable
@@ -151,7 +151,7 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
   - List of gene names  
 
 #### Estimated run-time  
-1s  
+6mins  
 
 ### Part 2 --- Get File for Database Input
 
@@ -204,7 +204,7 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
   - Data frame of consisting of the network of interactions from the genes of study
 
 #### Estimated run-time  
-1min  
+10s  
 
 ## Step 4: Find PPI Edges 
 
@@ -239,7 +239,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
   - A dataframe representing how strongly proteins are known to interact  
 
 #### Estimated run-time  
-20mins (only using STRINGdb)
+30mins (only using STRINGdband GeneMANIA)
 
 ## Step 5: Cluster Filtered Network  
 
