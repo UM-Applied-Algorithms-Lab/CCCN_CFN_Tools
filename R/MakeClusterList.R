@@ -1,9 +1,30 @@
+#' Helper function for Rtsne since parameters are set
+#' 
+#' This function is made to help people new to the Rtsne function understand parameters. 
+#' 
+#'
+#' @param table The matrix that Rtsne needs to be performed on. It's called table because a lot of operations contain the word "matrix" so it was called something else to not be confusing.
+#' @param max_iter Number of iterations, defaults 5000
+#' 
+#' @return 
+GetRtsne <- function(table, iter=5000){
+  if(!is.matrix(table)) table <- as.matrix(table) #Force parameter to be a matrix if it is not already
+  
+  # Apply t-SNE to the distance matrix to reduce dimensions to 3 #
+  # Parameters: dims = 3 (3D output), perplexity = 15, theta = 0.25 (speed/accuracy trade-off) #
+  # max_iter = 5000 (number of iterations)
+  # check_duplicates = FALSE (treat rows as unique) #
+  # pca = FALSE (no initial PCA) #
+  return(Rtsne::Rtsne(table, dims = 3, perplexity = 15, theta = 0.25, max_iter = iter, check_duplicates = FALSE, pca = FALSE)) 
+}
+
+
 #' Populates the global environment with cluster groupings based on t-SNE data
 #'
 #' This function groups t-SNE data points into clusters using a specified threshold
 #' and visualizes the clusters.
 #'
-#' @param ptmtable A dataset for post-translational modifications.
+#' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug. 
 #' @param correlation.matrix.name The desired name for the PTM correlation matrix created
 #' @param list.name The desired name for the data structure storing the 3 t-SNE matrices
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
@@ -11,7 +32,7 @@
 #'
 #' @examples
 #' MakeClusterList(ex.ptmtable, "example.cor", "example.tsne", 3.5)
-MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "distance.clusters", toolong = 3.5){
+MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "clusters.list", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -37,14 +58,10 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   colnames(ptm.correlation.matrix) <- ptmtable$PTM
   rownames(ptm.correlation.matrix) <- ptmtable$PTM
 
-  # Fix names of dissimilarity matrix
-  colnames(sp.diss.matrix) <- ptmtable$PTM 
-  rownames(sp.diss.matrix) <- ptmtable$PTM
-
   # Run t-SNE #
-  tsne_results <- Rtsne::Rtsne(sp.diss.matrix, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
+  tsne_results <- GetRtsne(sp.diss.matrix) #Call GetRtsne
   # Return t-SNE results #
-  spearman_result = tsne_results$Y
+  spearman_cluster_coords = tsne_results$Y
 
 
   #EUCLIDEAN CALCULATION
@@ -67,10 +84,10 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   # Parameters: dims = 3 (3D output), perplexity = 15, theta = 0.25 (speed/accuracy trade-off) #
   # max_iter = 5000 (number of iterations), check_duplicates = FALSE (treat rows as unique) #
   # pca = FALSE (no initial PCA) #
-  eu.ptms.tsne.list <- Rtsne::Rtsne(eu.diss.calc, dims = 3, perplexity = 15, theta = 0.25, max_iter = 5000, check_duplicates = FALSE, pca = FALSE)
+  eu.ptms.tsne.list <- GetRtsne(eu.diss.calc) #Call GetRtsne
 
   # Extract the t-SNE results from the output list #
-  euclidean_result <- eu.ptms.tsne.list$Y
+  euclidean_cluster_coords <- eu.ptms.tsne.list$Y
 
   #COMBINED CALCULATION
 
@@ -84,8 +101,8 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   #find average
   combined_distance <- (sp.diss.calc + eu.diss.calc) / 2
   # Perform t-SNE on the combined distances #
-  tsne_result <- Rtsne::Rtsne(as.matrix(combined_distance), dims = 3, perplexity = 15, theta = 0.25, check_duplicates = FALSE, pca = FALSE)
-  sed_result <- tsne_result$Y
+  tsne_result <- GetRtsne(combined_distance, iter=1000) #Call GetRtsne
+  sed_cluster_coords <- tsne_result$Y
 
 
   #Nested function to analyze result
@@ -115,10 +132,10 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   } #END of nested function
 
   #Assign distance clusters as a list to global environment
-  clusters.list <- list(clustercreate(euclidean_result), clustercreate(spearman_result), clustercreate(sed_result))
+  clusters.list <- list(clustercreate(euclidean_cluster_coords), clustercreate(spearman_cluster_coords), clustercreate(sed_cluster_coords))
   names(clusters.list) <- c("Euclidean", "Spearman", "SED")
 
   #Assign
-  assign(list.name, clusters.list, envir = .GlobalEnv) # list of the tsne data for Euclidean, Spearman, and SED
+  assign(list.name, clusters.list, envir = .GlobalEnv) # list of the t-SNE data for Euclidean, Spearman, and SED
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
 }
