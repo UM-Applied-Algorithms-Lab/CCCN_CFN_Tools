@@ -12,15 +12,10 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 
   #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
   #cluster.format <- sapply(cluster, function(x) strsplit(y, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
-<<<<<<< HEAD
-  cluster.format <- c(cluster.format, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
+
+  cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
   cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
 
-=======
-  cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part 
-  cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates! 
-  
->>>>>>> f9c55b239ce87c19c41f3f515f9ad9d8a15b49af
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
     temp <- length(grep(pathway[k], cluster.format)) #Numerator: The amount of times Gene k appears in cluster
@@ -129,7 +124,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
 <<<<<<< HEAD
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found") #Error catch- Not worth continuing as a less helpful error happens in the loop
 =======
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error happens in the loop 
+  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error happens in the loop
 >>>>>>> f9c55b239ce87c19c41f3f515f9ad9d8a15b49af
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
 
