@@ -152,9 +152,9 @@
 #' }
 #' @source source info (or `"manually created"`)
 #' @examples
-#' data(ex.list.common)
-#' head(ex.list.common)
-"ex.list.common"
+#' data(ex.common.clusters)
+#' head(ex.common.clusters)
+"ex.common.clusters"
 
 
 

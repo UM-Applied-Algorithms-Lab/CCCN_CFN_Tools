@@ -29,5 +29,5 @@ This function finds common clusters from the data derived in MakeClusterList and
 \examples{
 tsnes <- ex.tesne.matrices
 ptm.cor <- ex.ptm.correlation.matrix
-MakeCorrelationNetwork(tsnes, ptm.cor, 1, "example.list.found", "example.cccn")
+MakeCorrelationNetwork(ex.tsne.matrices, ex.ptm.correlation.matrix, 1, "example.list.found", "example.cccn")
 }
