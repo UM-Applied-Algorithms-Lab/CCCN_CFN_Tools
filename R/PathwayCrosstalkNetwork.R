@@ -156,37 +156,4 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   save(edgefile.jaccard, file = "jaccard_PCN.Rdata") #Save to files for cytoscape... Correct formatting? 
   save(edgefile.evidence, file = "evidence_PCN.Rdata")
   setwd(savedir) #Reset directory to proper place so user doesn't get confused
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
