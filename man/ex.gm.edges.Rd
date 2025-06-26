@@ -32,4 +32,4 @@ Network of interactions from the GeneMANIA database.
 data(ex.gm.edges)
 head(ex.gm.edges)
 }
-\keyword{datasets}
+\keyword{internal}

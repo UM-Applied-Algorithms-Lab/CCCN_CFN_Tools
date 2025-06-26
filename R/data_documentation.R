@@ -61,6 +61,8 @@
 #'
 #' Network of interactions from the GeneMANIA database.
 #'
+#' @keywords internal
+#'
 #' @format Dataframe of 601,552 rows and 10 columns:
 #' \describe{
 #'   \item{data.type}{Type of interaction; typically co-expression}
