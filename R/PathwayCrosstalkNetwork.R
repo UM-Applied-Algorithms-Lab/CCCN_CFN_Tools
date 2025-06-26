@@ -1,12 +1,12 @@
-#' Cluster Pathway Evidence
-#'
-#' Helper function for obtaining cluster pathway evidence given a Cluster and Pathway
-#'
-#' @param cluster A cluster of genes/proteins (cannot be PTMs)
-#' @param pathway A pathway of genes/proteins
-#' @param p.list  A list of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
-#'
-#' @return A float value representing cluster pathway evidence between a cluster and pathway
+# Cluster Pathway Evidence
+#
+# Helper function for obtaining cluster pathway evidence given a Cluster and Pathway
+#
+# @param cluster A cluster of genes/proteins (cannot be PTMs)
+# @param pathway A pathway of genes/proteins
+# @param p.list  A list of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
+#
+# @return A float value representing cluster pathway evidence between a cluster and pathway
 ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
 
@@ -24,8 +24,8 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   }
 
   #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
-  sigma <- sigma*(1/length(cluster)) 
-  
+  sigma <- sigma*(1/length(cluster))
+
   return(sum(sigma)) #Return
 }
 
@@ -35,7 +35,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #'
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"
 #' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
-#' @param edgelist The desired name for the edgelist file that PCN will make. Should NOT contain any file extensions like .csv, this step will add that for you. Intended for graphing in Cytoscape. 
+#' @param edgelist The desired name for the edgelist file that PCN will make. Should NOT contain any file extensions like .csv, this step will add that for you. Intended for graphing in Cytoscape.
 #' @export
 #'
 #' @examples
@@ -124,7 +124,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Create data frame: Pathway to Pathway edgelist
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
-  PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size)) 
+  PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
 
   #Populate data frame
   track <- 1 #Empty location in the data frame
@@ -147,6 +147,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
   write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
-  #Tell the user where their files got put 
+  #Tell the user where their files got put
   cat(filename, "made in directory:", getwd())
 }
