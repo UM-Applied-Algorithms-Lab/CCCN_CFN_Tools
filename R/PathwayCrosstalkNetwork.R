@@ -89,7 +89,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist){
 
 
   ###Jaccard Edges assignment must be here in case of error throw in CPE step
-  assign(PCN.jaccard.name, PCN.jaccardedges, envir = .GlobalEnv)
+  assign("PCN.jaccardedges", PCN.jaccardedges, envir = .GlobalEnv)
 
   ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
   #gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms
@@ -148,13 +148,14 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist){
   #"Edge filtering" goes here
 
   ###Assign Variable Names###
-  assign(edgefile.jaccard, "jaccard_table", envir = .GlobalEnv) #DEBUGS
-  assign(edgefile.evidence, "CPE_table", envir = .GlobalEnv)
+  assign("jaccard_table", edgefile.jaccard, envir = .GlobalEnv) #DEBUGS
+  assign("CPE_table", edgefile.evidence, envir = .GlobalEnv)
 
   #Save edgefiles for cytoscape plotting
-  savedir <- getwd() #Save working directory
-  setwd("..") #Put files OUTSIDE of CCCN_CFN_Tools... hopefully. Could try ~/Desktop ?
-  save(edgefile.jaccard, file = "jaccard_PCN.Rdata") #Save to files for cytoscape... Correct formatting?
-  save(edgefile.evidence, file = "evidence_PCN.Rdata")
-  setwd(savedir) #Reset directory to proper place so user doesn't get confused
+  save(edgefile.jaccard, file = "jaccard_PCN.rda") #Save to files for cytoscape... Correct formatting?
+  save(edgefile.evidence, file = "evidence_PCN.rda")
+  
+  #Tell the user where their files got put 
+  filenames <- list("jaccard_PCN.rda", "evidence_PCN.rda")
+  print(paste(filenames, "made in:", getwd()))
 }

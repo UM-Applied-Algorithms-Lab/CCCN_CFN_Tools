@@ -4,30 +4,16 @@
 \alias{PathwayCrosstalkNetwork}
 \title{Pathway Crosstalk Network}
 \usage{
-PathwayCrosstalkNetwork(
-  file = "bioplanet.csv",
-  clusterlist,
-  PCN.jaccard.name = "PCN.Jaccardedges",
-  PCN.CPE.name = "CPE.Edgelist",
-  PCN.network.name = "PCN.network"
-)
+PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist)
 }
 \arguments{
 \item{file}{Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"}
 
 \item{clusterlist}{The list of coclusters made in MakeCorrelationNetwork}
-
-\item{PCN.jaccard.name}{The desired name for the data structure containing jaccard edges}
-
-\item{PCN.CPE.name}{The desired name for the data structure containing CPE edges}
 }
 \description{
 Converts Bioplanet pathways from (\url{https://tripod.nih.gov/bioplanet/})  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
 }
 \examples{
-ex.list <- ex.list.common
-jaccard.name <- "example.PCN.Jaccardedges"
-CPE.name <- "example.CPE.Edgelist"
-PCN <- "example.PCN.network"
 PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
 }
