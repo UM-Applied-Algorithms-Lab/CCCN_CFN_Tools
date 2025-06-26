@@ -108,6 +108,8 @@
 #'
 #' Dataframe from GeneMANIA relating GeneMANIA IDs to common gene names.
 #'
+#' @keywords internal
+#'
 #' @format Dataframe of 2762 rows and 16 columns:
 #' \describe{
 #'   \item{annotation.name}{Note about the gene}

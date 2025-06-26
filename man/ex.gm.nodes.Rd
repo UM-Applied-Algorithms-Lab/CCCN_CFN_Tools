@@ -37,4 +37,4 @@ Dataframe from GeneMANIA relating GeneMANIA IDs to common gene names.
 data(ex.gm.nodes)
 head(ex.gm.nodes)
 }
-\keyword{datasets}
+\keyword{internal}
