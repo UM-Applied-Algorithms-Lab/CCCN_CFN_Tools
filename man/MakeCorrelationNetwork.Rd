@@ -5,7 +5,7 @@
 \title{Make Correlation Network}
 \usage{
 MakeCorrelationNetwork(
-  tsne.matrices,
+  clusterlist,
   ptm.correlation.matrix,
   keeplength = 2,
   clusters.name = "common.clusters",
@@ -13,13 +13,13 @@ MakeCorrelationNetwork(
 )
 }
 \arguments{
-\item{tsne.matrices}{List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively}
-
 \item{ptm.correlation.matrix}{Correlation matrix made from ptm table}
 
 \item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))}
 
 \item{cccn.name}{The desired name for the output of the Correlation Network Matrix}
+
+\item{tsne.matrices}{List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively}
 
 \item{lists.name}{The desired name for the output of the list containing clusters of PTMs and Genes}
 }
@@ -27,7 +27,5 @@ MakeCorrelationNetwork(
 This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
 }
 \examples{
-tsnes <- ex.tsne.matrices
-ptm.cor <- ex.ptm.correlation.matrix
-MakeCorrelationNetwork(tsnes, ptm.cor, 1, "ex.common.clusters", "ex.cccn")
+MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1, "ex.common.clusters", "ex.cccn")
 }

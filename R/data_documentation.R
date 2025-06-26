@@ -255,7 +255,7 @@
 #' }
 #' @source "created by MakeClusterList"
 #' @examples
-#' data(ex.tsne.matrices)
-#' head(ex.tsne.matrices)
-"ex.tsne.matrices"
+#' data(ex.clusters.list)
+#' head(ex.clusters.list)
+"ex.clusters.list"
 
