@@ -25,4 +25,4 @@ Post-translational modification data under certain environmental conditions.
 data(ex.ptmtable)
 head(ex.ptmtable)
 }
-\keyword{datasets}
+\keyword{internal}

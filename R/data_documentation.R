@@ -234,6 +234,8 @@
 #'
 #' Post-translational modification data under certain environmental conditions.
 #'
+#' @keywords internal
+#'
 #' @format Dataframe of 100 rows and 70 columns:
 #' \describe{
 #'   \item{rows}{Post-translational modifications}
