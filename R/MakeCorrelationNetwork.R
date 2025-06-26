@@ -41,10 +41,8 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @export
 #'
 #' @examples
-#' tsnes <- ex.tsne.matrices
-#' ptm.cor <- ex.ptm.correlation.matrix
 #' MakeCorrelationNetwork(tsnes, ptm.cor, 1, "ex.common.clusters", "ex.cccn")
-MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeplength = 2, clusters.name = "common.clusters", cccn.name = "cccn.matrix"){
+MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "common.clusters", cccn.name = "cccn.matrix"){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
@@ -56,7 +54,7 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeple
   }
 
   #Find common clusters
-  clusters.common <- FindCommonClusters(tsne.matrices[[1]], tsne.matrices[[2]], tsne.matrices[[3]], keeplength)
+  clusters.common <- FindCommonClusters(clusterlist[[1]], clusterlist[[2]], clusterlist[[3]], keeplength)
 
   # Generate the combined adjacency matrix by taking PTMs to Genes
   gene.common <- lapply(clusters.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
