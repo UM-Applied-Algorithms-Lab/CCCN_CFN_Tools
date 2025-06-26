@@ -23,4 +23,4 @@ List of gene names in dataset.
 data(ex.nodenames)
 head(ex.nodenames)
 }
-\keyword{datasets}
+\keyword{internal}
