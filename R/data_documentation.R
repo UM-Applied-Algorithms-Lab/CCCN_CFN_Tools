@@ -215,6 +215,8 @@
 #'
 #' Matrix relating the correlation values between ptms based on Spearman Similarity.
 #'
+#' @keywords internal
+#'
 #' @format Square matrix of 100 rows and columns:
 #' \describe{
 #'   \item{rows and columns}{Ptm names}

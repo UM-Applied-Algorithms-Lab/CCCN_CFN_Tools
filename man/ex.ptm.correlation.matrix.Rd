@@ -24,4 +24,4 @@ Matrix relating the correlation values between ptms based on Spearman Similarity
 data(ex.ptm.correlation.matrix)
 head(ex.ptm.correlation.matrix)
 }
-\keyword{datasets}
+\keyword{internal}
