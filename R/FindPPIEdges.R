@@ -14,7 +14,7 @@
 #' gmpath <- "genemania-interactions.txt"
 #' pack <- "cccn.cfn.tools"
 #' gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
-#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, ppi.network.name = "ex.ppi.network")
+#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
 FindPPIEdges <- function(string.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
 
   if (!is.data.frame(string.edges) && !is.data.frame(gm.network) && (length(db.filepaths) == 0)){

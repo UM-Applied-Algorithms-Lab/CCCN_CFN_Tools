@@ -11,7 +11,7 @@
 #'
 #' @export
 #' @examples
-#' ClusterFilteredNetwork(ex.cccn_matrix, ex.ppi_network, cfn.name = "example.cfn")
+#' ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "example.cfn")
 ClusterFilteredNetwork <- function(cccn.matrix, ppi.network, cfn.name = "cfn") {
 
   #Loop through ppi.network and assign every row that matches genenames to an include vector

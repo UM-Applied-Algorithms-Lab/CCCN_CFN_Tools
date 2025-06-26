@@ -20,5 +20,5 @@ cluster filtered network
 This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn variable to the global environment, which is a list of the common edges between the PPI edges and cccn.matrix.
 }
 \examples{
-ClusterFilteredNetwork(ex.cccn_matrix, ex.ppi_network, cfn.name = "example.cfn")
+ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "example.cfn")
 }

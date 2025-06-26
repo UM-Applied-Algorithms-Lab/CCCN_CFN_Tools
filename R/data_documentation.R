@@ -28,9 +28,9 @@
 #' }
 #' @source "created by MakeCorrelationNetwork"
 #' @examples
-#' data(ex.cccn_matrix)
-#' head(ex.cccn_matrix)
-"ex.cccn_matrix"
+#' data(ex.cccn.matrix)
+#' head(ex.cccn.matrix)
+"ex.cccn.matrix"
 
 
 
@@ -187,9 +187,9 @@
 #' }
 #' @source "created by FindPPIEdges"
 #' @examples
-#' data(ex.ppi_network)
-#' head(ex.ppi_network)
-"ex.ppi_network"
+#' data(ex.ppi.network)
+#' head(ex.ppi.network)
+"ex.ppi.network"
 
 
 
