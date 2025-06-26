@@ -289,23 +289,21 @@ PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = 
 
 #### Description  
 
+Note: This step is directory sensitive. You can check and set your directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in your working directory, or getwd(). If you cannot find a file, please check your directories first.  
+
 Pathway Crosstalk Network is the final step in the pipeline. It requires input of an external database, bioplanet, which consists of groups of genes (proteins) involved in various cellular processes. The PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity and a score derrived from Cluster-Pathway Evidence using common clusters found in Make Correlation Network. 
 
 #### Input  
 - file  
   - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly) 
 - clusterlist  
-  - List of clusters from MakeCorrelationNetwork  
-- PCN.jaccard.name  
-  - Desired name for the jaccard similarity matrix created; defaults to PCN.jaccardedges  
-- PCN.CPE.name  
-  - Desired name for the Cluster Pathway Evidence edgelist created; defaults to CPE.Edgelist  
+  - List of common clusters from MakeCorrelationNetwork  
+- edgelist.name
+  - The desired name of the Pathway to Pathway edgelist file created. The PCN file will automatically add '.csv' to the end for you. Intended for use in Cytoscape.  
 
 #### Output  
-- PCN.jaccardedges (or otherwise named by PCN.jaccard.name)
-  - A matrix of pathways x pathways with the similarity between two pathways as values
-- CPE.Edgelist (or otherwise named by PCN.CPE.name)
-  - An edgelist of pathways to pathways, with the weight being the sum? of the two pathways Cluster Pathway Evidence score for a specific Cluster. More information about the process of Cluster Pathway Evidence can be found in <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
+- PTP.edgelist
+  - An edgelist file that is created in the working directory. It contains pathway source-target columns, with edge weights of their jaccard similarity and their Cluster-Pathway Evidence score. Info about the Cluster-Pathway Evidence score can be found at: <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
 
 #### Estimated run-time  
 UNKNOWN

@@ -35,11 +35,12 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #'
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"
 #' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
+#' @param edgelist The desired name for the edgelist file that PCN will make. Should NOT contain any file extensions like .csv, this step will add that for you. Intended for graphing in Cytoscape. 
 #' @export
 #'
 #' @examples
 #' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist){
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "edgelist"){
 #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
   #Loading .csv
   if(class(file) == "character"){
@@ -121,10 +122,9 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist){
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the loop given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
 
-  #Create data frame
+  #Create data frame: Pathway to Pathway edgelist
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
-  edgefile.jaccard <- data.frame(source = rep("-", size), target = rep("-", size), interaction = rep("Jaccard", size), weight = rep(0, size))
-  edgefile.evidence <- data.frame(source = rep("-", size), target = rep("-", size), interaction = rep("Evidence", size), weight = rep(0, size))
+  PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size)) 
 
   #Populate data frame
   track <- 1 #Empty location in the data frame
@@ -133,29 +133,22 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist){
     #if breaking use t(combin(i, 2)) and change next line to asplit(nodes, 1)
     nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector)
     for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
-      edgefile.jaccard[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
-      edgefile.evidence[track, 1:2] <- j
+      PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
+      PTP.edgelist[track, 3] <- matrix.jaccard[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
+      PTP.edgelist[track, 4] <- 1 #HOW DO YOU MAKE THE CPE WEIGHTS
 
-      ##Weights idea
-      #edgefile.jaccard[track, 4] <- matrix.jaccard[j[[1]], j[[2]]] #Add weight from cluster and first pathway intersection
-      #edgefile.evidence[track, 4] <- CPE.Matrix[names(i) ,j[[1]]] - matrix.jaccard[j[[1]], j[[2]]] #Add jaccard weight
-
-      edgefile.jaccard[track, 4] <- 1 #Set weights to 1 until figure out how to do weights
-      edgefile.evidence[track, 4] <- 1
       track <- track+1 #Increase tracker
     }}
 
   #"Edge filtering" goes here
 
   ###Assign Variable Names###
-  assign("jaccard_table", edgefile.jaccard, envir = .GlobalEnv) #DEBUGS
-  assign("CPE_table", edgefile.evidence, envir = .GlobalEnv)
+  assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv) #DEBUG
 
   #Save edgefiles for cytoscape plotting
-  save(edgefile.jaccard, file = "jaccard_PCN.rda") #Save to files for cytoscape... Correct formatting?
-  save(edgefile.evidence, file = "evidence_PCN.rda")
-  
+  filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
+  write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
+
   #Tell the user where their files got put 
-  filenames <- list("jaccard_PCN.rda", "evidence_PCN.rda")
-  print(paste(filenames, "made in:", getwd()))
+  print(paste(filename, "made in directory:", getwd()))
 }
