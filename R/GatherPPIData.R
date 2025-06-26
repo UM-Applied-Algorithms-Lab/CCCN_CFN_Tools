@@ -2,7 +2,7 @@
 #'
 #' This function outputs a file the user can take to create the GeneMania edgefile.
 #'
-#' @param cccn_matrix matrix representing the common clusters from the three distance calculations' clusters
+#' @param cccn.matrix matrix representing the common clusters from the three distance calculations' clusters
 #' @param file.path.name path for the output file; defaults to db_nodes.txt
 #'
 #' @return A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes
@@ -10,22 +10,22 @@
 #'
 #' @examples
 #' cccn.cfn.tools:::ex.MakeDBInput(ex.nodenames)
-MakeDBInput <- function(cccn_matrix, file.path.name = "db_nodes.txt") {
-  utils::write.table(rownames(cccn_matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
+MakeDBInput <- function(cccn.matrix, file.path.name = "db_nodes.txt") {
+  utils::write.table(rownames(cccn.matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 
-# Pulls nodenames from the cccn_matrix
+# Pulls nodenames from the cccn.matrix
 #
-# This helper function pulls the gene names from the cccn_matrix into a list 'nodenames'
+# This helper function pulls the gene names from the cccn.matrix into a list 'nodenames'
 #
-# @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+# @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 # @return data frame of the names of the genes
-cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
+cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 
-  gene_names <- unique(rownames(cccn_matrix))
+  gene.names <- unique(rownames(cccn.matrix))
 
-  nodenames <- data.frame(Gene.Names = gene_names, stringsAsFactors = FALSE)
+  nodenames <- data.frame(Gene.Names = gene.names, stringsAsFactors = FALSE)
 
   #return :)
   assign(nodenames.name, nodenames, envir = .GlobalEnv)
@@ -36,7 +36,7 @@ cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
 #'
 #' This function finds protein-protein interaction edges by consulting utilizing the STRINGdb database.
 #'
-#' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+#' @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 #' @param STRINGdb.name desired name for the output STRINGdb data frame; defaults to "string.edges"
 #' @param nodes.name desired name for the output containing the list of all of the gene names; defaults to "nodenames"
 #'
@@ -44,9 +44,9 @@ cccn_to_nodenames <- function(cccn_matrix, nodenames.name = 'nodenames'){
 #' @export
 #'
 #' @examples
-#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, "ex.string.edges", "ex.nodenames")
-GetSTRINGdb <- function(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames") {
-  cccn_to_nodenames(cccn_matrix, nodenames.name)
+#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, "ex.string.edges", "ex.nodenames")
+GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames") {
+  cccn_to_nodenames(cccn.matrix, nodenames.name)
 
   if (!exists("STRINGdb")){                          # check if stringdb is libraried
 
@@ -58,10 +58,10 @@ GetSTRINGdb <- function(cccn_matrix, STRINGdb.name = "string.edges", nodenames.n
   }
 
   # Initialize the STRING database object
-  string_db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, input_directory="")
+  string.db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, input_directory="")
 
   # Retrieve the proteins from the STRING database
-  string_proteins <- string_db$get_proteins()
+  string.proteins <- string.db$get_proteins()
 
   if (!"Gene.Names" %in% colnames(nodenames)) {
     stop("Column 'Gene.Names' not found in nodenames.")
@@ -70,22 +70,22 @@ GetSTRINGdb <- function(cccn_matrix, STRINGdb.name = "string.edges", nodenames.n
   # Map the genes to STRING IDs
   # please note that nodenames replaces the previous "input_dataset"; nodenames appears to work well :)
   # Gene.Names also replaces experimental
-  mapped_genes <- string_db$map(nodenames, "Gene.Names", removeUnmappedRows = TRUE)
-  print(utils::head(mapped_genes))
+  mapped.genes <- string.db$map(nodenames, "Gene.Names", removeUnmappedRows = TRUE)
+  print(utils::head(mapped.genes))
 
   # Retrieve the interactions for the mapped genes
-  interactions <- string_db$get_interactions(mapped_genes$STRING_id)
+  interactions <- string.db$get_interactions(mapped.genes$STRING_id)
 
   # Convert protein IDs to gene names
-  interactions$Gene.1 <- sapply(interactions$from, function(x) string_proteins[match(x, string_proteins$protein_external_id), "preferred_name"])
-  interactions$Gene.2 <- sapply(interactions$to, function(x) string_proteins[match(x, string_proteins$protein_external_id), "preferred_name"])
+  interactions$Gene.1 <- sapply(interactions$from, function(x) string.proteins[match(x, string.proteins$protein_external_id), "preferred_name"])
+  interactions$Gene.2 <- sapply(interactions$to, function(x) string.proteins[match(x, string.proteins$protein_external_id), "preferred_name"])
 
   # Create the final edges dataframe from STRINGdb
-  combined_edges <- interactions[, c("Gene.1", "Gene.2", "combined_score")]
-  colnames(combined_edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
+  combined.edges <- interactions[, c("Gene.1", "Gene.2", "combined_score")]
+  colnames(combined.edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
 
   # assign
-  assign(STRINGdb.name, combined_edges, envir = .GlobalEnv)
+  assign(STRINGdb.name, combined.edges, envir = .GlobalEnv)
 }
 
 
@@ -119,10 +119,10 @@ ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path
   edgetable$Gene.1 <- 'null'   # make new columns!
   edgetable$Gene.2 <- 'null'
 
-  split_names <- strsplit(edgetable$name, "\\|")                                                       # split the names up bc it has three pieces of info there
-  edgetable$Gene.1 <- sapply(split_names, function(x)x[1])                                             # take the first thing; first ID name
+  split.names <- strsplit(edgetable$name, "\\|")                                                       # split the names up bc it has three pieces of info there
+  edgetable$Gene.1 <- sapply(split.names, function(x)x[1])                                             # take the first thing; first ID name
   edgetable$Gene.1 <- sapply(edgetable$Gene.1, function(x)nodetable$query.term[nodetable$name == x])   # turn the ID into the gene name!
-  edgetable$Gene.2 <- sapply(split_names, function(x)x[2])                                             # take the first thing; first ID name
+  edgetable$Gene.2 <- sapply(split.names, function(x)x[2])                                             # take the first thing; first ID name
   edgetable$Gene.2 <- sapply(edgetable$Gene.2, function(x)nodetable$query.term[nodetable$name == x])   # turn the ID into the gene name!
 
   edges <- edgetable[, c("Gene.1", "Gene.2", "normalized.max.weight")]      # sort into a new table with only our information and in the order we want

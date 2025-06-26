@@ -25,7 +25,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   }}}
   #Return
   if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
-  names(returnme) <- sapply(1:length(returnme), function(x){paste("Cluster", x)}) 
+  names(returnme) <- sapply(1:length(returnme), function(x){paste("Cluster", x)})
   return(returnme)
 }
 
@@ -41,10 +41,10 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @export
 #'
 #' @examples
-#' tsnes <- ex.tesne.matrices
+#' tsnes <- ex.tsne.matrices
 #' ptm.cor <- ex.ptm.correlation.matrix
-#' MakeCorrelationNetwork(ex.tsne.matrices, ex.ptm.correlation.matrix, 1, "example.list.found", "example.cccn")
-MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeplength = 2, clusters.name = "common.clusters", cccn.name = "cccn_matrix"){
+#' MakeCorrelationNetwork(tsnes, ptm.cor, 1, "ex.common.clusters", "ex.cccn")
+MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeplength = 2, clusters.name = "common.clusters", cccn.name = "cccn.matrix"){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){
@@ -62,27 +62,27 @@ MakeCorrelationNetwork <- function(tsne.matrices, ptm.correlation.matrix, keeple
   gene.common <- lapply(clusters.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
   ulist <- unique(unlist(gene.common)) #Use this for rownames and colnames
 
-  cccn_matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
+  cccn.matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
   # Populate the empty matrix
   for(d in 1:length(gene.common)){ #For every cluster
     cluster <- gene.common[[d]]    #Save the current cluster
     for(e in cluster){             #For every element in the cluster
       for(f in cluster){           #Connect E to F
-        cccn_matrix[e, f] <- correlation.value(e, f) #This adds the correlation value
+        cccn.matrix[e, f] <- correlation.value(e, f) #This adds the correlation value
   }}}
 
   # Replace 0 with NA in the correlation matrix
-  cccn_matrix[cccn_matrix==0] <- NA
+  cccn.matrix[cccn.matrix==0] <- NA
 
   # Remove self-loops by setting diagonal to NA
-  if (any(!is.na(diag(cccn_matrix)))) diag(cccn_matrix) <- NA
+  if (any(!is.na(diag(cccn.matrix)))) diag(cccn.matrix) <- NA
 
   # Make igraph object, replacing NA with 0
-  cccn_matrix[is.na(cccn_matrix)] <- 0 #Used to be function
+  cccn.matrix[is.na(cccn.matrix)] <- 0 #Used to be function
   assign(clusters.name, clusters.common, envir = .GlobalEnv) #List of common clusters
-  assign(cccn.name, cccn_matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
+  assign(cccn.name, cccn.matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
 
   #Graphing
-  graph <- igraph::graph_from_adjacency_matrix(cccn_matrix, mode = "lower", diag = FALSE, weighted = "Weight")
+  graph <- igraph::graph_from_adjacency_matrix(cccn.matrix, mode = "lower", diag = FALSE, weighted = "Weight")
   plot(graph)
 }

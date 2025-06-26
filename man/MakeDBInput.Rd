@@ -4,10 +4,10 @@
 \alias{MakeDBInput}
 \title{Make file for GeneMania input}
 \usage{
-MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
+MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
 }
 \arguments{
-\item{cccn_matrix}{matrix representing the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{matrix representing the common clusters from the three distance calculations' clusters}
 
 \item{file.path.name}{path for the output file; defaults to db_nodes.txt}
 }

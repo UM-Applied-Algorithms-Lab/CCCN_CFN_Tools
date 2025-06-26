@@ -5,13 +5,13 @@
 \title{Get STRINGdb}
 \usage{
 GetSTRINGdb(
-  cccn_matrix,
+  cccn.matrix,
   STRINGdb.name = "string.edges",
   nodenames.name = "nodenames"
 )
 }
 \arguments{
-\item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
 
 \item{STRINGdb.name}{desired name for the output STRINGdb data frame; defaults to "string.edges"}
 
@@ -24,5 +24,5 @@ A data frame of edges from STRINGdb showing interactions between genes
 This function finds protein-protein interaction edges by consulting utilizing the STRINGdb database.
 }
 \examples{
-cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, "ex.string.edges", "ex.nodenames")
+cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, "ex.string.edges", "ex.nodenames")
 }

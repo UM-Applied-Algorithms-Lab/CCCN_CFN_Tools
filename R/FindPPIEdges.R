@@ -2,8 +2,8 @@
 #'
 #' This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
 #'
-#' @param cccn_matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
-#' @param db_filepaths vector of filepaths to data from other databases; defaults to empty vector
+#' @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+#' @param db.filepaths vector of filepaths to data from other databases; defaults to empty vector
 #' @param gm.network network produced by GeneMANIA if that was used; defaults to NA
 #' @param ppi.network.name desired name of the output ppi network; defaults to "ppi.network"
 #'
@@ -14,10 +14,10 @@
 #' gmpath <- "genemania-interactions.txt"
 #' pack <- "cccn.cfn.tools"
 #' gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
-#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, ppi.network.name = "ex.ppi_network")
-FindPPIEdges <- function(string.edges = NA, gm.network = NA, db_filepaths = c(), ppi.network.name = "ppi.network") {
+#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, ppi.network.name = "ex.ppi.network")
+FindPPIEdges <- function(string.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
 
-  if (!is.data.frame(string.edges) && !is.data.frame(gm.network) && (length(db_filepaths) == 0)){
+  if (!is.data.frame(string.edges) && !is.data.frame(gm.network) && (length(db.filepaths) == 0)){
     stop("No data input.")
   }
 
@@ -65,22 +65,22 @@ FindPPIEdges <- function(string.edges = NA, gm.network = NA, db_filepaths = c(),
 
     }
 
+  # ppi is essentially initialized to the string.edges
+  # TODO: FIX FOR CASES WHERE USER DOES NOT USE STRINGDB!!!!
   if(is.data.frame(string.edges)){
-    if(!is.data.frame(string.edges)){
-      stop("string.edges is not a dataframe; invalid formatting")
-    }
     ppi.network <- rbind(ppi.network, string.edges)
   }
 
+  # Combine STRINGdb and GeneMANIA edges if gm.network exists
   if (is.data.frame(gm.network)){
     ppi.network <- bind_ppis(ppi.network, gm.network)
   }
 
-  # Combine STRINGdb and GeneMANIA edges if gm_edges exists
-  if(length(db_filepaths) != 0){
-    for(path in db_filepaths){
-      db_edges <- utils::read.table(path)
-      ppi.network <- bind_ppis(ppi.network, db_edges)
+  # bind all of the db edges to the ppi.network
+  if(length(db.filepaths) != 0){
+    for(path in db.filepaths){
+      db.edges <- utils::read.table(path)
+      ppi.network <- bind_ppis(ppi.network, db.edges)
     }
   }
 

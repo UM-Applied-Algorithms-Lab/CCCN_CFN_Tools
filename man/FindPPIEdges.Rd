@@ -7,18 +7,18 @@
 FindPPIEdges(
   string.edges = NA,
   gm.network = NA,
-  db_filepaths = c(),
+  db.filepaths = c(),
   ppi.network.name = "ppi.network"
 )
 }
 \arguments{
 \item{gm.network}{network produced by GeneMANIA if that was used; defaults to NA}
 
-\item{db_filepaths}{vector of filepaths to data from other databases; defaults to empty vector}
+\item{db.filepaths}{vector of filepaths to data from other databases; defaults to empty vector}
 
 \item{ppi.network.name}{desired name of the output ppi network; defaults to "ppi.network"}
 
-\item{cccn_matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
 }
 \value{
 A data frame of combined edges from STRINGdb and provided database entries
@@ -30,5 +30,5 @@ This function finds protein-protein interaction edges by combining STRINGdb and 
 gmpath <- "genemania-interactions.txt"
 pack <- "cccn.cfn.tools"
 gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
-cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, ppi.network.name = "ex.ppi_network")
+cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn_matrix, ppi.network.name = "ex.ppi.network")
 }

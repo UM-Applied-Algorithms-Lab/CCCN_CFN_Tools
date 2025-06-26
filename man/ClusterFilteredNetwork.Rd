@@ -4,10 +4,10 @@
 \alias{ClusterFilteredNetwork}
 \title{ClusterFilteredNetwork}
 \usage{
-ClusterFilteredNetwork(cccn_matrix, ppi.network, cfn.name = "cfn")
+ClusterFilteredNetwork(cccn.matrix, ppi.network, cfn.name = "cfn")
 }
 \arguments{
-\item{cccn_matrix}{Matrix representing the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{Matrix representing the common clusters from the three distance calculations' clusters}
 
 \item{ppi.network}{A data frame of combined edges from STRINGdb and provided database entries}
 
@@ -17,7 +17,7 @@ ClusterFilteredNetwork(cccn_matrix, ppi.network, cfn.name = "cfn")
 cluster filtered network
 }
 \description{
-This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn_network variable to the global environment, which is a list of the common edges between the PPI edges and cccn_matrix.
+This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn variable to the global environment, which is a list of the common edges between the PPI edges and cccn.matrix.
 }
 \examples{
 ClusterFilteredNetwork(ex.cccn_matrix, ex.ppi_network, cfn.name = "example.cfn")
