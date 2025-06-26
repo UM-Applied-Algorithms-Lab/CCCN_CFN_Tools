@@ -135,7 +135,8 @@
 "ex.gm.nodes"
 
 
-
+# DO NOT TOUCH I DON'T TRUST ITS ROXYGEN
+# NO PROOF YET
 #' GeneMANIA Empty Edges Example
 #'
 #' Empty GeneMANIA structure. TODO: fix.
@@ -154,7 +155,8 @@
 "ex.gm_edges"
 
 
-
+# DO NOT TOUCH THIS ALSO BROKE IT
+# TODO: FIGURE OUT ??????
 #' List of Common Clusters Example
 #'
 #' (description)
