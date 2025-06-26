@@ -41,7 +41,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' @examples
 #' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
 PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "edgelist"){
-#Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
+  #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
   #Loading .csv
   if(class(file) == "character"){
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory.")) #Error Catch
@@ -139,8 +139,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
       track <- track+1 #Increase tracker
     }}
-
-  #"Edge filtering" goes here
 
   ###Assign Variable Names###
   assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv) #DEBUG
