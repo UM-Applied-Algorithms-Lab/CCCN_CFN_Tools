@@ -194,6 +194,8 @@
 #'
 #' Network of relationships between genes based on PPI database STRINGdb.
 #'
+#' @keywords internal
+#'
 #' @format Dataframe of 1 row and 4 columns:
 #' \describe{
 #'   \item{Gene.1}{The gene interacting with Gene.2}

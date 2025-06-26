@@ -26,4 +26,4 @@ Network of relationships between genes based on PPI database STRINGdb.
 data(ex.ppi.network)
 head(ex.ppi.network)
 }
-\keyword{datasets}
+\keyword{internal}
