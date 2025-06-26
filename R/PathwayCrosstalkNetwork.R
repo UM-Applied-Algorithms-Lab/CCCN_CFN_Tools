@@ -148,5 +148,5 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
   #Tell the user where their files got put 
-  print(paste(filename, "made in directory:", getwd()))
+  cat(filename, "made in directory:", getwd())
 }
