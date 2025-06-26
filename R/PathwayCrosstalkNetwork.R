@@ -135,7 +135,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
       PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
       PTP.edgelist[track, 3] <- matrix.jaccard[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
-      PTP.edgelist[track, 4] <- 1 #HOW DO YOU MAKE THE CPE WEIGHTS
+      PTP.edgelist[track, 4] <- 1 #HOW DO YOU GET THE CPE Weights from CPE MATRIX???
 
       track <- track+1 #Increase tracker
     }}
