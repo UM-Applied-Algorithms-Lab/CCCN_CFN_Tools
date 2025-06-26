@@ -23,4 +23,4 @@ ex.pathways.list
 data(ex.pathways.list)
 head(ex.pathways.list)
 }
-\keyword{datasets}
+\keyword{internal}
