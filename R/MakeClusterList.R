@@ -110,8 +110,8 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
     tsne.span <- vegan::spantree(stats::dist(result), toolong=toolong)
 
     #Find clusters that are connected based on toolong (distance?)
-    result.disc2 <-  vegan::distconnected(stats::dist(result), toolong = toolong, trace = TRUE)  # test
-    cat ("threshold dissimilarity", toolong, "\n", max(result.disc2), " groups","\n")
+    result.disc2 <-  vegan::distconnected(stats::dist(result), toolong = toolong, trace = FALSE)  # test
+    # cat ("threshold dissimilarity", toolong, "\n", max(result.disc2), " groups","\n")
 
     #Create a plot of the clusters using vegan
     vegan::ordiplot(result)
