@@ -18,8 +18,9 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
-    temp <- length(grep(pathway[k], cluster.format)) #Numerator: The amount of times Gene k appears in cluster
-    temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list
+    #A space needs to be appended
+    temp <- sum(pathway[k] == cluster.format)) #Numerator: The amount of times Gene k appears in cluster
+    temp <- temp / sum(sapply(p.list, function(x) sum(pathway[[k]] == x))) #Divide temp by the number of times Gene k appears in pathways in the pathway list
     sigma[k] <- temp #Assign this value to sigma[k]
   }
 
