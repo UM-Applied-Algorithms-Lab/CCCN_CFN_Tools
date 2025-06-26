@@ -88,6 +88,8 @@
 #'
 #' Network of relationships between genes based on information from the GeneMANIA database.
 #'
+#' @keywords internal
+#'
 #' @format Dataframe of 601,552 rows and 3 columns:
 #' \describe{
 #'   \item{Gene.1}{The gene interacting with Gene.2}

@@ -25,4 +25,4 @@ Network of relationships between genes based on information from the GeneMANIA d
 data(ex.gm.network)
 head(ex.gm.network)
 }
-\keyword{datasets}
+\keyword{internal}
