@@ -2,6 +2,8 @@
 #'
 #' (description)
 #'
+#' @keywords internal
+#'
 #' @format Dataframe with 100 rows and 4 columns:
 #' \describe{
 #'   \item{PATHWAY_ID}{ID of the pathway in bioplanet}

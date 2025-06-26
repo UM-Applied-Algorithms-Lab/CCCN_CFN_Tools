@@ -26,4 +26,4 @@ ex.bioplanet
 data(ex.bioplanet)
 head(ex.bioplanet)
 }
-\keyword{datasets}
+\keyword{internal}
