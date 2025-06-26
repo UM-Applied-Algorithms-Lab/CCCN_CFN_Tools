@@ -55,9 +55,9 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">FindPPIEdges</span><span class="op">(</span></span>
-<span>  <span class="va">cccn_matrix</span>,</span>
-<span>  db_filepaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  string.edges <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  gm.network <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  db.filepaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -66,20 +66,20 @@
     <h2>Arguments</h2>
 
 
-<dl><dt id="arg-cccn-matrix">cccn_matrix<a class="anchor" aria-label="anchor" href="#arg-cccn-matrix"></a></dt>
-<dd><p>dataframe of dataframes that represent the common clusters from the three distance calculations' clusters</p></dd>
-
-
-<dt id="arg-db-filepaths">db_filepaths<a class="anchor" aria-label="anchor" href="#arg-db-filepaths"></a></dt>
-<dd><p>vector of filepaths to data from other databases; defaults to empty vector</p></dd>
-
-
-<dt id="arg-gm-network">gm.network<a class="anchor" aria-label="anchor" href="#arg-gm-network"></a></dt>
+<dl><dt id="arg-gm-network">gm.network<a class="anchor" aria-label="anchor" href="#arg-gm-network"></a></dt>
 <dd><p>network produced by GeneMANIA if that was used; defaults to NA</p></dd>
+
+
+<dt id="arg-db-filepaths">db.filepaths<a class="anchor" aria-label="anchor" href="#arg-db-filepaths"></a></dt>
+<dd><p>vector of filepaths to data from other databases; defaults to empty vector</p></dd>
 
 
 <dt id="arg-ppi-network-name">ppi.network.name<a class="anchor" aria-label="anchor" href="#arg-ppi-network-name"></a></dt>
 <dd><p>desired name of the output ppi network; defaults to "ppi.network"</p></dd>
+
+
+<dt id="arg-cccn-matrix">cccn.matrix<a class="anchor" aria-label="anchor" href="#arg-cccn-matrix"></a></dt>
+<dd><p>dataframe of dataframes that represent the common clusters from the three distance calculations' clusters</p></dd>
 
 </dl></div>
     <div id="value">
@@ -89,10 +89,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gmfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"genemania"</span>, <span class="st">"genemania-interactions.txt"</span>, package <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">cccn.cfn.tools</span><span class="fu">:::</span><span class="fu"><a href="ex.FindPPIEdges.html">ex.FindPPIEdges</a></span><span class="op">(</span><span class="va">ex.cccn_matrix</span>, db_filepaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, gm.network <span class="op">=</span> <span class="cn">NA</span>, ppi.network.name <span class="op">=</span> <span class="va">ex.ppi_network</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Gene.1 Gene.2 Weight     edgeType</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 ABHD11 ACADVL  0.401 coexpression</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gmpath</span> <span class="op">&lt;-</span> <span class="st">"genemania-interactions.txt"</span></span></span>
+<span class="r-in"><span><span class="va">pack</span> <span class="op">&lt;-</span> <span class="st">"cccn.cfn.tools"</span></span></span>
+<span class="r-in"><span><span class="va">gmfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"genemania"</span>, <span class="va">gmpath</span>, package <span class="op">=</span> <span class="va">pack</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">cccn.cfn.tools</span><span class="fu">:::</span><span class="fu"><a href="ex.FindPPIEdges.html">ex.FindPPIEdges</a></span><span class="op">(</span><span class="va">ex.cccn.matrix</span>, ppi.network.name <span class="op">=</span> <span class="st">"ex.ppi.network"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ex.ppi.network"</span>
 </code></pre></div>
     </div>
   </div>

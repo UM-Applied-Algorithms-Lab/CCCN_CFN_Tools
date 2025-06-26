@@ -119,7 +119,7 @@ of RAM.</p>
 <h5 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a>
 </h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeClusterList.html" class="external-link">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, correlation.matrix.name <span class="op">=</span> <span class="st">"ptm.correlation.matrix"</span>, list.name <span class="op">=</span> <span class="st">"tsne.matrices"</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeClusterList.html">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, correlation.matrix.name <span class="op">=</span> <span class="st">"ptm.correlation.matrix"</span>, list.name <span class="op">=</span> <span class="st">"tsne.matrices"</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/EU_MCL.png"><br><strong>Figure 1</strong> Example plot produced by MakeClusterList
 calculated using Euclidean Distance</p>
 <p><img src="vig_figs/MCL-output.png"><br><strong>Figure 2</strong> Output of MakeClusterList</p>
@@ -158,16 +158,29 @@ Distance</p>
 <div class="section level5">
 <h5 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h5>
-<p>Make Cluster List is the first step in the analyzing one’s data. This
-function takes the post-translational modification table and runs it
-through three calculations of distance: Euclidean Distance, Spearman
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD Make Cluster List is the first step
+in the analyzing one’s data. This function takes the post-translational
+modification table and runs it through three calculations of distance:
+Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|),
+and the average of the two of these. These calculations find the
+‘distance’ between ptms based upon under what conditions they occur.
+These matricies are then run through Tsne in order to put them into a
+3-dimensional space. A correlation table is also produced based on the
+Spearman Correlation table. Please note: Tsne involves an element of
+randomness; in order to get the same results, set.seed(#) must be
+called.<br>
+======= Make Cluster List is the first step in the analyzing one’s data.
+This function takes the post-translational modification table and runs
+it through three calculations of distance: Euclidean Distance, Spearman
 Dissimilarity (1 - |Spearman Correlation|), and the average of the two
 of these. These calculations find the ‘distance’ between ptms based upon
 under what conditions they occur. These matricies are then run through
-Tsne in order to put them into a 3-dimensional space. A correlation
-table is also produced based on the Spearman Correlation table. Please
-note: Tsne involves an element of randomness; in order to get the same
-results, set.seed(#) must be called.</p>
+t-SNE in order to put them into a 3-dimensional space. Please note:
+t-SNE involves an element of randomness; in order to get the same
+results, set.seed(#) must be called. A correlation table is also
+produced based on the Spearman Correlation table.<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+64fa34fe4dc34332a66d1bace5babc0ab4c9d3d0</p>
 </div>
 <div class="section level5">
 <h5 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
@@ -188,7 +201,7 @@ ptm.correlation.matrix</li>
 </li>
 <li>list.name
 <ul>
-<li>Desired name for the list of tsne data to be saved as; defaults to
+<li>Desired name for the list of t-SNE data to be saved as; defaults to
 tsne.matrices</li>
 </ul>
 </li>
@@ -234,7 +247,7 @@ the two)</li>
 <h5 id="code-1">Code<a class="anchor" aria-label="anchor" href="#code-1"></a>
 </h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeCorrelationNetwork.html" class="external-link">MakeCorrelationNetwork</a></span><span class="op">(</span><span class="va">tsne.matrices</span>, <span class="va">ptm.correlation.matrix</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, common.clusters.name <span class="op">=</span> <span class="st">"common.clusters"</span>, cccn.name <span class="op">=</span> <span class="st">"cccn_matrix"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeCorrelationNetwork.html">MakeCorrelationNetwork</a></span><span class="op">(</span><span class="va">tsne.matrices</span>, <span class="va">ptm.correlation.matrix</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, common.clusters.name <span class="op">=</span> <span class="st">"common.clusters"</span>, cccn.name <span class="op">=</span> <span class="st">"cccn_matrix"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/cccn_matrix.png"><br><strong>Figure 4</strong> First 17 rows and columns of the cccn_matrix
 produced by MakeCorrelationNetwork</p>
 </div>
@@ -242,7 +255,7 @@ produced by MakeCorrelationNetwork</p>
 <h5 id="description-1">Description<a class="anchor" aria-label="anchor" href="#description-1"></a>
 </h5>
 <p>Make Correlation Network first finds the intersection between the
-Euclidian, Spearman, and SED Tsne matrices in order to find the
+Euclidian, Spearman, and SED t-SNE matrices in order to find the
 intersection between the three groups. It then adds the Genes in these
 PTMs to a list of common clusters and turns it into an adjacency matrix.
 This adjacency matrix is used to filter relevant data — clusters — from
@@ -353,7 +366,7 @@ name.</p>
 <h5 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h5>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/GetSTRINGdb.html" class="external-link">GetSTRINGdb</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, STRINGdb.name <span class="op">=</span> <span class="st">"string.edges"</span>, nodenames.name <span class="op">=</span> <span class="st">"nodenames"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/GetSTRINGdb.html">GetSTRINGdb</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, STRINGdb.name <span class="op">=</span> <span class="st">"string.edges"</span>, nodenames.name <span class="op">=</span> <span class="st">"nodenames"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/string-edges.png"><br><strong>Figure 5</strong> First 18 rows of string.edges produced by
 GetSTRINGdb<br><img src="vig_figs/nodenames.png"><br><strong>Figure 6</strong> First 18 rows of nodenames produced by
 GetSTRINGdb</p>
@@ -413,7 +426,7 @@ genes of study<br>
 <h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeDBInput.html" class="external-link">MakeDBInput</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, file.path.name <span class="op">=</span> <span class="st">"db_nodes.txt"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeDBInput.html">MakeDBInput</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, file.path.name <span class="op">=</span> <span class="st">"db_nodes.txt"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/db_nodes-txt.png"><strong>Figure 7</strong>
 First 15 lines from the produced text file</p>
 </div>
@@ -462,7 +475,7 @@ file.path.name</li>
 <h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/ProcessGMEdgefile.html" class="external-link">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ProcessGMEdgefile.html">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/gm_network.png"><strong>Figure 8</strong> First
 44 rows of the GeneMANIA network</p>
 </div>
@@ -519,7 +532,7 @@ genes of study</li>
 <h5 id="code-5">Code<a class="anchor" aria-label="anchor" href="#code-5"></a>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/FindPPIEdges.html" class="external-link">FindPPIEdges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/FindPPIEdges.html">FindPPIEdges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/ppi_network.png"><br><strong>Figure 9</strong> First 19 rows of the ppi_network produced by
 find_ppi_edges</p>
 </div>
@@ -594,7 +607,7 @@ interact</li>
 <h5 id="code-6">Code<a class="anchor" aria-label="anchor" href="#code-6"></a>
 </h5>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/ClusterFilteredNetwork.html" class="external-link">ClusterFilteredNetwork</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, <span class="va">ppi.network</span>, cfn.name <span class="op">=</span> <span class="st">"cfn"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ClusterFilteredNetwork.html">ClusterFilteredNetwork</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, <span class="va">ppi.network</span>, cfn.name <span class="op">=</span> <span class="st">"cfn"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vig_figs/cfn.png"><br><strong>Figure 10</strong> First 19 rows of the cfn_network produced by
 ClusterFilteredNetwork</p>
 </div>
@@ -661,12 +674,17 @@ cor_weight (and GM.raw.weights) is on a scale of 0-1</li>
 <h5 id="code-7">Code<a class="anchor" aria-label="anchor" href="#code-7"></a>
 </h5>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/PathwayCrosstalkNetwork.html" class="external-link">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">clusterlist</span>, PCN.jaccard.name <span class="op">=</span> <span class="st">"pcn_jaccard_edges"</span>, PCN.CPE.name <span class="op">=</span> <span class="st">"pcn_cpe_edges"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/PathwayCrosstalkNetwork.html">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">clusterlist</span>, PCN.jaccard.name <span class="op">=</span> <span class="st">"pcn_jaccard_edges"</span>, PCN.CPE.name <span class="op">=</span> <span class="st">"pcn_cpe_edges"</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Figure 11</strong> Will exist at some point</p>
 </div>
 <div class="section level5">
 <h5 id="description-5">Description<a class="anchor" aria-label="anchor" href="#description-5"></a>
 </h5>
+<p>Note: This step is directory sensitive. You can check and set your
+directory in R using getwd() and setwd(“yourdirectoryhere”)
+respectively. It needs a path to the bioplanet file and will put an
+edgelist file in your working directory, or getwd(). If you cannot find
+a file, please check your directories first.</p>
 <p>Pathway Crosstalk Network is the final step in the pipeline. It
 requires input of an external database, bioplanet, which consists of
 groups of genes (proteins) involved in various cellular processes. The
@@ -683,26 +701,21 @@ Evidence using common clusters found in Make Correlation Network.</p>
 <ul>
 <li>File path for the pathway data from Bioplanet (can also take in a
 data frame that is formatted correctly like the one found in the data
-directory, but this is not recommended)</li>
+directory, but this is not recommended as formatting must match sample
+data exactly)</li>
 </ul>
 </li>
 <li>clusterlist
 <ul>
-<li>List of clusters from MakeCorrelationNetwork<br>
+<li>List of common clusters from MakeCorrelationNetwork<br>
 </li>
 </ul>
 </li>
-<li>PCN.jaccard.name
+<li>edgelist.name
 <ul>
-<li>Desired name for the jaccard similarity matrix created; defaults to
-PCN.jaccardedges<br>
-</li>
-</ul>
-</li>
-<li>PCN.CPE.name
-<ul>
-<li>Desired name for the Cluster Pathway Evidence edgelist created;
-defaults to CPE.Edgelist</li>
+<li>The desired name of the Pathway to Pathway edgelist file created.
+The PCN file will automatically add ‘.csv’ to the end for you. Intended
+for use in Cytoscape.</li>
 </ul>
 </li>
 </ul>
@@ -711,18 +724,12 @@ defaults to CPE.Edgelist</li>
 <h5 id="output-7">Output<a class="anchor" aria-label="anchor" href="#output-7"></a>
 </h5>
 <ul>
-<li>PCN.jaccardedges (or otherwise named by PCN.jaccard.name)
+<li>PTP.edgelist
 <ul>
-<li>A matrix of pathways x pathways with the similarity between two
-pathways as values</li>
-</ul>
-</li>
-<li>CPE.Edgelist (or otherwise named by PCN.CPE.name)
-<ul>
-<li>An edgelist of pathways to pathways, with the weight being the sum?
-of the two pathways Cluster Pathway Evidence score for a specific
-Cluster. More information about the process of Cluster Pathway Evidence
-can be found in <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690" class="external-link uri">https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690</a>
+<li>An edgelist file that is created in the working directory. It
+contains pathway source-target columns, with edge weights of their
+jaccard similarity and their Cluster-Pathway Evidence score. Info about
+the Cluster-Pathway Evidence score can be found at: <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690" class="external-link uri">https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690</a>
 </li>
 </ul>
 </li>

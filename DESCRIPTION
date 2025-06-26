@@ -2,7 +2,7 @@ Package: cccn.cfn.tools
 Title: Filtered CoCluster Correlation Network Guide
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Mckayl", "Bailey", email = "first.last@example.com", role = c("aut")),
+    person("Mikhail", "Bailey", email = "first.last@example.com", role = c("aut")),
     person("Mark", "Grimes", email = "first.last@example.com", role = c("aut", "cre")),
     person("Grant", "Smith", email = "first.last@example.com", role = c("aut")),
     person("Madison", "Moffett", email = "first.last@example.com", role = c("aut"))

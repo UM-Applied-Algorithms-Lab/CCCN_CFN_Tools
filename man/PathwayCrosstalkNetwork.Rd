@@ -4,12 +4,18 @@
 \alias{PathwayCrosstalkNetwork}
 \title{Pathway Crosstalk Network}
 \usage{
-PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist)
+PathwayCrosstalkNetwork(
+  file = "bioplanet.csv",
+  clusterlist,
+  edgelist.name = "edgelist"
+)
 }
 \arguments{
 \item{file}{Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"}
 
 \item{clusterlist}{The list of coclusters made in MakeCorrelationNetwork}
+
+\item{edgelist}{The desired name for the edgelist file that PCN will make. Should NOT contain any file extensions like .csv, this step will add that for you. Intended for graphing in Cytoscape.}
 }
 \description{
 Converts Bioplanet pathways from (\url{https://tripod.nih.gov/bioplanet/})  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.

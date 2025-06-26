@@ -54,12 +54,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PathwayCrosstalkNetwork</span><span class="op">(</span></span>
-<span>  file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>,</span>
-<span>  <span class="va">clusterlist</span>,</span>
-<span>  PCN.jaccard.name <span class="op">=</span> <span class="st">"pcn_jaccard_edges"</span>,</span>
-<span>  PCN.CPE.name <span class="op">=</span> <span class="st">"pcn_cpe_edges"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PathwayCrosstalkNetwork</span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">clusterlist</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -73,24 +68,12 @@
 <dt id="arg-clusterlist">clusterlist<a class="anchor" aria-label="anchor" href="#arg-clusterlist"></a></dt>
 <dd><p>The list of coclusters made in MakeCorrelationNetwork</p></dd>
 
-
-<dt id="arg-pcn-jaccard-name">PCN.jaccard.name<a class="anchor" aria-label="anchor" href="#arg-pcn-jaccard-name"></a></dt>
-<dd><p>The desired name for the data structure containing jaccard edges</p></dd>
-
-
-<dt id="arg-pcn-cpe-name">PCN.CPE.name<a class="anchor" aria-label="anchor" href="#arg-pcn-cpe-name"></a></dt>
-<dd><p>The desired name for the data structure containing CPE edges</p></dd>
-
 </dl></div>
-    <div id="value">
-    <h2>Value</h2>
-    <p>No clue (The result is a matrix with pathway names in columns and individual clusters as rows.)</p>
-    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"TO DO"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TO DO"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">PathwayCrosstalkNetwork</span><span class="op">(</span><span class="va">ex.bioplanet</span>, <span class="va">ex.common.clusters</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters):</span> No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.</span>
 </code></pre></div>
     </div>
   </div>

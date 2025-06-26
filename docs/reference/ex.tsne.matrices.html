@@ -59,15 +59,20 @@
 
     <div id="format">
     <h2>Format</h2>
-    <p>List of 3 lists of 6 (Euclidean and SED) or 88 (Spearman) dataframes of varying sizes:</p><dl><dt></dt>
-<dd></dd>
+    <p>List of 3 Distance metrics (Euclidean, Spearman, and the average of Spearman and Euclidean (SED)) and the clusters that form when they are run through tsne:</p><dl><dt>Euclidean</dt>
+<dd><p>A list of 6 clusters of ptms based on their Euclidean distance and positional distance determined by tsne</p></dd>
 
-...
+<dt>Spearman</dt>
+<dd><p>A list of 6 clusters of ptms based on their Spearman dissimilarity and positional distance determined by tsne</p></dd>
+
+<dt>SED</dt>
+<dd><p>A list of 6 clusters of ptms based on the average of their Euclidean distance and Spearman Dissimilarity and positional distance determined by tsne</p></dd>
+
 
 </dl></div>
     <div id="source">
     <h2>Source</h2>
-    <p>source info (or <code>"manually created"</code>)</p>
+    <p>"created by MakeClusterList"</p>
     </div>
 
     <div id="ref-examples">
