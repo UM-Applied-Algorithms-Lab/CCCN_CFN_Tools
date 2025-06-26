@@ -29,5 +29,5 @@ ex.list <- ex.list.common
 jaccard.name <- "example.PCN.Jaccardedges"
 CPE.name <- "example.CPE.Edgelist"
 PCN <- "example.PCN.network"
-PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters, jaccard.name, CPE.name, PCN)
+PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
 }

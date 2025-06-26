@@ -23,8 +23,10 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
     sigma[k] <- temp #Assign this value to sigma[k]
   }
 
-  sigma <- sigma*(1/length(cluster)) #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
-  return(sum(sigma))
+  #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
+  sigma <- sigma*(1/length(cluster)) 
+  
+  return(sum(sigma)) #Return
 }
 
 #' Pathway Crosstalk Network
@@ -33,17 +35,11 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #'
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"
 #' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
-#' @param PCN.jaccard.name The desired name for the data structure containing jaccard edges
-#' @param PCN.CPE.name The desired name for the data structure containing CPE edges
 #' @export
 #'
 #' @examples
-#' ex.list <- ex.list.common
-#' jaccard.name <- "example.PCN.Jaccardedges"
-#' CPE.name <- "example.CPE.Edgelist"
-#' PCN <- "example.PCN.network"
-#' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters, jaccard.name, CPE.name, PCN)
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "PCN.Jaccardedges", PCN.CPE.name = "CPE.Edgelist", PCN.network.name = "PCN.network"){
+#' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist){
 #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
   #Loading .csv
   if(class(file) == "character"){
@@ -122,8 +118,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
   #Isolate rows from CPE.Matrix
   temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
 
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error happens in the loop
-
+  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the loop given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
 
   #Create data frame
@@ -147,15 +142,14 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, PCN.jac
 
       edgefile.jaccard[track, 4] <- 1 #Set weights to 1 until figure out how to do weights
       edgefile.evidence[track, 4] <- 1
-
       track <- track+1 #Increase tracker
     }}
 
   #"Edge filtering" goes here
 
   ###Assign Variable Names###
-  assign(PCN.CPE.name, CPE.Matrix, envir = .GlobalEnv) #DEBUGS
-  assign(PCN.network.name, PCN.network, envir = .GlobalEnv)
+  assign(edgefile.jaccard, "jaccard_table", envir = .GlobalEnv) #DEBUGS
+  assign(edgefile.evidence, "CPE_table", envir = .GlobalEnv)
 
   #Save edgefiles for cytoscape plotting
   savedir <- getwd() #Save working directory
