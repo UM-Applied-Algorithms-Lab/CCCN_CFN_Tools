@@ -69,14 +69,12 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Populate matrix, diagonals must be 0 in order to prevent self-loops in
   for (i in 1:length(pathways.list)) {
-    if(i > length(pathways.list)) break #Or else out of bounds error will occur
-    for (j in (i+1):length(pathways.list)) { #Populate symmetrical matrix
-      p.intersect <- length(intersect(unlist(pathways.list[i]), unlist(pathways.list[j]))) #Intersect
-      p.union     <- length(pathways.list[i]) + length(pathways.list[i]) - p.intersect     #Union
+    for (j in 1:length(pathways.list)) { #Populate symmetrical matrix
+      p.intersect <- length(intersect(pathways.list[[i]], pathways.list[[j]])) #Length of Intersect
+      p.union     <- length(pathways.list[[i]]) + length(pathways.list[[j]]) - p.intersect #Length of Union
       value <- p.intersect/p.union #Number of genes in intersect / Number of genes in union
       if(value > 0) { #If value happens to be zero, just don't assign anything since 0 is already there
         matrix.jaccard[i, j] <- value #Number of genes pathway i and j share
-        matrix.jaccard[j, i] <- value #Since matrix is symmetrical
       }
     }}
 
