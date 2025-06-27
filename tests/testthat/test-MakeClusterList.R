@@ -2,9 +2,7 @@
 set.seed(1) #Set the seed (very important)
 
 #Load Sample data
-sink("noprint")   #Suppress print statements from function
 MakeClusterList(ex.ptmtable, correlation.matrix.name = "matrix_123a", list.name = "list_123a") #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
-sink()
 
 #Unit Tests for the global variables (lists of dataframes) created by MakeClusterList. Check PTMs Names.
 #eu_ptms_list
