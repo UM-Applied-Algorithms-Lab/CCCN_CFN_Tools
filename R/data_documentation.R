@@ -25,6 +25,8 @@
 #'
 #' Network of relationships between genes based on clustering of ptms from the three distance metrics.
 #'
+#' @keywords internal
+#'
 #' @format Square matrix with 19 rows and columns:
 #' \describe{
 #'   \item{rows/columns}{Gene}

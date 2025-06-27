@@ -24,4 +24,4 @@ Network of relationships between genes based on clustering of ptms from the thre
 data(ex.cccn.matrix)
 head(ex.cccn.matrix)
 }
-\keyword{datasets}
+\keyword{internal}
