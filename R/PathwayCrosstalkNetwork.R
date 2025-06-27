@@ -11,15 +11,16 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
 
   #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
-  #cluster.format <- sapply(cluster, function(x) strsplit(y, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
-
+  cluster.format <- sapply(cluster, function(x) strsplit(x, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
+  cluster.weights <- sapply(cluster.format, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto cluster.format, 
+  
   cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
-  cluster.format <- unique(sapply(cluster.format, function (x) unlist(strsplit(x, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
+  cluster.weights <- c(cluster.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
+  cluster.format <- unique(sapply(cluster.format, function (z) unlist(strsplit(z, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
 
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
-    #A space needs to be appended
-    temp <- sum(pathway[k] == cluster.format) #Numerator: The amount of times Gene k appears in cluster
+    temp <- sum(cluster.weights[pathway[k] == cluster.format]) #Numerator: The amount of times Gene k appears in cluster
     temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list
     sigma[k] <- temp #Assign this value to sigma[k]
   }
@@ -73,9 +74,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       p.intersect <- length(intersect(pathways.list[[i]], pathways.list[[j]])) #Length of Intersect
       p.union     <- length(pathways.list[[i]]) + length(pathways.list[[j]]) - p.intersect #Length of Union
       value <- p.intersect/p.union #Number of genes in intersect / Number of genes in union
-      if(value > 0) { #If value happens to be zero, just don't assign anything since 0 is already there
-        matrix.jaccard[i, j] <- value #Number of genes pathway i and j share
-      }
+      #If value happens to be zero, just don't assign anything since 0 is already there
+      if(value > 0) matrix.jaccard[i, j] <- value #Number of genes pathway i and j share
     }}
 
   #Create igraph object using the matrix
@@ -114,7 +114,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list) #Call Cluster Pathway Evidence (above)
   }}
 
-  
+  assign("CPE.Matrix", CPE.Matrix, envir = .GlobalEnv) #DEBUG
   ###Generate PCN network###
 
   #Isolate rows from CPE.Matrix
@@ -122,7 +122,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the loop given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
-
+  #Create pathway x pathway submatrix with CPE weights here? 
+  
   #Create data frame: Pathway to Pathway edgelist
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
   PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
@@ -130,8 +131,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   #Populate data frame
   track <- 1 #Empty location in the data frame
   for(i in temp.rows){
-    #Note to self - *Remove transpose*
-    #if breaking use t(combin(i, 2)) and change next line to asplit(nodes, 1)
     nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector)
     for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
       PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
