@@ -62,11 +62,11 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   ###Jaccard Similarity###
   #Create a matrix whose [i, j] values are the intersection/union between the genes in pathway i and j
-  matrix.jaccard <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
+  jaccard.matrix <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
 
   #Rename
-  rownames(matrix.jaccard) <- names(pathways.list)
-  colnames(matrix.jaccard) <- names(pathways.list)
+  rownames(jaccard.matrix) <- names(pathways.list)
+  colnames(jaccard.matrix) <- names(pathways.list)
 
   #Populate matrix, diagonals must be 0 in order to prevent self-loops in
   for (i in 1:length(pathways.list)) {
@@ -75,39 +75,27 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       p.union     <- length(pathways.list[[i]]) + length(pathways.list[[j]]) - p.intersect #Length of Union
       value <- p.intersect/p.union #Number of genes in intersect / Number of genes in union
       #If value happens to be zero, just don't assign anything since 0 is already there
-      if(value > 0) matrix.jaccard[i, j] <- value #Number of genes pathway i and j share
+      if(value > 0) jaccard.matrix[i, j] <- value #Number of genes pathway i and j share
     }}
 
-  #Create igraph object using the matrix
-  pathways.graph <- igraph::graph_from_adjacency_matrix(matrix.jaccard, mode="lower", diag=FALSE, weighted="Weight")
-  #plot(pathways.graph) #plot if desired
-
-  #Interpret the jaccard matrix as an edgelist
-  PCN.jaccardedges <- data.frame(igraph::as_edgelist(pathways.graph)) #Convert to edgelist
-  names(PCN.jaccardedges) <- c("source", "target") #Rest is just renaming
-  PCN.jaccardedges$Weight <- igraph::edge_attr(pathways.graph)[[1]]
-  PCN.jaccardedges$interaction <- "pathway Jaccard similarity"
-
-
-  ###Jaccard Edges assignment must be here in case of error throw in CPE step
-  assign("PCN.jaccardedges", PCN.jaccardedges, envir = .GlobalEnv)
-
+  
+  ###Pathway Cluster Evidence### 
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
-  CPE.Matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
-  rownames(CPE.Matrix) <- names(clusterlist) #Names
-  colnames(CPE.Matrix) <- names(pathways.list)
+  CPE.matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
+  rownames(CPE.matrix) <- names(clusterlist) #Names
+  colnames(CPE.matrix) <- names(pathways.list)
 
-  #Populate Matrix - TODO do NOT make CPE it's own function
-  for(a in 1:nrow(CPE.Matrix)){
-    for(b in 1:ncol(CPE.Matrix)){ #Use ClusterPathwayEvidence function (found at top)
-      CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list) #Call Cluster Pathway Evidence (above)
+  #Populate Matrix
+  for(a in 1:nrow(CPE.matrix)){
+    for(b in 1:ncol(CPE.matrix)){ #Use ClusterPathwayEvidence function (found at top)
+      CPE.matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list) #Call Cluster Pathway Evidence (above)
   }}
 
-  assign("CPE.Matrix", CPE.Matrix, envir = .GlobalEnv) #DEBUG
+
   ###Generate PCN network###
 
-  #Mark valuable clusters in CPE.Matrix using Temprows
-  temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
+  #Mark valuable clusters in CPE.matrix using Temprows
+  temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the loop given a length of zero.
 
@@ -121,14 +109,16 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector)
     for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
       PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
-      PTP.edgelist[track, 3] <- matrix.jaccard[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
+      PTP.edgelist[track, 3] <- jaccard.matrix[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
       PTP.edgelist[track, 4] <- 1 #HOW DO YOU GET THE CPE Weights from temp.rows and CPE MATRIX???
 
       track <- track+1 #Increase tracker
     }}
 
   
-  ###Assign Variable Names###
+  ###Debug Variable Names###
+  assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
+  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)     #DEBUG
   assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv) #DEBUG
 
   #Save edgefiles for cytoscape plotting
