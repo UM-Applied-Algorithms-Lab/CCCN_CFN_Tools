@@ -19,8 +19,6 @@
 
 
 
-# DO NOT TOUCH THIS. DO NOT. IDK WHY. BUT DON'T TOUCH. DO NOT MAKE INTERNAL.
-# TODO: fix
 #' CoCluster Correlation Network
 #'
 #' Network of relationships between genes based on clustering of ptms from the three distance metrics.
