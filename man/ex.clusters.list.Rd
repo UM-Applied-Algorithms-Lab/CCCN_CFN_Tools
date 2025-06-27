@@ -25,4 +25,4 @@ List of of lists of dataframes of ptm positions in 3D space to show their relati
 data(ex.clusters.list)
 head(ex.clusters.list)
 }
-\keyword{internal}
+\keyword{datasets}
