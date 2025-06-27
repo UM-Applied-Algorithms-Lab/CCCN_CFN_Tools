@@ -1,0 +1,124 @@
+Gene 1	Gene 2	Weight	Network group	Network
+DTNB	ABI2	0.008020441	Co-expression	Mallon-McKay-2013
+GOLGB1	SLC35A1	0.010601704	Co-expression	Mallon-McKay-2013
+PI4KB	TBC1D22A	0.009730012	Co-expression	Mallon-McKay-2013
+SLC35A1	ACBD3	0.0065734023	Co-expression	Wu-Garvey-2007
+LDOC1	TBC1D22A	0.009962596	Co-expression	Wu-Garvey-2007
+SLC35A1	NCKAP1	0.01401134	Co-expression	Jiang-de Kok-2017
+SURF1	ACADVL	0.018049791	Co-expression	Rieger-Chu-2004
+SLC35A1	TRIM32	0.0142355785	Co-expression	Rieger-Chu-2004
+SURF1	ABHD11	0.005637317	Co-expression	Ross-Perou-2001
+GOLGB1	ABLIM1	0.01420833	Co-expression	Dobbin-Giordano-2005
+GOLGB1	SLC35A1	0.009147368	Co-expression	Ramaswamy-Golub-2001
+NCKAP1	ACBD3	0.007666876	Co-expression	Bild-Nevins-2006 B
+SLC35A1	NCKAP1	0.011846302	Co-expression	Bild-Nevins-2006 B
+ADAM22	ABLIM1	0.009127103	Co-localization	Johnson-Shoemaker-2003
+ADAM22	SPON1	0.013214945	Co-localization	Johnson-Shoemaker-2003
+ABLIM1	ABT1	0.000731271	Genetic Interactions	Lin-Smith-2010
+TRIM32	ABLIM1	0.00031827085	Genetic Interactions	Lin-Smith-2010
+ADAM19	ABLIM1	0.000586116	Genetic Interactions	Lin-Smith-2010
+NCKAP1	ACBD3	0.0010448168	Genetic Interactions	Lin-Smith-2010
+TBC1D22A	ADAM19	0.0010002904	Genetic Interactions	Lin-Smith-2010
+ADAM29	TAF1B	0.00097314245	Genetic Interactions	Lin-Smith-2010
+BCO1	ABLIM1	0.0023442674	Genetic Interactions	Lin-Smith-2010
+SLC25A25	ADAM19	0.0018578626	Genetic Interactions	Lin-Smith-2010
+H2AC18	ABI2	0.0009160242	Genetic Interactions	Lin-Smith-2010
+ADAM22	TBC1D22A	0.0006830938	Genetic Interactions	Lin-Smith-2010
+DTNB	ABLIM1	0.00062634744	Genetic Interactions	Lin-Smith-2010
+DTNB	ACADVL	0.0039091804	Genetic Interactions	Lin-Smith-2010
+DTNB	IGHMBP2	0.0012285495	Genetic Interactions	Lin-Smith-2010
+GOLGB1	ABLIM1	0.0006999753	Genetic Interactions	Lin-Smith-2010
+GOLGB1	ADAM19	0.0016074918	Genetic Interactions	Lin-Smith-2010
+GOLGB1	NCKAP1	0.0012395205	Genetic Interactions	Lin-Smith-2010
+PI4KB	SLC35A1	0.0009890611	Genetic Interactions	Lin-Smith-2010
+PI4KB	DTNB	0.0008141242	Genetic Interactions	Lin-Smith-2010
+PI4KB	LDOC1	0.0014036131	Genetic Interactions	Lin-Smith-2010
+PI4KB	GOLGB1	0.0009098253	Genetic Interactions	Lin-Smith-2010
+NCKAP1	ABI2	0.11219675	Pathway	Wu-Stein-2010
+NCKAP1	ABI2	0.17509007	Pathway	NCI_NATURE
+H2AC18	ABCB6	1	Pathway	REACTOME
+ADAM19	ABI2	0.39087668	Physical Interactions	IREF-mint
+IHO1	ABI2	0.39172202	Physical Interactions	IREF-mint
+PI4KB	ACBD3	0.5385411	Physical Interactions	IREF-mint
+TBC1D22A	ACBD3	0.10517503	Physical Interactions	Huttlin-Gygi-2015
+SURF1	ACADVL	0.36260277	Physical Interactions	Huttlin-Gygi-2015
+SLC35A1	ACBD3	0.8342586	Physical Interactions	Huttlin-Gygi-2015
+ADAM19	ABI2	0.1371726	Physical Interactions	IREF-spike
+ADAM29	ABI2	0.46194538	Physical Interactions	IREF-spike
+ADAM22	ABI2	0.35355377	Physical Interactions	IREF-spike
+LDOC1	ABLIM1	0.059967488	Physical Interactions	IREF-spike
+TRIM32	ABI2	0.061563086	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+ADAM19	ABI2	0.067025386	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+TBC1D22A	ACBD3	0.20712337	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+ADAM29	ABI2	0.6043987	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+IGHMBP2	ABT1	0.48815042	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+ADAM22	ABI2	0.13769147	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+GOLGB1	ACBD3	0.17262083	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+PI4KB	ACBD3	0.10971846	Physical Interactions	IREF-SMALL-SCALE-STUDIES
+TRIM32	ABI2	0.60778123	Physical Interactions	Sahni-Vidal-2015
+TRIM32	ABI2	0.035885185	Physical Interactions	Huttlin-Harper-2017
+NCKAP1	ABI2	0.025525326	Physical Interactions	Huttlin-Harper-2017
+TBC1D22A	ACBD3	0.26511627	Physical Interactions	Huttlin-Harper-2017
+BCO1	ABLIM1	0.5977703	Physical Interactions	Huttlin-Harper-2017
+SURF1	ACADVL	0.19845834	Physical Interactions	Huttlin-Harper-2017
+TRIM32	ABI2	0.008667255	Physical Interactions	IREF-huri
+TAF1B	ACADVL	0.7848324	Physical Interactions	IREF-huri
+DTNB	ABI2	0.006110946	Physical Interactions	IREF-huri
+IHO1	ABI2	0.0071439836	Physical Interactions	IREF-huri
+LDOC1	ABLIM1	0.8426755	Physical Interactions	IREF-innatedb
+TRIM32	ABI2	0.027883628	Physical Interactions	Rolland-Vidal-2014
+DTNB	ABI2	0.02310994	Physical Interactions	Rolland-Vidal-2014
+IHO1	ABI2	0.016977416	Physical Interactions	Rolland-Vidal-2014
+ADAM19	ABI2	0.62289274	Physical Interactions	IREF-bind-translation
+TRIM32	ABI2	0.006329594	Physical Interactions	IREF-intact
+ADAM19	ABI2	0.012569279	Physical Interactions	IREF-intact
+TAF1B	ACADVL	0.3491221	Physical Interactions	IREF-intact
+TBC1D22A	ACBD3	0.41473585	Physical Interactions	IREF-intact
+ADAM29	ABI2	0.17273192	Physical Interactions	IREF-intact
+BCO1	ABLIM1	0.554627	Physical Interactions	IREF-intact
+SURF1	ACADVL	0.54929304	Physical Interactions	IREF-intact
+ADAM22	ABI2	0.02243461	Physical Interactions	IREF-intact
+DTNB	ABI2	0.005498347	Physical Interactions	IREF-intact
+LDOC1	ABLIM1	0.017990123	Physical Interactions	IREF-intact
+IHO1	ABI2	0.0047614765	Physical Interactions	IREF-intact
+PI4KB	ACBD3	0.13160248	Physical Interactions	IREF-intact
+TRIM32	ABI2	0.48295295	Physical Interactions	IREF-quickgo
+TBC1D22A	ACBD3	0.21233706	Physical Interactions	IREF-quickgo
+IGHMBP2	ABT1	0.62196183	Physical Interactions	IREF-quickgo
+PI4KB	ACBD3	0.14536886	Physical Interactions	IREF-quickgo
+DTNB	ABI2	0.5678745	Physical Interactions	Yu-Vidal-2011
+IHO1	ABI2	0.37012613	Physical Interactions	Yu-Vidal-2011
+ADAM22	ABI2	0.5281839	Physical Interactions	Rual-Vidal-2005
+LDOC1	ABLIM1	0.053825006	Physical Interactions	Rual-Vidal-2005
+TRIM32	ABI2	0.16411228	Physical Interactions	Chen-Yu-2018
+DTNB	ABI2	0.06958971	Physical Interactions	Chen-Yu-2018
+IHO1	ABI2	0.16411228	Physical Interactions	Chen-Yu-2018
+TRIM32	ABI2	0.0540102	Physical Interactions	BIOGRID-SMALL-SCALE-STUDIES
+ADAM19	ABI2	0.37699834	Physical Interactions	BIOGRID-SMALL-SCALE-STUDIES
+GOLGB1	ACBD3	0.45085394	Physical Interactions	BIOGRID-SMALL-SCALE-STUDIES
+CASKIN1	ABI2	0.12851378	Physical Interactions	BIOGRID-SMALL-SCALE-STUDIES
+ADAM19	ABI2	0.39191929	Physical Interactions	IREF-matrixdb
+TRIM32	ABI2	0.15835552	Physical Interactions	IREF-hprd
+LDOC1	ABLIM1	0.0564143	Physical Interactions	IREF-hprd
+GOLGB1	ACBD3	0.33861116	Physical Interactions	IREF-hprd
+TRIM32	ABI2	0.47752362	Physical Interactions	Fragoza-Yu-2019
+DTNB	ABI2	0.39948943	Physical Interactions	Fragoza-Yu-2019
+TRIM32	ABI2	0.008138489	Physical Interactions	Luck-Calderwood-2020
+TAF1B	ACADVL	0.78509575	Physical Interactions	Luck-Calderwood-2020
+DTNB	ABI2	0.0056738667	Physical Interactions	Luck-Calderwood-2020
+IHO1	ABI2	0.0066141053	Physical Interactions	Luck-Calderwood-2020
+TBC1D22A	ACBD3	0.0631612	Physical Interactions	IREF-biogrid
+SLC35A1	ACBD3	0.2290723	Physical Interactions	IREF-biogrid
+NCKAP1	ABI2	0.29555696	Predicted	I2D-IntAct-Fly2Human
+SPON1	ABHD11	0.55338377	Predicted	I2D-IntAct-Fly2Human
+SLC25A25	ABI2	0.3808422	Predicted	I2D-IntAct-Fly2Human
+CASKIN1	ABI2	0.851885	Predicted	I2D-BioGRID-Rat2Human
+SPON1	ABHD11	0.5863869	Predicted	I2D-BioGRID-Fly2Human
+SLC25A25	ABI2	0.6925315	Predicted	I2D-BioGRID-Fly2Human
+NCKAP1	ABI2	1	Predicted	I2D-BIND-Fly2Human
+ADAM29	ADAM19	0.03603733	Shared protein domains	INTERPRO
+ADAM22	ADAM19	0.033478625	Shared protein domains	INTERPRO
+ADAM22	ADAM29	0.036537874	Shared protein domains	INTERPRO
+ADAM29	ADAM19	0.038603023	Shared protein domains	PFAM
+ADAM22	ADAM19	0.033155296	Shared protein domains	PFAM
+ADAM22	ADAM29	0.033155296	Shared protein domains	PFAM
