@@ -24,7 +24,10 @@ MakeCorrelationNetwork(
 \item{lists.name}{The desired name for the output of the list containing clusters of PTMs and Genes}
 }
 \description{
-This function finds common clusters from the data derived in MakeClusterList and populates the correlation network (matrix) with values. The value of a cell in the correlation is the sum of a submatrix created from all PTMs of the row gene and all PTMs of the column gene.
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find
+the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix.
+This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
+cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 }
 \examples{
 MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1, "ex.common.clusters", "ex.cccn")
