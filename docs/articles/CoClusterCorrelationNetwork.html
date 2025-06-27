@@ -121,6 +121,7 @@ of RAM.</p>
 </h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeClusterList.html">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, correlation.matrix.name <span class="op">=</span> <span class="st">"ptm.correlation.matrix"</span>, list.name <span class="op">=</span> <span class="st">"clusters.list"</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
+<center>
 <p><img src="vig_figs/EU_MCL.png"><br><strong>Figure 1</strong> Example plot produced by MakeClusterList
 calculated using Euclidean Distance</p>
 <p>
@@ -161,6 +162,7 @@ calculated using Euclidean Distance</p>
 <span><span class="co">#&gt; 27                                      VCP ubi K295     1</span></span></code></pre>
 <p><strong>Figure 3</strong> First cluster created by Euclidean
 Distance</p>
+</center>
 <p>
  
 </p>
@@ -245,8 +247,10 @@ the two)</li>
 </h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeCorrelationNetwork.html">MakeCorrelationNetwork</a></span><span class="op">(</span><span class="va">tsne.matrices</span>, <span class="va">ptm.correlation.matrix</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, common.clusters.name <span class="op">=</span> <span class="st">"common.clusters"</span>, cccn.name <span class="op">=</span> <span class="st">"cccn_matrix"</span><span class="op">)</span></span></code></pre></div>
+<center>
 <p><img src="vig_figs/cccn_matrix.png"><br><strong>Figure 4</strong> First 17 rows and columns of the cccn_matrix
 produced by MakeCorrelationNetwork</p>
+</center>
 <p>
  
 </p>
@@ -368,6 +372,7 @@ name.</p>
 </h5>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/GetSTRINGdb.html">GetSTRINGdb</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, STRINGdb.name <span class="op">=</span> <span class="st">"string.edges"</span>, nodenames.name <span class="op">=</span> <span class="st">"nodenames"</span><span class="op">)</span></span></code></pre></div>
+<center>
 <p><img src="vig_figs/string-edges.png"><br><strong>Figure 5</strong> First 18 rows of string.edges produced by
 GetSTRINGdb</p>
 <p>
@@ -375,6 +380,7 @@ GetSTRINGdb</p>
 </p>
 <p><img src="vig_figs/nodenames.png"><br><strong>Figure 6</strong> First 18 rows of nodenames produced by
 GetSTRINGdb</p>
+</center>
 <p>
  
 </p>
@@ -435,8 +441,11 @@ genes of study<br>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeDBInput.html">MakeDBInput</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, file.path.name <span class="op">=</span> <span class="st">"db_nodes.txt"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vig_figs/db_nodes-txt.png"><strong>Figure 7</strong>
-First 15 lines from the produced text file</p>
+<center>
+<p><img src="vig_figs/db_nodes-txt.png"></p>
+<p><strong>Figure 7</strong> First 15 lines from the produced text
+file</p>
+</center>
 <p>
  
 </p>
@@ -487,8 +496,10 @@ file.path.name</li>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ProcessGMEdgefile.html">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vig_figs/gm_network.png"><strong>Figure 8</strong> First
-44 rows of the GeneMANIA network</p>
+<center>
+<p><img src="vig_figs/gm_network.png"></p>
+<p><strong>Figure 8</strong> First 44 rows of the GeneMANIA network</p>
+</center>
 <p>
  
 </p>
@@ -547,8 +558,10 @@ genes of study</li>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/FindPPIEdges.html">FindPPIEdges</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
+<center>
 <p><img src="vig_figs/ppi_network.png"><br><strong>Figure 9</strong> First 19 rows of the ppi_network produced by
 find_ppi_edges</p>
+</center>
 <p>
  
 </p>
@@ -625,8 +638,10 @@ interact</li>
 </h5>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ClusterFilteredNetwork.html">ClusterFilteredNetwork</a></span><span class="op">(</span><span class="va">cccn.matrix</span>, <span class="va">ppi.network</span>, cfn.name <span class="op">=</span> <span class="st">"cfn"</span><span class="op">)</span></span></code></pre></div>
+<center>
 <p><img src="vig_figs/cfn.png"><br><strong>Figure 10</strong> First 19 rows of the cfn produced by
 ClusterFilteredNetwork</p>
+</center>
 <p>
  
 </p>
@@ -695,7 +710,9 @@ cor_weight (and GM.raw.weights) is on a scale of 0-1</li>
 </h5>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/PathwayCrosstalkNetwork.html">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">common.clusters</span>, edgelist.name <span class="op">=</span> <span class="st">"edgelist"</span><span class="op">)</span></span></code></pre></div>
+<center>
 <p><strong>Figure 11</strong> Will exist at some point</p>
+</center>
 <p>
  
 </p>

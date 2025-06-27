@@ -45,11 +45,12 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "clusters.list", toolong = 3.5)
 ```
 
+<center>
 ![](vig_figs/EU_MCL.png)  
 **Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance  
   
 <p>&nbsp;</p>
-  
+
 ![](vig_figs/MCL-output.png)  
 **Figure 2** Output of MakeClusterList  
 
@@ -61,6 +62,7 @@ head(eu_ptms_list, 1)
 ```
 **Figure 3** First cluster created by Euclidean Distance  
 
+</center>
 <p>&nbsp;</p>
 
 #### Description  
@@ -94,9 +96,11 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 MakeCorrelationNetwork(tsne.matrices, ptm.correlation.matrix, keeplength = 2, common.clusters.name = "common.clusters", cccn.name = "cccn_matrix")
 ```
 
+<center>
 ![](vig_figs/cccn_matrix.png)  
 **Figure 4** First 17 rows and columns of the cccn_matrix produced by MakeCorrelationNetwork  
 
+</center>
 <p>&nbsp;</p>
 
 #### Description  
@@ -141,6 +145,7 @@ Note again that the database input can be used in any PPI database that the user
 GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames")
 ```
 
+<center>
 ![](vig_figs/string-edges.png)  
 **Figure 5** First 18 rows of string.edges produced by GetSTRINGdb  
 
@@ -149,6 +154,7 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
 ![](vig_figs/nodenames.png)  
 **Figure 6** First 18 rows of nodenames produced by GetSTRINGdb  
 
+</center>
 <p>&nbsp;</p>
 
 #### Input   
@@ -176,9 +182,12 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
 MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 ```
 
-![](vig_figs/db_nodes-txt.png) 
+<center>
+![](vig_figs/db_nodes-txt.png)  
+
 **Figure 7** First 15 lines from the produced text file  
 
+</center>
 <p>&nbsp;</p>
 
 #### Input   
@@ -203,9 +212,12 @@ MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm.network")
 ```
 
-![](vig_figs/gm_network.png) 
+<center>
+![](vig_figs/gm_network.png)  
+
 **Figure 8** First 44 rows of the GeneMANIA network  
 
+</center>
 <p>&nbsp;</p>
 
 #### Input   
@@ -233,9 +245,11 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 FindPPIEdges(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
 ```
 
+<center>
 ![](vig_figs/ppi_network.png)  
 **Figure 9** First 19 rows of the ppi_network produced by find_ppi_edges  
 
+</center>
 <p>&nbsp;</p>
 
 #### Description  
@@ -270,9 +284,11 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 ClusterFilteredNetwork(cccn.matrix, ppi.network, cfn.name = "cfn")
 ```
 
+<center>
 ![](vig_figs/cfn.png)  
 **Figure 10** First 19 rows of the cfn produced by ClusterFilteredNetwork  
 
+</center>
 <p>&nbsp;</p>
 
 #### Description  
@@ -303,9 +319,11 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name = "edgelist")
 ```
 
-  
+<center>
+
 **Figure 11** Will exist at some point  
 
+</center>
 <p>&nbsp;</p>
 
 #### Description  
