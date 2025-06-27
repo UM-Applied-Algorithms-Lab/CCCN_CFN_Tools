@@ -155,11 +155,12 @@
 "ex.gm_edges"
 
 
-# DO NOT TOUCH THIS ALSO BROKE IT
-# TODO: FIGURE OUT ??????
+
 #' List of Common Clusters Example
 #'
 #' (description)
+#'
+#' @keywords internal
 #'
 #' @format List of 12 lists:
 #' \describe{

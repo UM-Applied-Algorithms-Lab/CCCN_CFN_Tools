@@ -23,4 +23,4 @@ ex.common.clusters
 data(ex.common.clusters)
 head(ex.common.clusters)
 }
-\keyword{datasets}
+\keyword{internal}
