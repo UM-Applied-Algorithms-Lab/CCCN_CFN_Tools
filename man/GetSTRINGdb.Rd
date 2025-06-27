@@ -2,7 +2,7 @@
 % Please edit documentation in R/GatherPPIData.R
 \name{GetSTRINGdb}
 \alias{GetSTRINGdb}
-\title{Get STRINGdb}
+\title{Get STRINGdb PPI data}
 \usage{
 GetSTRINGdb(
   cccn.matrix,
@@ -21,7 +21,7 @@ GetSTRINGdb(
 A data frame of edges from STRINGdb showing interactions between genes
 }
 \description{
-This function finds protein-protein interaction edges by consulting utilizing the STRINGdb database.
+This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 }
 \examples{
 cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, "ex.string.edges", "ex.nodenames")

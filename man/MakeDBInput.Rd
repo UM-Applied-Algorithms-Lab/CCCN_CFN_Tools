@@ -2,7 +2,7 @@
 % Please edit documentation in R/GatherPPIData.R
 \name{MakeDBInput}
 \alias{MakeDBInput}
-\title{Make file for GeneMania input}
+\title{Make Database Input File}
 \usage{
 MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
 }
@@ -15,7 +15,8 @@ MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
 A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes
 }
 \description{
-This function outputs a file the user can take to create the GeneMania edgefile.
+This function outputs a file consisting entirely of gene names, each produced on a new line. This data can be copy and pasted into
+a database input in order to get protein-protein interaction data.
 }
 \examples{
 cccn.cfn.tools:::ex.MakeDBInput(ex.nodenames)

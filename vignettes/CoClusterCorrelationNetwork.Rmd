@@ -101,7 +101,7 @@ MakeCorrelationNetwork(tsne.matrices, ptm.correlation.matrix, keeplength = 2, co
 
 #### Description  
 
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED t-SNE matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned a matrix.  
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
 
 #### Input  
 - clusters.list 

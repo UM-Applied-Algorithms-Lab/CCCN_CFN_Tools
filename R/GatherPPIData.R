@@ -1,6 +1,7 @@
-#' Make file for GeneMania input
+#' Make Database Input File
 #'
-#' This function outputs a file the user can take to create the GeneMania edgefile.
+#' This function outputs a file consisting entirely of gene names, each produced on a new line. This data can be copy and pasted into
+#' a database input in order to get protein-protein interaction data.
 #'
 #' @param cccn.matrix matrix representing the common clusters from the three distance calculations' clusters
 #' @param file.path.name path for the output file; defaults to db_nodes.txt
@@ -32,9 +33,9 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 }
 
 
-#' Get STRINGdb
+#' Get STRINGdb PPI data
 #'
-#' This function finds protein-protein interaction edges by consulting utilizing the STRINGdb database.
+#' This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 #'
 #' @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 #' @param STRINGdb.name desired name for the output STRINGdb data frame; defaults to "string.edges"
