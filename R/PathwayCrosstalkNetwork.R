@@ -96,9 +96,9 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Mark valuable clusters in CPE.matrix using Temprows
   temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
+  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the loop given a length of zero.
-
+  
   #Create data frame: Pathway to Pathway edgelist
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
   PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
