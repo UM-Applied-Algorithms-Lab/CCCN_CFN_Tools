@@ -2,7 +2,7 @@
 % Please edit documentation in R/MakeClusterList.R
 \name{MakeClusterList}
 \alias{MakeClusterList}
-\title{Build clusters based on ptm data under like conditions}
+\title{Build Clusters Based on PTM Data Under Like Conditions}
 \usage{
 MakeClusterList(
   ptmtable,

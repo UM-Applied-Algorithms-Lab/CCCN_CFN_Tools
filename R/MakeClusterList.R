@@ -17,7 +17,7 @@ GetRtsne <- function(table, iter=5000){
   return(Rtsne::Rtsne(table, dims = 3, perplexity = 15, theta = 0.25, max_iter = iter, check_duplicates = FALSE, pca = FALSE))
 }
 
-#' Build clusters based on ptm data under like conditions
+#' Build Clusters Based on PTM Data Under Like Conditions
 #'
 #' This function takes the post-translational modification table and runs it through three calculations of distance:
 #' Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these.
