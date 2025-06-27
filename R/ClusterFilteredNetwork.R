@@ -1,8 +1,11 @@
 ##WORK IN PROG. JUST COPIED OVER FROM KEYFUNCTIONS##
 
-#' ClusterFilteredNetwork
+#' Filter PPI Network by Known Clusters
 #'
-#' This function finds the intersection between a list of PPI edges and a matrix (which it interprets as a weighted adjacency matrix). Assigns a cfn variable to the global environment, which is a list of the common edges between the PPI edges and cccn.matrix.
+#' All edges in the PPI network are checked against the cocluster correlation network to ensure existence and a non-zero weight.
+#' If either of these conditions are not met, then it will be removed from the list of PPI edges.
+#' This new, cluster filtered network is then assigned to the global namespace.
+#'
 #' @param cccn.matrix Matrix representing the common clusters from the three distance calculations' clusters
 #' @param ppi.network A data frame of combined edges from STRINGdb and provided database entries
 #' @param cfn.name Desired name of the output cluster filtered network
