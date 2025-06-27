@@ -18,6 +18,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  fig.align = "center",
   fig.path = "plots/",
   fig.width = 8,
   fig.height = 6,
@@ -41,20 +42,26 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 #### Code  
 
 ```{r eval = FALSE}
-MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "tsne.matrices", toolong = 3.5)
+MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "clusters.list", toolong = 3.5)
 ```
 
 ![](vig_figs/EU_MCL.png)  
 **Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance  
   
+<p>&nbsp;</p>
+  
 ![](vig_figs/MCL-output.png)  
 **Figure 2** Output of MakeClusterList  
+
+<p>&nbsp;</p>
 
 ```{r echo = FALSE, eval = TRUE}
 load('vig_figs/eu-clusters.rda')
 head(eu_ptms_list, 1)
 ```
 **Figure 3** First cluster created by Euclidean Distance  
+
+<p>&nbsp;</p>
 
 #### Description  
 
@@ -66,14 +73,14 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 - correlation.matrix.name  
   - Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 - list.name  
-  - Desired name for the list of t-SNE data to be saved as; defaults to tsne.matrices
+  - Desired name for the list of t-SNE data to be saved as; defaults to clusters.list
 - toolong
-  - Defaults to 3.5; threshold for cluster separation  
+  - Threshold for cluster separation; defaults to 3.5  
 
 #### Output  
 - ptm.correlation.matrix (or otherwise named by correlation.matrix.name)  
   - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal  
-- tsne.matrices (or otherwise named by list.name)  
+- clusters.list (or otherwise named by list.name)  
   - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
 
 #### Estimated run-time  
@@ -90,26 +97,29 @@ MakeCorrelationNetwork(tsne.matrices, ptm.correlation.matrix, keeplength = 2, co
 ![](vig_figs/cccn_matrix.png)  
 **Figure 4** First 17 rows and columns of the cccn_matrix produced by MakeCorrelationNetwork  
 
+<p>&nbsp;</p>
+
 #### Description  
 
 Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED t-SNE matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cccn_matrix showing strength of relationships between proteins using the common clusters between the three distance metrics is returned a matrix.  
 
 #### Input  
-- tsne.matrices 
+- clusters.list 
   - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
 - ptm.correlation.matrix  
   - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal. 
 - keeplength  
-  - Defaults to 2; MakeClusterList only saves subsets whose size is strictly *greater* than keeplength. (I.e. ['AARS', 'ABR'] will be discarded unless keeplength < 2)
+  - MakeClusterList only saves subsets whose size is strictly *greater* than keeplength; defaults to 2
+  - example: ['AARS', 'ABR'] will be discarded unless keeplength < 2
 - common.clusters.name  
   - Desired name for the common clusters output; defaults to common.clusters  
 - cccn.name  
-  - Desired name for the cocluster combined network matrix; defaults to cccn_matrix  
+  - Desired name for the cocluster combined network matrix; defaults to cccn.matrix  
 
 #### Output  
 - common.clusters (or otherwise named by common.clusters.name)
   - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED)
-- cccn_matrix (or otherwise named by cccn.name)  
+- cccn.matrix (or otherwise named by cccn.name)  
   - A matrix showing strength of relationships between proteins using common clusters between the three distance metrics  
 
 #### Estimated run-time  
@@ -133,11 +143,16 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
 
 ![](vig_figs/string-edges.png)  
 **Figure 5** First 18 rows of string.edges produced by GetSTRINGdb  
+
+<p>&nbsp;</p>
+
 ![](vig_figs/nodenames.png)  
 **Figure 6** First 18 rows of nodenames produced by GetSTRINGdb  
 
+<p>&nbsp;</p>
+
 #### Input   
-- cccn_matrix  
+- cccn.matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - STRINGdb.name  
   - Desired name for STRINGdb data; defaults to string.edges  
@@ -164,8 +179,10 @@ MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 ![](vig_figs/db_nodes-txt.png) 
 **Figure 7** First 15 lines from the produced text file  
 
+<p>&nbsp;</p>
+
 #### Input   
-- cccn_matrix  
+- cccn.matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - file.path.name  
   - Desired path for file to be saved as; defaults to db_nodes.txt  
@@ -187,7 +204,9 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 ```
 
 ![](vig_figs/gm_network.png) 
-**Figure 8** First 44 rows of the GeneMANIA network 
+**Figure 8** First 44 rows of the GeneMANIA network  
+
+<p>&nbsp;</p>
 
 #### Input   
 - gm.edgefile.path  
@@ -216,6 +235,8 @@ FindPPIEdges(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
 
 ![](vig_figs/ppi_network.png)  
 **Figure 9** First 19 rows of the ppi_network produced by find_ppi_edges  
+
+<p>&nbsp;</p>
 
 #### Description  
 
@@ -246,27 +267,29 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 #### Code  
 
 ```{r eval = FALSE}
-ClusterFilteredNetwork(cccn_matrix, ppi.network, cfn.name = "cfn")
+ClusterFilteredNetwork(cccn.matrix, ppi.network, cfn.name = "cfn")
 ```
 
 ![](vig_figs/cfn.png)  
-**Figure 10** First 19 rows of the cfn_network produced by ClusterFilteredNetwork  
+**Figure 10** First 19 rows of the cfn produced by ClusterFilteredNetwork  
+
+<p>&nbsp;</p>
 
 #### Description  
 
 Cluster Filtered Network checks all of the edges in the PPI network to see ensure that both of the genes are within our cocluster correlation network and that its weight is nonzero. If either of these conditions are not met, then it will be removed from the list of PPI edges. This new, cluster filtered network is then returned.  
 
 #### Input  
-- cccn_matrix  
+- cccn.matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- ppi_network  
+- ppi.network  
   - A dataframe representing how strongly proteins are known to interact  
 - cfn.name  
   - Desired name for the output of ClusterFilteredNetwork; defaults to cfn  
 
 #### Output  
 - cfn (or otherwise named by cfn.name)
-  - A version of ppi_network with only the edges that exist in cccn_matrix and have non-zero weights  
+  - A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights  
   - Note that the STRINGdb.combined_score is on a scale of 0-1000 while cor_weight (and GM.raw.weights) is on a scale of 0-1
 
 #### Estimated run-time  
@@ -277,28 +300,30 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 #### Code  
 
 ```{r eval = FALSE}
-PathwayCrosstalkNetwork(file = "bioplanet.csv", clusterlist, PCN.jaccard.name = "pcn_jaccard_edges", PCN.CPE.name = "pcn_cpe_edges")
+PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name = "edgelist")
 ```
 
   
 **Figure 11** Will exist at some point  
 
+<p>&nbsp;</p>
+
 #### Description  
 
 Note: This step is directory sensitive. You can check and set your directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in your working directory, or getwd(). If you cannot find a file, please check your directories first.  
 
-Pathway Crosstalk Network is the final step in the pipeline. It requires input of an external database, bioplanet, which consists of groups of genes (proteins) involved in various cellular processes. The PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity and a score derrived from Cluster-Pathway Evidence using common clusters found in Make Correlation Network. 
+Pathway Crosstalk Network is the final step in the pipeline. It requires input of an external database, bioplanet, which consists of groups of genes (proteins) involved in various cellular processes. The PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity and a score derrived from Cluster-Pathway Evidence using common clusters found in Make Correlation Network.  
 
 #### Input  
 - file  
-  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly) 
-- clusterlist  
+  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly)  
+- common.clusters  
   - List of common clusters from MakeCorrelationNetwork  
 - edgelist.name
-  - The desired name of the Pathway to Pathway edgelist file created. The PCN file will automatically add '.csv' to the end for you. Intended for use in Cytoscape.  
+  - The desired name of the Pathway to Pathway edgelist file created. The PCN file will automatically add '.csv' to the end for you. Intended for use in Cytoscape. Defaults to edgelist  
 
 #### Output  
-- PTP.edgelist
+- edgelist (or otherwise named by edgelist.name)  
   - An edgelist file that is created in the working directory. It contains pathway source-target columns, with edge weights of their jaccard similarity and their Cluster-Pathway Evidence score. Info about the Cluster-Pathway Evidence score can be found at: <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
 
 #### Estimated run-time  
