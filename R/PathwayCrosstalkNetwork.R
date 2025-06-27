@@ -92,17 +92,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   ###Jaccard Edges assignment must be here in case of error throw in CPE step
   assign("PCN.jaccardedges", PCN.jaccardedges, envir = .GlobalEnv)
 
-  ###Innit - Weights for Non-Ambiguous & Ambiguous PTMs###
-  #gene.weights <- rep(1, length(do.call(c, clusterlist[[1]])) - length(do.call(c, clusterlist[[2]]))) #The weights of ALL non-ambiguous PTMs are 1. Number of non-ambiguous PTMs are found via # of Total ptms - # of ambiguous ptms
-  #temp.ambig.weights <- unlist(sapply(clusterlist[[2]], function(x){return(rep(1/length(x), length(x)))})) #Weights of ambiguous PTMs are 1/# of ptms in the series. so Aars ubi k454; Abui Or an; Aars ubi k983 splits into 3 genes w/ weight of 1/3rd
-  #gene.weights <- c(gene.weights, temp.ambig.weights) #Should look like a bunch of ones at the start followed by various weights < 1
-
-  ###Generating pathway cluster evidence matrix###
-  #A more correct way of doing things
-  #MCN.data <- do.call(c, clusterlist[[1]], recursive = TRUE) #Clusters no longer matter - So convert into a list containing genenames. Called genevec in Mark's .rmd
-  #geneweights <- rep(1, length(MCN.data)) #Create a vector of gene weights
-  #genesinpathways <- MCN.data %in% pathways.genes #Which indices of geneweights cannot be 1.
-
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
   CPE.Matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.Matrix) <- names(clusterlist) #Names
@@ -117,13 +106,11 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   assign("CPE.Matrix", CPE.Matrix, envir = .GlobalEnv) #DEBUG
   ###Generate PCN network###
 
-  #Isolate rows from CPE.Matrix
+  #Mark valuable clusters in CPE.Matrix using Temprows
   temp.rows <- apply(CPE.Matrix, 1, function(x){colnames(CPE.Matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
-
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters.common and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the loop given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
-  #Create pathway x pathway submatrix with CPE weights here? 
-  
+  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the loop given a length of zero.
+
   #Create data frame: Pathway to Pathway edgelist
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
   PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
