@@ -251,8 +251,7 @@
 "ex.ptmtable"
 
 
-# DO NOT TOUCH
-# BREAKS WEBSITE
+
 #' TSNE matrices Example
 #'
 #' List of of lists of dataframes of ptm positions in 3D space to show their relationships with each other based on distance.
