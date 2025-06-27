@@ -134,11 +134,12 @@
 "ex.gm.nodes"
 
 
-# DO NOT TOUCH I DON'T TRUST ITS ROXYGEN
-# NO PROOF YET
+
 #' GeneMANIA Empty Edges Example
 #'
 #' Empty GeneMANIA structure. TODO: fix.
+#'
+#' @keywords internal
 #'
 #' @format Dataframe of 0 rows and 4 columns:
 #' \describe{

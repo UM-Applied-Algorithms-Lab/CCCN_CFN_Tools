@@ -26,4 +26,4 @@ Empty GeneMANIA structure. TODO: fix.
 data(ex.gm_edges)
 head(ex.gm_edges)
 }
-\keyword{datasets}
+\keyword{internal}

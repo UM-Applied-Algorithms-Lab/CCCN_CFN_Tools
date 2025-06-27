@@ -1,0 +1,88 @@
+"source","target","Jaccard_weight","CPEweight"
+"Interleukin-6 regulation of target genes","Irinotecan pathway",1,1
+"Interleukin-6 regulation of target genes","Lipid digestion, mobilization, and transport",0,1
+"Interleukin-6 regulation of target genes","S1P/S1P1 pathway",1,1
+"Interleukin-6 regulation of target genes","Transmembrane transport of small molecules",1,1
+"Irinotecan pathway","Lipid digestion, mobilization, and transport",0,1
+"Irinotecan pathway","S1P/S1P1 pathway",1,1
+"Irinotecan pathway","Transmembrane transport of small molecules",1,1
+"Lipid digestion, mobilization, and transport","S1P/S1P1 pathway",0,1
+"Lipid digestion, mobilization, and transport","Transmembrane transport of small molecules",0,1
+"S1P/S1P1 pathway","Transmembrane transport of small molecules",1,1
+"Binding of chemokines to chemokine receptors","GPCR ligand binding",1,1
+"Binding of chemokines to chemokine receptors","Interleukin-6 regulation of target genes",0,1
+"Binding of chemokines to chemokine receptors","Irinotecan pathway",0,1
+"Binding of chemokines to chemokine receptors","Myometrial relaxation and contraction pathways",1,1
+"Binding of chemokines to chemokine receptors","Peptide G-protein coupled receptors",1,1
+"Binding of chemokines to chemokine receptors","S1P/S1P1 pathway",0,1
+"Binding of chemokines to chemokine receptors","TGF-beta regulation of extracellular matrix",1,1
+"Binding of chemokines to chemokine receptors","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",1,1
+"Binding of chemokines to chemokine receptors","Transmembrane transport of small molecules",0,1
+"GPCR ligand binding","Interleukin-6 regulation of target genes",0,1
+"GPCR ligand binding","Irinotecan pathway",0,1
+"GPCR ligand binding","Myometrial relaxation and contraction pathways",1,1
+"GPCR ligand binding","Peptide G-protein coupled receptors",1,1
+"GPCR ligand binding","S1P/S1P1 pathway",0,1
+"GPCR ligand binding","TGF-beta regulation of extracellular matrix",1,1
+"GPCR ligand binding","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",1,1
+"GPCR ligand binding","Transmembrane transport of small molecules",0,1
+"Interleukin-6 regulation of target genes","Irinotecan pathway",1,1
+"Interleukin-6 regulation of target genes","Myometrial relaxation and contraction pathways",0,1
+"Interleukin-6 regulation of target genes","Peptide G-protein coupled receptors",0,1
+"Interleukin-6 regulation of target genes","S1P/S1P1 pathway",1,1
+"Interleukin-6 regulation of target genes","TGF-beta regulation of extracellular matrix",0,1
+"Interleukin-6 regulation of target genes","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",0,1
+"Interleukin-6 regulation of target genes","Transmembrane transport of small molecules",1,1
+"Irinotecan pathway","Myometrial relaxation and contraction pathways",0,1
+"Irinotecan pathway","Peptide G-protein coupled receptors",0,1
+"Irinotecan pathway","S1P/S1P1 pathway",1,1
+"Irinotecan pathway","TGF-beta regulation of extracellular matrix",0,1
+"Irinotecan pathway","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",0,1
+"Irinotecan pathway","Transmembrane transport of small molecules",1,1
+"Myometrial relaxation and contraction pathways","Peptide G-protein coupled receptors",1,1
+"Myometrial relaxation and contraction pathways","S1P/S1P1 pathway",0,1
+"Myometrial relaxation and contraction pathways","TGF-beta regulation of extracellular matrix",1,1
+"Myometrial relaxation and contraction pathways","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",1,1
+"Myometrial relaxation and contraction pathways","Transmembrane transport of small molecules",0,1
+"Peptide G-protein coupled receptors","S1P/S1P1 pathway",0,1
+"Peptide G-protein coupled receptors","TGF-beta regulation of extracellular matrix",1,1
+"Peptide G-protein coupled receptors","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",1,1
+"Peptide G-protein coupled receptors","Transmembrane transport of small molecules",0,1
+"S1P/S1P1 pathway","TGF-beta regulation of extracellular matrix",0,1
+"S1P/S1P1 pathway","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",0,1
+"S1P/S1P1 pathway","Transmembrane transport of small molecules",1,1
+"TGF-beta regulation of extracellular matrix","TNF-alpha effects on cytokine activity, cell motility, and apoptosis",1,1
+"TGF-beta regulation of extracellular matrix","Transmembrane transport of small molecules",0,1
+"TNF-alpha effects on cytokine activity, cell motility, and apoptosis","Transmembrane transport of small molecules",0,1
+"BDNF signaling pathway","FSH regulation of apoptosis",1,1
+"BDNF signaling pathway","Interleukin-2 signaling pathway",1,1
+"FSH regulation of apoptosis","Interleukin-2 signaling pathway",1,1
+"Retinoblastoma protein regulation","Signaling by NGF",1,1
+"Retinoblastoma protein regulation","T cell receptor regulation of apoptosis",1,1
+"Signaling by NGF","T cell receptor regulation of apoptosis",1,1
+"HNF3B pathway","Rac1 cell motility signaling pathway",0,1
+"ABCA transporters in lipid homeostasis","DCC-mediated attractive signaling",0,1
+"ABCA transporters in lipid homeostasis","Developmental biology",0,1
+"ABCA transporters in lipid homeostasis","Netrin-1 signaling",0,1
+"ABCA transporters in lipid homeostasis","Transmembrane transport of small molecules",0,1
+"ABCA transporters in lipid homeostasis","Validated nuclear estrogen receptor alpha network",1,1
+"DCC-mediated attractive signaling","Developmental biology",1,1
+"DCC-mediated attractive signaling","Netrin-1 signaling",1,1
+"DCC-mediated attractive signaling","Transmembrane transport of small molecules",0,1
+"DCC-mediated attractive signaling","Validated nuclear estrogen receptor alpha network",0,1
+"Developmental biology","Netrin-1 signaling",1,1
+"Developmental biology","Transmembrane transport of small molecules",0,1
+"Developmental biology","Validated nuclear estrogen receptor alpha network",0,1
+"Netrin-1 signaling","Transmembrane transport of small molecules",0,1
+"Netrin-1 signaling","Validated nuclear estrogen receptor alpha network",0,1
+"Transmembrane transport of small molecules","Validated nuclear estrogen receptor alpha network",1,1
+"Cell cycle","Mitochondrial pathway of apoptosis: BH3-only Bcl-2 family",1,1
+"BDNF signaling pathway","FSH regulation of apoptosis",1,1
+"BDNF signaling pathway","Interleukin-2 signaling pathway",1,1
+"FSH regulation of apoptosis","Interleukin-2 signaling pathway",1,1
+"Fatty acid beta oxidation","Ghrelin pathway",1,1
+"Fatty acid beta oxidation","Leptin influence on immune response",1,1
+"Ghrelin pathway","Leptin influence on immune response",1,1
+"E-cadherin nascent AJ-like junctions pathway","ERBB1 downstream pathway",1,1
+"E-cadherin nascent AJ-like junctions pathway","TGF-beta regulation of extracellular matrix",0,1
+"ERBB1 downstream pathway","TGF-beta regulation of extracellular matrix",0,1
