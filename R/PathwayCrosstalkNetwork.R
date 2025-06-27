@@ -30,11 +30,12 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   return(sum(sigma)) #Return
 }
 
+
 #' Pathway Crosstalk Network
 #'
 #' Converts Bioplanet pathways from (<https://tripod.nih.gov/bioplanet/>)  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
 #'
-#' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"
+#' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe. Lines of bioplanet should possess 4 values in the order "PATHWAY_ID","PATHWAY_NAME","GENE_ID","GENE_SYMBOL". Users should only pass in "yourfilename.csv"
 #' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
 #' @param edgelist The desired name for the edgelist file that PCN will make. Should NOT contain any file extensions like .csv, this step will add that for you. Intended for graphing in Cytoscape.
 #' @export
@@ -115,6 +116,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       CPE.Matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], pathways.list[[b]], pathways.list) #Call Cluster Pathway Evidence (above)
   }}
 
+  
   ###Generate PCN network###
 
   #Isolate rows from CPE.Matrix
@@ -141,6 +143,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       track <- track+1 #Increase tracker
     }}
 
+  
   ###Assign Variable Names###
   assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv) #DEBUG
 
