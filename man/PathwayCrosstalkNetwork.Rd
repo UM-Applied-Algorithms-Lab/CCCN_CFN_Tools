@@ -11,7 +11,7 @@ PathwayCrosstalkNetwork(
 )
 }
 \arguments{
-\item{file}{Either the name of the bioplanet pathway .csv file OR the name of a dataframe loaded in environment, users should only pass in "yourfilename.csv"}
+\item{file}{Either the name of the bioplanet pathway .csv file OR the name of a dataframe. Lines of bioplanet should possess 4 values in the order "PATHWAY_ID","PATHWAY_NAME","GENE_ID","GENE_SYMBOL". Users should only pass in "yourfilename.csv"}
 
 \item{clusterlist}{The list of coclusters made in MakeCorrelationNetwork}
 
