@@ -2,7 +2,7 @@
 % Please edit documentation in R/MakeClusterList.R
 \name{MakeClusterList}
 \alias{MakeClusterList}
-\title{Populates the global environment with cluster groupings based on t-SNE data}
+\title{Build clusters based on ptm data under like conditions}
 \usage{
 MakeClusterList(
   ptmtable,
@@ -21,8 +21,14 @@ MakeClusterList(
 \item{toolong}{A numeric threshold for cluster separation, defaults to 3.5.}
 }
 \description{
-This function groups t-SNE data points into clusters using a specified threshold
-and visualizes the clusters.
+This function takes the post-translational modification table and runs it through three calculations of distance:
+Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these.
+These calculations find the 'distance' between ptms based upon under what conditions they occur.
+These matricies are then run through t-SNE in order to put them into a 3-dimensional space.
+A correlation table is also produced based on the Spearman Correlation table.
+}
+\details{
+Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 }
 \examples{
 MakeClusterList(ex.ptmtable, "example.cor", "example.tsne", 3.5)

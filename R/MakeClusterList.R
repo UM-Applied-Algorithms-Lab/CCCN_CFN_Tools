@@ -17,10 +17,15 @@ GetRtsne <- function(table, iter=5000){
   return(Rtsne::Rtsne(table, dims = 3, perplexity = 15, theta = 0.25, max_iter = iter, check_duplicates = FALSE, pca = FALSE))
 }
 
-#' Populates the global environment with cluster groupings based on t-SNE data
+#' Build clusters based on ptm data under like conditions
 #'
-#' This function groups t-SNE data points into clusters using a specified threshold
-#' and visualizes the clusters.
+#' This function takes the post-translational modification table and runs it through three calculations of distance:
+#' Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these.
+#' These calculations find the 'distance' between ptms based upon under what conditions they occur.
+#' These matricies are then run through t-SNE in order to put them into a 3-dimensional space.
+#'  A correlation table is also produced based on the Spearman Correlation table.
+#'
+#' Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 #'
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
 #' @param correlation.matrix.name The desired name for the PTM correlation matrix created
