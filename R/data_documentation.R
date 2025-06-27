@@ -257,6 +257,8 @@
 #'
 #' List of of lists of dataframes of ptm positions in 3D space to show their relationships with each other based on distance.
 #'
+#' @keywords internal
+#'
 #' @format List of 3 Distance metrics (Euclidean, Spearman, and the average of Spearman and Euclidean (SED)) and the clusters that form when they are run through tsne:
 #' \describe{
 #'   \item{Euclidean}{A list of 6 clusters of ptms based on their Euclidean distance and positional distance determined by tsne}
