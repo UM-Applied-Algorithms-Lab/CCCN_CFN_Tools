@@ -237,12 +237,12 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 #### Estimated run-time  
 10s  
 
-## Step 4: Find PPI Edges 
+## Step 4: Build PPI Network  
 
 #### Code  
 
 ```{r eval = FALSE}
-FindPPIEdges(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
+BuildPPINetwork(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
 ```
 
 <center>

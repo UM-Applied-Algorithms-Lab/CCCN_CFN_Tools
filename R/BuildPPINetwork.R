@@ -1,6 +1,6 @@
-#' Find PPI Edges
+#' Build PPI Network
 #'
-#' This function finds protein-protein interaction edges by combining STRINGdb and GeneMANIA databases.
+#' Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network usingall inputted data.
 #'
 #' @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
 #' @param db.filepaths vector of filepaths to data from other databases; defaults to empty vector
@@ -15,7 +15,7 @@
 #' pack <- "cccn.cfn.tools"
 #' gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
 #' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
-FindPPIEdges <- function(string.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
+BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
 
   if (!is.data.frame(string.edges) && !is.data.frame(gm.network) && (length(db.filepaths) == 0)){
     stop("No data input.")
