@@ -71,11 +71,11 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 
 #### Input  
 - ptmtable
-  - A data frame with rows of ptms and columns of experimental conditions  
+  - A data frame of post-translational modifications. Formatted with numbered rows and the first column containing PTM names. The rest of the column names should be drugs (experimental conditions). Values of the table are numeric values that represent how much the PTM has reacted to the drug.  
 - correlation.matrix.name  
-  - Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
+  - Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix  
 - list.name  
-  - Desired name for the list of t-SNE data to be saved as; defaults to clusters.list
+  - Desired name for the lists of clusters to be saved as; defaults to clusters.list  
 - toolong
   - Threshold for cluster separation; defaults to 3.5  
 

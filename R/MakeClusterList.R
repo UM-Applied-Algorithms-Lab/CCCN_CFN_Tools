@@ -28,8 +28,8 @@ GetRtsne <- function(table, iter=5000){
 #' Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 #'
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
-#' @param correlation.matrix.name The desired name for the PTM correlation matrix created
-#' @param list.name The desired name for the data structure storing the 3 t-SNE matrices
+#' @param correlation.matrix.name Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
+#' @param list.name Desired name for the lists of clusters to be saved as; defaults to clusters.list
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
 #' @export
 #'

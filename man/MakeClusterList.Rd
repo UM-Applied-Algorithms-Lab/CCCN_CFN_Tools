@@ -14,9 +14,9 @@ MakeClusterList(
 \arguments{
 \item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
 
-\item{correlation.matrix.name}{The desired name for the PTM correlation matrix created}
+\item{correlation.matrix.name}{Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix}
 
-\item{list.name}{The desired name for the data structure storing the 3 t-SNE matrices}
+\item{list.name}{Desired name for the lists of clusters to be saved as; defaults to clusters.list}
 
 \item{toolong}{A numeric threshold for cluster separation, defaults to 3.5.}
 }
