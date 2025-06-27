@@ -16,11 +16,11 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   
   cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
   cluster.weights <- c(cluster.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
-  cluster.format <- unique(sapply(cluster.format, function (z) unlist(strsplit(z, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
+  cluster.format <- sapply(cluster.format, function (z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
 
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
-    temp <- sum(cluster.weights[pathway[k] == cluster.format]) #Numerator: The amount of times Gene k appears in cluster
+    temp <- sum(cluster.weights[pathway[k] == cluster.format]) #The amount of times Gene k appears in cluster (can appear less than 1 time if Gene is apart of an ambiguous set like AARS ubi k747; ABCB1 p n40)
     temp <- temp / sum(sapply(p.list, function(x) pathway[[k]] %in% x)) #Divide temp by the number of times Gene k appears in pathways in the pathway list
     sigma[k] <- temp #Assign this value to sigma[k]
   }
@@ -129,13 +129,13 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
 
   #Populate data frame
-  track <- 1 #Empty location in the data frame
+  track <- 1 #First Empty row in the data frame
   for(i in temp.rows){
     nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector)
     for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
       PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
       PTP.edgelist[track, 3] <- matrix.jaccard[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
-      PTP.edgelist[track, 4] <- 1 #HOW DO YOU GET THE CPE Weights from CPE MATRIX???
+      PTP.edgelist[track, 4] <- 1 #HOW DO YOU GET THE CPE Weights from temp.rows and CPE MATRIX???
 
       track <- track+1 #Increase tracker
     }}
