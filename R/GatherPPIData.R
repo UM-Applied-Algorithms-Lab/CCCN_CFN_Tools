@@ -3,8 +3,8 @@
 #' This function outputs a file consisting entirely of gene names, each produced on a new line. This data can be copy and pasted into
 #' a database input in order to get protein-protein interaction data.
 #'
-#' @param cccn.matrix matrix representing the common clusters from the three distance calculations' clusters
-#' @param file.path.name path for the output file; defaults to db_nodes.txt
+#' @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
+#' @param file.path.name Path for the output file; defaults to db_nodes.txt
 #'
 #' @return A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes
 #' @export
@@ -20,7 +20,7 @@ MakeDBInput <- function(cccn.matrix, file.path.name = "db_nodes.txt") {
 #
 # This helper function pulls the gene names from the cccn.matrix into a list 'nodenames'
 #
-# @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+# @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 # @return data frame of the names of the genes
 cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 
@@ -37,11 +37,11 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #'
 #' This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 #'
-#' @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
-#' @param STRINGdb.name desired name for the output STRINGdb data frame; defaults to "string.edges"
-#' @param nodes.name desired name for the output containing the list of all of the gene names; defaults to "nodenames"
+#' @param cccn.matrix A matrix showing strength of relationships between proteins using common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
+#' @param STRINGdb.name Desired name for the output STRINGdb data frame; defaults to "string.edges"
+#' @param nodes.name Desired name for list of gene names; defaults to nodenames
 #'
-#' @return A data frame of edges from STRINGdb showing interactions between genes
+#' @return Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database and a list of gene names
 #' @export
 #'
 #' @examples
@@ -94,12 +94,12 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
 #'
 #' This function processes the GM edgefile and translates it back into gene names using the nodetable.
 #'
-#' @param gm.edgefile.path path to GeneMANIA edgefile
-#' @param gm.nodetable.path path to GeneMANIA nodetable
-#' @param db_nodes.path path to the node file from MakeDBInput
-#' @param gm.network.name desired name for the output genemania network; defaulted to gm.network
+#' @param gm.edgefile.path Path to GeneMANIA edgefile
+#' @param gm.nodetable.path Path to GeneMANIA nodetable
+#' @param db_nodes.path Path to the node file from MakeDBInput
+#' @param gm.network.name Desired name for the output genemania network; defaults to gm.network
 #'
-#' @return GeneMANIA ppi network table
+#' @return Data frame of consisting of the network of interactions from the genes of study
 #' @export
 #'
 #' @examples

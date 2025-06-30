@@ -7,14 +7,14 @@
 ClusterFilteredNetwork(cccn.matrix, ppi.network, cfn.name = "cfn")
 }
 \arguments{
-\item{cccn.matrix}{Matrix representing the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
 
-\item{ppi.network}{A data frame of combined edges from STRINGdb and provided database entries}
+\item{ppi.network}{A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks}
 
 \item{cfn.name}{Desired name of the output cluster filtered network}
 }
 \value{
-cluster filtered network
+A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 }
 \description{
 All edges in the PPI network are checked against the cocluster correlation network to ensure existence and a non-zero weight.

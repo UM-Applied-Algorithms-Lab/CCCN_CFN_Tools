@@ -7,9 +7,9 @@
 MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
 }
 \arguments{
-\item{cccn.matrix}{matrix representing the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
 
-\item{file.path.name}{path for the output file; defaults to db_nodes.txt}
+\item{file.path.name}{Path for the output file; defaults to db_nodes.txt}
 }
 \value{
 A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes

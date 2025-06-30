@@ -118,11 +118,11 @@ Make Correlation Network first finds the intersection between the Euclidian, Spe
 - common.clusters.name  
   - Desired name for the common clusters output; defaults to common.clusters  
 - cccn.name  
-  - Desired name for the cocluster combined network matrix; defaults to cccn.matrix  
+  - Desired name for the cocluster correlation network matrix; defaults to cccn.matrix  
 
 #### Output  
 - common.clusters (or otherwise named by common.clusters.name)
-  - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED)
+  - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED)  
 - cccn.matrix (or otherwise named by cccn.name)  
   - A matrix showing strength of relationships between proteins using common clusters between the three distance metrics  
 
@@ -167,7 +167,7 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
 
 #### Output  
 - string.edges (or otherwise named by STRINGdb.name)  
-  - Data frame of consisting of the network of interactions from the genes of study  
+  - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database  
 - nodenames (or otherwise named by nodenames.name)  
   - List of gene names  
 
@@ -192,7 +192,7 @@ MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 
 #### Input   
 - cccn.matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))  
 - file.path.name  
   - Desired path for file to be saved as; defaults to db_nodes.txt  
 
@@ -260,18 +260,18 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 
 #### Input  
 
-- cccn_matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- db_file_paths (optional pre-step 3)  
-  - A vector of paths to the additional ppi network files. This is initialized to an empty vector  
-- gm.network (optional pre-step 3)  
-  - GeneMANIA network produced in optional pre-step 3; defaults to NA  
+- string.edges (produced optionally in step 3)  
+  - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database; defaults to NA  
+- gm.network (produced optionally in step 3)  
+  - GeneMANIA network of protein-protein interactions from the genes of study; defaults to NA  
+- db.filepaths (produced optionally in step 3)  
+  - A vector of paths to the additional ppi network files; defaults to an empty vector  
 - ppi.network.name  
-  - Desired name for the output of FindPPIEdges; defaults to ppi.network  
+  - Desired name for the output protein-protein interaction network using all entered database input; defaults to ppi.network  
 
 #### Output  
 - ppi.network (or otherwise named by ppi.network.name)  
-  - A dataframe representing how strongly proteins are known to interact  
+  - A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks  
 
 #### Estimated run-time  
 30mins (only using STRINGdband GeneMANIA)
@@ -336,13 +336,14 @@ Pathway Crosstalk Network is the final step in the pipeline. It requires input o
 - file  
   - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly)  
 - common.clusters  
-  - List of common clusters from MakeCorrelationNetwork  
+  - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) made by MakeCorrelationNetwork  
 - edgelist.name
-  - The desired name of the Pathway to Pathway edgelist file created. The PCN file will automatically add '.csv' to the end for you. Intended for use in Cytoscape. Defaults to edgelist  
+  - Intended for use in Cytoscape.  
+  - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end for you); defaults to edgelist  
 
 #### Output  
 - edgelist (or otherwise named by edgelist.name)  
-  - An edgelist file that is created in the working directory. It contains pathway source-target columns, with edge weights of their jaccard similarity and their Cluster-Pathway Evidence score. Info about the Cluster-Pathway Evidence score can be found at: <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
+  - An edgelist file that is created in the working directory. Contains pathway source-target columns, with edge weights of their jaccard similarity and their Cluster-Pathway Evidence score. Info about the Cluster-Pathway Evidence score can be found at: <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
 
 #### Estimated run-time  
 UNKNOWN

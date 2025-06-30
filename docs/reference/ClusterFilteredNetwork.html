@@ -66,11 +66,11 @@ This new, cluster filtered network is then assigned to the global namespace.</p>
 
 
 <dl><dt id="arg-cccn-matrix">cccn.matrix<a class="anchor" aria-label="anchor" href="#arg-cccn-matrix"></a></dt>
-<dd><p>Matrix representing the common clusters from the three distance calculations' clusters</p></dd>
+<dd><p>A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))</p></dd>
 
 
 <dt id="arg-ppi-network">ppi.network<a class="anchor" aria-label="anchor" href="#arg-ppi-network"></a></dt>
-<dd><p>A data frame of combined edges from STRINGdb and provided database entries</p></dd>
+<dd><p>A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks</p></dd>
 
 
 <dt id="arg-cfn-name">cfn.name<a class="anchor" aria-label="anchor" href="#arg-cfn-name"></a></dt>
@@ -79,7 +79,7 @@ This new, cluster filtered network is then assigned to the global namespace.</p>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>cluster filtered network</p>
+    <p>A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights</p>
     </div>
 
     <div id="ref-examples">

@@ -36,11 +36,13 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
 #' cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 #'
-#' @param tsne.matrices List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively
-#' @param ptm.correlation.matrix Correlation matrix made from ptm table
+#' @param tsne.matrices A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
+#' @param ptm.correlation.matrix A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))
 #' @param lists.name The desired name for the output of the list containing clusters of PTMs and Genes
-#' @param cccn.name The desired name for the output of the Correlation Network Matrix
+#' @param clusters.name Desired name for the common clusters output; defaults to common.clusters
+#' @param cccn.name Desired name for the cocluster correlation network; defaults to cccn.matrix
+#' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @export
 #'
 #' @examples
@@ -51,7 +53,7 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   correlation.value <- function(Gene1, Gene2){
     r <- ptm.correlation.matrix[
       grep(paste(Gene1, ""), rownames(ptm.correlation.matrix), value = TRUE), #Paste is required so that grep cannot find the gene in another gene. Such as, Gene1 = HAT will identify HIHATH as the same protein
-      grep(paste(Gene2, ""), colnames(ptm.correlation.matrix), value = TRUE)] #Adding the space makes it so the entire word has to be there 
+      grep(paste(Gene2, ""), colnames(ptm.correlation.matrix), value = TRUE)] #Adding the space makes it so the entire word has to be there
     r <- as.matrix(r) #Needed? if singular value
     return(sum(r, na.rm = TRUE)) #Return sum
   }
