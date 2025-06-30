@@ -1,5 +1,4 @@
 #Load Sample Data
-
 PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters, edgelist.name = "edgelist_123a")
 
 #Unit tests for the structures in PCN

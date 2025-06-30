@@ -137,7 +137,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
   ###Debug Variable Names### - DELETE ME
-
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
   assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
   assign(edgelist.name, PTP.edgelist, envir = .GlobalEnv)      #DEBUG
