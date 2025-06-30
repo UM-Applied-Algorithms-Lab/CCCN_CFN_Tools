@@ -256,7 +256,7 @@ BuildPPINetwork(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.networ
 
 **Note:** Examples take about 5-10 minutes to run.
 
-Protein-Protein Interaction (or PPI) networks are networks that show us how different proteins are known interact with each other. STRINGdb --- a database of these PPI networks --- is automatically consulted along with any other database files that are generated and entered by the user. It then gathers data from the PPI networks and filters them down to only examine the determined genes of interest. The data from STRINGdb and any provided files are then combined and returned. The returned data frame shows how strongly the proteins are known to interact.
+The purpose of BuildPPINetwork is to combine the data about desired protein-protein interactions from each of the provided databases. This package explicitly processes STRINGdb and GeneMANIA in Step 3, but the user may consult as many databases as desired (the processing for which is described in Step 3). BuildPPINetwork combines these databases as efficiently as possible while retaining desired edgeweights from each database.  
 
 #### Input  
 
@@ -274,7 +274,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
   - A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks  
 
 #### Estimated run-time  
-30mins (only using STRINGdb and GeneMANIA)
+45mins (only using STRINGdb and GeneMANIA)
 
 ## Step 5: Cluster Filtered Network  
 
