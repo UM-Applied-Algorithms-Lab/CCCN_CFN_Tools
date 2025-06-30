@@ -11,14 +11,14 @@ GetSTRINGdb(
 )
 }
 \arguments{
-\item{cccn.matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{A matrix showing strength of relationships between proteins using common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
 
-\item{STRINGdb.name}{desired name for the output STRINGdb data frame; defaults to "string.edges"}
+\item{STRINGdb.name}{Desired name for the output STRINGdb data frame; defaults to "string.edges"}
 
-\item{nodes.name}{desired name for the output containing the list of all of the gene names; defaults to "nodenames"}
+\item{nodes.name}{Desired name for list of gene names; defaults to nodenames}
 }
 \value{
-A data frame of edges from STRINGdb showing interactions between genes
+Data frame of consisting of the network of interactions from the genes of study and a list of gene names
 }
 \description{
 This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.

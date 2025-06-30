@@ -12,16 +12,16 @@ ProcessGMEdgefile(
 )
 }
 \arguments{
-\item{gm.edgefile.path}{path to GeneMANIA edgefile}
+\item{gm.edgefile.path}{Path to GeneMANIA edgefile}
 
-\item{gm.nodetable.path}{path to GeneMANIA nodetable}
+\item{gm.nodetable.path}{Path to GeneMANIA nodetable}
 
-\item{db_nodes.path}{path to the node file from MakeDBInput}
+\item{db_nodes.path}{Path to the node file from MakeDBInput}
 
-\item{gm.network.name}{desired name for the output genemania network; defaulted to gm.network}
+\item{gm.network.name}{Desired name for the output genemania network; defaults to gm.network}
 }
 \value{
-GeneMANIA ppi network table
+Data frame of consisting of the network of interactions from the genes of study
 }
 \description{
 This function processes the GM edgefile and translates it back into gene names using the nodetable.
