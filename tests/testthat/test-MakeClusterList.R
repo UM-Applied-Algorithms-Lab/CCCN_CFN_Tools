@@ -25,6 +25,5 @@ test_that("Testing Cluster 21, PTM 2", {expect_equal(list_123a$Spearman$`21`$PTM
 writeLines(""); writeLines("--- Finished Cluster List testing ---")
 
 #Cleanup
-if(file.exists("noprint")) file.remove("noprint") #Clean up file created by sink()
 rm(matrix_123a, envir = .GlobalEnv)
 rm(list_123a, envir = .GlobalEnv)
