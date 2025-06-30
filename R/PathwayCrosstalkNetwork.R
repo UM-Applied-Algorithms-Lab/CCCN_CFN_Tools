@@ -32,6 +32,25 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 }
 
 
+
+# PTP Evidence Edge
+# 
+# Checks 2 columns of a matrix and returns the sum of all rows where both values in the row are nonzero
+#
+# @param pathway1 A column of CPE.matrix
+# @param pathway2 A column of CPE.matrix
+#
+# @return The sum
+PTP.evidence.edge <- function(col1, col2){
+  sigma <- 0 #Zero, will return this
+  for(i in 1:length(col1)){ #Both pathways will always be the same length
+    if(col1[i] != 0 && col2[i] != 0) sigma <- sigma + col1[i] + col2[i] #If BOTH values in a row i from col1 and col2 are nonzero, add them both to sigma. If either one has a zero, add neither. 
+  }
+  return(sigma) #return
+}
+
+
+
 #' Pathway Crosstalk Network
 #'
 #' Converts Bioplanet pathways from (<https://tripod.nih.gov/bioplanet/>)  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
@@ -106,10 +125,12 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   for(i in 1:length(temp.rows)){
     nodes <- combn(temp.rows[[i]], 2) #Get every node pair (permutations where order doesn't matter of a string vector). Stored as a matrix.
     cluster <- names(temp.rows)[[i]]  #Get the name of the cluster that the connection was found in
-    for(j in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
-      PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
-      PTP.edgelist[track, 3] <- jaccard.matrix[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
-      PTP.edgelist[track, 4] <- CPE.matrix[cluster, j[[1]] ] + CPE.matrix[cluster, j[[2]] ] #NOT SURE IF CORRECT. Take the sum of two CPE's, between the same cluster for pathway j[[1]] and j[[2]]
+    for(pathway in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
+      PTP.edgelist[track, 1:2] <- pathway #Add row from nodes to empty spot in the edgefiles
+      path1 <- pathway[[1]] #These are strings representing the names of the pathways. Used to access data from data structures.
+      path2 <- pathway[[2]]
+      PTP.edgelist[track, 3] <- jaccard.matrix[path1, path2] #Add the jaccard weight to the edgelist
+      PTP.edgelist[track, 4] <- PTP.evidence.edge(CPE.matrix[,path1], CPE.matrix[,path2]) #Pass in two columns of CPE.matrix to custom function. NOT SURE IF CORRECT. Take the sum of two CPE's, between the same cluster for pathway j[[1]] and j[[2]]
 
       track <- track+1 #Increase tracker
     }}
