@@ -1,5 +1,7 @@
 #Load Sample Data
+sink(file="noprint_123a")
 PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters, edgelist.name = "edgelist_123a")
+sink()
 
 #Unit tests for the structures in PCN
 #Jaccard Weights
@@ -14,4 +16,5 @@ test_that("Row 56 PTP interaction evidence", {expect_equal(edgelist_123a$PTP_int
 
 #Cleanup
 rm("edgelist_123a", envir = .GlobalEnv) #remove the variable created
+file.remove("noprint_123a")
 file.remove("edgelist_123a.csv") #remove the edgelist file created
