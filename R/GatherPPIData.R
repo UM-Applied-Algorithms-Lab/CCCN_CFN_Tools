@@ -59,7 +59,7 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
   }
 
   # Initialize the STRING database object
-  string.db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, input_directory="")
+  string.db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, network_type="full", link_data='full', input_directory="")
 
   # Retrieve the proteins from the STRING database
   string.proteins <- string.db$get_proteins()
@@ -80,6 +80,22 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
   # Convert protein IDs to gene names
   interactions$Gene.1 <- sapply(interactions$from, function(x) string.proteins[match(x, string.proteins$protein_external_id), "preferred_name"])
   interactions$Gene.2 <- sapply(interactions$to, function(x) string.proteins[match(x, string.proteins$protein_external_id), "preferred_name"])
+
+  # Filter interactions based on evidence types
+  str.e <- interactions[interactions$experiments > 0, ]
+  str.et <- interactions[interactions$experiments_transferred > 0, ]
+
+  # Combine filtered interactions
+  combined_interactions <- unique(rbind(str.e, str.et))
+
+  # Assign edge types
+  combined_interactions$edgeType <- "STRINGdb"
+  combined_interactions[combined_interactions$experiments > 0, "edgeType"] <- "experimental"
+  combined_interactions[combined_interactions$experiments_transferred > 0, "edgeType"] <- "experimental_transferred"
+
+  # Calculate weights
+  combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments", "experiments_transferred")])
+  # CURRENTLY ARE NOT DIVIDING BY 1000 TODO FIGURE OUT
 
   # Create the final edges dataframe from STRINGdb
   combined.edges <- interactions[, c("Gene.1", "Gene.2", "combined_score")]
