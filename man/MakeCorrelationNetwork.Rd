@@ -26,7 +26,7 @@ MakeCorrelationNetwork(
 \item{lists.name}{The desired name for the output of the list containing clusters of PTMs and Genes}
 }
 \value{
-The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using common clusters between the three distance metrics
+The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 }
 \description{
 Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find

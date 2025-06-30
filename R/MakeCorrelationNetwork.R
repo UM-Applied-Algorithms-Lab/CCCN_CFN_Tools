@@ -42,7 +42,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @param lists.name The desired name for the output of the list containing clusters of PTMs and Genes
 #' @param clusters.name Desired name for the common clusters output; defaults to common.clusters
 #' @param cccn.name Desired name for the cocluster correlation network; defaults to cccn.matrix
-#' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using common clusters between the three distance metrics
+#' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @export
 #'
 #' @examples

@@ -167,7 +167,7 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
 
 #### Output  
 - string.edges (or otherwise named by STRINGdb.name)  
-  - Data frame of consisting of the network of interactions from the genes of study  
+  - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database  
 - nodenames (or otherwise named by nodenames.name)  
   - List of gene names  
 
@@ -192,7 +192,7 @@ MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 
 #### Input   
 - cccn.matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))  
 - file.path.name  
   - Desired path for file to be saved as; defaults to db_nodes.txt  
 
@@ -260,18 +260,18 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 
 #### Input  
 
-- cccn_matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- db_file_paths (optional pre-step 3)  
-  - A vector of paths to the additional ppi network files. This is initialized to an empty vector  
-- gm.network (optional pre-step 3)  
-  - GeneMANIA network produced in optional pre-step 3; defaults to NA  
+- string.edges  
+  - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database
+- gm.network (optional 3)  
+  - GeneMANIA network produced in optional step 3; defaults to NA  
+- db.filepaths (optional step 3)  
+  - A vector of paths to the additional ppi network files; defaults to an empty vector  
 - ppi.network.name  
   - Desired name for the output of FindPPIEdges; defaults to ppi.network  
 
 #### Output  
 - ppi.network (or otherwise named by ppi.network.name)  
-  - A dataframe representing how strongly proteins are known to interact  
+  - A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks  
 
 #### Estimated run-time  
 30mins (only using STRINGdband GeneMANIA)

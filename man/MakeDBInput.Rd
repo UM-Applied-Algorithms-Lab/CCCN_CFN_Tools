@@ -7,7 +7,7 @@
 MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
 }
 \arguments{
-\item{cccn.matrix}{Matrix representing the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
 
 \item{file.path.name}{Path for the output file; defaults to db_nodes.txt}
 }

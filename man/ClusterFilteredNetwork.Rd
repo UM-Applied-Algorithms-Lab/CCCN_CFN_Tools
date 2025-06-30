@@ -7,7 +7,7 @@
 ClusterFilteredNetwork(cccn.matrix, ppi.network, cfn.name = "cfn")
 }
 \arguments{
-\item{cccn.matrix}{Matrix representing the common clusters from the three distance calculations' clusters}
+\item{cccn.matrix}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
 
 \item{ppi.network}{A data frame of combined edges from STRINGdb and provided database entries}
 

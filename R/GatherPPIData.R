@@ -3,7 +3,7 @@
 #' This function outputs a file consisting entirely of gene names, each produced on a new line. This data can be copy and pasted into
 #' a database input in order to get protein-protein interaction data.
 #'
-#' @param cccn.matrix Matrix representing the common clusters from the three distance calculations' clusters
+#' @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @param file.path.name Path for the output file; defaults to db_nodes.txt
 #'
 #' @return A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes
@@ -20,7 +20,7 @@ MakeDBInput <- function(cccn.matrix, file.path.name = "db_nodes.txt") {
 #
 # This helper function pulls the gene names from the cccn.matrix into a list 'nodenames'
 #
-# @param cccn.matrix dataframe of dataframes that represent the common clusters from the three distance calculations' clusters
+# @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 # @return data frame of the names of the genes
 cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 
@@ -41,7 +41,7 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #' @param STRINGdb.name Desired name for the output STRINGdb data frame; defaults to "string.edges"
 #' @param nodes.name Desired name for list of gene names; defaults to nodenames
 #'
-#' @return Data frame of consisting of the network of interactions from the genes of study and a list of gene names
+#' @return Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database and a list of gene names
 #' @export
 #'
 #' @examples

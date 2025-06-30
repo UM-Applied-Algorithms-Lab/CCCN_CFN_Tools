@@ -18,7 +18,7 @@ GetSTRINGdb(
 \item{nodes.name}{Desired name for list of gene names; defaults to nodenames}
 }
 \value{
-Data frame of consisting of the network of interactions from the genes of study and a list of gene names
+Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database and a list of gene names
 }
 \description{
 This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.

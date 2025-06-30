@@ -6,7 +6,7 @@
 #' If either of these conditions are not met, then it will be removed from the list of PPI edges.
 #' This new, cluster filtered network is then assigned to the global namespace.
 #'
-#' @param cccn.matrix Matrix representing the common clusters from the three distance calculations' clusters
+#' @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @param ppi.network A data frame of combined edges from STRINGdb and provided database entries
 #' @param cfn.name Desired name of the output cluster filtered network
 #'

@@ -12,16 +12,16 @@ BuildPPINetwork(
 )
 }
 \arguments{
+\item{string.edges}{Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database}
+
 \item{gm.network}{network produced by GeneMANIA if that was used; defaults to NA}
 
-\item{db.filepaths}{vector of filepaths to data from other databases; defaults to empty vector}
+\item{db.filepaths}{A vector of paths to the additional ppi network files; defaults to an empty vector}
 
 \item{ppi.network.name}{desired name of the output ppi network; defaults to "ppi.network"}
-
-\item{cccn.matrix}{dataframe of dataframes that represent the common clusters from the three distance calculations' clusters}
 }
 \value{
-A data frame of combined edges from STRINGdb and provided database entries
+A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks
 }
 \description{
 Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network usingall inputted data.
