@@ -7,10 +7,10 @@
 #' This new, cluster filtered network is then assigned to the global namespace.
 #'
 #' @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
-#' @param ppi.network A data frame of combined edges from STRINGdb and provided database entries
+#' @param ppi.network A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks
 #' @param cfn.name Desired name of the output cluster filtered network
 #'
-#' @return cluster filtered network
+#' @return A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #'
 #' @export
 #' @examples
