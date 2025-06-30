@@ -6,7 +6,7 @@
 # @param pathway A pathway of genes/proteins
 # @param p.list  A list of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
 #
-# @return A float value representing cluster pathway evidence between a cluster and pathway
+# @return A float value (cluster pathway evidence) between a cluster and pathway
 ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
 
@@ -16,7 +16,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
   
   cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
   cluster.weights <- c(cluster.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
-  cluster.format <- sapply(cluster.format, function (z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
+  cluster.format <- sapply(cluster.format, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
 
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
@@ -25,7 +25,7 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
     sigma[k] <- temp #Assign this value to sigma[k]
   }
 
-  #Large cluster penalty -> as cluster size increases, CPE decreases. This is applied to every element in sigma
+  #Large cluster penalty -> as cluster size increases, CPE decreases. Divide every element in sigma by a constant (number of ptms in cluster, I count an ambiguous PTM as 1 PTM. Hence taking the size of the original data structure, before it is split)
   sigma <- sigma*(1/length(cluster))
 
   return(sum(sigma)) #Return
@@ -45,30 +45,28 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
 PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "edgelist"){
   #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
-  #Loading .csv
-  if(class(file) == "character"){
+  if(class(file) == "character"){   #Loading .csv
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory.")) #Error Catch
     bioplanet <- utils::read.csv(file, stringsAsFactors = F)
   }
 
-  #Loading a dataframe for examples
-  if(class(file) == "data.frame") bioplanet <- file
+  if(class(file) == "data.frame") bioplanet <- file   #Loading a dataframe for examples
 
   #Turn bioplanet into a list of pathways. Pathways are character vectors comprised of gene names
   pathways.list <- plyr::dlply(bioplanet, plyr::.(PATHWAY_NAME)) #Turn the bioplanet .csv into a list of data frames. Each data frame stores genes with the same PATHWAY_ID
-  pathways.list <- lapply(pathways.list, `[`, -c(1:3)) #Removes PATHWAY_ID | PATHWAY_NAME | GENE_ID from every single data frame in the list
+  pathways.list <- lapply(pathways.list, `[`, 4) #Modifies all data frames in the list to only have the GENE_SYMBOL column. Uses [] as a function, which I did not know you could do in R. Very cool. 
   pathways.list <- lapply(pathways.list, unlist, use.names = FALSE) #Since data frames are 1 row, turn data frames into character vectors
 
 
-  ###Jaccard Similarity###
-  #Create a matrix whose [i, j] values are the intersection/union between the genes in pathway i and j
-  jaccard.matrix <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list))
+  
+  ###Jaccard Similarity### - Pathways x pathways where value is the intersection divided by union 
+  jaccard.matrix <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list)) #Create an empty matrix that is pathways x pathways
 
   #Rename
   rownames(jaccard.matrix) <- names(pathways.list)
   colnames(jaccard.matrix) <- names(pathways.list)
 
-  #Populate matrix, diagonals must be 0 in order to prevent self-loops in
+  #Populate matrix using [i, j] values are the intersection/union between pathway i and j, diagonals must be 0 in order to prevent self-loops in
   for (i in 1:length(pathways.list)) {
     for (j in 1:length(pathways.list)) { #Populate symmetrical matrix
       p.intersect <- length(intersect(pathways.list[[i]], pathways.list[[j]])) #Length of Intersect
@@ -79,8 +77,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     }}
 
   
-  ###Pathway Cluster Evidence### 
-  #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
+  
+  ###Pathway Cluster Evidence###  - A matrix of pathways x pathways whose values are found by using a custom formula that relates clusters and pathways
   CPE.matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.matrix) <- names(clusterlist) #Names
   colnames(CPE.matrix) <- names(pathways.list)
@@ -92,34 +90,36 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   }}
 
 
-  ###Generate PCN network###
-
-  #Mark valuable clusters in CPE.matrix using Temprows
-  temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
+  
+  ###Generate PCN network### - 
+  temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Mark valuable clusters in CPE.matrix. Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   
   #Create data frame: Pathway to Pathway edgelist
-  size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
+  size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just number of possible permutations where order doesnt matter bc I didn't want to import a package.
   PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
 
   #Populate data frame
   track <- 1 #First Empty row in the data frame
-  for(i in temp.rows){
-    nodes <- combn(i, 2) #Get every node pair (permutations where order doesn't matter of a string vector)
-    for(j in asplit(nodes, 2)) { #Add all node pairings to data frame
+  for(i in 1:length(temp.rows)){
+    nodes <- combn(temp.rows[[i]], 2) #Get every node pair (permutations where order doesn't matter of a string vector). Stored as a matrix.
+    cluster <- names(temp.rows)[[i]]  #Get the name of the cluster that is being operated on
+    for(j in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
       PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
       PTP.edgelist[track, 3] <- jaccard.matrix[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
-      PTP.edgelist[track, 4] <- 1 #HOW DO YOU GET THE CPE Weights from temp.rows and CPE MATRIX???
+      PTP.edgelist[track, 4] <- CPE.matrix[cluster, j[[1]] ] + CPE.matrix[cluster, j[[2]] ] #NOT SURE IF CORRECT. Take the sum of two CPE's, between the same cluster for pathway j[[1]] and j[[2]]
 
       track <- track+1 #Increase tracker
     }}
 
   
+  
   ###Debug Variable Names###
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
-  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)     #DEBUG
-  assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv) #DEBUG
+  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
+  assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv)     #DEBUG
+  assign("temp.rows", temp.rows, envir = .GlobalEnv)           #DEBUG
 
   #Save edgefiles for cytoscape plotting
   filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
