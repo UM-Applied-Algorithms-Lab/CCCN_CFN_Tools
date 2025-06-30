@@ -77,15 +77,9 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       if(value > 0) jaccard.matrix[i, j] <- value #Number of genes pathway i and j share
     }}
 
-<<<<<<< HEAD
-
 
   ###Pathway Cluster Evidence###  - A matrix of pathways x pathways whose values are found by using a custom formula that relates clusters and pathways
-=======
 
-  ###Pathway Cluster Evidence###
-  #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
->>>>>>> documentation
   CPE.matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.matrix) <- names(clusterlist) #Names
   colnames(CPE.matrix) <- names(pathways.list)
