@@ -104,7 +104,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   track <- 1 #First Empty row in the data frame
   for(i in 1:length(temp.rows)){
     nodes <- combn(temp.rows[[i]], 2) #Get every node pair (permutations where order doesn't matter of a string vector). Stored as a matrix.
-    cluster <- names(temp.rows)[[i]]  #Get the name of the cluster that is being operated on
+    cluster <- names(temp.rows)[[i]]  #Get the name of the cluster that the connection was found in
     for(j in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
       PTP.edgelist[track, 1:2] <- j #Add row from nodes to empty spot in the edgefiles
       PTP.edgelist[track, 3] <- jaccard.matrix[j[[1]], j[[2]]] #Add the jaccard weight to the edgelist
