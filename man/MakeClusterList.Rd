@@ -20,6 +20,9 @@ MakeClusterList(
 
 \item{toolong}{A numeric threshold for cluster separation, defaults to 3.5.}
 }
+\value{
+The correlation matrix: A data frame showing the correlation between ptms (as the rows and the columns) with NAs placed along the diagonal; and A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
+}
 \description{
 This function takes the post-translational modification table and runs it through three calculations of distance:
 Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these.

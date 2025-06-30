@@ -31,6 +31,7 @@ GetRtsne <- function(table, iter=5000){
 #' @param correlation.matrix.name Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 #' @param list.name Desired name for the lists of clusters to be saved as; defaults to clusters.list
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
+#' @return The correlation matrix: A data frame showing the correlation between ptms (as the rows and the columns) with NAs placed along the diagonal; and A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
 #' @export
 #'
 #' @examples
