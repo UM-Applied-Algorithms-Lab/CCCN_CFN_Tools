@@ -13,15 +13,20 @@ MakeCorrelationNetwork(
 )
 }
 \arguments{
-\item{ptm.correlation.matrix}{Correlation matrix made from ptm table}
+\item{ptm.correlation.matrix}{A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.}
 
 \item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))}
 
-\item{cccn.name}{The desired name for the output of the Correlation Network Matrix}
+\item{clusters.name}{Desired name for the common clusters output; defaults to common.clusters}
 
-\item{tsne.matrices}{List containing matrices that contain Euclidean, Spearman, and SED t-SNE coords respectively}
+\item{cccn.name}{Desired name for the cocluster correlation network; defaults to cccn.matrix}
+
+\item{tsne.matrices}{A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)}
 
 \item{lists.name}{The desired name for the output of the list containing clusters of PTMs and Genes}
+}
+\value{
+The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using common clusters between the three distance metrics
 }
 \description{
 Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find
