@@ -6,18 +6,15 @@ MakeClusterList(ex.ptmtable, correlation.matrix.name = "matrix_123a", list.name 
 
 #Unit Tests for the global variables (lists of dataframes) created by MakeClusterList. Check PTMs Names.
 #eu_ptms_list
-writeLines(""); writeLines("Testing clusters found with Euclidian") #needs to be this way cuz code likes to be weird 
 test_that("Cluster 2, PTM 2", {expect_equal(list_123a$Euclidean$`2`$PTM.Name[2], "AATF ack K145")})
 test_that("Cluster 3, PTM 4", {expect_equal(list_123a$Euclidean$`3`$PTM.Name[4], "ABCB6 ubi K482")})
 test_that("Cluster 5, PTM 6", {expect_equal(list_123a$Euclidean$`5`$PTM.Name[6], "ACBD3 ubi K386")})
 
 #sed_ptms_list
-writeLines(""); writeLines("Testing clusters found with SED (average)")
 test_that("Testing Cluster 3, PTM 1", {expect_equal(list_123a$SED$`3`$PTM.Name[1], "AASDHPPT ack K151")})
 test_that("Testing Cluster 4, PTM 1", {expect_equal(list_123a$SED$`4`$PTM.Name[1], "ABCB6 ubi K726")})
 
 #sp_ptms_list
-writeLines(""); writeLines("Testing clusters found with Spearman")
 test_that("Testing Cluster 8, PTM 1", {expect_equal(list_123a$Spearman$`8`$PTM.Name[1], "ABCB6 ubi K482")})
 test_that("Testing Cluster 13, PTM 1", {expect_equal(list_123a$Spearman$`13`$PTM.Name[1], "ABCC1 ubi K290")})
 test_that("Testing Cluster 21, PTM 2", {expect_equal(list_123a$Spearman$`21`$PTM.Name[2], "ACKR3 ubi K362")})
