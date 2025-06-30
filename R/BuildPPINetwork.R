@@ -1,6 +1,6 @@
 #' Build PPI Network
 #'
-#' Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network usingall inputted data.
+#' Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network.
 #'
 #' @param string.edges Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database
 #' @param gm.network GeneMANIA network of protein-protein interactions from the genes of study; defaults to NA
