@@ -24,7 +24,7 @@ BuildPPINetwork(
 A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks
 }
 \description{
-Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network usingall inputted data.
+Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network.
 }
 \examples{
 gmpath <- "genemania-interactions.txt"
