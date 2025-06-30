@@ -12,8 +12,8 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 
   #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
   cluster.format <- sapply(cluster, function(x) strsplit(x, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
-  cluster.weights <- sapply(cluster.format, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto cluster.format, 
-  
+  cluster.weights <- sapply(cluster.format, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto cluster.format,
+
   cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
   cluster.weights <- c(cluster.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
   cluster.format <- sapply(cluster.format, function (z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Convert all PTMs to genes by cutting off modifications like "ubi 470" and remove duplicates!
@@ -37,8 +37,9 @@ ClusterPathwayEvidence <- function(cluster, pathway, p.list){
 #' Converts Bioplanet pathways from (<https://tripod.nih.gov/bioplanet/>)  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
 #'
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe. Lines of bioplanet should possess 4 values in the order "PATHWAY_ID","PATHWAY_NAME","GENE_ID","GENE_SYMBOL". Users should only pass in "yourfilename.csv"
-#' @param clusterlist The list of coclusters made in MakeCorrelationNetwork
-#' @param edgelist The desired name for the edgelist file that PCN will make. Should NOT contain any file extensions like .csv, this step will add that for you. Intended for graphing in Cytoscape.
+#' @param clusterlist The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) made in MakeCorrelationNetwork
+#' @param edgelist.name Intended for use in Cytoscape. The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end for you); defaults to edgelist
+#' @return An edgelist file that is created in the working directory. Contains pathway source-target columns, with edge weights of their jaccard similarity and their Cluster-Pathway Evidence score
 #' @export
 #'
 #' @examples
@@ -78,8 +79,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       if(value > 0) jaccard.matrix[i, j] <- value #Number of genes pathway i and j share
     }}
 
-  
-  ###Pathway Cluster Evidence### 
+
+  ###Pathway Cluster Evidence###
   #My attempt at coding CPE formula - Will represent as a matrix; clusters x pathways
   CPE.matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.matrix) <- names(clusterlist) #Names
@@ -98,7 +99,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
-  
+
   #Create data frame: Pathway to Pathway edgelist
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just permutation where order doesnt matter bc I didn't want to import a package.
   PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
@@ -115,7 +116,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       track <- track+1 #Increase tracker
     }}
 
-  
+
   ###Debug Variable Names###
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
   assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)     #DEBUG
