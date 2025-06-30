@@ -59,7 +59,7 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
   }
 
   # Initialize the STRING database object
-  string.db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, input_directory="")
+  string.db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, network_type="full", link_data='full', input_directory="")
 
   # Retrieve the proteins from the STRING database
   string.proteins <- string.db$get_proteins()
