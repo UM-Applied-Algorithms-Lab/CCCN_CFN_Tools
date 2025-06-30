@@ -16,8 +16,8 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 
   returnme <- list() #Innit empty list
 
-  #Triple loop to look through elements of the list and compare them
-  for(a in 1:length(list1.ptms)){
+  #Triple loop to look through every combination of elements of the list and compare them
+  for(a in 1:length(list1.ptms)){ 
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
@@ -36,10 +36,9 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
 #' cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 #'
-#' @param tsne.matrices A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
+#' @param clusterlist A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
 #' @param ptm.correlation.matrix A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))
-#' @param lists.name The desired name for the output of the list containing clusters of PTMs and Genes
 #' @param clusters.name Desired name for the common clusters output; defaults to common.clusters
 #' @param cccn.name Desired name for the cocluster correlation network; defaults to cccn.matrix
 #' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
@@ -59,7 +58,7 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   }
 
   #Find common clusters
-  clusters.common <- FindCommonClusters(clusterlist[[1]], clusterlist[[2]], clusterlist[[3]], keeplength)
+  clusters.common <- FindCommonClusters(clusterlist[[1]], clusterlist[[2]], clusterlist[[3]], keeplength) #Call function at top of code
 
   # Generate the combined adjacency matrix by taking PTMs to Genes
   gene.common <- lapply(clusters.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
@@ -83,7 +82,7 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   # Make igraph object, replacing NA with 0
   cccn.matrix[is.na(cccn.matrix)] <- 0 #Used to be function
   assign(clusters.name, clusters.common, envir = .GlobalEnv) #List of common clusters
-  assign(cccn.name, cccn.matrix, envir = .GlobalEnv) #Matrix containing Euclidean t-SNE coords
+  assign(cccn.name, cccn.matrix, envir = .GlobalEnv) #CoCluster Correlation Network 
 
   #Graphing
   graph <- igraph::graph_from_adjacency_matrix(cccn.matrix, mode = "lower", diag = FALSE, weighted = "Weight")

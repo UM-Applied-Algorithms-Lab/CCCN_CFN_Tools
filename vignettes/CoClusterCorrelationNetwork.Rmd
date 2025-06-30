@@ -172,7 +172,7 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
   - List of gene names  
 
 #### Estimated run-time  
-6mins  
+30 mins  
 
 ### Part 2 --- Get File for Database Input
 
@@ -274,7 +274,7 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
   - A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks  
 
 #### Estimated run-time  
-30mins (only using STRINGdband GeneMANIA)
+30mins (only using STRINGdb and GeneMANIA)
 
 ## Step 5: Cluster Filtered Network  
 
@@ -319,9 +319,13 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name = "edgelist")
 ```
 
+
+
 <center>
 
-**Figure 11** Will exist at some point  
+![](vig_figs/PTP_edgelist.png) 
+
+**Figure 12** Graph in Cytoscape - Didn't add cuz not good yet Will exist at some point  
 
 </center>
 <p>&nbsp;</p>
