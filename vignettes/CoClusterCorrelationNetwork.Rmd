@@ -118,7 +118,7 @@ Make Correlation Network first finds the intersection between the Euclidian, Spe
 - common.clusters.name  
   - Desired name for the common clusters output; defaults to common.clusters  
 - cccn.name  
-  - Desired name for the cocluster combined network matrix; defaults to cccn.matrix  
+  - Desired name for the cocluster correlation network matrix; defaults to cccn.matrix  
 
 #### Output  
 - common.clusters (or otherwise named by common.clusters.name)
