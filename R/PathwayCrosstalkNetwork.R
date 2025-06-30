@@ -118,7 +118,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Create data frame: Pathway to Pathway edgelist
   size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just number of possible permutations where order doesnt matter bc I didn't want to import a package.
-  PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), CPEweight = rep(0, size))
+  PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), PTP_inter_evidence= rep(0, size))
 
   #Populate data frame
   track <- 1 #First Empty row in the data frame
@@ -140,7 +140,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
   assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
-  assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv)     #DEBUG
+  assign(edgelist.name, PTP.edgelist, envir = .GlobalEnv)      #DEBUG
   assign("temp.rows", temp.rows, envir = .GlobalEnv)           #DEBUG
 
 
