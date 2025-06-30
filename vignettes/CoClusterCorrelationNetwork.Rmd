@@ -260,14 +260,14 @@ Protein-Protein Interaction (or PPI) networks are networks that show us how diff
 
 #### Input  
 
-- string.edges  
-  - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database
-- gm.network (optional 3)  
-  - GeneMANIA network produced in optional step 3; defaults to NA  
-- db.filepaths (optional step 3)  
+- string.edges (produced optionally in step 3)  
+  - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database; defaults to NA  
+- gm.network (produced optionally in step 3)  
+  - GeneMANIA network of protein-protein interactions from the genes of study; defaults to NA  
+- db.filepaths (produced optionally in step 3)  
   - A vector of paths to the additional ppi network files; defaults to an empty vector  
 - ppi.network.name  
-  - Desired name for the output of FindPPIEdges; defaults to ppi.network  
+  - Desired name for the output protein-protein interaction network using all entered database input; defaults to ppi.network  
 
 #### Output  
 - ppi.network (or otherwise named by ppi.network.name)  

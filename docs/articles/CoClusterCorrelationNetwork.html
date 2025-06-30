@@ -120,7 +120,7 @@ of RAM.</p>
 <h5 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a>
 </h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/MakeClusterList.html">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, correlation.matrix.name <span class="op">=</span> <span class="st">"ptm.correlation.matrix"</span>, list.name <span class="op">=</span> <span class="st">"clusters.list"</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeClusterList.html" class="external-link">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, correlation.matrix.name <span class="op">=</span> <span class="st">"ptm.correlation.matrix"</span>, list.name <span class="op">=</span> <span class="st">"clusters.list"</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/EU_MCL.png"><br><strong>Figure 1</strong> Example plot produced by MakeClusterList
 calculated using Euclidean Distance</p>
@@ -187,21 +187,26 @@ produced based on the Spearman Correlation table.</p>
 <ul>
 <li>ptmtable
 <ul>
-<li>A data frame with rows of ptms and columns of experimental
-conditions<br>
+<li>A data frame of post-translational modifications. Formatted with
+numbered rows and the first column containing PTM names. The rest of the
+column names should be drugs (experimental conditions). Values of the
+table are numeric values that represent how much the PTM has reacted to
+the drug.<br>
 </li>
 </ul>
 </li>
 <li>correlation.matrix.name
 <ul>
 <li>Desired name for the correlation matrix to be saved as; defaults to
-ptm.correlation.matrix</li>
+ptm.correlation.matrix<br>
+</li>
 </ul>
 </li>
 <li>list.name
 <ul>
-<li>Desired name for the list of t-SNE data to be saved as; defaults to
-clusters.list</li>
+<li>Desired name for the lists of clusters to be saved as; defaults to
+clusters.list<br>
+</li>
 </ul>
 </li>
 <li>toolong
@@ -303,8 +308,8 @@ common.clusters<br>
 </li>
 <li>cccn.name
 <ul>
-<li>Desired name for the cocluster combined network matrix; defaults to
-cccn.matrix</li>
+<li>Desired name for the cocluster correlation network matrix; defaults
+to cccn.matrix</li>
 </ul>
 </li>
 </ul>
@@ -416,7 +421,7 @@ the common clusters between the three distance metrics<br>
 <li>string.edges (or otherwise named by STRINGdb.name)
 <ul>
 <li>Data frame of consisting of the network of interactions from the
-genes of study<br>
+genes of study pulled from the STRINGdb database<br>
 </li>
 </ul>
 </li>
@@ -457,7 +462,8 @@ file</p>
 <li>cccn.matrix
 <ul>
 <li>A matrix showing strength of relationships between proteins using
-the common clusters between the three distance metrics<br>
+the common clusters between the three distance metrics (Euclidean,
+Spearman, and Combined (SED))<br>
 </li>
 </ul>
 </li>
@@ -495,7 +501,7 @@ file.path.name</li>
 <h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ProcessGMEdgefile.html">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/ProcessGMEdgefile.html" class="external-link">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/gm_network.png"></p>
 <p><strong>Figure 8</strong> First 44 rows of the GeneMANIA network</p>
@@ -583,31 +589,31 @@ shows how strongly the proteins are known to interact.</p>
 <h5 id="input-5">Input<a class="anchor" aria-label="anchor" href="#input-5"></a>
 </h5>
 <ul>
-<li>cccn_matrix
+<li>string.edges (produced optionally in step 3)
 <ul>
-<li>A matrix showing strength of relationships between proteins using
-the common clusters between the three distance metrics<br>
+<li>Data frame of consisting of the network of interactions from the
+genes of study pulled from the STRINGdb database; defaults to NA<br>
 </li>
 </ul>
 </li>
-<li>db_file_paths (optional pre-step 3)
+<li>gm.network (produced optionally in step 3)
 <ul>
-<li>A vector of paths to the additional ppi network files. This is
-initialized to an empty vector<br>
+<li>GeneMANIA network of protein-protein interactions from the genes of
+study; defaults to NA<br>
 </li>
 </ul>
 </li>
-<li>gm.network (optional pre-step 3)
+<li>db.filepaths (produced optionally in step 3)
 <ul>
-<li>GeneMANIA network produced in optional pre-step 3; defaults to
-NA<br>
+<li>A vector of paths to the additional ppi network files; defaults to
+an empty vector<br>
 </li>
 </ul>
 </li>
 <li>ppi.network.name
 <ul>
-<li>Desired name for the output of FindPPIEdges; defaults to
-ppi.network</li>
+<li>Desired name for the output protein-protein interaction network
+using all entered database input; defaults to ppi.network</li>
 </ul>
 </li>
 </ul>
@@ -618,8 +624,9 @@ ppi.network</li>
 <ul>
 <li>ppi.network (or otherwise named by ppi.network.name)
 <ul>
-<li>A dataframe representing how strongly proteins are known to
-interact</li>
+<li>A dataframe representing how strongly proteins are known to interact
+based on previous research contained within provided database
+networks</li>
 </ul>
 </li>
 </ul>
@@ -709,7 +716,7 @@ cor_weight (and GM.raw.weights) is on a scale of 0-1</li>
 <h5 id="code-7">Code<a class="anchor" aria-label="anchor" href="#code-7"></a>
 </h5>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/PathwayCrosstalkNetwork.html">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">common.clusters</span>, edgelist.name <span class="op">=</span> <span class="st">"edgelist"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/PathwayCrosstalkNetwork.html" class="external-link">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">common.clusters</span>, edgelist.name <span class="op">=</span> <span class="st">"edgelist"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><strong>Figure 11</strong> Will exist at some point</p>
 </center>

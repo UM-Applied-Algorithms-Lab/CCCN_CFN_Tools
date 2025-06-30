@@ -3,9 +3,9 @@
 #' Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network usingall inputted data.
 #'
 #' @param string.edges Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database
-#' @param gm.network network produced by GeneMANIA if that was used; defaults to NA
+#' @param gm.network GeneMANIA network of protein-protein interactions from the genes of study; defaults to NA
 #' @param db.filepaths A vector of paths to the additional ppi network files; defaults to an empty vector
-#' @param ppi.network.name desired name of the output ppi network; defaults to "ppi.network"
+#' @param ppi.network.name Desired name for the output protein-protein interaction network using all entered database input; defaults to ppi.network
 #'
 #' @return A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks
 #' @export
