@@ -55,12 +55,12 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Turn bioplanet into a list of pathways. Pathways are character vectors comprised of gene names
   pathways.list <- plyr::dlply(bioplanet, plyr::.(PATHWAY_NAME)) #Turn the bioplanet .csv into a list of data frames. Each data frame stores genes with the same PATHWAY_ID
-  pathways.list <- lapply(pathways.list, `[`, 4) #Modifies all data frames in the list to only have the GENE_SYMBOL column. Uses [] as a function, which I did not know you could do in R. Very cool. 
+  pathways.list <- lapply(pathways.list, `[`, 4) #Modifies all data frames in the list to only have the GENE_SYMBOL column. Uses [] as a function, which I did not know you could do in R. Very cool.
   pathways.list <- lapply(pathways.list, unlist, use.names = FALSE) #Since data frames are 1 row, turn data frames into character vectors
 
 
-  
-  ###Jaccard Similarity### - Pathways x pathways where value is the intersection divided by union 
+
+  ###Jaccard Similarity### - Pathways x pathways where value is the intersection divided by union
   jaccard.matrix <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list)) #Create an empty matrix that is pathways x pathways
 
   #Rename
@@ -78,8 +78,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     }}
 
 <<<<<<< HEAD
-  
-  
+
+
   ###Pathway Cluster Evidence###  - A matrix of pathways x pathways whose values are found by using a custom formula that relates clusters and pathways
 =======
 
@@ -97,8 +97,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   }}
 
 
-  
-  ###Generate PCN network### - 
+
+  ###Generate PCN network### -
   temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Mark valuable clusters in CPE.matrix. Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
@@ -120,21 +120,16 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       track <- track+1 #Increase tracker
     }}
 
-<<<<<<< HEAD
-  
-  
-  ###Debug Variable Names### - DELETE ME
-=======
 
-  ###Debug Variable Names###
->>>>>>> documentation
+  ###Debug Variable Names### - DELETE ME
+
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
   assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
   assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv)     #DEBUG
   assign("temp.rows", temp.rows, envir = .GlobalEnv)           #DEBUG
 
-  
-  
+
+
   ###Save edgefile for cytoscape plotting###
   filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
   write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
