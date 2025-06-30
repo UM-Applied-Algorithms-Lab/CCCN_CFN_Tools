@@ -115,13 +115,15 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   
   
-  ###Debug Variable Names###
+  ###Debug Variable Names### - DELETE ME
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
   assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
   assign("PTP.edgelist", PTP.edgelist, envir = .GlobalEnv)     #DEBUG
   assign("temp.rows", temp.rows, envir = .GlobalEnv)           #DEBUG
 
-  #Save edgefiles for cytoscape plotting
+  
+  
+  ###Save edgefile for cytoscape plotting###
   filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
   write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
