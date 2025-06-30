@@ -85,33 +85,21 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
   #These were picked based on my limited knowledge of ppis
   #may easily be changed
   str.e <- interactions[interactions$experiments > 0, ]
-  str.n <- interactions[interactions$neighborhood > 0, ]
-  str.d <- interactions[interactions$database > 0, ]
-  str.co <- interactions[interactions$cooccurrence > 0, ]
-  str.ce <- interactions[interactions$coexpression > 0, ]
 
   cat("Filter result sizes:\n")
   cat("  Experimental:", nrow(str.e), "\n")
-  cat("  Neighborhood:", nrow(str.n), "\n")
-  cat("  Database:", nrow(str.d), "\n")
-  cat("  Cooccurrence:", nrow(str.co), "\n")
-  cat("  Coexpression:", nrow(str.ce), "\n")
 
   # Combine filtered interactions
-  combined_interactions <- unique(rbind(str.e, str.n, str.d, str.co, str.ce))
+  combined_interactions <- unique(rbind(str.e))
 
   cat("Combined interactions:", nrow(combined_interactions), "rows\n")
 
   # Assign edge types
   combined_interactions$edgeType <- "STRINGdb"
-  combined_interactions[combined_interactions$database > 0, "edgeType"] <- "database"
-  combined_interactions[combined_interactions$neighborhood > 0, "edgeType"] <- "neighborhood"
   combined_interactions[combined_interactions$experimental > 0, "edgeType"] <- "experimental"
-  combined_interactions[combined_interactions$cooccurrence > 0, "edgeType"] <- "cooccurrence"
-  combined_interactions[combined_interactions$coexpression > 0, "edgeType"] <- "coexpression"
 
   # Calculate weights
-  combined_interactions$Weight <- rowSums(combined_interactions[, c("experimental", "database", "neighborhood", "cooccurrence", "coexpression")])
+  combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments")])
   combined_interactions$Weight <- combined_interactions$Weight / 1000
 
   # Create the final edges dataframe from STRINGdb
