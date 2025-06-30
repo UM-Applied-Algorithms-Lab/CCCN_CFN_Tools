@@ -81,26 +81,21 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
   interactions$Gene.1 <- sapply(interactions$from, function(x) string.proteins[match(x, string.proteins$protein_external_id), "preferred_name"])
   interactions$Gene.2 <- sapply(interactions$to, function(x) string.proteins[match(x, string.proteins$protein_external_id), "preferred_name"])
 
-  # Filter interactions based on evidence typesAdd commentMore actions
-  #These were picked based on my limited knowledge of ppis
-  #may easily be changed
+  # Filter interactions based on evidence types
   str.e <- interactions[interactions$experiments > 0, ]
-
-  cat("Filter result sizes:\n")
-  cat("  Experimental:", nrow(str.e), "\n")
+  str.et <- interactions[interactions$experiments_transferred > 0, ]
 
   # Combine filtered interactions
-  combined_interactions <- unique(rbind(str.e))
-
-  cat("Combined interactions:", nrow(combined_interactions), "rows\n")
+  combined_interactions <- unique(rbind(str.e, str.et))
 
   # Assign edge types
   combined_interactions$edgeType <- "STRINGdb"
-  combined_interactions[combined_interactions$experimental > 0, "edgeType"] <- "experimental"
+  combined_interactions[combined_interactions$experiments > 0, "edgeType"] <- "experimental"
+  combined_interactions[combined_interactions$experiments_transferred > 0, "edgeType"] <- "experimental_transferred"
 
   # Calculate weights
-  combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments")])
-  combined_interactions$Weight <- combined_interactions$Weight / 1000
+  combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments", "experimental_transferred")])
+  # CURRENTLY ARE NOT DIVIDING BY 1000 TODO FIGURE OUT
 
   # Create the final edges dataframe from STRINGdb
   combined.edges <- interactions[, c("Gene.1", "Gene.2", "combined_score")]
