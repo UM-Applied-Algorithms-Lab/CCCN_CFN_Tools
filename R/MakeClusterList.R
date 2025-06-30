@@ -23,7 +23,7 @@ GetRtsne <- function(table, iter=5000){
 #' Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these.
 #' These calculations find the 'distance' between ptms based upon under what conditions they occur.
 #' These matricies are then run through t-SNE in order to put them into a 3-dimensional space.
-#'  A correlation table is also produced based on the Spearman Correlation table.
+#' A correlation table is also produced based on the Spearman Correlation table.
 #'
 #' Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 #'
