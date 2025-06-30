@@ -19,8 +19,6 @@ test_that("Testing Cluster 8, PTM 1", {expect_equal(list_123a$Spearman$`8`$PTM.N
 test_that("Testing Cluster 13, PTM 1", {expect_equal(list_123a$Spearman$`13`$PTM.Name[1], "ABCC1 ubi K290")})
 test_that("Testing Cluster 21, PTM 2", {expect_equal(list_123a$Spearman$`21`$PTM.Name[2], "ACKR3 ubi K362")})
 
-writeLines(""); writeLines("--- Finished Cluster List testing ---")
-
 #Cleanup
 rm(matrix_123a, envir = .GlobalEnv)
 rm(list_123a, envir = .GlobalEnv)
