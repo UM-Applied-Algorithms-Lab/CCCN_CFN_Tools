@@ -8,7 +8,7 @@ MakeCorrelationNetwork(
   clusterlist,
   ptm.correlation.matrix,
   keeplength = 2,
-  clusters.name = "common.clusters",
+  clusters.name = "clusters.common",
   cccn.name = "cccn.matrix"
 )
 }

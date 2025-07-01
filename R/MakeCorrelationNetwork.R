@@ -46,7 +46,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #'
 #' @examples
 #' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1, "ex.common.clusters", "ex.cccn")
-MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "common.clusters", cccn.name = "cccn.matrix"){
+MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", cccn.name = "cccn.matrix"){
 
   #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
   correlation.value <- function(Gene1, Gene2){

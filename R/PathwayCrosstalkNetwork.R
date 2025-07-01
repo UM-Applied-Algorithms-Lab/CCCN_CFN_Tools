@@ -63,7 +63,7 @@ PTP.evidence.edge <- function(col1, col2){
 #'
 #' @examples
 #' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "PTP_edgelist"){
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "edgelist"){
   #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
   if(class(file) == "character"){   #Loading .csv
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory.")) #Error Catch
