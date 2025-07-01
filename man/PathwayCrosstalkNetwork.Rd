@@ -7,7 +7,7 @@
 PathwayCrosstalkNetwork(
   file = "bioplanet.csv",
   clusterlist,
-  edgelist.name = "PTP_edgelist"
+  edgelist.name = "PTPedgelist"
 )
 }
 \arguments{
