@@ -70,7 +70,7 @@ BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c
     if("Gene.1" %in% colnames(string.edges) & "Gene.2" %in% colnames(string.edges) & length(colnames(string.edges)) == 3){  # check formatting
       ppi.network <- rbind(ppi.network, string.edges)                                                                       # initialize if good
     }
-    } else {}
+    } else {
     print("Improper formatting of string.edges. Ensure creation by GetSTRINGdb.")                                           # warning message else
   }
 
@@ -89,7 +89,6 @@ BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c
 
   # bind all of the db edges to the ppi.network
   if(length(db.filepaths) != 0){                         # if they entered database files of their own
-
     for(path in db.filepaths){                           # iterate through the file paths
 
       db.edges <- utils::read.table(path)                                                                          # get the info from the file
@@ -105,18 +104,13 @@ BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c
         print("There should be three columns with the third being the weights of the edges")
         next                                                                                                       # skip if num cols
       }
-
       if (length(rownames(ppi.network)) == 0){           # if didn't use STRINGdb or GeneMANIA it's a simple Rbind
-
         ppi.network <- rbind(ppi.network, db.edges)
-
       } else{                                            # did use STRINGdb and/or GeneMANIA it's my binding function
-
         ppi.network <- bind_ppis(ppi.network, db.edges)
       }
     }
   }
 
   assign(ppi.network.name, ppi.network, envir = .GlobalEnv)
-
 }
