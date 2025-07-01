@@ -15,10 +15,8 @@ Additionally, please check that you have R version 4.5, and STRINGdb installed b
 To install STRINGdb, use the following code (gathered from https://www.bioconductor.org/packages/release/bioc/html/STRINGdb.html):
 
 ```
-if (!require("BiocManager", quietly = TRUE)){install.packages("BiocManager")}
-
+if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 BiocManager::install("STRINGdb")
-
 library(STRINGdb)
 ```
 
