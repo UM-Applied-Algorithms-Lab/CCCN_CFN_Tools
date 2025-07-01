@@ -42,7 +42,7 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 #### Code  
 
 ```{r eval = FALSE}
-MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "clusters.list", toolong = 3.5)
+MakeClusterList(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", cccn.name = "cccn.matrix")
 ```
 
 <center>
