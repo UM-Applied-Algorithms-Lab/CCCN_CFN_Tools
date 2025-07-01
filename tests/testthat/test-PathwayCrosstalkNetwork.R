@@ -1,10 +1,10 @@
 #Load Sample Data
-
+sink(file="noprint_123a") #This redirects all printing to a file named print_123a
 PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters, edgelist.name = "edgelist_123a")
+sink()
 
 #Unit tests for the structures in PCN
 #Jaccard Weights
-writeLines(""); writeLines("Testing Edgelist Jaccard weights")
 test_that("Row 10 Jaccard Weight", {expect_equal(edgelist_123a$Jaccard_weight[[10]], 0.1428571,tolerance=0.00001)})
 test_that("Row 20 Jaccard Weight", {expect_equal(edgelist_123a$Jaccard_weight[[20]], 0,tolerance=0.00001)})
 test_that("Row 66 Jaccard Weight", {expect_equal(edgelist_123a$Jaccard_weight[[66]], 0.4285714,tolerance=0.00001)})
@@ -16,4 +16,5 @@ test_that("Row 56 PTP interaction evidence", {expect_equal(edgelist_123a$PTP_int
 
 #Cleanup
 rm("edgelist_123a", envir = .GlobalEnv) #remove the variable created
+file.remove("noprint_123a") #remove the noprint file
 file.remove("edgelist_123a.csv") #remove the edgelist file created
