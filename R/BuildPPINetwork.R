@@ -31,8 +31,8 @@ BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c
 
     for(i in 1:length(rownames(edgefile))){       # iterate through rows
 
-      gene1 <- edgefile[i,1]
-      gene2 <- edgefile[i,2]
+      gene1 <- edgefile$Gene.1[i]
+      gene2 <- edgefile$Gene.2[i]
       weight <- edgefile[i,3]
 
       row <- which(ppi.network[[1]] == gene1 & ppi.network[[2]] == gene2)
@@ -65,22 +65,55 @@ BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c
 
     }
 
-  # ppi is essentially initialized to the string.edges
-  # TODO: FIX FOR CASES WHERE USER DOES NOT USE STRINGDB!!!!
+  # ppi is essentially initialized to the string.edges if string.edges isn't NA
   if(is.data.frame(string.edges)){
-    ppi.network <- rbind(ppi.network, string.edges)
+    if("Gene.1" %in% colnames(string.edges) & "Gene.2" %in% colnames(string.edges) & length(colnames(string.edges)) == 3){  # check formatting
+      ppi.network <- rbind(ppi.network, string.edges)                                                                       # initialize if good
+    }
+    } else {}
+    print("Improper formatting of string.edges. Ensure creation by GetSTRINGdb.")                                           # warning message else
   }
 
   # Combine STRINGdb and GeneMANIA edges if gm.network exists
   if (is.data.frame(gm.network)){
-    ppi.network <- bind_ppis(ppi.network, gm.network)
+    if("Gene.1" %in% colnames(gm.network) & "Gene.2" %in% colnames(gm.network) & length(colnames(gm.network)) == 3){        # check formatting
+      if (length(rownames(ppi.network)) == 0){                                                                              # initialize if good
+        ppi.network <- rbind(ppi.network, gm.network)                                                                       # and no STRING
+      } else{                                                                                                               # bind w my func
+      ppi.network <- bind_ppis(ppi.network, gm.network)                                                                     # if STRING yes
+      }
+    } else {                                                                                                                # but if format BAD
+      print("Improper formatting of gm.network. Ensure processing by ProcessGMEdgefile.")                                   # warning message
+    }
   }
 
   # bind all of the db edges to the ppi.network
-  if(length(db.filepaths) != 0){
-    for(path in db.filepaths){
-      db.edges <- utils::read.table(path)
-      ppi.network <- bind_ppis(ppi.network, db.edges)
+  if(length(db.filepaths) != 0){                         # if they entered database files of their own
+
+    for(path in db.filepaths){                           # iterate through the file paths
+
+      db.edges <- utils::read.table(path)                                                                          # get the info from the file
+      if(!("Gene.1" %in% colnames(db.edges)) | !("Gene.2" %in% colnames(db.edges))){                               # check if colnames correct
+        print("Improper naming of column names in the following file:")                                            # warning message if not
+        cat(path)
+        print("First two columns should be labeled 'Gene.1' and 'Gene.2'. Skipping this database")
+        next                                                                                                       # skip if improper colnames
+      }
+      if(!(length(colnames(db.edges)) == 3)){                                                                      # check if wrong num cols
+        print("Improper number of columns in the following file:")                                                 # warning message if not
+        cat(path)
+        print("There should be three columns with the third being the weights of the edges")
+        next                                                                                                       # skip if num cols
+      }
+
+      if (length(rownames(ppi.network)) == 0){           # if didn't use STRINGdb or GeneMANIA it's a simple Rbind
+
+        ppi.network <- rbind(ppi.network, db.edges)
+
+      } else{                                            # did use STRINGdb and/or GeneMANIA it's my binding function
+
+        ppi.network <- bind_ppis(ppi.network, db.edges)
+      }
     }
   }
 
