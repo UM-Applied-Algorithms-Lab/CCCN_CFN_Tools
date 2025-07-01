@@ -84,21 +84,25 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
   # Filter interactions based on evidence types
   str.e <- interactions[interactions$experiments > 0, ]
   str.et <- interactions[interactions$experiments_transferred > 0, ]
+  str.d <- interactions[interactions$database > 0, ]
+  str.dt <- interactions[interactions$database_transferred > 0, ]
 
   # Combine filtered interactions
-  combined_interactions <- unique(rbind(str.e, str.et))
+  combined_interactions <- unique(rbind(str.e, str.et, str.d, str.dt))
 
   # Assign edge types
   combined_interactions$edgeType <- "STRINGdb"
   combined_interactions[combined_interactions$experiments > 0, "edgeType"] <- "experimental"
   combined_interactions[combined_interactions$experiments_transferred > 0, "edgeType"] <- "experimental_transferred"
+  combined_interactions[combined_interactions$database > 0, "edgeType"] <- "database"
+  combined_interactions[combined_interactions$database_transferred > 0, "edgeType"] <- "database_transferred"
 
   # Calculate weights
-  combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments", "experiments_transferred")])
+  combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments", "experiments_transferred", "database", "database_transferred")])
   # CURRENTLY ARE NOT DIVIDING BY 1000 TODO FIGURE OUT
 
   # Create the final edges dataframe from STRINGdb
-  combined.edges <- interactions[, c("Gene.1", "Gene.2", "combined_score")]
+  combined.edges <- interactions[, c("Gene.1", "Gene.2", "weight")]
   colnames(combined.edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
 
   # assign
