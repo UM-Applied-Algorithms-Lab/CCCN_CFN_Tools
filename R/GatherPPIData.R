@@ -46,7 +46,7 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #'
 #' @examples
 #' GetSTRINGdb(ex.cccn.matrix, ex.STRINGdb.edges, ex.nodenames)
-GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames") {
+GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "STRINGdb.edges", nodenames.name = "nodenames") {
   cccn_to_nodenames(cccn.matrix, nodenames.name)
 
   if (!exists("STRINGdb")){                          # check if stringdb is libraried
@@ -154,5 +154,5 @@ ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path
   keep <- edges$Gene.1 %in% nodenames & edges$Gene.2 %in% nodenames         # which rows are we keeping
   all.edges <- edges[keep,]                                                 # copy 'em over
 
-  assign(gm.network.name, as.data.frame(all.edges), envir = .GlobalEnv)                 # assign :)
+  assign(gm.network.name, as.data.frame(all.edges), envir = .GlobalEnv)     # assign :)
 }

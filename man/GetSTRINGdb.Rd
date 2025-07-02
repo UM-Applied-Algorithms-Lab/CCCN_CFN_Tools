@@ -6,7 +6,7 @@
 \usage{
 GetSTRINGdb(
   cccn.matrix,
-  STRINGdb.name = "string.edges",
+  STRINGdb.name = "STRINGdb.edges",
   nodenames.name = "nodenames"
 )
 }
