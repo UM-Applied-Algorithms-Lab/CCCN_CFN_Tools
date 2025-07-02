@@ -15,7 +15,7 @@
 #' ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "example.cfn")
 ClusterFilteredNetwork <- function(cccn.matrix, ppi.network, cfn.name = "cfn") {
 
-  cfn <- dataframe()                                       # initiate an empty dataframe
+  cfn <- data.frame(matrix(0,ncol = 3, nrow = 0))          # initiate an empty dataframe
   colnames(cfn) <- c("Gene.1", "Gene.2", "PPI.weight")     # name the columns
   len <- length(cfn) + 1                                   # length of assignment
 
