@@ -9,7 +9,7 @@
 #
 # @return A float value (cluster pathway evidence) between a cluster and pathway
 ClusterPathwayEvidence <- function(cluster, length, pathway, p.lookup){
-  sigma <- rep(0, length(pathway)) #Cluster Pathway Evidence will be found by taking the sum of this vector
+  sigma <- 0 #Cluster Pathway Evidence will be found by taking the sum of this vector
 
   #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
   cluster.format <- sapply(cluster, function(x) strsplit(x, ";", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
@@ -22,14 +22,10 @@ ClusterPathwayEvidence <- function(cluster, length, pathway, p.lookup){
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
     temp <- sum(cluster.weights[pathway[k] == cluster.format]) #The amount of times Gene k appears in cluster (can appear less than 1 time if Gene is apart of an ambiguous set like AARS ubi k747; ABCB1 p n40)
-    temp <- temp / p.lookup #Divide temp by the number of times Gene k appears in pathways in the pathway list
-    sigma[k] <- temp #Assign this value to sigma[k]
+    temp <- temp / (p.lookup[pathway[k]]*length) #Divide temp by the number of times Gene k appears in pathways in the pathway list. Multiply # of time gene appears in all pathways by the size of the cluster as apart of the large cluster penalty.
+    sigma <- sigma + temp #Add this value to sigma. 
   }
-
-  #Large cluster penalty -> as cluster size increases, CPE decreases. Divide every element in sigma by a constant (number of ptms in cluster, I count an ambiguous PTM as 1 PTM. Hence taking the size of the original data structure, before it is split)
-  sigma <- sigma*(1/length)
-
-  return(sum(sigma)) #Return
+  return(sigma) #Return
 }
 
 
