@@ -9,7 +9,7 @@
 # @param p.list  A lookup table of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
 #
 # @return A float value (cluster pathway evidence) between a cluster and pathway
-ClusterPathwayEvidence <- function(genes, weights=NULL, length, pathway, p.lookup){
+ClusterPathwayEvidence <- function(genes, weights, length, pathway, p.lookup){
   sigma <- 0 #Cluster Pathway Evidence will be found by taking the sum of this vector
   
   if(is.null(weights)) weights <- rep(1, length(genes)) #if weights is not provided, assume no ambiguous PTMs (this should never be triggered in current code)
