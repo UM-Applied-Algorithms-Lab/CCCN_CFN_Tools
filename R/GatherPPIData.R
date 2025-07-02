@@ -30,6 +30,7 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 
   #return :)
   assign(nodenames.name, nodenames, envir = .GlobalEnv)
+  return(nodenames)
 }
 
 
@@ -47,7 +48,7 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #' @examples
 #' GetSTRINGdb(ex.cccn.matrix, ex.stringdb.edges, ex.nodenames)
 GetSTRINGdb <- function(cccn.matrix, stringdb.name = "stringdb.edges", nodenames.name = "nodenames") {
-  cccn_to_nodenames(cccn.matrix, nodenames.name)
+  nodenames <- cccn_to_nodenames(cccn.matrix, nodenames.name)
 
   if (!exists("STRINGdb")){                          # check if stringdb is libraried
 
