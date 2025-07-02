@@ -38,15 +38,15 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #' This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 #'
 #' @param cccn.matrix A matrix showing strength of relationships between proteins using common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
-#' @param STRINGdb.name Desired name for the output STRINGdb data frame; defaults to "string.edges"
+#' @param STRINGdb.name Desired name for the output STRINGdb data frame; defaults to "stringdb.edges"
 #' @param nodes.name Desired name for list of gene names; defaults to nodenames
 #'
 #' @return Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database and a list of gene names
 #' @export
 #'
 #' @examples
-#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, "ex.string.edges", "ex.nodenames")
-GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames") {
+#' GetSTRINGdb(ex.cccn.matrix, ex.stringdb.edges, ex.nodenames)
+GetSTRINGdb <- function(cccn.matrix, stringdb.name = "stringdb.edges", nodenames.name = "nodenames") {
   cccn_to_nodenames(cccn.matrix, nodenames.name)
 
   if (!exists("STRINGdb")){                          # check if stringdb is libraried
@@ -107,7 +107,7 @@ GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.n
   colnames(combined.edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
 
   # assign
-  assign(STRINGdb.name, combined.edges, envir = .GlobalEnv)
+  assign(stringdb.name, combined.edges, envir = .GlobalEnv)
 }
 
 
@@ -154,5 +154,5 @@ ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path
   keep <- edges$Gene.1 %in% nodenames & edges$Gene.2 %in% nodenames         # which rows are we keeping
   all.edges <- edges[keep,]                                                 # copy 'em over
 
-  assign(gm.network.name, as.data.frame(all.edges), envir = .GlobalEnv)                 # assign :)
+  assign(gm.network.name, as.data.frame(all.edges), envir = .GlobalEnv)     # assign :)
 }

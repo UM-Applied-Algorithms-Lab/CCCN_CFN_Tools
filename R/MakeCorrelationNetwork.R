@@ -17,7 +17,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
   returnme <- list() #Innit empty list
 
   #Triple loop to look through every combination of elements of the list and compare them
-  for(a in 1:length(list1.ptms)){ 
+  for(a in 1:length(list1.ptms)){
     for(b in 1:length(list2.ptms)){
       for(c in 1:length(list3.ptms)){
         temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
@@ -31,7 +31,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 
 #' Make Correlation Network
 #'
-#' Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find
+#' Make Correlation Network first finds the intersection between the Euclidean, Spearman, and SED cluster matrices in order to find
 #' the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix.
 #' This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
 #' cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
@@ -82,7 +82,7 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   # Make igraph object, replacing NA with 0
   cccn.matrix[is.na(cccn.matrix)] <- 0 #Used to be function
   assign(clusters.name, clusters.common, envir = .GlobalEnv) #List of common clusters
-  assign(cccn.name, cccn.matrix, envir = .GlobalEnv) #CoCluster Correlation Network 
+  assign(cccn.name, cccn.matrix, envir = .GlobalEnv) #CoCluster Correlation Network
 
   #Graphing
   graph <- igraph::graph_from_adjacency_matrix(cccn.matrix, mode = "lower", diag = FALSE, weighted = "Weight")

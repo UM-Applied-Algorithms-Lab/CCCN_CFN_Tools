@@ -2,7 +2,7 @@
 #'
 #' Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network.
 #'
-#' @param string.edges Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database
+#' @param stringdb.edges Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database
 #' @param gm.network GeneMANIA network of protein-protein interactions from the genes of study; defaults to NA
 #' @param db.filepaths A vector of paths to the additional ppi network files; defaults to an empty vector
 #' @param ppi.network.name Desired name for the output protein-protein interaction network using all entered database input; defaults to ppi.network
@@ -15,9 +15,9 @@
 #' pack <- "cccn.cfn.tools"
 #' gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
 #' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
-BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
+BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
 
-  if (!is.data.frame(string.edges) && !is.data.frame(gm.network) && (length(db.filepaths) == 0)){
+  if (!is.data.frame(stringdb.edges) && !is.data.frame(gm.network) && (length(db.filepaths) == 0)){
     stop("No data input.")
   }
 
@@ -65,13 +65,13 @@ BuildPPINetwork <- function(string.edges = NA, gm.network = NA, db.filepaths = c
 
     }
 
-  # ppi is essentially initialized to the string.edges if string.edges isn't NA
-  if(is.data.frame(string.edges)){
-    if("Gene.1" %in% colnames(string.edges) & "Gene.2" %in% colnames(string.edges) & length(colnames(string.edges)) == 3){  # check formatting
-      ppi.network <- rbind(ppi.network, string.edges)                                                                       # initialize if good
+  # ppi is essentially initialized to the stringdb.edges if stringdb.edges isn't NA
+  if(is.data.frame(stringdb.edges)){
+    if("Gene.1" %in% colnames(stringdb.edges) & "Gene.2" %in% colnames(stringdb.edges) & length(colnames(stringdb.edges)) == 3){  # check formatting
+      ppi.network <- rbind(ppi.network, stringdb.edges)                                                                       # initialize if good
     }
     } else {
-    print("Improper formatting of string.edges. Ensure creation by GetSTRINGdb.")                                           # warning message else
+    print("Improper formatting of stringdb.edges. Ensure creation by GetSTRINGdb.")                                           # warning message else
   }
 
   # Combine STRINGdb and GeneMANIA edges if gm.network exists

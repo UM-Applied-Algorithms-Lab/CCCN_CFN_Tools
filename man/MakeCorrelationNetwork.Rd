@@ -27,11 +27,11 @@ MakeCorrelationNetwork(
 The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 }
 \description{
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find
+Make Correlation Network first finds the intersection between the Euclidean, Spearman, and SED cluster matrices in order to find
 the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix.
 This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
 cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 }
 \examples{
-MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1, "ex.common.clusters", "ex.cccn")
+MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1)
 }
