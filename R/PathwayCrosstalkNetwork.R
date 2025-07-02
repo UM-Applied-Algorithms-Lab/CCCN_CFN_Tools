@@ -2,26 +2,21 @@
 #
 # Helper function for obtaining cluster pathway evidence given a Cluster and Pathway
 #
-# @param cluster A cluster of genes/proteins (cannot be PTMs)
-# @param length  The length of the cluster (precompute)
+# @param genes A vector of strings containing all the gene names
+# @param weights A vector of numerics containing all the weights for genes. Should map 1:1 to the genes vector. This is for tracking ambiguous PTMs and how they modify weights. 
+# @param length  The length of the cluster (precomputed)
 # @param pathway A pathway of genes/proteins
 # @param p.list  A lookup table of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
 #
 # @return A float value (cluster pathway evidence) between a cluster and pathway
-ClusterPathwayEvidence <- function(cluster, length, pathway, p.lookup){
+ClusterPathwayEvidence <- function(genes, weights=NULL, length, pathway, p.lookup){
   sigma <- 0 #Cluster Pathway Evidence will be found by taking the sum of this vector
-
-  #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
-  cluster.format <- sapply(cluster, function(x) strsplit(x, ";", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
-  cluster.weights <- sapply(cluster.format, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto cluster.format,
-
-  cluster.format <- c(cluster, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
-  cluster.weights <- c(cluster.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
-  cluster.format <- sapply(cluster.format, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
-
+  
+  if(is.null(weights)) weights <- rep(1, length(genes)) #if weights is not provided, assume no ambiguous PTMs (this should never be triggered in current code)
+  
   #Calculate CPE score and add it to sigma
   for(k in 1:length(pathway)){
-    temp <- sum(cluster.weights[pathway[k] == cluster.format]) #The amount of times Gene k appears in cluster (can appear less than 1 time if Gene is apart of an ambiguous set like AARS ubi k747; ABCB1 p n40)
+    temp <- sum(weights[pathway[k] == genes]) #The amount of times Gene k appears in cluster (can appear less than 1 time if Gene is apart of an ambiguous set like AARS ubi k747; ABCB1 p n40)
     temp <- temp / (p.lookup[pathway[k]]*length) #Divide temp by the number of times Gene k appears in pathways in the pathway list. Multiply # of time gene appears in all pathways by the size of the cluster as apart of the large cluster penalty.
     sigma <- sigma + temp #Add this value to sigma. 
   }
@@ -103,10 +98,20 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   #Populate Matrix
   pathways.lookup <- table(bioplanet$GENE_SYMBOL) #Create a lookup table for how many times each gene appears in the pathways list 
   for(a in 1:nrow(CPE.matrix)){
-    clusterlength <- length(clusterlist[[a]]) #Precompute the length
-    for(b in 1:ncol(CPE.matrix)){ #Use ClusterPathwayEvidence function (found at top)
-      CPE.matrix[a, b] <- ClusterPathwayEvidence(clusterlist[[a]], clusterlength, pathways.list[[b]], pathways.lookup) #Call Cluster Pathway Evidence (above)
-  }}
+    #Precomputation steps for cluster
+    #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
+    gene.names <- sapply(clusterlist[[a]], function(x) strsplit(x, ";", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
+    gene.weights <- sapply(gene.names, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto gene.names,
+    
+    gene.names <- c(clusterlist[[a]], recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
+    gene.weights <- c(gene.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
+    gene.names <- sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
+    
+    cluster.length <- length(clusterlist[[a]]) #Precompute the length
+    
+    #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
+    for(b in 1:ncol(CPE.matrix)) CPE.matrix[a, b] <- ClusterPathwayEvidence(gene.names, gene.weights, cluster.length, pathways.list[[b]], pathways.lookup) #Call Cluster Pathway Evidence (above)
+  }
 
 
 
