@@ -10,7 +10,7 @@
 #
 # @return A float value (cluster pathway evidence) between a cluster and pathway
 ClusterPathwayEvidence <- function(genes, weights, length, pathway, p.lookup){
-  sigma <- 0 #Cluster Pathway Evidence will be found by taking the sum of this vector
+  sigma <- 0 #This is where the sum is stored
   
   if(is.null(weights)) weights <- rep(1, length(genes)) #if weights is not provided, assume no ambiguous PTMs (this should never be triggered in current code)
   
