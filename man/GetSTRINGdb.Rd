@@ -24,5 +24,5 @@ Data frame of consisting of the network of interactions from the genes of study 
 This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 }
 \examples{
-cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, "ex.string.edges", "ex.nodenames")
+GetSTRINGdb(ex.cccn.matrix, ex.STRINGdb.edges, ex.nodenames)
 }

@@ -45,7 +45,7 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #' @export
 #'
 #' @examples
-#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, "ex.string.edges", "ex.nodenames")
+#' GetSTRINGdb(ex.cccn.matrix, ex.STRINGdb.edges, ex.nodenames)
 GetSTRINGdb <- function(cccn.matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames") {
   cccn_to_nodenames(cccn.matrix, nodenames.name)
 
