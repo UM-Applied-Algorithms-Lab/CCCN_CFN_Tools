@@ -97,6 +97,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Populate Matrix
   pathways.lookup <- table(bioplanet$GENE_SYMBOL) #Create a lookup table for how many times each gene appears in the pathways list 
+  
+  
   for(a in 1:nrow(CPE.matrix)){
     #Precomputation steps for cluster
     #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
@@ -105,12 +107,14 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     
     gene.names <- c(clusterlist[[a]], recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
     gene.weights <- c(gene.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
-    gene.names <- sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
     
+    #Create a gene lookup table that stores the number of times every gene appears in the cluster. Accessed like: temp[['ABCA3']] gives the # of times ABCA3 appears. 
+    gene.lookup <- table(sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
     cluster.length <- length(clusterlist[[a]]) #Precompute the length
     
+    
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
-    for(b in 1:ncol(CPE.matrix)) CPE.matrix[a, b] <- ClusterPathwayEvidence(gene.names, gene.weights, cluster.length, pathways.list[[b]], pathways.lookup) #Call Cluster Pathway Evidence (above)
+    for(b in 1:ncol(CPE.matrix)) CPE.matrix[a, b] <- sum(gene.lookup[pathways.list[[b]]], na.rm=TRUE)/(sum(pathways.lookup[pathways.list[[b]]], na.rm=TRUE)*cluster.length)
   }
 
 
