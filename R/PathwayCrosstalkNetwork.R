@@ -1,30 +1,3 @@
-# Cluster Pathway Evidence
-#
-# Helper function for obtaining cluster pathway evidence given a Cluster and Pathway
-#
-# @param genes A vector of strings containing all the gene names
-# @param weights A vector of numerics containing all the weights for genes. Should map 1:1 to the genes vector. This is for tracking ambiguous PTMs and how they modify weights. 
-# @param length  The length of the cluster (precomputed)
-# @param pathway A pathway of genes/proteins
-# @param p.list  A lookup table of pathways to calculate the # of pathways a gene, k, is in (pathways.list created in PathwayCrosstalkNetwork)
-#
-# @return A float value (cluster pathway evidence) between a cluster and pathway
-ClusterPathwayEvidence <- function(genes, weights, length, pathway, p.lookup){
-  sigma <- 0 #This is where the sum is stored
-  
-  if(is.null(weights)) weights <- rep(1, length(genes)) #if weights is not provided, assume no ambiguous PTMs (this should never be triggered in current code)
-  
-  #Calculate CPE score and add it to sigma
-  for(k in 1:length(pathway)){
-    temp <- sum(weights[pathway[k] == genes]) #The amount of times Gene k appears in cluster (can appear less than 1 time if Gene is apart of an ambiguous set like AARS ubi k747; ABCB1 p n40)
-    temp <- temp / (p.lookup[pathway[k]]*length) #Divide temp by the number of times Gene k appears in pathways in the pathway list. Multiply # of time gene appears in all pathways by the size of the cluster as apart of the large cluster penalty.
-    sigma <- sigma + temp #Add this value to sigma. 
-  }
-  return(sigma) #Return
-}
-
-
-
 # PTP Evidence Edge
 # 
 # Checks 2 columns of a matrix and returns the sum of all rows where both values in the row are nonzero
@@ -97,8 +70,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Populate Matrix
   pathways.lookup <- table(bioplanet$GENE_SYMBOL) #Create a lookup table for how many times each gene appears in the pathways list 
-  
-  
   for(a in 1:nrow(CPE.matrix)){
     #Precomputation steps for cluster
     #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
@@ -133,13 +104,12 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   track <- 1 #First Empty row in the data frame
   for(i in 1:length(temp.rows)){
     nodes <- combn(temp.rows[[i]], 2) #Get every node pair (permutations where order doesn't matter of a string vector). Stored as a matrix.
-    cluster <- names(temp.rows)[[i]]  #Get the name of the cluster that the connection was found in
+    
+    #Definitely change to sapply here
     for(pathway in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
       PTP.edgelist[track, 1:2] <- pathway #Add row from nodes to empty spot in the edgefiles
-      path1 <- pathway[[1]] #These are strings representing the names of the pathways. Used to access data from data structures.
-      path2 <- pathway[[2]]
-      PTP.edgelist[track, 3] <- jaccard.matrix[path1, path2] #Add the jaccard weight to the edgelist
-      PTP.edgelist[track, 4] <- PTP.evidence.edge(CPE.matrix[,path1], CPE.matrix[,path2]) #Pass in two columns of CPE.matrix to custom function. NOT SURE IF CORRECT. Take the sum of two CPE's, between the same cluster for pathway j[[1]] and j[[2]]
+      PTP.edgelist[track, 3] <- jaccard.matrix[pathway[[1]], pathway[[2]]] #Add the jaccard weight to the edgelist
+      PTP.edgelist[track, 4] <- sum(CPE.matrix[,pathway[[1]]]) + sum(CPE.matrix[,pathway[[2]]]) #Sum both columns 
 
       track <- track+1 #Increase tracker
     }}
