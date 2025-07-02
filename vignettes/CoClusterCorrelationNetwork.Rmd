@@ -142,12 +142,12 @@ Note again that the database input can be used in any PPI database that the user
 #### Code  
 
 ```{r eval = FALSE}
-GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "nodenames")
+GetSTRINGdb(cccn_matrix, STRINGdb.name = "stringdb.edges", nodenames.name = "nodenames")
 ```
 
 <center>
 ![](vig_figs/string-edges.png)  
-**Figure 5** First 18 rows of string.edges produced by GetSTRINGdb  
+**Figure 5** First 18 rows of stringdb.edges produced by GetSTRINGdb  
 
 <p>&nbsp;</p>
 
@@ -161,12 +161,12 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "string.edges", nodenames.name = "noden
 - cccn.matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - STRINGdb.name  
-  - Desired name for STRINGdb data; defaults to string.edges  
+  - Desired name for STRINGdb data; defaults to stringdb.edges  
 - nodenames.name  
   - Desired name for list of gene names; defaults to nodenames
 
 #### Output  
-- string.edges (or otherwise named by STRINGdb.name)  
+- stringdb.edges (or otherwise named by STRINGdb.name)  
   - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database  
 - nodenames (or otherwise named by nodenames.name)  
   - List of gene names  
@@ -260,7 +260,7 @@ The purpose of BuildPPINetwork is to combine the data about desired protein-prot
 
 #### Input  
 
-- string.edges (produced optionally in step 3)  
+- stringdb.edges (produced optionally in step 3)  
   - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database; defaults to NA  
 - gm.network (produced optionally in step 3)  
   - GeneMANIA network of protein-protein interactions from the genes of study; defaults to NA  
