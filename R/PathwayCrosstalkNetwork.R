@@ -108,8 +108,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     #Definitely change to sapply here
     for(pathway in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
       PTP.edgelist[track, 1:2] <- pathway #Add row from nodes to empty spot in the edgefiles
-      PTP.edgelist[track, 3] <- jaccard.matrix[pathway[[1]], pathway[[2]]] #Add the jaccard weight to the edgelist
-      PTP.edgelist[track, 4] <- sum(CPE.matrix[,pathway[[1]]]) + sum(CPE.matrix[,pathway[[2]]]) #Sum both columns 
+      PTP.edgelist[track, 3] <- jaccard.matrix[pathway[1], pathway[2]] #Add the jaccard weight to the edgelist
+      PTP.edgelist[track, 4] <- sum(CPE.matrix[,pathway[1]]) + sum(CPE.matrix[,pathway[2]]) #Sum both columns 
 
       track <- track+1 #Increase tracker
     }}
