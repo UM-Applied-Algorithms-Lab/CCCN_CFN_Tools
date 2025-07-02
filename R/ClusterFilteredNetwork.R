@@ -1,5 +1,3 @@
-##WORK IN PROG. JUST COPIED OVER FROM KEYFUNCTIONS##
-
 #' Filter PPI Network by Known Clusters
 #'
 #' All edges in the PPI network are checked against the cocluster correlation network to ensure existence and a non-zero weight.
@@ -17,23 +15,37 @@
 #' ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "example.cfn")
 ClusterFilteredNetwork <- function(cccn.matrix, ppi.network, cfn.name = "cfn") {
 
-  #Loop through ppi.network and assign every row that matches genenames to an include vector
-  include <- c()
-  weights <- c() #CFN
-  for(a in 1:length(rownames(ppi.network))){
-    #Initilization
-    Gene1 <- ppi.network[a, 1] #Get gene from row a, first col
-    Gene2 <- ppi.network[a, 2] #Get gene from row a, second col
-    if(Gene1 %in% colnames(cccn.matrix) && Gene2 %in% rownames(cccn.matrix)){
-      cmw <- cccn.matrix[Gene1, Gene2] #Get the weight
-      if(cmw != 0){ #If the weight is nonzero
-        include[length(include)+1] <- a
-        weights[length(weights)+1] <- cmw
-  }}}
+  cfn <- dataframe()                                       # initiate an empty dataframe
+  colnames(cfn) <- c("Gene.1", "Gene.2", "PPI.weight")     # name the columns
+  len <- length(cfn) + 1                                   # length of assignment
 
-  #Assign
-  cfn <- ppi.network[include, ] #cfn should only take rows that have been identified by include
-  if(nrow(cfn) == 0) stop("No common edges between PPI edges and cccn.matrix") #Throw error if no intersection found
-  cfn$cor_weight <- weights
-  assign(cfn.name, cfn, envir = .GlobalEnv) #Cluster Filtered Network
+  for(row.num in length(rownames(ppi.network))){           # iterate through the rows of ppi
+
+    Gene1 <- ppi.network$Gene.1           # grab gene1
+    Gene2 <- ppi.network$Gene.2           # grab gene2
+    weights <- ppi.network[row.num, ]     # make a list of the row
+    weights <- weights[c(-1, -2)]         # remove the gene names, left with the weights
+    weight <- sum(weights)                # sum them up to get the total weight
+
+
+    if(Gene1 %in% rownames(cccn.matrix) & Gene2 %in% colnames(cccn.matrix)) {  # check existence in cccn.matrix
+      if(!(cccn.matrix[Gene1,Gene2] == 0)){                                    # check nonzero weight
+
+        cfn[len, ] <- c(Gene1, Gene2, weight)  # assign the info to a new row in cfn
+        len <- len + 1                         # increment rows
+
+      }
+    } else if(Gene1 %in% colnames(cccn.matrix) & Gene2 %in% rownames(cccn.matrix)) {  # This is so very overkill
+      if(!(cccn.matrix[Gene2,Gene1] == 0)){                                           # but we were experiencing some errors before
+
+        cfn[len, ] <- c(Gene1, Gene2, weight)                                         # so wanted to check both rownames and colnames incasekies
+        len <- len + 1
+
+      }
+    }
+
+    assign(cfn.name, cfn, envir = .GlobalEnv)    # assign :)
+
+  }
 }
+
