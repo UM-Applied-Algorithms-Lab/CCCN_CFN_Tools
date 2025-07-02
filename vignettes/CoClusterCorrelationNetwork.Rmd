@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 ```
 
 # This Package  
-The CCCN_CFN package takes experimental data of post-translational modifications based on experimental conditions and generates clusters of likely pathways. These pathways are generated based on analysis of which ptms cluster together (in their ptms based on the same environmental conditions) compared to how those proteins are known to interact (using the STRINGdb database).
+The CCCN_CFN package takes experimental data of post-translational modifications based on experimental conditions and implicates pathways that are involved. These pathways are generated based on analysis of which ptms cluster together (in their ptms based on the same environmental conditions) compared to how those proteins are known to interact.
 
 **An important note about this package:** there are no returned outputs from any of the functions. All outputs listed are assigned to the Global Namespace in order to prevent loss of data and promote ease of use. Some functions also pull variables from the global namespace. Ensure that all data is loaded into the global environment especially if analysis is completed across multiple sessions.  
 
