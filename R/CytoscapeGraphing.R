@@ -27,16 +27,48 @@ GraphCfn <- function(cfn, network.name = "cfn.cytoscape"){
 
   createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = "cfn-test-network", collection = "cfn-testing")
 
+  # CUSTOMIZATION FROM HERE ON OUT
+
+  setBackgroundColorDefault('#EDC8FF')              # self explanatory
+
+  # edge stuff
+  setEdgeFontFaceDefault()                          # set font of edge
+  setEdgeFontSizeDefault()                          #
+  setEdgeOpacityDefault(175)                        # 0 - 255
+  setEdgeLabelColorDefault()                        #
+  setEdgeLabelDefault()                             #
+  setEdgeLabelOpacityDefault()                      #
+  setEdgeLineStyleDefault()                         #
+  setEdgeLineWidthDefault()                         #
+  setEdgeOpacityDefault()                           #
+  setEdgeColorDefault('#899499')                    # self explanatory
+  # arrow stuff
+  setEdgeSourceArrowColorDefault()                  #
+  setEdgeSourceArrowShapeDefault()                  #
+  setEdgeTargetArrowColorDefault()                  #
+  setEdgeTargetArrowShapeDefault()                  #
+
+  # node stuff
   setNodeShapeDefault("VEE")                        # "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"
   setNodeSizeDefault(50)                            # self explanatory
-  setEdgeOpacityDefault(175)                        # 0 - 255
+  # border stuff
+  setNodeBorderColorDefault()                       #
+  setNodeBorderOpacityDefault()                     #
+  setNodeBorderWidthDefault()                       #
+  # else
+  setNodeColorDefault()                             #
+  setNodeFillOpacityDefault()                       #
+  setNodeFontFaceDefault()
+  setNodeFontSizeDefault()                          #
+  setNodeHeightDefault()                            #
+  setNodeLabelColorDefault()                        #
+  setNodeLabelOpacityDefault()                      #
+  setNodeWidthDefault()                             #
   setNodeLabelPositionDefault("C", "C", "c", 0, 0)  # What part of the node label is aligned "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
                                                     # to what part of the node graphic       "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
                                                     # "l", "r", "c"
                                                     # amount offset in the x direction
                                                     # amount offset in the y direction
-  setBackgroundColorDefault('#EDC8FF')              # self explanatory
-  setEdgeColorDefault('#899499')                    # self explanatory
 
   # mapVisualProperty(visual.property, table.column, mapping.type, table.column.values, visual.prop.values)
   # visual.properties can be found with ?mapVisualProperty (thank god) some useful ones are: "node label", "node fill color", "Edge Target Arrow Shape", many more
