@@ -135,27 +135,6 @@
 
 
 
-#' GeneMANIA Empty Edges Example
-#'
-#' Empty GeneMANIA structure. TODO: fix.
-#'
-#' @keywords internal
-#'
-#' @format Dataframe of 0 rows and 4 columns:
-#' \describe{
-#'   \item{Gene.1}{The gene interacting with Gene.2}
-#'   \item{Gene.2}{The gene interacting with Gene.1}
-#'   \item{Weight}{Strength of the interaction}
-#'   \item{Network.group}{Type of interaction}
-#' }
-#' @source \url{https://genemania.org}
-#' @examples
-#' data(ex.gm_edges)
-#' head(ex.gm_edges)
-"ex.gm_edges"
-
-
-
 #' List of Common Clusters Example
 #'
 #' (description)
