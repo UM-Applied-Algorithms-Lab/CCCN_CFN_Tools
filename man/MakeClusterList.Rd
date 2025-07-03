@@ -34,5 +34,5 @@ A correlation table is also produced based on the Spearman Correlation table.
 Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 }
 \examples{
-MakeClusterList(ex.ptmtable, "example.cor", "example.tsne", 3.5)
+MakeClusterList(ex.ptmtable, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
 }

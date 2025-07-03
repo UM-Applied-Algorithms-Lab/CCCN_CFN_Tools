@@ -35,7 +35,7 @@ GetRtsne <- function(table, iter=5000){
 #' @export
 #'
 #' @examples
-#' MakeClusterList(ex.ptmtable, "example.cor", "example.tsne", 3.5)
+#' MakeClusterList(ex.ptmtable, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
 MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "clusters.list", toolong = 3.5){
 
   #SPEARMAN CALCULATION

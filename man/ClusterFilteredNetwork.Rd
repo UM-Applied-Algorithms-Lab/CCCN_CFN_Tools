@@ -22,5 +22,5 @@ If either of these conditions are not met, then it will be removed from the list
 This new, cluster filtered network is then assigned to the global namespace.
 }
 \examples{
-ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "example.cfn")
+ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "ex.cfn")
 }
