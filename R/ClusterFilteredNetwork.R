@@ -21,8 +21,8 @@ ClusterFilteredNetwork <- function(cccn.matrix, ppi.network, cfn.name = "cfn") {
 
   for(row.num in length(rownames(ppi.network))){           # iterate through the rows of ppi
 
-    Gene1 <- ppi.network$Gene.1           # grab gene1
-    Gene2 <- ppi.network$Gene.2           # grab gene2
+    Gene1 <- ppi.network$Gene.1[row.num]  # grab gene1
+    Gene2 <- ppi.network$Gene.2[row.num]  # grab gene2
     weights <- ppi.network[row.num, ]     # make a list of the row
     weights <- weights[c(-1, -2)]         # remove the gene names, left with the weights
     weight <- sum(weights)                # sum them up to get the total weight
