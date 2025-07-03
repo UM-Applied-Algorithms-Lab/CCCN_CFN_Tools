@@ -4,7 +4,7 @@
 \alias{GraphCfn}
 \title{Graph Cluster Filtered Network}
 \usage{
-GraphCfn(cfn)
+GraphCfn(cfn, network.name = "cfn.cytoscape")
 }
 \arguments{
 \item{cfn}{A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights}
@@ -13,7 +13,7 @@ GraphCfn(cfn)
 A cytoscape graph of the cluster filtered network
 }
 \description{
-Creates a cytoscape graph of the cluster filtered network.
+Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 }
 \examples{
 GraphCFN(ex.cfn)

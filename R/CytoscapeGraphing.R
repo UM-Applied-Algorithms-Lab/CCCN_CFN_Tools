@@ -1,6 +1,6 @@
 #' Graph Cluster Filtered Network
 #'
-#' Creates a cytoscape graph of the cluster filtered network.
+#' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 #'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #'
