@@ -102,7 +102,7 @@ GetSTRINGdb <- function(cccn.matrix, stringdb.name = "stringdb.edges", nodenames
   combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments", "experiments_transferred", "database", "database_transferred")])
 
   # Create the final edges dataframe from STRINGdb
-  combined.edges <- interactions[, c("Gene.1", "Gene.2", "weight")]
+  combined.edges <- combined_interactions[, c("Gene.1", "Gene.2", "Weight")]
   colnames(combined.edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
 
   # assign
