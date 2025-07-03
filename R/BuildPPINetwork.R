@@ -49,17 +49,19 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
           newrow[[len]] <- weight
 
           ppi.network <- rbind(ppi.network, newrow)                 # combine
+        }
 
-          next # DON'T DOUBLE ASSIGN, DUMMY
+      } else {                                  # if combo DOES exist
 
-                  }
+        for(index in row){                      # iterate through the combinations
+        ppi.network[index, len] <- weight       # assign the weight
+
+        }
       }
-
-      for(index in row){
-      ppi.network[index, len] <- weight
-      }
-
     }
+
+    maxi <- max(ppi.network[[columname]], na.rm = TRUE)                                   # get max of column
+    ppi.network[[columname]] <- sapply(ppi.network[[columname]], function(x) (x / maxi))  # divide by max to get scale of 0-1
 
     return(ppi.network)
 
@@ -67,8 +69,14 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
 
   # ppi is essentially initialized to the stringdb.edges if stringdb.edges isn't NA
   if(is.data.frame(stringdb.edges)){
-    if("Gene.1" %in% colnames(stringdb.edges) & "Gene.2" %in% colnames(stringdb.edges) & length(colnames(stringdb.edges)) == 3){  # check formatting
-      ppi.network <- rbind(ppi.network, stringdb.edges)                                                                       # initialize if good
+    if("Gene.1" %in% colnames(stringdb.edges)[-3] & "Gene.2" %in% colnames(stringdb.edges)[-3] & length(colnames(stringdb.edges)) == 3){  # check formatting
+
+      columname <- colnames(stringdb.edges)[3]                                              # get column name
+
+      ppi.network <- rbind(ppi.network, stringdb.edges)                                     # initialize ppi.network w rbind
+
+      maxi <- max(ppi.network[[columname]], na.rm = TRUE)                                   # get the max
+      ppi.network[[columname]] <- sapply(ppi.network[[columname]], function(x) (x / maxi))  # divide each by max for scale 0-1
     }
     } else {
     print("Improper formatting of stringdb.edges. Ensure creation by GetSTRINGdb.")                                           # warning message else
@@ -76,14 +84,14 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
 
   # Combine STRINGdb and GeneMANIA edges if gm.network exists
   if (is.data.frame(gm.network)){
-    if("Gene.1" %in% colnames(gm.network) & "Gene.2" %in% colnames(gm.network) & length(colnames(gm.network)) == 3){        # check formatting
-      if (length(rownames(ppi.network)) == 0){                                                                              # initialize if good
-        ppi.network <- rbind(ppi.network, gm.network)                                                                       # and no STRING
-      } else{                                                                                                               # bind w my func
-      ppi.network <- bind_ppis(ppi.network, gm.network)                                                                     # if STRING yes
+    if("Gene.1" %in% colnames(gm.network)[-3] & "Gene.2" %in% colnames(gm.network)[-3] & length(colnames(gm.network)) == 3){  # check formatting
+      if (length(rownames(ppi.network)) == 0){                                                                                # initialize if good
+        ppi.network <- rbind(ppi.network, gm.network)                                                                         # and no STRING
+      } else{                                                                                                                 # bind w my func
+      ppi.network <- bind_ppis(ppi.network, gm.network)                                                                       # if STRING yes
       }
-    } else {                                                                                                                # but if format BAD
-      print("Improper formatting of gm.network. Ensure processing by ProcessGMEdgefile.")                                   # warning message
+    } else {                                                                                                                  # but if format BAD
+      print("Improper formatting of gm.network. Ensure processing by ProcessGMEdgefile.")                                     # warning message
     }
   }
 
@@ -92,7 +100,7 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
     for(path in db.filepaths){                           # iterate through the file paths
 
       db.edges <- utils::read.table(path)                                                                          # get the info from the file
-      if(!("Gene.1" %in% colnames(db.edges)) | !("Gene.2" %in% colnames(db.edges))){                               # check if colnames correct
+      if(!("Gene.1" %in% colnames(db.edges)[-3]) | !("Gene.2" %in% colnames(db.edges)[-3])){                               # check if colnames correct
         print("Improper naming of column names in the following file:")                                            # warning message if not
         cat(path)
         print("First two columns should be labeled 'Gene.1' and 'Gene.2'. Skipping this database")
