@@ -120,5 +120,6 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
     }
   }
 
+  ppi.network <- unique(ppi.network)
   assign(ppi.network.name, ppi.network, envir = .GlobalEnv)
 }
