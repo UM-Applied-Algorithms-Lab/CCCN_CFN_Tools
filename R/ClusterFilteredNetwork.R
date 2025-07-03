@@ -17,15 +17,15 @@ ClusterFilteredNetwork <- function(cccn.matrix, ppi.network, cfn.name = "cfn") {
 
   cfn <- data.frame(matrix(0,ncol = 3, nrow = 0))          # initiate an empty dataframe
   colnames(cfn) <- c("Gene.1", "Gene.2", "PPI.weight")     # name the columns
-  len <- length(cfn) + 1                                   # length of assignment
+  len <- length(rownames(cfn)) + 1                         # length of assignment
 
-  for(row.num in length(rownames(ppi.network))){           # iterate through the rows of ppi
+  for(row.num in 1:length(rownames(ppi.network))){         # iterate through the rows of ppi
 
     Gene1 <- ppi.network$Gene.1[row.num]  # grab gene1
     Gene2 <- ppi.network$Gene.2[row.num]  # grab gene2
     weights <- ppi.network[row.num, ]     # make a list of the row
     weights <- weights[c(-1, -2)]         # remove the gene names, left with the weights
-    weight <- sum(weights)                # sum them up to get the total weight
+    weight <- sum(weights[1, ])           # sum them up to get the total weight
 
 
     if(Gene1 %in% rownames(cccn.matrix) & Gene2 %in% colnames(cccn.matrix)) {  # check existence in cccn.matrix
