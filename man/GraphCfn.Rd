@@ -4,10 +4,14 @@
 \alias{GraphCfn}
 \title{Graph Cluster Filtered Network}
 \usage{
-GraphCfn(cfn, network.name = "cfn.cytoscape")
+GraphCfn(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools")
 }
 \arguments{
 \item{cfn}{A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights}
+
+\item{Network.title}{Desired title for the created Cytoscape Network}
+
+\item{Network.collection}{Desired name for the collection created on Cytoscape in which the network will reside}
 }
 \value{
 A cytoscape graph of the cluster filtered network

@@ -3,13 +3,15 @@
 #' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 #'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
+#' @param Network.title Desired title for the created Cytoscape Network
+#' @param Network.collection Desired name for the collection created on Cytoscape in which the network will reside
 #'
 #' @return A cytoscape graph of the cluster filtered network
 #' @export
 #'
 #' @examples
 #' GraphCFN(ex.cfn)
-GraphCfn <- function(cfn, network.name = "cfn.cytoscape"){
+GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools"){
 
   genes <- unique(c(cfn$Gene.1, cfn$Gene.2))
 
@@ -25,7 +27,7 @@ GraphCfn <- function(cfn, network.name = "cfn.cytoscape"){
 
   cfn.nodes$id <- genes
 
-  createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = "cfn-test-network", collection = "cfn-testing")
+  createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
 
   # CUSTOMIZATION FROM HERE ON OUT
 
