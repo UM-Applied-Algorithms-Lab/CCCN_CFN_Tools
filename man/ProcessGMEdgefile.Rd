@@ -27,5 +27,8 @@ Data frame of consisting of the network of interactions from the genes of study
 This function processes the GM edgefile and translates it back into gene names using the nodetable.
 }
 \examples{
-cccn.cfn.tools:::ex.ProcessGMEdgefile(ex.gm.edges, ex.gm.nodes, "ex.nodenames", ex.gm.network)
+ex.edgefile <- system.file("extdata/ex_gm_edgetable.csv", package = "yourpackagename")
+ex.nodefile <- system.file("extdata/ex_gm_nodetable.csv", package = "yourpackagename")
+ex.db.nodes  <- system.file("extdata/ex_db_nodes.txt", package = "yourpackagename")
+ProcessGMEdgefile(ex.edgefile, ex.nodefile, ex.db.nodes, "ex.gm.network")
 }
