@@ -256,7 +256,7 @@ BuildPPINetwork(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.networ
 
 **Note:** Examples take about 5-10 minutes to run.
 
-The purpose of BuildPPINetwork is to combine the data about desired protein-protein interactions from each of the provided databases. This package explicitly processes STRINGdb and GeneMANIA in Step 3, but the user may consult as many databases as desired (the processing for which is described in Step 3). BuildPPINetwork combines these databases as efficiently as possible while retaining desired edgeweights from each database.  
+The purpose of BuildPPINetwork is to combine the data about desired protein-protein interactions from each of the provided databases. This package explicitly processes STRINGdb and GeneMANIA in Step 3, but the user may consult as many databases as desired (the processing for which is described in Step 3). BuildPPINetwork combines these databases as efficiently as possible while retaining desired edgeweights from each database. BuildPPINetwork also removes duplicate rows from the data frame.  
 
 #### Input  
 
