@@ -11,7 +11,7 @@
 #' GraphCFN(ex.cfn)
 GraphCfn <- function(cfn, network.name = "cfn.cytoscape"){
 
-  genes <- unique(rbind(cfn$Gene.1, cfn$Gene.2))
+  genes <- unique(c(cfn$Gene.1, cfn$Gene.2))
 
   cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4))
   cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3))
@@ -24,5 +24,7 @@ GraphCfn <- function(cfn, network.name = "cfn.cytoscape"){
   cfn.edges$weight <- cfn$PPI.weight
 
   cfn.nodes$id <- genes
+
+  createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = "cfn-test-network", collection = "cfn-testing")
 
 }
