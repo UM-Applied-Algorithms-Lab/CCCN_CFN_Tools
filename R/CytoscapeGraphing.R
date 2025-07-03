@@ -8,10 +8,7 @@
 #' @export
 #'
 #' @examples
-#' gmpath <- "genemania-interactions.txt"
-#' pack <- "cccn.cfn.tools"
-#' gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
-#' cccn.cfn.tools:::ex.FindPPIEdges(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
+#' GraphCFN(ex.cfn)
 GraphCfn <- function(cfn){
 
 }
