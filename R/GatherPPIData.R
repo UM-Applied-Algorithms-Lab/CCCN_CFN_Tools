@@ -100,8 +100,6 @@ GetSTRINGdb <- function(cccn.matrix, stringdb.name = "stringdb.edges", nodenames
 
   # Calculate weights
   combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments", "experiments_transferred", "database", "database_transferred")])
-  #combined_interactions$Weight <- combined_interactions$weight / max(combined_interactions$weight)
-  # ^^^^^^^^ this code uncommented would set on scale of 0-1
 
   # Create the final edges dataframe from STRINGdb
   combined.edges <- interactions[, c("Gene.1", "Gene.2", "weight")]
