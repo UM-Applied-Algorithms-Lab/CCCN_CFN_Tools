@@ -22,8 +22,7 @@ Imports:
     utils,
     BiocManager,
     STRINGdb,
-    RCy3,
-    magick
+    RCy3
 Suggests: 
     knitr,
     rmarkdown,

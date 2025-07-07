@@ -86,8 +86,11 @@ A cytoscape graph of the cluster filtered network
 \description{
 Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 }
+\section{Default Network Diagram}{
+
+\figure{figures/cytoscape_graph.png}
+}
+
 \examples{
 #GraphCFN(ex.cfn)
-cytoscape.pic <- system.file("extdata/cytoscape_graph.png", package = "cccn.cfn.tools")
-print(magick::image_read(cytoscape.pic))
 }

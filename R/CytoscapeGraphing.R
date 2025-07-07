@@ -35,10 +35,11 @@
 #' @return A cytoscape graph of the cluster filtered network
 #' @export
 #'
+#' @section Default Network Diagram:
+#' ![](figures/cytoscape_graph.png)
+#'
 #' @examples
 #' #GraphCFN(ex.cfn)
-#' cytoscape.pic <- system.file("extdata/cytoscape_graph.png", package = "cccn.cfn.tools")
-#' print(magick::image_read(cytoscape.pic))
 GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools",
                      background.color = '#fcf3cf', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#145a32', node.fill.color = '#a9dfbf',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
