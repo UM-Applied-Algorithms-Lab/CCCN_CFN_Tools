@@ -105,9 +105,9 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
   ###Save edgefile for cytoscape plotting###
-  #filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
-  #utils::write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
+  filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
+  utils::write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
   #Tell the user where their files got put
-  #cat(filename, "made in directory:", getwd())
+  cat(filename, "made in directory:", getwd())
 }
