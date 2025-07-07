@@ -90,74 +90,57 @@ cocluster correlation network shows strength of relationships between proteins u
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">MakeCorrelationNetwork</span><span class="op">(</span><span class="va">ex.clusters.list</span>, <span class="va">ex.ptm.correlation.matrix</span>, <span class="fl">1</span>, <span class="st">"ex.clusters.common"</span>, <span class="st">"ex.cccn.matrix"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ex.ptm.cor</span> <span class="op">&lt;-</span> <span class="va">ex.ptm.correlation.matrix</span></span></span>
+<span class="r-in"><span><span class="fu">MakeCorrelationNetwork</span><span class="op">(</span><span class="va">ex.clusters.list</span>, <span class="va">ex.ptm.cor</span>, <span class="fl">1</span>, <span class="st">"ex.clusters.common"</span>, <span class="st">"ex.cccn.matrix"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="MakeCorrelationNetwork-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ex.clusters.common</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ex.clusters.common[, c(1, 2, 3)]:</span> incorrect number of dimensions</span>
-<span class="r-in"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ex.cccn.matrix</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            ABLIM1     PKP4      CTTN      MYH9     PARD3  TMEM192    TUBA1B</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1    0.00000 114.9396   0.00000  60.13075   0.00000  0.00000   0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4    114.93961   0.0000 772.73152 425.59823 230.18715  0.00000 450.80861</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN      0.00000 772.7315   0.00000 488.90579 221.60329 40.58773 445.92650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9     60.13075 425.5982 488.90579   0.00000 109.31835 37.11857 369.44215</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3     0.00000 230.1871 221.60329 109.31835   0.00000 10.10406 118.51128</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192   0.00000   0.0000  40.58773  37.11857  10.10406  0.00000  28.44161</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            HNRNPU      MET    HNRNPF   PLEKHA6   ATP5PO      EZR    HSPA1B</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1   35.44544 63.97753  24.66916  36.77148  0.00000   0.0000  22.14643</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4    154.94429  0.00000   0.00000 166.31692 77.00613 219.4094   0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN    148.44408  0.00000   0.00000 146.08402 77.39258 273.7540   0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9    162.65658  0.00000 116.24121  91.52050 48.17056 225.8005 202.66908</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3    57.00701 74.15703   0.00000  48.95272 19.39767   0.0000   0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192   0.00000  0.00000   0.00000   0.00000  0.00000   0.0000   0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           PI4K2A  SLC12A4    PSMC1    EEF1A1 RBM4     SF3B2     PTPRH    SEC16A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1   0.00000  0.00000  21.5318   0.00000    0   0.00000  7.442857  33.83560</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4     0.00000  0.00000   0.0000 313.19063    0   0.00000  0.000000 168.63382</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN    61.16893  0.00000   0.0000 365.46686    0 101.99295 51.866574 170.14393</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9    38.18129 71.54314 109.2983 343.38781    0  80.45027  0.000000  74.01985</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3    0.00000  0.00000   0.0000  92.63024    0   0.00000  0.000000   0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192  0.00000  0.00000   0.0000   0.00000    0   0.00000  0.000000   0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           CTNNA2     FRS2      OAT     RBM14   DCBLD1 MERTK   SLC9A1    ACOX1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1   0.00000  0.00000  0.00000   0.00000  0.00000     0  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4    47.03571 64.07596 30.61667 120.17106 95.41067     0  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN    42.57214 61.06023 33.15952 118.55109 79.98677     0  0.00000 27.91667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9     0.00000 36.15836  0.00000  80.43664 21.18305     0 97.31732  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3   13.34626 20.72495 10.46429  32.63832  0.00000     0  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192  0.00000  0.00000  0.00000   0.00000  0.00000     0  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ACTR5      LCK   MYO18A     NFS1    RPRD2     DNM2     EMC7  HNRNPH2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1    0.0  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4      0.0  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN     18.2 96.98978 10.91429 10.28571 19.15714 16.51515 34.10476 34.93571</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9      0.0 59.95258  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3     0.0  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192   0.0  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            HSPA9    OXCT1     PHB2     RMC1 RNASEH2B  SUPT16H RASSF8 APH1A TJP3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1   0.00000  0.00000  0.00000  0.00000  0.00000  0.00000      0     0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4     0.00000  0.00000  0.00000  0.00000  0.00000  0.00000      0     0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN    84.53292 28.77596 38.63626 13.16991 58.81905 36.28024      0     0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9    63.23423  0.00000  0.00000  0.00000  0.00000  0.00000      0     0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3    0.00000  0.00000  0.00000  0.00000  0.00000  0.00000      0     0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192  0.00000  0.00000  0.00000  0.00000  0.00000  0.00000      0     0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ZNF185   NSFL1C    PTPRK     WEE1      TNK2      APP  PTTG1IP    SGMS2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1       0  0.00000  0.00000  0.00000   0.00000  0.00000  0.00000 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4         0  0.00000 91.81048 54.23909  95.37114  0.00000 51.28979 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN         0 87.98485 78.48416  0.00000 101.52636  0.00000 55.31372 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9         0 68.35366 54.04004  0.00000   0.00000 54.90461 63.74730 8.874201</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3        0  0.00000  0.00000  0.00000  31.88151  0.00000 18.73882 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192      0  0.00000  0.00000  0.00000   0.00000  0.00000  0.00000 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         TMEM106B ATG3 ATP6V0D1 SYAP1 CTNNAL1 FKBP4  SLC38A2 SMAGP LARP1 ZDHHC5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1   0.00000    0        0     0       0     0  0.00000     0     0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4     0.00000    0        0     0       0     0  0.00000     0     0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN     0.00000    0        0     0       0     0  0.00000     0     0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9    47.34752    0        0     0       0     0 78.90423     0     0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3    0.00000    0        0     0       0     0  0.00000     0     0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192  0.00000    0        0     0       0     0  0.00000     0     0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           PRRC2A    PTPN11 ARAP2 USP15  SPRED1 SCRIB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1  0.000000   0.00000     0     0  0.0000     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4    0.000000 138.73307     0     0  0.0000     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN    0.000000 136.20414     0     0  0.0000     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9    0.000000 107.07777     0     0  0.0000     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3   9.770607  40.94046     0     0 19.3209     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192 0.000000   0.00000     0     0  0.0000     0</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ex.clusters.common</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 1`[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ABLIM1 p Y357"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 1`[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PKP4 p Y470"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 1`[[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PKP4 p Y478"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 2`[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ABLIM1 p Y373"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 2`[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PKP4 p Y1156"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 3`[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CTTN p T401"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 3`[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "MYH9 p Y11"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 3`[[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PARD3 p Y1127"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 3`[[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TMEM192 p Y213"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 3`[[5]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TUBA1B p Y103; TUBA4A p Y103; TUBA1A p Y103; TUBA1C p Y103; TUBA8 p Y103"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Cluster 3`[[6]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TUBA1B p Y272; TUBA4A p Y272; TUBA1A p Y272"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ex.cccn.matrix</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            ABLIM1     PKP4      CTTN      MYH9     PARD3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ABLIM1    0.00000 114.9396   0.00000  60.13075   0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PKP4    114.93961   0.0000 772.73152 425.59823 230.18715</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CTTN      0.00000 772.7315   0.00000 488.90579 221.60329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MYH9     60.13075 425.5982 488.90579   0.00000 109.31835</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PARD3     0.00000 230.1871 221.60329 109.31835   0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TMEM192   0.00000   0.0000  40.58773  37.11857  10.10406</span>
 </code></pre></div>
     </div>
   </div>

@@ -249,3 +249,63 @@
 #' head(ex.clusters.list)
 "ex.clusters.list"
 
+
+
+#' Cluster Filtered Network Example
+#'
+#' Subset of the PPI network in the cocluster correlation network.
+#'
+#' @keywords internal
+#'
+#' @format Dataframe of 82 rows and 3 columns:
+#' \describe{
+#'   \item{Gene.1}{First gene interacting}
+#'   \item{Gene.2}{Second gene interacting}
+#'   \item{PPI.weight}{The weight of the interaction between these two genes as described by STRINGdb and GeneMANIA}
+#' }
+#' @source "created by MakeDBInput"
+#' @examples
+#' data(ex.cfn)
+#' head(ex.cfn)
+"ex.cfn"
+
+
+
+#' STRINGdb Edges example
+#'
+#' List of edges between genes in dataset.
+#'
+#' @keywords internal
+#'
+#' @format Dataframe of 205 rows and 3 columns:
+#' \describe{
+#'   \item{Gene.1}{First gene interacting}
+#'   \item{Gene.2}{Second gene interacting}
+#'   \item{STRINGdb.combined_score}{The weight of the interaction between these two genes as described by STRINGdb}
+#' }
+#' @source "created by GetSTRINGdb"
+#' @examples
+#' data(ex.stringdb.edges)
+#' head(ex.stringdb.edges)
+"ex.stringdb.edges"
+
+
+
+#' PTP Edgelist Example
+#'
+#' DESCRIPTION
+#'
+#' @keywords internal
+#'
+#' @format Dataframe of 1874 rows and 4 columns:
+#' \describe{
+#'   \item{Source}{}
+#'   \item{target}{}
+#'   \item{Jaccard_weight}{}
+#'   \item{PTP_inter_evidence}{}
+#' }
+#' @source ""
+#' @examples
+#' data(ex.PTPedgelist)
+#' head(ex.PTPedgelist)
+"ex.PTPedgelist"

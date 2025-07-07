@@ -45,7 +45,8 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @export
 #'
 #' @examples
-#' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1, "ex.clusters.common", "ex.cccn.matrix")
+#' ex.ptm.cor <- ex.ptm.correlation.matrix
+#' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.cccn.matrix")
 #' print(ex.clusters.common[c(1, 2, 3)])
 #' utils::head(ex.cccn.matrix[, c(1,2,3,4,5)])
 MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", cccn.name = "cccn.matrix"){

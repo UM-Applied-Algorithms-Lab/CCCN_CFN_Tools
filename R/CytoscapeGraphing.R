@@ -35,7 +35,7 @@ GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.
 
   # edge stuff
   setEdgeFontFaceDefault()                          # set font of edge
-  setEdgeFontSizeDefault()                          #
+  setEdgeFontSizeDefault()                          # set font size of edge
   setEdgeOpacityDefault(175)                        # 0 - 255
   setEdgeLabelColorDefault()                        #
   setEdgeLabelDefault()                             #
@@ -60,7 +60,7 @@ GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.
   # else
   setNodeColorDefault()                             #
   setNodeFillOpacityDefault()                       #
-  setNodeFontFaceDefault()
+  setNodeFontFaceDefault()                          #
   setNodeFontSizeDefault()                          #
   setNodeHeightDefault()                            #
   setNodeLabelColorDefault()                        #

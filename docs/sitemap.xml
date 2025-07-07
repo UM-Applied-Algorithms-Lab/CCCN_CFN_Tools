@@ -10,6 +10,7 @@
 <url><loc>/reference/ClusterFilteredNetwork.html</loc></url>
 <url><loc>/reference/ex.bioplanet.html</loc></url>
 <url><loc>/reference/ex.cccn.matrix.html</loc></url>
+<url><loc>/reference/ex.cfn.html</loc></url>
 <url><loc>/reference/ex.clusters.common.html</loc></url>
 <url><loc>/reference/ex.clusters.list.html</loc></url>
 <url><loc>/reference/ex.common.clusters.html</loc></url>
@@ -25,6 +26,8 @@
 <url><loc>/reference/ex.ProcessGMEdgefile.html</loc></url>
 <url><loc>/reference/ex.ptm.correlation.matrix.html</loc></url>
 <url><loc>/reference/ex.ptmtable.html</loc></url>
+<url><loc>/reference/ex.PTPedgelist.html</loc></url>
+<url><loc>/reference/ex.stringdb.edges.html</loc></url>
 <url><loc>/reference/GetSTRINGdb.html</loc></url>
 <url><loc>/reference/GraphCfn.html</loc></url>
 <url><loc>/reference/index.html</loc></url>

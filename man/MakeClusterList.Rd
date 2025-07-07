@@ -36,7 +36,7 @@ Please note: t-SNE involves an element of randomness; in order to get the same r
 \examples{
 MakeClusterList(ex.ptmtable, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
 utils::head(ex.ptm.correlation.matrix[, c(1,2,3,4,5)])
-print(ex.clusters.list[[1]]$1)
-print(ex.clusters.list[[2]]$1)
-print(ex.clusters.list[[3]]$1)
+print(ex.clusters.list[[1]][1])
+print(ex.clusters.list[[2]][1])
+print(ex.clusters.list[[3]][1])
 }

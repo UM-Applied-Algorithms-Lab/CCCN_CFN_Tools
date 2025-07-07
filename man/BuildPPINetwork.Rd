@@ -27,6 +27,8 @@ A dataframe representing how strongly proteins are known to interact based on pr
 Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network.
 }
 \examples{
-BuildPPINetwork(stringdb.edges = ex.stringdb.edges, gm.network = ex.gm.network, ppi.network.name = "ex.ppi.network")
+ex.string <- ex.stringdb.edges
+ex.gm <- ex.gm.network
+BuildPPINetwork(stringdb.edges = ex.string, gm.network = ex.gm, ppi.network.name = "ex.ppi.network")
 utils::head(ex.ppi.network)
 }

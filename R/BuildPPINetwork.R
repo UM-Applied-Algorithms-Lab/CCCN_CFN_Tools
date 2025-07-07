@@ -11,7 +11,9 @@
 #' @export
 #'
 #' @examples
-#' BuildPPINetwork(stringdb.edges = ex.stringdb.edges, gm.network = ex.gm.network, ppi.network.name = "ex.ppi.network")
+#' ex.string <- ex.stringdb.edges
+#' ex.gm <- ex.gm.network
+#' BuildPPINetwork(stringdb.edges = ex.string, gm.network = ex.gm, ppi.network.name = "ex.ppi.network")
 #' utils::head(ex.ppi.network)
 BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
 
