@@ -4,7 +4,32 @@
 \alias{GraphCfn}
 \title{Graph Cluster Filtered Network}
 \usage{
-GraphCfn(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools")
+GraphCfn(
+  cfn,
+  Network.title = "cfn",
+  Network.collection = "cccn.cfn.tools",
+  background.color = "#fcf3cf",
+  edge.label.color = "#17202a",
+  edge.line.color = "#abb2b9",
+  node.border.color = "#145a32",
+  node.label.color = "#145a32",
+  node.fill.color = "#a9dfbf",
+  default.font = "Times New Roman",
+  node.font.size = 12,
+  edge.font.size = 8,
+  edge.line.style = "SOLID",
+  source.arrow = "NONE",
+  target.arrow = "NONE",
+  node.shape = "OCTAGON",
+  node.size = 50,
+  edge.width = 2,
+  border.width = 1,
+  edge.opacity = 175,
+  edge.label.opacity = 255,
+  border.opacity = 255,
+  node.label.opacity = 255,
+  node.fill.opacity = 255
+)
 }
 \arguments{
 \item{cfn}{A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights}
@@ -12,6 +37,48 @@ GraphCfn(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools")
 \item{Network.title}{Desired title for the created Cytoscape Network}
 
 \item{Network.collection}{Desired name for the collection created on Cytoscape in which the network will reside}
+
+\item{background.color}{Hex code of background color of graph; defaults to '#fcf3cf'}
+
+\item{edge.label.color}{Hex code of edge label color of graph; defaults to '#17202a'}
+
+\item{edge.line.color}{Hex code of edge line color of graph; defaults to '#abb2b9'}
+
+\item{node.border.color}{Hex code of node border color of graph; defaults to '#145a32'}
+
+\item{node.label.color}{Hex code of node label color of graph; defaults to '#145a32'}
+
+\item{node.fill.color}{Hex code of node fill color of graph; defaults to '#a9dfbf'}
+
+\item{default.font}{Font style of edge and node names; defaults to "Times New Roman"}
+
+\item{node.font.size}{Font size of the node name; defaults to 12}
+
+\item{edge.font.size}{Font size of the edge name; defaults to 8}
+
+\item{edge.line.style}{Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"}
+
+\item{source.arrow}{Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"}
+
+\item{target.arrow}{Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"}
+
+\item{node.shape}{Shape of the node; defaults to "OCTAGON"; options include: "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"}
+
+\item{node.size}{Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())}
+
+\item{edge.width}{Width of the edge line; defaults to 2}
+
+\item{border.width}{Width of the border of the node; defaults to 1}
+
+\item{edge.opacity}{Opacity of the edge line on a scale of 0 - 255 with 0 being transparent; defaults to 175}
+
+\item{edge.label.opacity}{Opacity of the edge label on a scale of 0 - 255 with 0 being transparent; defaults to 255}
+
+\item{border.opacity}{Opacity of the node border on a scale of 0 - 255 with 0 being transparent; defaults to 255}
+
+\item{node.label.opacity}{Opacity of the node label on a scale of 0 - 255 with 0 being transparent; defaults to 255}
+
+\item{node.fill.opacity}{Opacity of the node fill on a scale of 0 - 255 with 0 being transparent; defaults to 255}
 }
 \value{
 A cytoscape graph of the cluster filtered network
@@ -20,5 +87,7 @@ A cytoscape graph of the cluster filtered network
 Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 }
 \examples{
-GraphCFN(ex.cfn)
+cytoscape.pic <- system.file("extdata/cytoscape_graph.png", package = "cccn.cfn.tools")
+#GraphCFN(ex.cfn)
+magick::image_read(cytoscape.pic)
 }

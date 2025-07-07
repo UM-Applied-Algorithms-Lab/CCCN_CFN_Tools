@@ -18,10 +18,12 @@ Imports:
     plyr,
     igraph,
     vegan,
-    STRINGdb,
     dplyr,
     utils,
-    BiocManager
+    BiocManager,
+    STRINGdb,
+    RCy3,
+    magick
 Suggests: 
     knitr,
     rmarkdown,
