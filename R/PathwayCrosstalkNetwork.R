@@ -46,7 +46,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   
   ###Pathway Cluster Evidence###  - A matrix of pathways x pathways whose values are found by using a custom formula that relates clusters and pathways
-  CPE.matrix <- matrix(0.0, nrow = length(clusterlist), ncol = length(pathways.list))
+  CPE.matrix <- matrix(NA, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.matrix) <- names(clusterlist) #Names
   colnames(CPE.matrix) <- names(pathways.list)
 
@@ -66,18 +66,18 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     
     #Create a gene lookup table that stores the number of times every gene appears in the cluster. Accessed like: temp[['ABCA3']] gives the # of times ABCA3 appears. 
     gene.temp <- as.data.frame(table(sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]))) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
-    gene.hash <- gene.temp$Freq        #Create a hashtable from the table
-    names(gene.hash) <- gene.temp$Var1 
+    gene.hash <- gene.temp$Freq        #Create a hashtable from the gene.temp table
+    names(gene.hash) <- gene.temp$Var1 #Same strategy as pathways.hash
     
     cluster.length <- length(clusterlist[[a]]) #Precompute the length
     
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
     for(b in 1:ncol(CPE.matrix)){
-      val <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE)/(sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length)
-      CPE.matrix[[a, b]] <- val
+      num <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE)
+      dem <- (sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length)
+      CPE.matrix[[a, b]] <- num/dem
     }
   }
-
 
 
   ###Generate PCN network### -for 
@@ -93,7 +93,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   #Populate data frame
   track <- 1 #First Empty row in the data frame
   for(i in 1:length(temp.rows)){
-    nodes <- combn(temp.rows[[i]], 2) #Get every node pair (permutations where order doesn't matter of a string vector). Stored as a matrix.
+    nodes <- utils::combn(temp.rows[[i]], 2) #Get every node pair (permutations where order doesn't matter of a string vector). Stored as a matrix.
     
     #Definitely change to sapply here
     for(pathway in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
@@ -115,7 +115,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   ###Save edgefile for cytoscape plotting###
   filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
-  write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
+  utils::write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
   #Tell the user where their files got put
   cat(filename, "made in directory:", getwd())
