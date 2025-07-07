@@ -1,21 +1,3 @@
-# PTP Evidence Edge
-# 
-# Checks 2 columns of a matrix and returns the sum of all rows where both values in the row are nonzero
-#
-# @param pathway1 A column of CPE.matrix
-# @param pathway2 A column of CPE.matrix
-#
-# @return The sum
-PTP.evidence.edge <- function(col1, col2){
-  sigma <- 0 #Zero, will return this
-  for(i in 1:length(col1)){ #Both pathways will always be the same length
-    if(col1[i] != 0 && col2[i] != 0) sigma <- sigma + col1[i] + col2[i] #If BOTH values in a row i from col1 and col2 are nonzero, add them both to sigma. If either one has a zero, add neither. 
-  }
-  return(sigma) #return
-}
-
-
-
 #' Pathway Crosstalk Network
 #'
 #' Converts Bioplanet pathways from (<https://tripod.nih.gov/bioplanet/>)  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
@@ -62,14 +44,17 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     }}
 
 
+  
   ###Pathway Cluster Evidence###  - A matrix of pathways x pathways whose values are found by using a custom formula that relates clusters and pathways
-
-  CPE.matrix <- matrix(0, nrow = length(clusterlist), ncol = length(pathways.list))
+  CPE.matrix <- matrix(0.0, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.matrix) <- names(clusterlist) #Names
   colnames(CPE.matrix) <- names(pathways.list)
 
   #Populate Matrix
-  pathways.lookup <- table(bioplanet$GENE_SYMBOL) #Create a lookup table for how many times each gene appears in the pathways list 
+  pathways.temp <- as.data.frame(table(bioplanet$GENE_SYMBOL)) #Create a lookup table for how many times each gene appears in the pathways list 
+  pathways.hash <- pathways.temp$Freq #Create a hashtable from the table, very important for lowering runtime
+  names(pathways.hash) <- pathways.temp$Var1 #Now any string vector of genes like pathways.hash[[c("AARS", "ABCA1")]] will return the frequency of how many times those genes appear in the pathway list *in constant time*. Sum() to return the total  
+
   for(a in 1:nrow(CPE.matrix)){
     #Precomputation steps for cluster
     #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
@@ -80,17 +65,22 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     gene.weights <- c(gene.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
     
     #Create a gene lookup table that stores the number of times every gene appears in the cluster. Accessed like: temp[['ABCA3']] gives the # of times ABCA3 appears. 
-    gene.lookup <- table(sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1])) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
+    gene.temp <- as.data.frame(table(sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]))) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
+    gene.hash <- gene.temp$Freq        #Create a hashtable from the table
+    names(gene.hash) <- gene.temp$Var1 
+    
     cluster.length <- length(clusterlist[[a]]) #Precompute the length
     
-    
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
-    for(b in 1:ncol(CPE.matrix)) CPE.matrix[a, b] <- sum(gene.lookup[pathways.list[[b]]], na.rm=TRUE)/(sum(pathways.lookup[pathways.list[[b]]], na.rm=TRUE)*cluster.length)
+    for(b in 1:ncol(CPE.matrix)){
+      val <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE)/(sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length)
+      CPE.matrix[[a, b]] <- val
+    }
   }
 
 
 
-  ###Generate PCN network### -
+  ###Generate PCN network### -for 
   temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Mark valuable clusters in CPE.matrix. Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
