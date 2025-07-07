@@ -86,37 +86,21 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence greater than 2 found") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   
-  #Create data frame: Pathway to Pathway edgelist
-  size <- sum(sapply(temp.rows, function(x) (length(x) * (length(x)-1))/2)) #This may look bad but it's just number of possible permutations where order doesnt matter bc I didn't want to import a package.
-  PTP.edgelist <- data.frame(source = rep("-", size), target = rep("-", size), Jaccard_weight = rep(0, size), PTP_inter_evidence= rep(0, size))
-
-  #Populate data frame
-  track <- 1 #First Empty row in the data frame
-  for(i in 1:length(temp.rows)){
-    nodes <- utils::combn(temp.rows[[i]], 2) #Get every node pair (permutations where order doesn't matter of a string vector). Stored as a matrix.
-    
-    #Definitely change to sapply here
-    for(pathway in asplit(nodes, 2)) { #Add all node pairings to data frame. This code splits the matrix that stores the permutations
-      PTP.edgelist[track, 1:2] <- pathway #Add row from nodes to empty spot in the edgefiles
-      PTP.edgelist[track, 3] <- jaccard.matrix[pathway[1], pathway[2]] #Add the jaccard weight to the edgelist
-      PTP.edgelist[track, 4] <- sum(CPE.matrix[,pathway[1]]) + sum(CPE.matrix[,pathway[2]]) #Sum both columns 
-
-      track <- track+1 #Increase tracker
-    }}
-
+  
+  
 
   ###Debug Variable Names### - DELETE ME
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
   assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
-  assign(edgelist.name, PTP.edgelist, envir = .GlobalEnv)      #DEBUG
+  #assign(edgelist.name, PTP.edgelist, envir = .GlobalEnv)      #DEBUG
   assign("temp.rows", temp.rows, envir = .GlobalEnv)           #DEBUG
 
 
 
   ###Save edgefile for cytoscape plotting###
-  filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
-  utils::write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
+  #filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
+  #utils::write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
   #Tell the user where their files got put
-  cat(filename, "made in directory:", getwd())
+  #cat(filename, "made in directory:", getwd())
 }
