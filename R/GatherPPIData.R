@@ -129,6 +129,7 @@ GetSTRINGdb <- function(cccn.matrix, stringdb.name = "stringdb.edges", nodenames
 #' ex.nodefile <- system.file("extdata/ex_gm_nodetable.csv", package = "cccn.cfn.tools")
 #' ex.db.nodes  <- system.file("extdata/ex_db_nodes.txt", package = "cccn.cfn.tools")
 #' ProcessGMEdgefile(ex.edgefile, ex.nodefile, ex.db.nodes, "ex.gm.network")
+#' utils::head(ex.gm.network)
 ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path, gm.network.name = "gm.network"){
   edgetable <- utils::read.csv(gm.edgefile.path, header = TRUE)        # read the edgefile
   nodetable <- utils::read.csv(gm.nodetable.path, header = TRUE)       # read the nodetable

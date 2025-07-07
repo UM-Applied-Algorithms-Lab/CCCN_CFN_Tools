@@ -27,9 +27,6 @@ A dataframe representing how strongly proteins are known to interact based on pr
 Uses all inputted database information on protein-protein interactions in order to create a combined PPI-network.
 }
 \examples{
-gmpath <- "genemania-interactions.txt"
-pack <- "cccn.cfn.tools"
-gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
 BuildPPINetwork(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
 utils::head(ex.ppi.network)
 }
