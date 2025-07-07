@@ -13,6 +13,7 @@
 #' @export
 #' @examples
 #' ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "ex.cfn")
+#' utils::head(ex.cfn)
 ClusterFilteredNetwork <- function(cccn.matrix, ppi.network, cfn.name = "cfn") {
 
   cfn <- data.frame(matrix(0,ncol = 3, nrow = 0))          # initiate an empty dataframe

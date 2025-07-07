@@ -15,6 +15,7 @@
 #' pack <- "cccn.cfn.tools"
 #' gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
 #' BuildPPINetwork(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
+#' utils::head(ex.ppi.network)
 BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network") {
 
   if (!is.data.frame(stringdb.edges) && !is.data.frame(gm.network) && (length(db.filepaths) == 0)){

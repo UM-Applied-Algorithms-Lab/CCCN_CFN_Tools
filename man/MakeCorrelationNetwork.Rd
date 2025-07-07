@@ -33,5 +33,7 @@ This adjacency matrix is used to filter relevant data --- clusters --- from the 
 cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 }
 \examples{
-MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1)
+MakeCorrelationNetwork(ex.clusters.list, ex.ptm.correlation.matrix, 1, "ex.clusters.common", "ex.cccn.matrix")
+utils::head(ex.clusters.common)
+utisl::head(ex.cccn.matrix)
 }

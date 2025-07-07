@@ -23,4 +23,5 @@ This new, cluster filtered network is then assigned to the global namespace.
 }
 \examples{
 ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "ex.cfn")
+utils::head(ex.cfn)
 }

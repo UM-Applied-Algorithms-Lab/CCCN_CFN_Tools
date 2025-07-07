@@ -24,5 +24,7 @@ Data frame of consisting of the network of interactions from the genes of study 
 This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 }
 \examples{
-GetSTRINGdb(ex.cccn.matrix, ex.stringdb.edges, ex.nodenames)
+GetSTRINGdb(ex.cccn.matrix, 'ex.stringdb.edges', 'ex.nodenames')
+utils::head(ex.stringdb.edges)
+utils::head(ex.nodenames)
 }
