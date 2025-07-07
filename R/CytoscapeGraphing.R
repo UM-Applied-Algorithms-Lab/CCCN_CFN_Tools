@@ -2,6 +2,9 @@
 #'
 #' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 #'
+#' @section Default Network Diagram:
+#' ![](figures/cytoscape_graph.png)
+#'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #' @param Network.title Desired title for the created Cytoscape Network
 #' @param Network.collection Desired name for the collection created on Cytoscape in which the network will reside
@@ -35,11 +38,9 @@
 #' @return A cytoscape graph of the cluster filtered network
 #' @export
 #'
-#' @section Default Network Diagram:
-#' ![](figures/cytoscape_graph.png)
-#'
 #' @examples
-#' #GraphCFN(ex.cfn)
+#' # GraphCFN(ex.cfn)
+#' # See image above
 GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools",
                      background.color = '#fcf3cf', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#145a32', node.fill.color = '#a9dfbf',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,

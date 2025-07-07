@@ -92,5 +92,6 @@ Creates a cytoscape graph of the cluster filtered network. Ensure that you have 
 }
 
 \examples{
-#GraphCFN(ex.cfn)
+# GraphCFN(ex.cfn)
+# See image above
 }
