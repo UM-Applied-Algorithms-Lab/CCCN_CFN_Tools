@@ -73,11 +73,14 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
     for(b in 1:ncol(CPE.matrix)){
-      num <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE)
-      dem <- (sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length)
+      num <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator
+      dem <- (sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length) #Calculate denominator
       CPE.matrix[[a, b]] <- num/dem
     }
   }
+  
+  CPE.sum <- unlist(apply(CPE.matrix, 2, sum)) #Create a lookup table of column sums 
+
 
 
   ###Generate PCN network### -for 
@@ -86,13 +89,17 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence greater than 2 found") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   
+  PTP.edgelist <- do.call(rbind, sapply(temp.rows, function(x) t(combn(x, 2)))) #Sapply creates permutation matricies, do.call and rbind stacks them together
+  jaccard <- apply(PTP.edgelist, 1, function(x) jaccard.matrix[x[1], x[2]]) #Jaccard Weights. Iterate over rows
+  CPE <- apply(PTP.edgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over columns 
   
+  PTP.edgelist <- cbind(PTP.edgelist, jaccard, CPE) #Bind all the columns together
   
 
   ###Debug Variable Names### - DELETE ME
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
   assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
-  #assign(edgelist.name, PTP.edgelist, envir = .GlobalEnv)      #DEBUG
+  assign(edgelist.name, PTP.edgelist, envir = .GlobalEnv)      #DEBUG
   assign("temp.rows", temp.rows, envir = .GlobalEnv)           #DEBUG
 
 
