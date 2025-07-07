@@ -30,5 +30,5 @@ Uses all inputted database information on protein-protein interactions in order 
 gmpath <- "genemania-interactions.txt"
 pack <- "cccn.cfn.tools"
 gmfile <- system.file("genemania", gmpath, package = pack, mustWork = TRUE)
-BuildPPINetworks(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
+BuildPPINetwork(ex.cccn.matrix, ppi.network.name = "ex.ppi.network")
 }
