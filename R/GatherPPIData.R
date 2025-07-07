@@ -10,7 +10,8 @@
 #' @export
 #'
 #' @examples
-#' cccn.cfn.tools:::ex.MakeDBInput(ex.nodenames)
+#' #MakeDBInput(ex.nodenames)
+#' cat(ex.nodenames[[1]], sep = '\n')
 MakeDBInput <- function(cccn.matrix, file.path.name = "db_nodes.txt") {
   utils::write.table(rownames(cccn.matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
 }

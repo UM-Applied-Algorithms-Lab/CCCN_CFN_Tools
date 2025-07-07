@@ -19,5 +19,6 @@ This function outputs a file consisting entirely of gene names, each produced on
 a database input in order to get protein-protein interaction data.
 }
 \examples{
-cccn.cfn.tools:::ex.MakeDBInput(ex.nodenames)
+#MakeDBInput(ex.nodenames)
+cat(ex.nodenames[[1]], sep = '\n')
 }

@@ -44,7 +44,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">GraphCfn</span><span class="op">(</span><span class="va">cfn</span>, Network.title <span class="op">=</span> <span class="st">"cfn"</span>, Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">GraphCfn</span><span class="op">(</span></span>
+<span>  <span class="va">cfn</span>,</span>
+<span>  Network.title <span class="op">=</span> <span class="st">"cfn"</span>,</span>
+<span>  Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span>,</span>
+<span>  background.color <span class="op">=</span> <span class="st">"#fcf3cf"</span>,</span>
+<span>  edge.label.color <span class="op">=</span> <span class="st">"#17202a"</span>,</span>
+<span>  edge.line.color <span class="op">=</span> <span class="st">"#abb2b9"</span>,</span>
+<span>  node.border.color <span class="op">=</span> <span class="st">"#145a32"</span>,</span>
+<span>  node.label.color <span class="op">=</span> <span class="st">"#145a32"</span>,</span>
+<span>  node.fill.color <span class="op">=</span> <span class="st">"#a9dfbf"</span>,</span>
+<span>  default.font <span class="op">=</span> <span class="st">"Times New Roman"</span>,</span>
+<span>  node.font.size <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  edge.font.size <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  edge.line.style <span class="op">=</span> <span class="st">"SOLID"</span>,</span>
+<span>  source.arrow <span class="op">=</span> <span class="st">"NONE"</span>,</span>
+<span>  target.arrow <span class="op">=</span> <span class="st">"NONE"</span>,</span>
+<span>  node.shape <span class="op">=</span> <span class="st">"OCTAGON"</span>,</span>
+<span>  node.size <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  edge.width <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  border.width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  edge.opacity <span class="op">=</span> <span class="fl">175</span>,</span>
+<span>  edge.label.opacity <span class="op">=</span> <span class="fl">255</span>,</span>
+<span>  border.opacity <span class="op">=</span> <span class="fl">255</span>,</span>
+<span>  node.label.opacity <span class="op">=</span> <span class="fl">255</span>,</span>
+<span>  node.fill.opacity <span class="op">=</span> <span class="fl">255</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -62,6 +87,90 @@
 <dt id="arg-network-collection">Network.collection<a class="anchor" aria-label="anchor" href="#arg-network-collection"></a></dt>
 <dd><p>Desired name for the collection created on Cytoscape in which the network will reside</p></dd>
 
+
+<dt id="arg-background-color">background.color<a class="anchor" aria-label="anchor" href="#arg-background-color"></a></dt>
+<dd><p>Hex code of background color of graph; defaults to '#fcf3cf'</p></dd>
+
+
+<dt id="arg-edge-label-color">edge.label.color<a class="anchor" aria-label="anchor" href="#arg-edge-label-color"></a></dt>
+<dd><p>Hex code of edge label color of graph; defaults to '#17202a'</p></dd>
+
+
+<dt id="arg-edge-line-color">edge.line.color<a class="anchor" aria-label="anchor" href="#arg-edge-line-color"></a></dt>
+<dd><p>Hex code of edge line color of graph; defaults to '#abb2b9'</p></dd>
+
+
+<dt id="arg-node-border-color">node.border.color<a class="anchor" aria-label="anchor" href="#arg-node-border-color"></a></dt>
+<dd><p>Hex code of node border color of graph; defaults to '#145a32'</p></dd>
+
+
+<dt id="arg-node-label-color">node.label.color<a class="anchor" aria-label="anchor" href="#arg-node-label-color"></a></dt>
+<dd><p>Hex code of node label color of graph; defaults to '#145a32'</p></dd>
+
+
+<dt id="arg-node-fill-color">node.fill.color<a class="anchor" aria-label="anchor" href="#arg-node-fill-color"></a></dt>
+<dd><p>Hex code of node fill color of graph; defaults to '#a9dfbf'</p></dd>
+
+
+<dt id="arg-default-font">default.font<a class="anchor" aria-label="anchor" href="#arg-default-font"></a></dt>
+<dd><p>Font style of edge and node names; defaults to "Times New Roman"</p></dd>
+
+
+<dt id="arg-node-font-size">node.font.size<a class="anchor" aria-label="anchor" href="#arg-node-font-size"></a></dt>
+<dd><p>Font size of the node name; defaults to 12</p></dd>
+
+
+<dt id="arg-edge-font-size">edge.font.size<a class="anchor" aria-label="anchor" href="#arg-edge-font-size"></a></dt>
+<dd><p>Font size of the edge name; defaults to 8</p></dd>
+
+
+<dt id="arg-edge-line-style">edge.line.style<a class="anchor" aria-label="anchor" href="#arg-edge-line-style"></a></dt>
+<dd><p>Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"</p></dd>
+
+
+<dt id="arg-source-arrow">source.arrow<a class="anchor" aria-label="anchor" href="#arg-source-arrow"></a></dt>
+<dd><p>Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"</p></dd>
+
+
+<dt id="arg-target-arrow">target.arrow<a class="anchor" aria-label="anchor" href="#arg-target-arrow"></a></dt>
+<dd><p>Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"</p></dd>
+
+
+<dt id="arg-node-shape">node.shape<a class="anchor" aria-label="anchor" href="#arg-node-shape"></a></dt>
+<dd><p>Shape of the node; defaults to "OCTAGON"; options include: "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"</p></dd>
+
+
+<dt id="arg-node-size">node.size<a class="anchor" aria-label="anchor" href="#arg-node-size"></a></dt>
+<dd><p>Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())</p></dd>
+
+
+<dt id="arg-edge-width">edge.width<a class="anchor" aria-label="anchor" href="#arg-edge-width"></a></dt>
+<dd><p>Width of the edge line; defaults to 2</p></dd>
+
+
+<dt id="arg-border-width">border.width<a class="anchor" aria-label="anchor" href="#arg-border-width"></a></dt>
+<dd><p>Width of the border of the node; defaults to 1</p></dd>
+
+
+<dt id="arg-edge-opacity">edge.opacity<a class="anchor" aria-label="anchor" href="#arg-edge-opacity"></a></dt>
+<dd><p>Opacity of the edge line on a scale of 0 - 255 with 0 being transparent; defaults to 175</p></dd>
+
+
+<dt id="arg-edge-label-opacity">edge.label.opacity<a class="anchor" aria-label="anchor" href="#arg-edge-label-opacity"></a></dt>
+<dd><p>Opacity of the edge label on a scale of 0 - 255 with 0 being transparent; defaults to 255</p></dd>
+
+
+<dt id="arg-border-opacity">border.opacity<a class="anchor" aria-label="anchor" href="#arg-border-opacity"></a></dt>
+<dd><p>Opacity of the node border on a scale of 0 - 255 with 0 being transparent; defaults to 255</p></dd>
+
+
+<dt id="arg-node-label-opacity">node.label.opacity<a class="anchor" aria-label="anchor" href="#arg-node-label-opacity"></a></dt>
+<dd><p>Opacity of the node label on a scale of 0 - 255 with 0 being transparent; defaults to 255</p></dd>
+
+
+<dt id="arg-node-fill-opacity">node.fill.opacity<a class="anchor" aria-label="anchor" href="#arg-node-fill-opacity"></a></dt>
+<dd><p>Opacity of the node fill on a scale of 0 - 255 with 0 being transparent; defaults to 255</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -70,8 +179,13 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">GraphCFN</span><span class="op">(</span><span class="va">ex.cfn</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in GraphCFN(ex.cfn):</span> could not find function "GraphCFN"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cytoscape.pic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/cytoscape_graph.png"</span>, package <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">#GraphCFN(ex.cfn)</span></span></span>
+<span class="r-in"><span><span class="fu">magick</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">image_read</a></span><span class="op">(</span><span class="va">cytoscape.pic</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   format width height colorspace matte filesize density</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> PNG      741    647 sRGB       TRUE     <span style="text-decoration: underline;">71</span>217 47x47  </span>
 </code></pre></div>
     </div>
   </div>
