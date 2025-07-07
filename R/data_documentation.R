@@ -141,7 +141,7 @@
 #'
 #' @keywords internal
 #'
-#' @format List of 12 lists:
+#' @format List of 40 lists:
 #' \describe{
 #'   \item{list}{Common cluster between the three distance metrics}
 #' }
@@ -149,7 +149,7 @@
 #' @examples
 #' data(ex.common.clusters)
 #' head(ex.common.clusters)
-"ex.common.clusters"
+"ex.clusters.common"
 
 
 
