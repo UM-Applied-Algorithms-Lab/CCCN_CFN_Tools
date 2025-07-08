@@ -799,7 +799,13 @@ Cluster-Pathway Evidence score can be found at: <a href="https://journals.plos.o
 <h5 id="code-8">Code<a class="anchor" aria-label="anchor" href="#code-8"></a>
 </h5>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/GraphCfn.html">GraphCfn</a></span><span class="op">(</span><span class="va">cfn</span>, Network.title <span class="op">=</span> <span class="st">"cfn"</span>, Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/GraphCfn.html" class="external-link">GraphCfn</a></span><span class="op">(</span><span class="va">cfn</span>, Network.title <span class="op">=</span> <span class="st">"cfn"</span>, Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span>,</span>
+<span>                     background.color <span class="op">=</span> <span class="st">'#fcf3cf'</span>, edge.label.color <span class="op">=</span> <span class="st">'#17202a'</span>, edge.line.color <span class="op">=</span> <span class="st">'#abb2b9'</span>, node.border.color <span class="op">=</span> <span class="st">'#145a32'</span>,</span>
+<span>                     node.label.color <span class="op">=</span> <span class="st">'#145a32'</span>, node.fill.color <span class="op">=</span> <span class="st">'#a9dfbf'</span>,</span>
+<span>                     default.font <span class="op">=</span> <span class="st">"Times New Roman"</span>, node.font.size <span class="op">=</span> <span class="fl">12</span>, edge.font.size <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>                     edge.line.style <span class="op">=</span> <span class="st">'SOLID'</span>, source.arrow <span class="op">=</span> <span class="st">'NONE'</span>, target.arrow <span class="op">=</span> <span class="st">'NONE'</span>, node.shape <span class="op">=</span> <span class="st">"OCTAGON"</span>,</span>
+<span>                     node.size <span class="op">=</span> <span class="fl">50</span>, edge.width <span class="op">=</span> <span class="fl">2</span>, border.width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                     edge.opacity <span class="op">=</span> <span class="fl">175</span>, edge.label.opacity <span class="op">=</span> <span class="fl">255</span>, border.opacity <span class="op">=</span> <span class="fl">255</span>, node.label.opacity <span class="op">=</span> <span class="fl">255</span>, node.fill.opacity <span class="op">=</span> <span class="fl">255</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/cytoscape_graph.png"><br><strong>Figure 13</strong> Default cytoscape graph</p>
 </center>
@@ -821,10 +827,174 @@ filtered network in the Cytoscape app.</p>
 <ul>
 <li>A version of ppi.network with only the edges that exist in
 cccn.matrix and have non-zero weights<br>
+-Network.title<br>
+</li>
+<li>Desired title for the created Cytoscape Network<br>
 </li>
 </ul>
 </li>
-<li>
+<li>Network.collection
+<ul>
+<li>Desired name for the collection created on Cytoscape in which the
+network will reside</li>
+</ul>
+</li>
+<li>background.color
+<ul>
+<li>Hex code of background color of graph; defaults to ‘#fcf3cf’<br>
+</li>
+</ul>
+</li>
+<li>edge.label.color
+<ul>
+<li>Hex code of edge label color of graph; defaults to ‘#17202a’<br>
+</li>
+</ul>
+</li>
+<li>edge.line.color
+<ul>
+<li>Hex code of edge line color of graph; defaults to ‘#abb2b9’<br>
+</li>
+</ul>
+</li>
+<li>node.border.color
+<ul>
+<li>Hex code of node border color of graph; defaults to ‘#145a32’<br>
+</li>
+</ul>
+</li>
+<li>node.label.color
+<ul>
+<li>Hex code of node label color of graph; defaults to ‘#145a32’<br>
+</li>
+</ul>
+</li>
+<li>node.fill.color
+<ul>
+<li>Hex code of node fill color of graph; defaults to ‘#a9dfbf’</li>
+</ul>
+</li>
+<li>default.font
+<ul>
+<li>Font style of edge and node names; defaults to “Times New
+Roman”<br>
+</li>
+</ul>
+</li>
+<li>node.font.size
+<ul>
+<li>Font size of the node name; defaults to 12<br>
+</li>
+</ul>
+</li>
+<li>edge.font.size
+<ul>
+<li>Font size of the edge name; defaults to 8</li>
+</ul>
+</li>
+<li>edge.line.style
+<ul>
+<li>Type of edge style; defaults to “SOLID”<br>
+</li>
+<li>options include: “PARALLEL_LINES”, “MARQUEE_EQUAL”, “DOT”,
+“EQUAL_DASH”, “LONG_DASH”, “CONTIGUOUS_ARROW”, “MARQUEE_DASH”,
+“DASH_DOT”, “BACKWARD_SLASH”, “FORWARD_SLASH”, “VERTICAL_SLASH”,
+“SOLID”, “SEPARATE_ARROW”, “MARQUEE_DASH_DOT”, “ZIGZAG”,
+“SINEWAVE”<br>
+</li>
+</ul>
+</li>
+<li>source.arrow
+<ul>
+<li>Type of arrow coming from the source gene; defaults to “NONE”<br>
+</li>
+<li>options include: “DELTA”, “DIAMOND”, “OPEN_CIRCLE”, “CIRCLE”,
+“OPEN_HALF_CIRCLE”, “CROSS_OPEN_DELTA”, “DELTA_SHORT_1”, “CROSS_DELTA”,
+“OPEN_DELTA”, “OPEN_DIAMOND”, “DIAMOND_SHORT_1”, “DELTA_SHORT_2”,
+“OPEN_SQUARE”, “NONE”, “SQUARE”, “DIAMOND_SHORT_2”, “T”, “HALF_BOTTOM”,
+“HALF_TOP”, “ARROW_SHORT”, “HALF_CIRCLE”<br>
+</li>
+</ul>
+</li>
+<li>target.arrow
+<ul>
+<li>Type of arrow going to the target gene; defaults to “NONE”<br>
+</li>
+<li>options include: “DELTA”, “DIAMOND”, “OPEN_CIRCLE”, “CIRCLE”,
+“OPEN_HALF_CIRCLE”, “CROSS_OPEN_DELTA”, “DELTA_SHORT_1”, “CROSS_DELTA”,
+“OPEN_DELTA”, “OPEN_DIAMOND”, “DIAMOND_SHORT_1”, “DELTA_SHORT_2”,
+“OPEN_SQUARE”, “NONE”, “SQUARE”, “DIAMOND_SHORT_2”, “T”, “HALF_BOTTOM”,
+“HALF_TOP”, “ARROW_SHORT”, “HALF_CIRCLE”<br>
+</li>
+</ul>
+</li>
+<li>node.shape
+<ul>
+<li>Shape of the node; defaults to “OCTAGON”<br>
+</li>
+<li>options include: “RECTANGLE”, “VEE”, “OCTAGON”, “ELLIPSE”,
+“PARALLELOGRAM”, “DIAMOND”, “HEXAGON”, “ROUND_RECTANGLE”,
+“TRIANGLE”</li>
+</ul>
+</li>
+<li>node.size
+<ul>
+<li>Size of the node; defaults to 50<br>
+</li>
+<li>PLEASE NOTE: width and height can be changed independently using
+RCy3 directly
+<ul>
+<li>first run lockNodeDimensions(FALSE) and then setNodeWidthDefault()
+and setNodeHeightDefault()<br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>edge.width
+<ul>
+<li>Width of the edge line; defaults to 2<br>
+</li>
+</ul>
+</li>
+<li>border.width
+<ul>
+<li>Width of the border of the node; defaults to 1</li>
+</ul>
+</li>
+<li>edge.opacity
+<ul>
+<li>Opacity of the edge line on a scale of 0 - 255 with 0 being
+transparent; defaults to 175<br>
+</li>
+</ul>
+</li>
+<li>edge.label.opacity
+<ul>
+<li>Opacity of the edge label on a scale of 0 - 255 with 0 being
+transparent; defaults to 255<br>
+</li>
+</ul>
+</li>
+<li>border.opacity
+<ul>
+<li>Opacity of the node border on a scale of 0 - 255 with 0 being
+transparent; defaults to 255<br>
+</li>
+</ul>
+</li>
+<li>node.label.opacity
+<ul>
+<li>Opacity of the node label on a scale of 0 - 255 with 0 being
+transparent; defaults to 255<br>
+</li>
+</ul>
+</li>
+<li>node.fill.opacity
+<ul>
+<li>Opacity of the node fill on a scale of 0 - 255 with 0 being
+transparent; defaults to 255</li>
+</ul>
 </li>
 </ul>
 </div>
