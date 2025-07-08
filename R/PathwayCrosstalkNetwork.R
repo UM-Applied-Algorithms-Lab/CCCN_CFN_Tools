@@ -9,15 +9,15 @@
 #' @export
 #'
 #' @examples
-#' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
+#' PathwayCrosstalkNetwork(ex.bioplanet, ex.clusters.common)
 PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "PTPedgelist"){
   #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
-  if(class(file) == "character"){   #Loading .csv
+  if(is.character(file)){ #For loading .csv
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory.")) #Error Catch
-    bioplanet <- utils::read.csv(file, stringsAsFactors = F)
+    bioplanet <- utils::read.csv(file, stringsAsFactors = F) #Reads the file and turns it into a dataframe
   }
 
-  if(class(file) == "data.frame") bioplanet <- file   #Loading a dataframe for examples
+  if(is.data.frame(file)) bioplanet <- file   #For loading a dataframe for examples
 
   #Turn bioplanet into a list of pathways. Pathways are character vectors comprised of gene names
   pathways.list <- plyr::dlply(bioplanet, plyr::.(PATHWAY_NAME)) #Turn the bioplanet .csv into a list of data frames. Each data frame stores genes with the same PATHWAY_ID
@@ -28,20 +28,22 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
 
-  ###Jaccard Similarity### - List of edges, a data frame like PATHWAY | PATHWAY | JACCARD VALUE
+  ### Jaccard Similarity ### - List of edges, a data frame like PATHWAY | PATHWAY | JACCARD VALUE
 
-  # Helper function to pass into an "apply" function for a matrix that contains character vectors. Matrix dimensions should be 2 columns x any number of rows
+  #Helper function to pass into an "apply" function for a matrix that contains character vectors. Matrix dimensions should be 2 columns x any number of rows
   find.jaccard.val <- function(charvectorrow){
-    p.intersect <- length(intersect(charvectorrow[[1]], charvectorrow[[2]])) #Intersect
+    p.intersect <- length(intersect(charvectorrow[[1]], charvectorrow[[2]])) #Length of Intersect
     p.union     <- length(charvectorrow[[1]]) + length(charvectorrow[[2]]) - p.intersect #Length of Union
+    value <- p.intersect/p.union
+    if(value == 0) return(NA)   #Return NA if 0 for igraph
     return(p.intersect/p.union) #Return the jaccard value
   }
 
   #Creating the edgelist
-  jaccard.edgelist <- t(combn(names(pathways.list), 2)) #First two colums of the data frame like PATHWAY | PATHWAY; Found by taking the permutations of all pathway names in the string vectors
+  PTPedgelist <- t(combn(names(pathways.list), 2)) #First two colums of the data frame like PATHWAY | PATHWAY; Found by taking the permutations of all pathway names in the string vectors
   combn.values <- combn(pathways.list, 2)  #Creates matrix whose rows should be passed into the above function
   jaccard.values <- apply(combn.values, 2, find.jaccard.val) #Find the jaccard value for each column in combn values
-  jaccard.edgelist <- cbind(jaccard.edgelist, jaccard.values)#Attach the JACCARD VALUE column to PATHWAY | PATHWAY
+  PTPedgelist <- cbind(PTPedgelist, jaccard.values)#Attach the JACCARD VALUE column to PATHWAY | PATHWAY
 
 
 
@@ -82,34 +84,33 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   }
 
   CPE.sum <- unlist(apply(CPE.matrix, 2, sum)) #Create a lookup table of column sums
+  CPE.sum[CPE.sum == 0] <- NA #Replace 0s with NA
+
 
 
 
   ###Generate PCN network###
-  temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Mark valuable clusters in CPE.matrix. Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
-  temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
-  if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence greater than 2 found") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
-
-  PTP.edgelist <- do.call(rbind, sapply(temp.rows, function(x) t(combn(x, 2)))) #Sapply creates permutation matricies, do.call and rbind stacks them together. The result is the first two columns of PTP edgelist, every permutation of PTMs
-  jaccard <- apply(PTP.edgelist, 1, function(x) jaccard.matrix[x[1], x[2]]) #Jaccard Weights. Iterate over rows
-  CPE <- apply(PTP.edgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over rows
+  CPE <- apply(PTPedgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over rows
+  PTPedgelist <- cbind(PTPedgelist, CPE) #Bind all the columns together
+  PTPedgelist <- PTPedgelist[rowSums(is.na(PTPedgelist)) != 2, ] #Remove all nonzero rows
 
 
-  PTP.edgelist <- cbind(PTP.edgelist, jaccard, CPE) #Bind all the columns together
+
 
 
   ###Debug Variable Names### - DELETE ME
-  assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
-  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)         #DEBUG
-  assign(edgelist.name, PTP.edgelist, envir = .GlobalEnv)      #DEBUG
-  assign("temp.rows", temp.rows, envir = .GlobalEnv)           #DEBUG
+  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)        #DEBUG
+  assign("CPE.sum", CPE.matrix, envir = .GlobalEnv)        #DEBUG
+  assign(edgelist.name, PTPedgelist, envir = .GlobalEnv)      #DEBUG
+
+
+
 
 
 
   ###Save edgefile for cytoscape plotting###
   filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
-  utils::write.csv(PTP.edgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
+  utils::write.csv(PTPedgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
   #Tell the user where their files got put
   cat(filename, "made in directory:", getwd())
