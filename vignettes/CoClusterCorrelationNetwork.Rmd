@@ -306,7 +306,6 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 #### Output  
 - cfn (or otherwise named by cfn.name)
   - A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights  
-  - Note that the STRINGdb.combined_score is on a scale of 0-1000 while cor_weight (and GM.raw.weights) is on a scale of 0-1
 
 #### Estimated run-time  
 10mins
@@ -318,8 +317,6 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 ```{r eval = FALSE}
 PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name = "edgelist")
 ```
-
-
 
 <center>
 
@@ -351,6 +348,37 @@ Pathway Crosstalk Network is the final step in the pipeline. It requires input o
 
 #### Estimated run-time  
 UNKNOWN
+
+## Step 7: Graph Cluster Filtered Network  
+
+#### Code  
+
+```{r eval = FALSE}
+GraphCfn(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools")
+```
+
+<center>
+![](vig_figs/cytoscape_graph.png)  
+**Figure 13** Default cytoscape graph  
+
+</center>
+<p>&nbsp;</p>
+
+#### Description  
+
+This optional function GraphCfn creates a graph using the cluster filtered network in the Cytoscape app.
+
+#### Input  
+- cfn 
+  - A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights  
+- 
+  
+#### Output  
+- No actual output or assignment  
+- Creates a graph in the cytoscape interface
+
+#### Estimated run-time  
+UNKNOWN  
 
 
 
