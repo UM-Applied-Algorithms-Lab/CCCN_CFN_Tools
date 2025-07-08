@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' PathwayCrosstalkNetwork(ex.bioplanet, ex.clusters.common)
+#' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
 PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "PTPedgelist"){
   #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
   if(is.character(file)){ #For loading .csv
@@ -100,9 +100,9 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
   ###Debug Variable Names### - DELETE ME
-  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)  #DEBUG
-  assign("CPE.sum", CPE.matrix, envir = .GlobalEnv)     #DEBUG
-  assign(edgelist.name, PTPedgelist, envir = .GlobalEnv)#DEBUG
+  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)   #DEBUG
+  assign("CPE.sum", CPE.matrix, envir = .GlobalEnv)      #DEBUG
+  assign(edgelist.name, PTPedgelist, envir = .GlobalEnv) #DEBUG
 
 
 
