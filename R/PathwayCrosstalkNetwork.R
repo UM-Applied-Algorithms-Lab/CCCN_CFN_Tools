@@ -83,15 +83,15 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
 
-  ###Generate PCN network### -for 
+  ###Generate PCN network###  
   temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Mark valuable clusters in CPE.matrix. Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence greater than 2 found") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   
-  PTP.edgelist <- do.call(rbind, sapply(temp.rows, function(x) t(combn(x, 2)))) #Sapply creates permutation matricies, do.call and rbind stacks them together
+  PTP.edgelist <- do.call(rbind, sapply(temp.rows, function(x) t(combn(x, 2)))) #Sapply creates permutation matricies, do.call and rbind stacks them together. The result is the first two columns of PTP edgelist, every permutation of PTMs
   jaccard <- apply(PTP.edgelist, 1, function(x) jaccard.matrix[x[1], x[2]]) #Jaccard Weights. Iterate over rows
-  CPE <- apply(PTP.edgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over columns 
+  CPE <- apply(PTP.edgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over rows 
   
   PTP.edgelist <- cbind(PTP.edgelist, jaccard, CPE) #Bind all the columns together
   
