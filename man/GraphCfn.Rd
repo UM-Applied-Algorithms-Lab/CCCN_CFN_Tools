@@ -88,7 +88,7 @@ Creates a cytoscape graph of the cluster filtered network. Ensure that you have 
 }
 \section{Default Network Diagram}{
 
-\figure{figures/cytoscape_graph.png}
+\figure{figures/cytoscape_graph_2.png}
 }
 
 \examples{

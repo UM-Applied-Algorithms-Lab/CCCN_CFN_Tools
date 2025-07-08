@@ -3,7 +3,7 @@
 #' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 #'
 #' @section Default Network Diagram:
-#' ![](figures/cytoscape_graph.png)
+#' ![](figures/cytoscape_graph_2.png)
 #'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #' @param Network.title Desired title for the created Cytoscape Network
