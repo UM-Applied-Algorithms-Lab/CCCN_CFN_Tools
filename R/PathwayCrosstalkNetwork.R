@@ -26,51 +26,53 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
 
-  ###Jaccard Similarity### - Pathways x pathways where value is the intersection divided by union
-  jaccard.matrix <- matrix(0, nrow = length(pathways.list), ncol = length(pathways.list)) #Create an empty matrix that is pathways x pathways
-
-  #Rename
-  rownames(jaccard.matrix) <- names(pathways.list)
-  colnames(jaccard.matrix) <- names(pathways.list)
-
-  #Populate matrix using [i, j] values are the intersection/union between pathway i and j, diagonals must be 0 in order to prevent self-loops in
-  for (i in 1:length(pathways.list)) {
-    for (j in 1:length(pathways.list)) { #Populate symmetrical matrix
-      p.intersect <- length(intersect(pathways.list[[i]], pathways.list[[j]])) #Length of Intersect
-      p.union     <- length(pathways.list[[i]]) + length(pathways.list[[j]]) - p.intersect #Length of Union
-      value <- p.intersect/p.union #Number of genes in intersect / Number of genes in union
-      #If value happens to be zero, just don't assign anything since 0 is already there
-      if(value > 0) jaccard.matrix[i, j] <- value #Number of genes pathway i and j share
-    }}
 
 
-  
+  ###Jaccard Similarity### - List of edges, a data frame like PATHWAY | PATHWAY | JACCARD VALUE
+
+  # Helper function to pass into an "apply" function for a matrix that contains character vectors. Matrix dimensions should be 2 columns x any number of rows
+  find.jaccard.val <- function(charvectorrow){
+    p.intersect <- length(intersect(charvectorrow[[1]], charvectorrow[[2]])) #Intersect
+    p.union     <- length(charvectorrow[[1]]) + length(charvectorrow[[2]]) - p.intersect #Length of Union
+    return(p.intersect/p.union) #Return the jaccard value
+  }
+
+  #Creating the edgelist
+  jaccard.edgelist <- t(combn(names(pathways.list), 2)) #First two colums of the data frame like PATHWAY | PATHWAY; Found by taking the permutations of all pathway names in the string vectors
+  combn.values <- combn(pathways.list, 2)  #Creates matrix whose rows should be passed into the above function
+  jaccard.values <- apply(combn.values, 2, find.jaccard.val) #Find the jaccard value for each column in combn values
+  jaccard.edgelist <- cbind(jaccard.edgelist, jaccard.values)#Attach the JACCARD VALUE column to PATHWAY | PATHWAY
+
+
+
+
+
   ###Pathway Cluster Evidence###  - A matrix of pathways x pathways whose values are found by using a custom formula that relates clusters and pathways
   CPE.matrix <- matrix(NA, nrow = length(clusterlist), ncol = length(pathways.list))
   rownames(CPE.matrix) <- names(clusterlist) #Names
   colnames(CPE.matrix) <- names(pathways.list)
 
   #Populate Matrix
-  pathways.temp <- as.data.frame(table(bioplanet$GENE_SYMBOL)) #Create a lookup table for how many times each gene appears in the pathways list 
+  pathways.temp <- as.data.frame(table(bioplanet$GENE_SYMBOL)) #Create a lookup table for how many times each gene appears in the pathways list
   pathways.hash <- pathways.temp$Freq #Create a hashtable from the table, very important for lowering runtime
-  names(pathways.hash) <- pathways.temp$Var1 #Now any string vector of genes like pathways.hash[[c("AARS", "ABCA1")]] will return the frequency of how many times those genes appear in the pathway list *in constant time*. Sum() to return the total  
+  names(pathways.hash) <- pathways.temp$Var1 #Now any string vector of genes like pathways.hash[[c("AARS", "ABCA1")]] will return the frequency of how many times those genes appear in the pathway list *in constant time*. Sum() to return the total
 
   for(a in 1:nrow(CPE.matrix)){
     #Precomputation steps for cluster
     #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
     gene.names <- sapply(clusterlist[[a]], function(x) strsplit(x, ";", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
     gene.weights <- sapply(gene.names, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto gene.names,
-    
+
     gene.names <- c(clusterlist[[a]], recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
     gene.weights <- c(gene.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
-    
-    #Create a gene lookup table that stores the number of times every gene appears in the cluster. Accessed like: temp[['ABCA3']] gives the # of times ABCA3 appears. 
+
+    #Create a gene lookup table that stores the number of times every gene appears in the cluster. Accessed like: temp[['ABCA3']] gives the # of times ABCA3 appears.
     gene.temp <- as.data.frame(table(sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]))) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
     gene.hash <- gene.temp$Freq        #Create a hashtable from the gene.temp table
     names(gene.hash) <- gene.temp$Var1 #Same strategy as pathways.hash
-    
+
     cluster.length <- length(clusterlist[[a]]) #Precompute the length
-    
+
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
     for(b in 1:ncol(CPE.matrix)){
       num <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator
@@ -78,23 +80,24 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       CPE.matrix[[a, b]] <- num/dem
     }
   }
-  
-  CPE.sum <- unlist(apply(CPE.matrix, 2, sum)) #Create a lookup table of column sums 
+
+  CPE.sum <- unlist(apply(CPE.matrix, 2, sum)) #Create a lookup table of column sums
 
 
 
-  ###Generate PCN network###  
+  ###Generate PCN network###
   temp.rows <- apply(CPE.matrix, 1, function(x){colnames(CPE.matrix)[x!=0]}) #Mark valuable clusters in CPE.matrix. Creates a list of vectors that contain pathways connections where there is a nonzero weight. 1 Vector per row.
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence found (Matrix is empty). Please ensure clusters and bioplanet have overlap.") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
   temp.rows <- temp.rows[sapply(temp.rows, function(y){length(y)>=2})] #Remove every vector from temp.rows that below the length threshold (2)
   if(length(temp.rows) == 0) stop("No Cluster Pathway Evidence greater than 2 found") #Error catch- Not worth continuing as a less helpful error will happen in the next line given a length of zero.
-  
+
   PTP.edgelist <- do.call(rbind, sapply(temp.rows, function(x) t(combn(x, 2)))) #Sapply creates permutation matricies, do.call and rbind stacks them together. The result is the first two columns of PTP edgelist, every permutation of PTMs
   jaccard <- apply(PTP.edgelist, 1, function(x) jaccard.matrix[x[1], x[2]]) #Jaccard Weights. Iterate over rows
-  CPE <- apply(PTP.edgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over rows 
-  
+  CPE <- apply(PTP.edgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over rows
+
+
   PTP.edgelist <- cbind(PTP.edgelist, jaccard, CPE) #Bind all the columns together
-  
+
 
   ###Debug Variable Names### - DELETE ME
   assign("jaccard.matrix", jaccard.matrix, envir = .GlobalEnv) #DEBUG
