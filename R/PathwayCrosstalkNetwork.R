@@ -77,8 +77,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
     for(b in 1:ncol(CPE.matrix)){
-      num <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator
-      dem <- (sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length) #Calculate denominator
+      num <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator - How many times each Protein from a pathway appears in the cluster (can appear multiple times due to PTMs, or less than 1 time(s) due to ambiguous PTMs)
+      dem <- (sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length) #Calculate denominator - How many times each Protein in the pathway appears in the entire list of pathways * the length of the cluster
       CPE.matrix[[a, b]] <- num/dem
     }
   }
@@ -89,19 +89,20 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
 
+
   ###Generate PCN network###
-  CPE <- apply(PTPedgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #CPE Weights. Iterate over rows
-  PTPedgelist <- cbind(PTPedgelist, CPE) #Bind all the columns together
-  PTPedgelist <- PTPedgelist[rowSums(is.na(PTPedgelist)) != 2, ] #Remove all nonzero rows
+  CPE <- apply(PTPedgelist, 1, function(y) CPE.sum[[ y[1] ]] + CPE.sum[[ y[2] ]]) #Get a vector of all the CPE weights for every permutation
+  PTPedgelist <- cbind(PTPedgelist, CPE) #Bind all the columns together. Now Data structure is PATHWAY | PATHWAY | Jaccard | CPE
+  PTPedgelist <- PTPedgelist[rowSums(is.na(PTPedgelist)) != 2, ] #Remove all rows that only have NA values for the jaccard and CPE values.
 
 
 
 
 
   ###Debug Variable Names### - DELETE ME
-  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)        #DEBUG
-  assign("CPE.sum", CPE.matrix, envir = .GlobalEnv)        #DEBUG
-  assign(edgelist.name, PTPedgelist, envir = .GlobalEnv)      #DEBUG
+  assign("CPE.matrix", CPE.matrix, envir = .GlobalEnv)  #DEBUG
+  assign("CPE.sum", CPE.matrix, envir = .GlobalEnv)     #DEBUG
+  assign(edgelist.name, PTPedgelist, envir = .GlobalEnv)#DEBUG
 
 
 
