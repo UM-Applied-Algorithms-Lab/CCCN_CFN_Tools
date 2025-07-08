@@ -55,6 +55,8 @@ GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.
   }
 
 
+  if(!cytoscapePing()) stop("Ensure that the cytoscape app is running and reachable. Run cytoscapePing() to check and try again.")
+
 
   # ACTUAL CODE AND DATA PROCESSING
 
