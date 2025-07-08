@@ -2,6 +2,8 @@
 #'
 #' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 #'
+#' If error occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+#'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #' @param Network.title Desired title for the created Cytoscape Network
 #' @param Network.collection Desired name for the collection created on Cytoscape in which the network will reside
@@ -52,10 +54,9 @@ GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.
       BiocManager::install("RCy3")            # install!
     }
     library("RCy3")                           # library
+    cytoscapePing()                           # ensure connection?
   }
 
-
-  if(!cytoscapePing()) stop("Ensure that the cytoscape app is running and reachable. Run cytoscapePing() to check and try again.")
 
 
   # ACTUAL CODE AND DATA PROCESSING

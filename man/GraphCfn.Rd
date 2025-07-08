@@ -86,6 +86,9 @@ A cytoscape graph of the cluster filtered network
 \description{
 Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
 }
+\details{
+If error occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+}
 \examples{
 # GraphCFN(ex.cfn)
 # See vignette for default graph
