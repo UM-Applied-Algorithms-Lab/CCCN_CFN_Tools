@@ -42,7 +42,7 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
         row <- which(ppi.network[[1]] == gene2 & ppi.network[[2]] == gene1)
       }
 
-      if(length(rownames(row)) == 0){                               # if this combo DNE in ppi
+      if(length(row) == 0){                                         # if this combo DNE in ppi
 
           newrow <- as.data.frame(matrix(NA, nrow = 1, ncol = len)) # make a new dataframe with our info
           colnames(newrow) <- colnames(ppi.network)                 # make the column names the same
@@ -56,9 +56,9 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
         } else {                                  # if combo DOES exist
 
         for(index in row){                      # iterate through the combinations
-        ppi.network[index, len] <- weight       # assign the weight
+          ppi.network[index, len] <- weight     # assign the weight
 
-        ppi.network$Interaction.Type[index] <- paste(ppi.network$Interaction.Type[index], int.type, sep = ", ")
+          ppi.network$Interaction[index] <- paste(ppi.network$Interaction[index], int.type, sep = ", ")
 
         }
       }
@@ -75,7 +75,7 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
   if(is.data.frame(stringdb.edges)){
     if("Gene.1" %in% colnames(stringdb.edges)[-3] & "Gene.2" %in% colnames(stringdb.edges)[-3] & length(colnames(stringdb.edges)) == 4){  # check formatting
 
-      columname <- colnames(stringdb.edges)[3]                                              # get column name
+      columname <- colnames(stringdb.edges)[4]                                              # get column name
 
       ppi.network <- rbind(ppi.network, stringdb.edges)                                     # initialize ppi.network w rbind
 
