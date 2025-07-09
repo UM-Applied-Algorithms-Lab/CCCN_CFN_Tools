@@ -56,29 +56,27 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   #Populate Matrix
   pathways.temp <- as.data.frame(table(bioplanet$GENE_SYMBOL)) #Create a lookup table for how many times each gene appears in the pathways list
-  pathways.hash <- pathways.temp$Freq #Create a hashtable from the table, very important for lowering runtime
-  names(pathways.hash) <- pathways.temp$Var1 #Now any string vector of genes like pathways.hash[[c("AARS", "ABCA1")]] will return the frequency of how many times those genes appear in the pathway list *in constant time*. Sum() to return the total
+  pathgene.count <- pathways.temp$Freq #Create a hashtable from the table, very important for lowering runtime
+  names(pathgene.count) <- pathways.temp$Var1 #Now any string vector of genes like pathways.hash[[c("AARS", "ABCA1")]] will return the frequency of how many times those genes appear in the pathway list *in constant time*. Sum() to return the total
 
   for(a in 1:nrow(CPE.matrix)){
     #Precomputation steps for cluster
     #Use Gene names, NOT ptms. Note for anyone viewing these, data structures, names get messed up at this step due to R's c function
-    gene.names <- sapply(clusterlist[[a]], function(x) strsplit(x, ";", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
+    gene.names <- sapply(clusterlist[[a]], function(x) strsplit(x, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list which will be "Flattened out" in the next line
     gene.weights <- sapply(gene.names, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto gene.names,
 
-    gene.names <- c(clusterlist[[a]], recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
+    gene.names <- c(gene.names, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
     gene.weights <- c(gene.weights, recursive=TRUE, use.names=FALSE) #Perform the same operation on weights to keep them mapped
+    gene.names <- sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]) #Crop off the PTM parts
 
-    #Create a gene lookup table that stores the number of times every gene appears in the cluster. Accessed like: temp[['ABCA3']] gives the # of times ABCA3 appears.
-    gene.temp <- as.data.frame(table(sapply(gene.names, function(z) unlist(strsplit(z, " ",  fixed=TRUE))[1]))) #Convert all PTMs to genes by cutting off modifications like "ubi 470"
-    gene.hash <- gene.temp$Freq        #Create a hashtable from the gene.temp table
-    names(gene.hash) <- gene.temp$Var1 #Same strategy as pathways.hash
+    gene.count <- tapply(gene.weights, gene.names, sum) #Count the number of times genes appear in the vector, needs to be accessed FAST due to how many look ups is required.
 
     cluster.length <- length(clusterlist[[a]]) #Precompute the length
 
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
     for(b in 1:ncol(CPE.matrix)){
-      num <- sum(gene.hash[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator - How many times each Protein from a pathway appears in the cluster (can appear multiple times due to PTMs, or less than 1 time(s) due to ambiguous PTMs)
-      dem <- (sum(pathways.hash[pathways.list[[b]]], na.rm=TRUE)*cluster.length) #Calculate denominator - How many times each Protein in the pathway appears in the entire list of pathways * the length of the cluster
+      num <- sum(gene.count[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator - How many times each Protein from a pathway appears in the cluster (can appear multiple times due to PTMs, or less than 1 time(s) due to ambiguous PTMs)
+      dem <- (sum(pathgene.count[pathways.list[[b]]], na.rm=TRUE)*cluster.length) #Calculate denominator - How many times each Protein in the pathway appears in the entire list of pathways * the length of the cluster
       value <- num/dem
       if(value == 0) CPE.matrix[[a,b]] <- NA #Important because I create a new vector by summing two columns. To see if two pathways have relation to the same cluster, I want to see if they have nonzero values in the same cluster (row). This is accomplished because only two nonzero values will result in an int, as int + NA = NA.
       else CPE.matrix[[a, b]] <- value
@@ -91,7 +89,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
   ###Generate PCN network###
-  CPE <- apply(PTPedgelist, 1, function(x) sum(CPE.matrix[,x[1]] + CPE.matrix[,x[2]], na.rm=TRUE)) #Get a vector of all the CPE weights for every permutation
+  CPE <- apply(PTPedgelist, 1, function(x) sum(CPE.matrix[,x[1]] + CPE.matrix[,x[2]], na.rm=TRUE)) #Get a vector of all the CPE weights for every permutation. For a CPE weight to be nonzero, they BOTH must have a mapping column in at least 1 area.
   CPE[CPE == 0] <- NA #Replace all 0s with NAs
   PTPedgelist <- cbind(PTPedgelist, CPE) #Bind all the columns together. Now Data structure is PATHWAY | PATHWAY | Jaccard | CPE
   PTPedgelist <- PTPedgelist[rowSums(is.na(PTPedgelist)) != 2, ] #Remove all rows that only have NA values for the jaccard and CPE values
