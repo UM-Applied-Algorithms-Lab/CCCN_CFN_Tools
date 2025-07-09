@@ -80,8 +80,7 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   cccn.matrix[cccn.matrix==0] <- NA
 
   # Remove self-loops by setting diagonal to NA
-  #note to self why any???
-  if (any(!is.na(diag(cccn.matrix)))) diag(cccn.matrix) <- NA
+  diag(cccn.matrix) <- NA
 
   # Make igraph object, replacing NA with 0
   cccn.matrix[is.na(cccn.matrix)] <- 0 #Used to be function
