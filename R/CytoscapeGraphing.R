@@ -90,6 +90,11 @@ GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.
                                                     # "l", "r", "c"
                                                     # amount offset in the x direction
                                                     # amount offset in the y direction
+
+  # mapVisualProperty("Edge Target Arrow Shape", "interaction", 'd',
+  #                   c("Physical Interactions", "Pathways", "database", "database_transferred", "experimental", "experimental_transferred"),
+  #                   c("SQUARE", "HALF_CIRCLE", "CROSS_DELTA", "CROSS_DELTA", "ARROW_SHORT", "ARROW_SHORT"))
+
   # mapVisualProperty(visual.property, table.column, mapping.type, table.column.values, visual.prop.values)
   # visual.properties can be found with ?mapVisualProperty (thank god) some useful ones are: "node label", "node fill color", "Edge Target Arrow Shape", many more
   # table.column shows which column of the table is being mapped (id for the node label) or analyzed (interaction for arrow shape) for this property
