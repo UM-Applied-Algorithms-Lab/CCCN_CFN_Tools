@@ -47,6 +47,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   jaccard.values <- apply(combn.vector, 2, find.jaccard.val) #Find the jaccard value for every pair of string vectors in combn.svector
   PTPedgelist <- cbind(PTPedgelist, jaccard.values) #Attach the JACCARD VALUE column to PATHWAY | PATHWAY
 
+  assign("Jaccard.Full", PTPedgelist, envir = .GlobalEnv) #DEBUG - For viewing the full jaccard edgelist
 
   ### Pathway Cluster Evidence ###
   CPE.matrix <- matrix(NA, nrow = length(clusterlist), ncol = length(pathways.list)) #Initilize empty data structure, Clusters x Pathways
