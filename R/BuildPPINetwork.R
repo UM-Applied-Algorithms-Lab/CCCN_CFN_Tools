@@ -25,7 +25,7 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
 
   bind_ppis <- function(ppi.network, edgefile){
 
-    columname <- colnames(edgefile)[3]            # name the column
+    columname <- colnames(edgefile)[4]            # name the column
     ppi.network[[columname]] <- NA                # make new column
     len <- length(colnames(ppi.network))          # record num cols
 
@@ -33,28 +33,32 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
 
       gene1 <- edgefile$Gene.1[i]
       gene2 <- edgefile$Gene.2[i]
-      weight <- edgefile[i,3]
+      int.type <- edgefile[i,3]
+      weight <- edgefile[i,4]
 
       row <- which(ppi.network[[1]] == gene1 & ppi.network[[2]] == gene2)
 
       if(length(row) == 0){
         row <- which(ppi.network[[1]] == gene2 & ppi.network[[2]] == gene1)
+      }
 
-        if(length(rownames(row)) == 0){                             # if this combo DNE in ppi
+      if(length(row) == 0){                                         # if this combo DNE in ppi
 
           newrow <- as.data.frame(matrix(NA, nrow = 1, ncol = len)) # make a new dataframe with our info
           colnames(newrow) <- colnames(ppi.network)                 # make the column names the same
           newrow[[1]] <- gene1                                      # add the data
           newrow[[2]] <- gene2
+          newrow[[3]] <- int.type
           newrow[[len]] <- weight
 
           ppi.network <- rbind(ppi.network, newrow)                 # combine
-        }
 
-      } else {                                  # if combo DOES exist
+        } else {                                  # if combo DOES exist
 
         for(index in row){                      # iterate through the combinations
-        ppi.network[index, len] <- weight       # assign the weight
+          ppi.network[index, len] <- weight     # assign the weight
+
+          ppi.network$Interaction[index] <- paste(ppi.network$Interaction[index], int.type, sep = ", ")
 
         }
       }
@@ -69,9 +73,9 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
 
   # ppi is essentially initialized to the stringdb.edges if stringdb.edges isn't NA
   if(is.data.frame(stringdb.edges)){
-    if("Gene.1" %in% colnames(stringdb.edges)[-3] & "Gene.2" %in% colnames(stringdb.edges)[-3] & length(colnames(stringdb.edges)) == 3){  # check formatting
+    if("Gene.1" %in% colnames(stringdb.edges)[-3] & "Gene.2" %in% colnames(stringdb.edges)[-3] & length(colnames(stringdb.edges)) == 4){  # check formatting
 
-      columname <- colnames(stringdb.edges)[3]                                              # get column name
+      columname <- colnames(stringdb.edges)[4]                                              # get column name
 
       ppi.network <- rbind(ppi.network, stringdb.edges)                                     # initialize ppi.network w rbind
 
@@ -79,12 +83,12 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
       ppi.network[[columname]] <- sapply(ppi.network[[columname]], function(x) (x / maxi))  # divide each by max for scale 0-1
     }
     } else {
-    print("Improper formatting of stringdb.edges. Ensure creation by GetSTRINGdb.")                                           # warning message else
+    print("Improper formatting of stringdb.edges. Ensure creation by GetSTRINGdb.")         # warning message else
   }
 
   # Combine STRINGdb and GeneMANIA edges if gm.network exists
   if (is.data.frame(gm.network)){
-    if("Gene.1" %in% colnames(gm.network)[-3] & "Gene.2" %in% colnames(gm.network)[-3] & length(colnames(gm.network)) == 3){  # check formatting
+    if("Gene.1" %in% colnames(gm.network)[-3] & "Gene.2" %in% colnames(gm.network)[-3] & length(colnames(gm.network)) == 4){  # check formatting
       if (length(rownames(ppi.network)) == 0){                                                                                # initialize if good
         ppi.network <- rbind(ppi.network, gm.network)                                                                         # and no STRING
       } else{                                                                                                                 # bind w my func
@@ -100,16 +104,16 @@ BuildPPINetwork <- function(stringdb.edges = NA, gm.network = NA, db.filepaths =
     for(path in db.filepaths){                           # iterate through the file paths
 
       db.edges <- utils::read.table(path)                                                                          # get the info from the file
-      if(!("Gene.1" %in% colnames(db.edges)[-3]) | !("Gene.2" %in% colnames(db.edges)[-3])){                               # check if colnames correct
+      if(!("Gene.1" %in% colnames(db.edges)[-3]) | !("Gene.2" %in% colnames(db.edges)[c(-3, -4)])){                       # check if colnames correct
         print("Improper naming of column names in the following file:")                                            # warning message if not
         cat(path)
         print("First two columns should be labeled 'Gene.1' and 'Gene.2'. Skipping this database")
         next                                                                                                       # skip if improper colnames
       }
-      if(!(length(colnames(db.edges)) == 3)){                                                                      # check if wrong num cols
+      if(!(length(colnames(db.edges)) == 4)){                                                                      # check if wrong num cols
         print("Improper number of columns in the following file:")                                                 # warning message if not
         cat(path)
-        print("There should be three columns with the third being the weights of the edges")
+        print("There should be four columns with the third being the interaction tybe and the fourth being the weights of the edges")
         next                                                                                                       # skip if num cols
       }
       if (length(rownames(ppi.network)) == 0){           # if didn't use STRINGdb or GeneMANIA it's a simple Rbind

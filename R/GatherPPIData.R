@@ -105,8 +105,8 @@ GetSTRINGdb <- function(cccn.matrix, stringdb.name = "stringdb.edges", nodenames
   combined_interactions$Weight <- rowSums(combined_interactions[, c("experiments", "experiments_transferred", "database", "database_transferred")])
 
   # Create the final edges dataframe from STRINGdb
-  combined.edges <- combined_interactions[, c("Gene.1", "Gene.2", "Weight")]
-  colnames(combined.edges) <- c("Gene.1", "Gene.2", "STRINGdb.combined_score")
+  combined.edges <- combined_interactions[, c("Gene.1", "Gene.2", "edgeType", "Weight")]
+  colnames(combined.edges) <- c("Gene.1", "Gene.2", "Interaction", "STRINGdb.combined_score")
 
   # assign
   assign(stringdb.name, combined.edges, envir = .GlobalEnv)
@@ -141,8 +141,8 @@ ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path
   keeper <- edgetable$data.type == "Pathway" | edgetable$data.type == "Physical Interactions"   # which rows have these data types
   edgetable <- edgetable[keeper,]                                                               # copy 'em over
 
-  edgetable <- subset(edgetable, select = c(name, normalized.max.weight))        # only look at the name and normalized.max.weight columns
-  nodetable <- subset(nodetable, select = c(name, query.term))         # only look at the names (GM ID) and query.term (real names) columns
+  edgetable <- subset(edgetable, select = c(name, data.type, normalized.max.weight))            # only look at the name and normalized.max.weight columns
+  nodetable <- subset(nodetable, select = c(name, query.term))                                  # only look at the names (GM ID) and query.term (real names) columns
 
   edgetable$Gene.1 <- 'null'   # make new columns!
   edgetable$Gene.2 <- 'null'
@@ -153,9 +153,9 @@ ProcessGMEdgefile <- function(gm.edgefile.path, gm.nodetable.path, db_nodes.path
   edgetable$Gene.2 <- sapply(split.names, function(x)x[2])                                             # take the first thing; first ID name
   edgetable$Gene.2 <- sapply(edgetable$Gene.2, function(x)nodetable$query.term[nodetable$name == x])   # turn the ID into the gene name!
 
-  edges <- edgetable[, c("Gene.1", "Gene.2", "normalized.max.weight")]      # sort into a new table with only our information and in the order we want
+  edges <- edgetable[, c("Gene.1", "Gene.2", "data.type", "normalized.max.weight")]      # sort into a new table with only our information and in the order we want
 
-  colnames(edges) <- c("Gene.1", "Gene.2", "GM.weights")                    # rename so when put with everything, clearer where came from
+  colnames(edges) <- c("Gene.1", "Gene.2", "interaction", "GM.weights")                  # rename so when put with everything, clearer where came from
 
   keep <- edges$Gene.1 %in% nodenames & edges$Gene.2 %in% nodenames         # which rows are we keeping
   all.edges <- edges[keep,]                                                 # copy 'em over
