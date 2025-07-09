@@ -78,8 +78,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
       num <- sum(gene.count[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator - How many times each Protein from a pathway appears in the cluster (can appear multiple times due to PTMs, or less than 1 time(s) due to ambiguous PTMs)
       dem <- (sum(pathgene.count[pathways.list[[b]]], na.rm=TRUE)*cluster.length) #Calculate denominator - How many times each Protein in the pathway appears in the entire list of pathways * the length of the cluster
       value <- num/dem
-      if(value == 0) CPE.matrix[[a,b]] <- NA #Important because I create a new vector by summing two columns. To see if two pathways have relation to the same cluster, I want to see if they have nonzero values in the same cluster (row). This is accomplished because only two nonzero values will result in an int, as int + NA = NA.
-      else CPE.matrix[[a, b]] <- value
+      if(value != 0) CPE.matrix[[a,b]] <- value #Important because I create a new vector by summing two columns. To see if two pathways have relation to the same cluster, I want to see if they have nonzero values in the same cluster (row). This is accomplished because only two nonzero values will result in an int, as int + NA = NA.
     }
   }
 
