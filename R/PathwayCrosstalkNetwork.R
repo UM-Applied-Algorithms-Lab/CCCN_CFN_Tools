@@ -34,7 +34,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   find.jaccard.val <- function(charvectorrow){
     p.intersect <- length(intersect(charvectorrow[[1]], charvectorrow[[2]])) #Length of Intersect
     p.union     <- length(charvectorrow[[1]]) + length(charvectorrow[[2]]) - p.intersect #Length of Union
-    value <- p.intersect/p.union
+    value <- p.intersect/p.union#
     if(value == 0) return(NA)   #Return NA if 0 for igraph
     return(p.intersect/p.union) #Return the jaccard value
   }
@@ -75,12 +75,11 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
     #For every pathway for the given cluster, call ClusterPathwayEvidence (at top) for the CPE.matrix
     for(b in 1:ncol(CPE.matrix)){
-      num <- sum(gene.count[pathways.list[[b]]], na.rm=TRUE) #Calculate numerator - How many times each Protein from a pathway appears in the cluster (can appear multiple times due to PTMs, or less than 1 time(s) due to ambiguous PTMs)
-      dem <- (sum(pathgene.count[pathways.list[[b]]], na.rm=TRUE)*cluster.length) #Calculate denominator - How many times each Protein in the pathway appears in the entire list of pathways * the length of the cluster
-      value <- num/dem
+      num <- gene.count[pathways.list[[b]]] #Calculate numerator - How many times each Protein from a pathway appears in the cluster (can appear multiple times due to PTMs, or less than 1 time(s) due to ambiguous PTMs)
+      den <- pathgene.count[pathways.list[[b]]] #Calculate denominator - How many times each Protein in the pathway appears in the entire list of pathways * the length of the cluster
+      value <- sum(num/den, na.rm=TRUE)*cluster.length #Vector wise division in num/den, then take the sum of the vector. Apply large cluster penalty
       if(value != 0) CPE.matrix[[a,b]] <- value #Important because I create a new vector by summing two columns. To see if two pathways have relation to the same cluster, I want to see if they have nonzero values in the same cluster (row). This is accomplished because only two nonzero values will result in an int, as int + NA = NA.
-    }
-  }
+  }}
 
 
 
