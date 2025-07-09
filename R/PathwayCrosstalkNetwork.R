@@ -11,6 +11,7 @@
 #' @examples
 #' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
 PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "PTPedgelist"){
+
   #Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL
   if(is.character(file)){ #For loading .csv
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory.")) #Error Catch
@@ -39,10 +40,13 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
     return(p.intersect/p.union) #Return the jaccard value
   }
 
+  #Mask the utils::combn with a more descriptive term
+  combinations <- utils::combn
+
   #Creating the edgelist
-  PTPedgelist <- t(combn(names(pathways.list), 2)) #First two colums of the data frame like PATHWAY | PATHWAY; Found by taking the permutations of all pathway names in the string vectors
-  combn.values <- combn(pathways.list, 2)  #Creates matrix whose rows should be passed into the above function
-  jaccard.values <- apply(combn.values, 2, find.jaccard.val) #Find the jaccard value for each column in combn values
+  PTPedgelist <- t(combinations(names(pathways.list), 2)) #First two colums of the data frame like PATHWAY | PATHWAY; Found by taking the permutations of all pathway names in the string vectors
+  combn.svector <- combinations(pathways.list, 2)  #Creates matrix whose rows should be passed into the above function
+  jaccard.values <- apply(combn.svector, 2, find.jaccard.val) #Find the jaccard value for each column in combn values
   PTPedgelist <- cbind(PTPedgelist, jaccard.values)#Attach the JACCARD VALUE column to PATHWAY | PATHWAY
 
 
