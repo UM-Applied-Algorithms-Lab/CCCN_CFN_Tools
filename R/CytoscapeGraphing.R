@@ -71,6 +71,7 @@ GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.
 
   cfn.edges$source <- cfn$Gene.1
   cfn.edges$target <- cfn$Gene.2
+  cfn.edges$interaction <- cfn$Interaction
   cfn.edges$weight <- cfn$PPI.weight
 
   cfn.nodes$id <- genes
