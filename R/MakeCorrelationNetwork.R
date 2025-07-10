@@ -54,7 +54,7 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
 
   ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
   correlation.value <- function(Gene1, Gene2){
-    r <- filtered.ptm.correlation[
+    r <- filtered.ptm.cor[
       grep(paste(Gene1, ""), rownames(filtered.ptm.correlation), value = TRUE), #Paste is required so that grep cannot find the gene in another gene. Such as, Gene1 = HAT will identify HIHATH as the same protein
       grep(paste(Gene2, ""), colnames(filtered.ptm.correlation), value = TRUE)] #Adding the space makes it so the entire word has to be there
     r <- as.matrix(r) #Needed? if singular value
