@@ -81,7 +81,7 @@ GraphCfn <- function(cfn, ptmtable, Network.title = "cfn", Network.collection = 
   cfn.edges$weight <- cfn$PPI.weight
 
   cfn.nodes$id <- genes
-  cfn.nodes$score <- sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmtable$PTM == x)]))
+  cfn.nodes$score <- sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$PTM == x)]))
 
   createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
 
