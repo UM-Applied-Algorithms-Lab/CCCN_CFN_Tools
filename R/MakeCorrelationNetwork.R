@@ -51,7 +51,8 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' utils::head(ex.cccn.matrix[, c(1,2,3,4,5)])
 MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", cccn.name = "cccn.matrix"){
 
-  #Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2
+
+  ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
   correlation.value <- function(Gene1, Gene2){
     r <- ptm.correlation.matrix[
       grep(paste(Gene1, " "), rownames(ptm.correlation.matrix), value = TRUE), #Paste is required so that grep cannot find the gene in another gene. Such as, Gene1 = HAT will identify HIHATH as the same protein
@@ -60,15 +61,15 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
     return(sum(r, na.rm = TRUE)) #Return sum
   }
 
-  #Find common clusters
+
+  #### Generate the combined adjacency matrix by taking PTMs to Genes ###
   clusters.common <- FindCommonClusters(clusterlist[[1]], clusterlist[[2]], clusterlist[[3]], keeplength) #Call function at top of code
 
-  # Generate the combined adjacency matrix by taking PTMs to Genes
   gene.common <- lapply(clusters.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
   ulist <- unique(unlist(gene.common)) #Use this for rownames and colnames
 
   cccn.matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
-  # Populate the empty matrix
+
   for(d in 1:length(gene.common)){ #For every cluster
     cluster <- gene.common[[d]]    #Save the current cluster
     for(e in cluster){             #For every element in the cluster
@@ -76,18 +77,17 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
         cccn.matrix[e, f] <- correlation.value(e, f) #This adds the correlation value
   }}}
 
-  # Replace 0 with NA in the correlation matrix
-  cccn.matrix[cccn.matrix==0] <- NA
+  cccn.matrix[cccn.matrix==0] <- NA # Replace 0 with NA in the correlation matrix
+  diag(cccn.matrix) <- NA # Remove self-loops by setting diagonal to NA
 
-  # Remove self-loops by setting diagonal to NA
-  diag(cccn.matrix) <- NA
 
-  # Make igraph object, replacing NA with 0
+  ### Export Final Data Structure ###
   cccn.matrix[is.na(cccn.matrix)] <- 0 #Used to be function
   assign(clusters.name, clusters.common, envir = .GlobalEnv) #List of common clusters
   assign(cccn.name, cccn.matrix, envir = .GlobalEnv) #CoCluster Correlation Network
 
-  #Graphing
+
+  ### Graphing ###
   graph <- igraph::graph_from_adjacency_matrix(cccn.matrix, mode = "lower", diag = FALSE, weighted = "Weight")
   plot(graph)
 }
