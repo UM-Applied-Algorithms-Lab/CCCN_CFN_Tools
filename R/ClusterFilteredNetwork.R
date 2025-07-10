@@ -16,30 +16,31 @@
 #' utils::head(ex.cfn)
 ClusterFilteredNetwork <- function(cccn.matrix, ppi.network, cfn.name = "cfn") {
 
-  cfn <- data.frame(matrix(0,ncol = 3, nrow = 0))          # initiate an empty dataframe
-  colnames(cfn) <- c("Gene.1", "Gene.2", "PPI.weight")     # name the columns
-  len <- length(rownames(cfn)) + 1                         # length of assignment
+  cfn <- data.frame(matrix(0,ncol = 4, nrow = 0))                      # initiate an empty dataframe
+  colnames(cfn) <- c("Gene.1", "Gene.2", "Interaction", "PPI.weight")  # name the columns
+  len <- length(rownames(cfn)) + 1                                     # length of assignment
 
-  for(row.num in 1:length(rownames(ppi.network))){         # iterate through the rows of ppi
+  for(row.num in 1:length(rownames(ppi.network))){    # iterate through the rows of ppi
 
     Gene1 <- ppi.network$Gene.1[row.num]         # grab gene1
     Gene2 <- ppi.network$Gene.2[row.num]         # grab gene2
+    Int.type <- ppi.network$Interaction[row.num] # grab the interaction type
     weights <- ppi.network[row.num, ]            # make a list of the row
-    weights <- weights[c(-1, -2)]                # remove the gene names, left with the weights
+    weights <- weights[c(-1, -2, -3)]            # remove the gene names and the interaction, left with the weights
     weight <- sum(weights[1, ], na.rm = TRUE)    # sum them up to get the total weight
 
 
     if(Gene1 %in% rownames(cccn.matrix) & Gene2 %in% colnames(cccn.matrix)) {  # check existence in cccn.matrix
       if(!(cccn.matrix[Gene1,Gene2] == 0)){                                    # check nonzero weight
 
-        cfn[len, ] <- c(Gene1, Gene2, weight)  # assign the info to a new row in cfn
-        len <- len + 1                         # increment rows
+        cfn[len, ] <- c(Gene1, Gene2, Int.type, weight)  # assign the info to a new row in cfn
+        len <- len + 1                                   # increment rows
 
       }
     } else if(Gene1 %in% colnames(cccn.matrix) & Gene2 %in% rownames(cccn.matrix)) {  # This is so very overkill
       if(!(cccn.matrix[Gene2,Gene1] == 0)){                                           # but we were experiencing some errors before
 
-        cfn[len, ] <- c(Gene1, Gene2, weight)                                         # so wanted to check both rownames and colnames incasekies
+        cfn[len, ] <- c(Gene1, Gene2, Int.type, weight)                               # so wanted to check both rownames and colnames incasekies
         len <- len + 1
 
       }
