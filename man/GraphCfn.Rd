@@ -6,6 +6,7 @@
 \usage{
 GraphCfn(
   cfn,
+  ptmtable,
   Network.title = "cfn",
   Network.collection = "cccn.cfn.tools",
   background.color = "#fcf3cf",
@@ -33,6 +34,8 @@ GraphCfn(
 }
 \arguments{
 \item{cfn}{A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights}
+
+\item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
 
 \item{Network.title}{Desired title for the created Cytoscape Network}
 
