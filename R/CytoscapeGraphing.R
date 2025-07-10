@@ -5,6 +5,7 @@
 #' If error occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
 #'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
+#' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
 #' @param Network.title Desired title for the created Cytoscape Network
 #' @param Network.collection Desired name for the collection created on Cytoscape in which the network will reside
 #'
@@ -40,7 +41,7 @@
 #' @examples
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
-GraphCfn <- function(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools",
+GraphCfn <- function(cfn, ptmtable, Network.title = "cfn", Network.collection = "cccn.cfn.tools",
                      background.color = '#fcf3cf', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#145a32', node.fill.color = '#a9dfbf',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
                      edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE', node.shape = "OCTAGON",

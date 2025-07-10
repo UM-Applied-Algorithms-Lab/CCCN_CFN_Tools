@@ -149,7 +149,7 @@
 #' @examples
 #' data(ex.common.clusters)
 #' head(ex.common.clusters)
-"ex.clusters.common"
+"ex.common.clusters"
 
 
 
