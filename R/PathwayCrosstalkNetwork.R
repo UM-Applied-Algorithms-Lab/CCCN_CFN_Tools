@@ -97,7 +97,6 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   cat(filename, "made in directory:", getwd()) #Tell the user where their files got put
 
   ### To create an igraph for analysis ###
-  # graph <- igraph::graph_from_edgelist(ex.PTPedgelist[,1:2]) #Create unweighted igraph
-  # igraph::E(graph)$Jaccard <- ex.PTPedgelist[,3] #Use the E function instead of set_edge_attr
-  # igraph::E(graph)$PTPe <- ex.PTPedgelist[,4]
+  # graph <- igraph::graph_from_data_frame(ex.PTPedgelist[,1:2], directed = FALSE) #Create unweighted igraph
+  # igraph::E(graph)$weight <- ex.PTPedgelist[,3] #Adds the jaccard value to the weights
 }
