@@ -64,8 +64,10 @@ GraphCfn <- function(cfn, ptmtable, Network.title = "cfn", Network.collection = 
 
   genes <- unique(c(cfn$Gene.1, cfn$Gene.2))
 
-  ptmtable <- ptmtable[, c("PTM", "HCC4006_Erlotinib")]
-  ptmtable$PTM <- sapply(ptmtable$PTM, function(x) strsplit(x, split = " ")[[1]][1])
+  ptmnew <- ptmtable[, c("PTM", "HCC4006_Erlotinib")]
+  ptmnew$PTM <- sapply(ptmtable$PTM, function(x) strsplit(x, split = " ")[[1]][1])
+  colnames(ptmnew) <- c("PTM", "score")
+  ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))
 
   cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4))
   cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3))
@@ -79,7 +81,7 @@ GraphCfn <- function(cfn, ptmtable, Network.title = "cfn", Network.collection = 
   cfn.edges$weight <- cfn$PPI.weight
 
   cfn.nodes$id <- genes
-  cfn.nodes$score <- sapply(cfn.nodes$id, function(x) sum(ptmtable$HCC4006_Erlotinib[which(ptmtable$PTM == x)]))
+  cfn.nodes$score <- sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmtable$PTM == x)]))
 
   createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
 
