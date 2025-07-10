@@ -81,8 +81,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
 
   ### Generate PCN network ###
-  CPE <- apply(PTPedgelist, 1, function(x) sum(CPE.matrix[rowSums(!is.na(ex.CPE.matrix)) == 2,x]) #Get a vector of all the PTP weights for every pair of pathways using the CPE weights to filter. For a PTP weight to be non-NA, the PTP weight will be the sum of all clusters both pathways have nonzero CPEs in.
-  CPE[CPE == 0] <- NA
+  #CPE <- apply(PTPedgelist, 1, function(x) sum(CPE.matrix[rowSums(!is.na(ex.CPE.matrix)) == 2,x]) #Get a vector of all the PTP weights for every pair of pathways using the CPE weights to filter. For a PTP weight to be non-NA, the PTP weight will be the sum of all clusters both pathways have nonzero CPEs in.
+  #CPE[CPE == 0] <- NA
 
   PTPedgelist <- cbind(PTPedgelist, CPE) #Bind all the columns together. Now Data structure is PATHWAY | PATHWAY | Jaccard | CPE
   PTPedgelist <- PTPedgelist[rowSums(is.na(PTPedgelist)) != 2, ] #Remove all rows that only have NA values for the jaccard and CPE values

@@ -9,6 +9,7 @@ GraphCfn(
   ptmtable,
   Network.title = "cfn",
   Network.collection = "cccn.cfn.tools",
+  visual.style.name = "cccn.cfn.tools.style",
   background.color = "#fcf3cf",
   edge.label.color = "#17202a",
   edge.line.color = "#abb2b9",
@@ -37,9 +38,11 @@ GraphCfn(
 
 \item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
 
-\item{Network.title}{Desired title for the created Cytoscape Network}
+\item{Network.title}{Desired title for the created Cytoscape Network; defaults to "cfn"}
 
-\item{Network.collection}{Desired name for the collection created on Cytoscape in which the network will reside}
+\item{Network.collection}{Desired name for the collection created on Cytoscape in which the network will reside; defaults to "cccn.cfn.tools"}
+
+\item{visual.style.name}{Desired name for the visual style created on Cytoscape; defaults to "cccn.cfn.tools.style"}
 
 \item{background.color}{Hex code of background color of graph; defaults to '#fcf3cf'}
 
