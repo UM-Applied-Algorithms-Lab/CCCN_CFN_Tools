@@ -49,7 +49,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.cccn.matrix")
 #' print(ex.clusters.common[c(1, 2, 3)])
 #' utils::head(ex.cccn.matrix[, c(1,2,3,4,5)])
-MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", cccn.name = "cccn.matrix"){
+MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", filtered.ptm.cor.name = "filtered.cor.matrix", cccn.name = "cccn.matrix"){
 
 
   ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
@@ -65,10 +65,10 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   #### Generate the combined adjacency matrix by taking PTMs to Genes ###
   clusters.common <- FindCommonClusters(clusterlist[[1]], clusterlist[[2]], clusterlist[[3]], keeplength) #Call function at top of code
   genes.common <- c(clusters.common, recursive=TRUE) #Flatten the clusters
-  filtered.ptm.correlation <- ptm.correlation.matrix[genes.common, genes.common] #Filter the correlation Network by PTMs that cocluster
+  filtered.ptm.cor <- ptm.correlation.matrix[genes.common, genes.common] #Filter the correlation Network by PTMs that cocluster
 
-  gene.common <- lapply(clusters.common, function(x) lapply(x,  function(y){unlist(strsplit(y, " ",  fixed=TRUE))[[1]]})) #Will just trim all elements for every subelement in a list of character vectors
-  ulist <- unique(unlist(gene.common)) #Use this for rownames and colnames
+  gene.common <- sapply(genes.common, function(x) {unlist(strsplit(x, " ",  fixed=TRUE))[[1]]}) #Will just trim all elements for every subelement in a list of character vectors
+  ulist <- unique(gene.common) #Use this for rownames and colnames
 
   cccn.matrix <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
 
@@ -87,7 +87,7 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   cccn.matrix[is.na(cccn.matrix)] <- 0 #Used to be function
   assign(clusters.name, clusters.common, envir = .GlobalEnv) #List of common clusters
   assign(cccn.name, cccn.matrix, envir = .GlobalEnv) #CoCluster Correlation Network
-  assign(paste("filtered.", cccn.name, sep=""), filtered.ptm.correlation, envir = .GlobalEnv) #Filtered correlation network
+  assign(filtered.ptm.cor.name, filtered.ptm.cor, envir = .GlobalEnv) #Filtered correlation network
 
 
   ### Graphing ###
