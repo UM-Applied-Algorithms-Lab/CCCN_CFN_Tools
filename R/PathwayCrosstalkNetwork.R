@@ -94,6 +94,10 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
   utils::write.csv(PTPedgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
-  #Tell the user where their files got put
-  cat(filename, "made in directory:", getwd())
+  cat(filename, "made in directory:", getwd()) #Tell the user where their files got put
+
+  ### To create an igraph for analysis ###
+  # graph <- igraph::graph_from_edgelist(ex.PTPedgelist[,1:2]) #Create unweighted igraph
+  # igraph::E(graph)$Jaccard <- ex.PTPedgelist[,3] #Use the E function instead of set_edge_attr
+  # igraph::E(graph)$PTPe <- ex.PTPedgelist[,4]
 }
