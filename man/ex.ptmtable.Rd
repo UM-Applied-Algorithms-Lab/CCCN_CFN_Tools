@@ -5,9 +5,10 @@
 \alias{ex.ptmtable}
 \title{PTM Table Example}
 \format{
-Dataframe of 100 rows and 70 columns:
+Dataframe of 497 rows and 70 columns:
 \describe{
 \item{rows}{Post-translational modifications}
+\item{first column}{PTM names}
 \item{columns}{Experimental condition}
 \item{values}{Expression as found by mass spectrometry}
 }
@@ -22,7 +23,6 @@ ex.ptmtable
 Post-translational modification data under certain environmental conditions.
 }
 \examples{
-data(ex.ptmtable)
 head(ex.ptmtable)
 }
 \keyword{internal}

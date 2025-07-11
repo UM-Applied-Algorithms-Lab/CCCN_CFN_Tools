@@ -29,7 +29,6 @@ ex.gm.edges
 Network of interactions from the GeneMANIA database.
 }
 \examples{
-data(ex.gm.edges)
 head(ex.gm.edges)
 }
 \keyword{internal}

@@ -5,10 +5,11 @@
 \alias{ex.stringdb.edges}
 \title{STRINGdb Edges example}
 \format{
-Dataframe of 205 rows and 3 columns:
+Dataframe of 205 rows and 4 columns:
 \describe{
 \item{Gene.1}{First gene interacting}
 \item{Gene.2}{Second gene interacting}
+\item{Interaction}{The type of interaction}
 \item{STRINGdb.combined_score}{The weight of the interaction between these two genes as described by STRINGdb}
 }
 }
@@ -22,7 +23,6 @@ ex.stringdb.edges
 List of edges between genes in dataset.
 }
 \examples{
-data(ex.stringdb.edges)
 head(ex.stringdb.edges)
 }
 \keyword{internal}

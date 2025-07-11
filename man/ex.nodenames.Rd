@@ -5,7 +5,7 @@
 \alias{ex.nodenames}
 \title{Nodenames Example}
 \format{
-Dataframe of 10 rows and 1 column:
+Dataframe of 67 rows and 1 column:
 \describe{
 \item{Gene.Names}{Name of the gene}
 }
@@ -20,7 +20,6 @@ ex.nodenames
 List of gene names in dataset.
 }
 \examples{
-data(ex.nodenames)
 head(ex.nodenames)
 }
 \keyword{internal}

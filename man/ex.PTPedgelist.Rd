@@ -5,25 +5,24 @@
 \alias{ex.PTPedgelist}
 \title{PTP Edgelist Example}
 \format{
-Dataframe of 1874 rows and 4 columns:
+Dataframe of 19 rows and 4 columns:
 \describe{
-\item{Source}{}
-\item{target}{}
-\item{Jaccard_weight}{}
-\item{PTP_inter_evidence}{}
+\item{V1}{A pathway}
+\item{V2}{A pathway}
+\item{jaccard.values}{The jaccard similarity of the two pathways sets of genes}
+\item{PTPscore}{The sum of all CPEs for every cluster where both pathways have a nonzero score}
 }
 }
 \source{
-""
+"Created in PathwayCrosstalkNetwork"
 }
 \usage{
 ex.PTPedgelist
 }
 \description{
-DESCRIPTION
+An edgelist filtered from the combination of every pathway based on nonzero Jaccard & PTP score
 }
 \examples{
-data(ex.PTPedgelist)
 head(ex.PTPedgelist)
 }
 \keyword{internal}

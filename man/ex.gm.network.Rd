@@ -5,11 +5,12 @@
 \alias{ex.gm.network}
 \title{Full GeneMANIA Network Example}
 \format{
-Dataframe of 601,552 rows and 3 columns:
+Dataframe of 601,552 rows and 4 columns:
 \describe{
 \item{Gene.1}{The gene interacting with Gene.2}
 \item{Gene.2}{The gene interacting with Gene.1}
 \item{raw.weights}{Strength of the interaction}
+\item{GM.weights}{Weights from Genemania file}
 }
 }
 \source{
@@ -22,7 +23,6 @@ ex.gm.network
 Network of relationships between genes based on information from the GeneMANIA database.
 }
 \examples{
-data(ex.gm.network)
 head(ex.gm.network)
 }
 \keyword{internal}

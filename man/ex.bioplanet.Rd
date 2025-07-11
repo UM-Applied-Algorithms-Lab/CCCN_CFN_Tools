@@ -20,10 +20,9 @@ Dataframe with 100 rows and 4 columns:
 ex.bioplanet
 }
 \description{
-(description)
+A data frame version of a small subset of the Bioplanet.csv database file
 }
 \examples{
-data(ex.bioplanet)
 head(ex.bioplanet)
 }
 \keyword{internal}

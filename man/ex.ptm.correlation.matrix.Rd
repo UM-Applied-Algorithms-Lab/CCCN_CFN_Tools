@@ -5,7 +5,7 @@
 \alias{ex.ptm.correlation.matrix}
 \title{Correlation Matrix Example}
 \format{
-Square matrix of 100 rows and columns:
+Square matrix of 497 rows and columns:
 \describe{
 \item{rows and columns}{Ptm names}
 \item{values}{Strength of correlation}
@@ -21,7 +21,6 @@ ex.ptm.correlation.matrix
 Matrix relating the correlation values between ptms based on Spearman Similarity.
 }
 \examples{
-data(ex.ptm.correlation.matrix)
 head(ex.ptm.correlation.matrix)
 }
 \keyword{internal}

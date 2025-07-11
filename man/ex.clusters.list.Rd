@@ -3,13 +3,13 @@
 \docType{data}
 \name{ex.clusters.list}
 \alias{ex.clusters.list}
-\title{TSNE matrices Example}
+\title{Clusters List Example}
 \format{
 List of 3 Distance metrics (Euclidean, Spearman, and the average of Spearman and Euclidean (SED)) and the clusters that form when they are run through tsne:
 \describe{
-\item{Euclidean}{A list of 6 clusters of ptms based on their Euclidean distance and positional distance determined by tsne}
-\item{Spearman}{A list of 6 clusters of ptms based on their Spearman dissimilarity and positional distance determined by tsne}
-\item{SED}{A list of 6 clusters of ptms based on the average of their Euclidean distance and Spearman Dissimilarity and positional distance determined by tsne}
+\item{Euclidean}{A list of 54 clusters of ptms based on their Euclidean distance and positional distance determined by tsne}
+\item{Spearman}{A list of 125 clusters of ptms based on their Spearman dissimilarity and positional distance determined by tsne}
+\item{SED}{A list of 39 clusters of ptms based on the average of their Euclidean distance and Spearman Dissimilarity and positional distance determined by tsne}
 }
 }
 \source{
@@ -19,10 +19,9 @@ List of 3 Distance metrics (Euclidean, Spearman, and the average of Spearman and
 ex.clusters.list
 }
 \description{
-List of of lists of dataframes of ptm positions in 3D space to show their relationships with each other based on distance.
+List of lists of dataframes containing PTMs that have been found to cluster based on their distance in 3D space for a specific distance metric
 }
 \examples{
-data(ex.clusters.list)
 head(ex.clusters.list)
 }
 \keyword{internal}

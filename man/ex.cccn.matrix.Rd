@@ -21,7 +21,6 @@ ex.cccn.matrix
 Network of relationships between genes based on clustering of ptms from the three distance metrics.
 }
 \examples{
-data(ex.cccn.matrix)
 head(ex.cccn.matrix)
 }
 \keyword{internal}

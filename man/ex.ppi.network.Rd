@@ -23,7 +23,6 @@ ex.ppi.network
 Network of relationships between genes based on PPI database STRINGdb.
 }
 \examples{
-data(ex.ppi.network)
 head(ex.ppi.network)
 }
 \keyword{internal}

@@ -11,16 +11,15 @@ List of 1657 elements:
 }
 }
 \source{
-source info (or \code{"manually created"})
+"created from a Bioplanet.csv file in PathwayCrosstalkNetwork"
 }
 \usage{
 ex.pathways.list
 }
 \description{
-(description)
+A named list with names of Pathways and string vectors that hold all the gene symbols from those pathways
 }
 \examples{
-data(ex.pathways.list)
 head(ex.pathways.list)
 }
 \keyword{internal}

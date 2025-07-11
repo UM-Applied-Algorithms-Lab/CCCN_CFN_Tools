@@ -11,16 +11,15 @@ List of 40 lists:
 }
 }
 \source{
-source info (or \code{"manually created"})
+"Created in MakeCorrelationNetwork, FindCommonClusters using 3 T-SNE lists"
 }
 \usage{
 ex.common.clusters
 }
 \description{
-(description)
+Clusters that contain PTMs that are found to cocluster in all 3 T-SNE lists.
 }
 \examples{
-data(ex.common.clusters)
 head(ex.common.clusters)
 }
 \keyword{internal}

@@ -9,7 +9,7 @@ Dataframe of 2762 rows and 16 columns:
 \describe{
 \item{annotation.name}{Note about the gene}
 \item{annotations}{Processes associated with this gene according to Gene Ontology}
-\item{Ensemble.Gene.ID}{ID of the gene in Ensemble}
+\item{Ensembl.Gene.ID}{ID of the gene in Ensemble}
 \item{Entrez.Gene.ID}{ID of the gene in Entrez}
 \item{gene.name}{Common name fo the gene}
 \item{log.score}{Association strength to the set of entered genes on a log scale}
@@ -34,7 +34,6 @@ ex.gm.nodes
 Dataframe from GeneMANIA relating GeneMANIA IDs to common gene names.
 }
 \examples{
-data(ex.gm.nodes)
 head(ex.gm.nodes)
 }
 \keyword{internal}

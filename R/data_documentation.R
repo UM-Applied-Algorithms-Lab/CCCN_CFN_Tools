@@ -85,11 +85,12 @@
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 601,552 rows and 3 columns:
+#' @format Dataframe of 601,552 rows and 4 columns:
 #' \describe{
 #'   \item{Gene.1}{The gene interacting with Gene.2}
 #'   \item{Gene.2}{The gene interacting with Gene.1}
 #'   \item{raw.weights}{Strength of the interaction}
+#'   \item{GM.weights}{Weights from Genemania file}
 #' }
 #' @source \url{https://apps.cytoscape.org/apps/genemania}
 #' @examples
@@ -108,7 +109,7 @@
 #' \describe{
 #'   \item{annotation.name}{Note about the gene}
 #'   \item{annotations}{Processes associated with this gene according to Gene Ontology}
-#'   \item{Ensemble.Gene.ID}{ID of the gene in Ensemble}
+#'   \item{Ensembl.Gene.ID}{ID of the gene in Ensemble}
 #'   \item{Entrez.Gene.ID}{ID of the gene in Entrez}
 #'   \item{gene.name}{Common name fo the gene}
 #'   \item{log.score}{Association strength to the set of entered genes on a log scale}
@@ -131,7 +132,7 @@
 
 #' List of Common Clusters Example
 #'
-#' (description)
+#' Clusters that contain PTMs that are found to cocluster in all 3 T-SNE lists.
 #'
 #' @keywords internal
 #'
@@ -139,9 +140,8 @@
 #' \describe{
 #'   \item{list}{Common cluster between the three distance metrics}
 #' }
-#' @source source info (or `"manually created"`)
+#' @source "Created in MakeCorrelationNetwork, FindCommonClusters using 3 T-SNE lists"
 #' @examples
-#' data(ex.common.clusters)
 #' head(ex.common.clusters)
 "ex.common.clusters"
 
@@ -153,7 +153,7 @@
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 10 rows and 1 column:
+#' @format Dataframe of 67 rows and 1 column:
 #' \describe{
 #'   \item{Gene.Names}{Name of the gene}
 #' }
@@ -190,7 +190,7 @@
 #'
 #' @keywords internal
 #'
-#' @format Square matrix of 100 rows and columns:
+#' @format Square matrix of 497 rows and columns:
 #' \describe{
 #'   \item{rows and columns}{Ptm names}
 #'   \item{values}{Strength of correlation}
@@ -208,9 +208,10 @@
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 100 rows and 70 columns:
+#' @format Dataframe of 497 rows and 70 columns:
 #' \describe{
 #'   \item{rows}{Post-translational modifications}
+#'   \item{first column}{PTM names}
 #'   \item{columns}{Experimental condition}
 #'   \item{values}{Expression as found by mass spectrometry}
 #' }
@@ -221,17 +222,17 @@
 
 
 
-#' TSNE matrices Example
+#' Clusters List Example
 #'
-#' List of of lists of dataframes of ptm positions in 3D space to show their relationships with each other based on distance.
+#' List of lists of dataframes containing PTMs that have been found to cluster based on their distance in 3D space for a specific distance metric
 #'
 #' @keywords internal
 #'
 #' @format List of 3 Distance metrics (Euclidean, Spearman, and the average of Spearman and Euclidean (SED)) and the clusters that form when they are run through tsne:
 #' \describe{
-#'   \item{Euclidean}{A list of 6 clusters of ptms based on their Euclidean distance and positional distance determined by tsne}
-#'   \item{Spearman}{A list of 6 clusters of ptms based on their Spearman dissimilarity and positional distance determined by tsne}
-#'   \item{SED}{A list of 6 clusters of ptms based on the average of their Euclidean distance and Spearman Dissimilarity and positional distance determined by tsne}
+#'   \item{Euclidean}{A list of 54 clusters of ptms based on their Euclidean distance and positional distance determined by tsne}
+#'   \item{Spearman}{A list of 125 clusters of ptms based on their Spearman dissimilarity and positional distance determined by tsne}
+#'   \item{SED}{A list of 39 clusters of ptms based on the average of their Euclidean distance and Spearman Dissimilarity and positional distance determined by tsne}
 #' }
 #' @source "created by MakeClusterList"
 #' @examples
@@ -246,10 +247,11 @@
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 82 rows and 3 columns:
+#' @format Dataframe of 71 rows and 4 columns:
 #' \describe{
 #'   \item{Gene.1}{First gene interacting}
 #'   \item{Gene.2}{Second gene interacting}
+#'   \item{Interaction}{The type of interaction}
 #'   \item{PPI.weight}{The weight of the interaction between these two genes as described by STRINGdb and GeneMANIA}
 #' }
 #' @source "created by MakeDBInput"
@@ -265,10 +267,11 @@
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 205 rows and 3 columns:
+#' @format Dataframe of 205 rows and 4 columns:
 #' \describe{
 #'   \item{Gene.1}{First gene interacting}
 #'   \item{Gene.2}{Second gene interacting}
+#'   \item{Interaction}{The type of interaction}
 #'   \item{STRINGdb.combined_score}{The weight of the interaction between these two genes as described by STRINGdb}
 #' }
 #' @source "created by GetSTRINGdb"
@@ -280,18 +283,18 @@
 
 #' PTP Edgelist Example
 #'
-#' DESCRIPTION
+#' An edgelist filtered from the combination of every pathway based on nonzero Jaccard & PTP score
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 1874 rows and 4 columns:
+#' @format Dataframe of 19 rows and 4 columns:
 #' \describe{
-#'   \item{Source}{}
-#'   \item{target}{}
-#'   \item{Jaccard_weight}{}
-#'   \item{PTP_inter_evidence}{}
+#'   \item{V1}{A pathway}
+#'   \item{V2}{A pathway}
+#'   \item{jaccard.values}{The jaccard similarity of the two pathways sets of genes}
+#'   \item{PTPscore}{The sum of all CPEs for every cluster where both pathways have a nonzero score}
 #' }
-#' @source ""
+#' @source "Created in PathwayCrosstalkNetwork"
 #' @examples
 #' head(ex.PTPedgelist)
 "ex.PTPedgelist"
@@ -302,7 +305,7 @@
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 1874 rows and 8 columns:
+#' @format Dataframe of 24339 rows and 8 columns:
 #' \describe{
 #'   \item{Gene.Name}{}
 #'   \item{Approved.Name}{}

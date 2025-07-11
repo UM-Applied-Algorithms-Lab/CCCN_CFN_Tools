@@ -5,7 +5,7 @@
 \alias{ex.funckey}
 \title{Funckey}
 \format{
-Dataframe of 1874 rows and 8 columns:
+Dataframe of 24339 rows and 8 columns:
 \describe{
 \item{Gene.Name}{}
 \item{Approved.Name}{}
@@ -27,7 +27,6 @@ ex.funckey
 DESCRIPTION
 }
 \examples{
-data(ex.funckey)
 head(ex.funckey)
 }
 \keyword{internal}
