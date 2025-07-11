@@ -135,7 +135,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setNodeShapeDefault(node.shape, visual.style.name)                   # "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"
   # size
   setNodeSizeDefault(node.size, visual.style.name)                     # set size of node; height and width assumed the same
-  setEdgeLineWidthDefault(edge.width, visual.style.name)               # set edge line thickness; Initial Default 2
   # opacity
   setEdgeOpacityDefault(edge.opacity, visual.style.name)               # set opacity of edge; 0 - 255 w 0 --> translucent
   setEdgeLabelOpacityDefault(edge.label.opacity, visual.style.name)    # set opacity of edge label; 0 - 255 w 0 --> translucent
