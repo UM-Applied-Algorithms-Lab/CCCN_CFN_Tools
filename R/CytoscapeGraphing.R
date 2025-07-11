@@ -175,6 +175,9 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   setNodeLabelMapping("id", style.name = visual.style.name)
 
+  setNodeBorderColorMapping('node.type', table.column.values = c("kinase", "phosphatase"), colors = c('#FF0000', '#A020F0'), mapping.type = 'd', style.name = visual.style.name)
+  setNodeBorderWidthMapping('node.type', table.column.values = c("kinase", "phosphatase"), widths = c(5, 5), mapping.type = 'd', style.name = visual.style.name)
+
   setVisualStyle(visual.style.name)
 
 }
