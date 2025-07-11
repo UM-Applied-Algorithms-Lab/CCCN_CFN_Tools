@@ -7,14 +7,14 @@
 \format{
 Dataframe of 24339 rows and 8 columns:
 \describe{
-\item{Gene.Name}{}
-\item{Approved.Name}{}
-\item{Hugo.Gene.Family}{}
-\item{HPRD.Function}{}
-\item{nodeType}{}
-\item{Domains}{}
-\item{Compartment}{}
-\item{Compartment.Overview}{}
+\item{Gene.Name}{Name of the gene}
+\item{Approved.Name}{Name of the protein}
+\item{Hugo.Gene.Family}{Family of the gene}
+\item{HPRD.Function}{Function of the protein}
+\item{nodeType}{Type of protein}
+\item{Domains}{Known domains of protein}
+\item{Compartment}{Location of the protein}
+\item{Compartment.Overview}{Alternate location of the protein}
 }
 }
 \source{
