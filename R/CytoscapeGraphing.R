@@ -71,11 +71,11 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   colnames(ptmnew) <- c("PTM", "score")
   ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))
 
-  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4))
-  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3))
+  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4), stringsAsFactors = FALSE)
+  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3), stringsAsFactors = FALSE)
 
   colnames(cfn.edges) <- c("source", "target", "interaction", "weight")
-  colnames(cfn.nodes) <- c("id", "group", "score")
+  colnames(cfn.nodes) <- c("id", "node.type", "score")
 
   cfn.edges$source <- cfn$Gene.1
   cfn.edges$target <- cfn$Gene.2
@@ -83,7 +83,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   cfn.edges$weight <- cfn$PPI.weight
 
   cfn.nodes$id <- genes
-  cfn.nodes$group <- sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)])
+  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))
   cfn.nodes$score <- sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$PTM == x)]))
 
   createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
@@ -173,8 +173,8 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   }
   setNodeColorToRatios('score')
 
-  setVisualStyle(visual.style.name)
+  setNodeLabelMapping("id", style.name = visual.style.name)
 
-  setNodeLabelMapping("id")
+  setVisualStyle(visual.style.name)
 
 }
