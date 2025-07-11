@@ -7,6 +7,7 @@
 GraphCfn(
   cfn,
   ptmtable,
+  funckey = cccn.cfn.tools::ex.funckey,
   Network.title = "cfn",
   Network.collection = "cccn.cfn.tools",
   visual.style.name = "cccn.cfn.tools.style",
@@ -37,6 +38,8 @@ GraphCfn(
 \item{cfn}{A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights}
 
 \item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
+
+\item{funckey}{A table graphing gene names to type of protein; defaults to internal database at cccn.cfn.tools::ex.funckey}
 
 \item{Network.title}{Desired title for the created Cytoscape Network; defaults to "cfn"}
 

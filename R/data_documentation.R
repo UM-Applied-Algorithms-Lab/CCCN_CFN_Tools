@@ -309,3 +309,26 @@
 #' data(ex.PTPedgelist)
 #' head(ex.PTPedgelist)
 "ex.PTPedgelist"
+
+#' Funckey
+#'
+#' DESCRIPTION
+#'
+#' @keywords internal
+#'
+#' @format Dataframe of 1874 rows and 8 columns:
+#' \describe{
+#'   \item{Gene.Name}{}
+#'   \item{Approved.Name}{}
+#'   \item{Hugo.Gene.Family}{}
+#'   \item{HPRD.Function}{}
+#'   \item{nodeType}{}
+#'   \item{Domains}{}
+#'   \item{Compartment}{}
+#'   \item{Compartment.Overview}{}
+#' }
+#' @source ""
+#' @examples
+#' data(ex.funckey)
+#' head(ex.funckey)
+"ex.funckey"
