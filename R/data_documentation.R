@@ -1,6 +1,6 @@
 #' Bioplanet Example
 #'
-#' (description)
+#' A data frame version of a small subset of the Bioplanet.csv database file
 #'
 #' @keywords internal
 #'
@@ -13,7 +13,6 @@
 #' }
 #' @source \url{https://tripod.nih.gov/bioplanet/}
 #' @examples
-#' data(ex.bioplanet)
 #' head(ex.bioplanet)
 "ex.bioplanet"
 
@@ -32,7 +31,6 @@
 #' }
 #' @source "created by MakeCorrelationNetwork"
 #' @examples
-#' data(ex.cccn.matrix)
 #' head(ex.cccn.matrix)
 "ex.cccn.matrix"
 
@@ -40,7 +38,7 @@
 
 #' Pathways List Example
 #'
-#' (description)
+#' A named list with names of Pathways and string vectors that hold all the gene symbols from those pathways
 #'
 #' @keywords internal
 #'
@@ -48,9 +46,8 @@
 #' \describe{
 #'   \item{pathway}{A pathway name with the list of genes involved}
 #' }
-#' @source source info (or `"manually created"`)
+#' @source "created from a Bioplanet.csv file in PathwayCrosstalkNetwork"
 #' @examples
-#' data(ex.pathways.list)
 #' head(ex.pathways.list)
 "ex.pathways.list"
 
@@ -77,7 +74,6 @@
 #' }
 #' @source \url{https://apps.cytoscape.org/apps/genemania}
 #' @examples
-#' data(ex.gm.edges)
 #' head(ex.gm.edges)
 "ex.gm.edges"
 
@@ -97,7 +93,6 @@
 #' }
 #' @source \url{https://apps.cytoscape.org/apps/genemania}
 #' @examples
-#' data(ex.gm.network)
 #' head(ex.gm.network)
 "ex.gm.network"
 
@@ -129,7 +124,6 @@
 #' }
 #' @source \url{https://apps.cytoscape.org/apps/genemania}
 #' @examples
-#' data(ex.gm.nodes)
 #' head(ex.gm.nodes)
 "ex.gm.nodes"
 
@@ -165,7 +159,6 @@
 #' }
 #' @source "created by MakeDBInput"
 #' @examples
-#' data(ex.nodenames)
 #' head(ex.nodenames)
 "ex.nodenames"
 
@@ -186,7 +179,6 @@
 #' }
 #' @source "created by FindPPIEdges"
 #' @examples
-#' data(ex.ppi.network)
 #' head(ex.ppi.network)
 "ex.ppi.network"
 
@@ -205,7 +197,6 @@
 #' }
 #' @source "created by MakeClusterList"
 #' @examples
-#' data(ex.ptm.correlation.matrix)
 #' head(ex.ptm.correlation.matrix)
 "ex.ptm.correlation.matrix"
 
@@ -225,7 +216,6 @@
 #' }
 #' @source "manually created"
 #' @examples
-#' data(ex.ptmtable)
 #' head(ex.ptmtable)
 "ex.ptmtable"
 
@@ -245,7 +235,6 @@
 #' }
 #' @source "created by MakeClusterList"
 #' @examples
-#' data(ex.clusters.list)
 #' head(ex.clusters.list)
 "ex.clusters.list"
 
@@ -265,7 +254,6 @@
 #' }
 #' @source "created by MakeDBInput"
 #' @examples
-#' data(ex.cfn)
 #' head(ex.cfn)
 "ex.cfn"
 
@@ -285,7 +273,6 @@
 #' }
 #' @source "created by GetSTRINGdb"
 #' @examples
-#' data(ex.stringdb.edges)
 #' head(ex.stringdb.edges)
 "ex.stringdb.edges"
 
@@ -306,7 +293,6 @@
 #' }
 #' @source ""
 #' @examples
-#' data(ex.PTPedgelist)
 #' head(ex.PTPedgelist)
 "ex.PTPedgelist"
 
@@ -329,6 +315,5 @@
 #' }
 #' @source ""
 #' @examples
-#' data(ex.funckey)
 #' head(ex.funckey)
 "ex.funckey"
