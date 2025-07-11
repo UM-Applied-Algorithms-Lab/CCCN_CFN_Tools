@@ -16,14 +16,14 @@ PTPedgelist.to.igraph <- function(df){
 #' Converts Bioplanet pathways from (<https://tripod.nih.gov/bioplanet/>)  into a list of pathways whose elements are the genes in each pathway. Edge weights are either the PTM Cluster Weight or according to the Jaccard Similarity.
 #'
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe. Lines of bioplanet should possess 4 values in the order "PATHWAY_ID","PATHWAY_NAME","GENE_ID","GENE_SYMBOL". Users not well versed in R should only pass in "yourfilename.csv"
-#' @param clusterlist The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED). Can be made in MakeCorrelationNetwork
+#' @param common.clusters The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED). Can be made in MakeCorrelationNetwork
 #' @param edgelist.name The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end for you); defaults to edgelist. Intended for use in Cytoscape.
 #' @return An edgelist file that is created in the working directory. Contains pathway source-target columns, with edge weights of their jaccard similarity and their Pathway-Pathway Evidence score
 #' @export
 #'
 #' @examples
 #' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelist.name = "PTPedgelist"){
+PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", common.clusters, edgelist.name = "PTPedgelist"){
 
 
   #### Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL ###
@@ -63,8 +63,8 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
   assign("Jaccard.Full", PTPedgelist, envir = .GlobalEnv) #DEBUG - For viewing the full jaccard edgelist
 
   ### Pathway Cluster Evidence ###
-  CPE.matrix <- matrix(NA, nrow = length(clusterlist), ncol = length(pathways.list)) #Initilize empty data structure, Clusters x Pathways
-  rownames(CPE.matrix) <- names(clusterlist) #Names
+  CPE.matrix <- matrix(NA, nrow = length(common.clusters), ncol = length(pathways.list)) #Initilize empty data structure, Clusters x Pathways
+  rownames(CPE.matrix) <- names(common.clusters) #Names
   colnames(CPE.matrix) <- names(pathways.list)
 
   pathways.temp <- as.data.frame(table(bioplanet$GENE_SYMBOL)) #Create table for how many times each gene appears in the pathways list. Needs to be converted into a named vector for efficent runtime.
@@ -73,7 +73,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
   for(a in 1:nrow(CPE.matrix)){ #Populate the matrix - Perform the following steps for every cluster
 
-    gene.names <- sapply(clusterlist[[a]], function(x) strsplit(x, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list within the list which will be "Flattened out" in the next line
+    gene.names <- sapply(common.clusters[[a]], function(x) strsplit(x, "; ", fixed=TRUE)) #Turn all ambiguous proteins into a list within the list which will be "Flattened out" in the next line
     gene.weights <- sapply(gene.names, function(y) rep(1/length(y), length(y) )) #Create weights for ambiguous PTMs that map onto gene.names,
 
     gene.names <- c(gene.names, recursive=TRUE, use.names=FALSE) #Turns list of lists of lists into a character vector, easier to work with. Names will get messed up at this part
@@ -82,7 +82,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", clusterlist, edgelis
 
     gene.count <- tapply(gene.weights, gene.names, sum) #Count the number of times genes appear in the vector, needs to be accessed FAST due to how many look ups is required.
 
-    cluster.length <- length(clusterlist[[a]]) #Precompute
+    cluster.length <- length(common.clusters[[a]]) #Precompute
 
     for(b in 1:ncol(CPE.matrix)){ #For every pathway for the given cluster, perform the following steps
 

@@ -42,7 +42,7 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 #### Code  
 
 ```{r eval = FALSE}
-MakeClusterList(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", cccn.name = "cccn.matrix")
+MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", list.name = "clusters.list", toolong = 3.5)
 ```
 
 <center>
@@ -93,7 +93,7 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 #### Code  
 
 ```{r eval = FALSE}
-MakeCorrelationNetwork(tsne.matrices, ptm.correlation.matrix, keeplength = 2, common.clusters.name = "common.clusters", cccn.name = "cccn_matrix")
+MakeCorrelationNetwork(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", filtered.ptm.cor.name = "filtered.cor.matrix", cccn.name = "cccn.matrix")
 ```
 
 <center>
@@ -105,18 +105,20 @@ MakeCorrelationNetwork(tsne.matrices, ptm.correlation.matrix, keeplength = 2, co
 
 #### Description  
 
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix with two variants, one at the PTM level and one at the protein level. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
 
 #### Input  
-- clusters.list 
+- clusterlist 
   - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
 - ptm.correlation.matrix  
   - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal. 
 - keeplength  
   - MakeClusterList only saves subsets whose size is strictly *greater* than keeplength; defaults to 2
   - example: ['AARS', 'ABR'] will be discarded unless keeplength < 2
-- common.clusters.name  
-  - Desired name for the common clusters output; defaults to common.clusters  
+- clusters.name  
+  - Desired name for the common clusters output; defaults to common.clusters
+- filtered.ptm.cor.name
+  - Desired name for the correlation matrix that contains only PTMs found in common clusters
 - cccn.name  
   - Desired name for the cocluster correlation network matrix; defaults to cccn.matrix  
 
@@ -142,7 +144,7 @@ Note again that the database input can be used in any PPI database that the user
 #### Code  
 
 ```{r eval = FALSE}
-GetSTRINGdb(cccn_matrix, STRINGdb.name = "stringdb.edges", nodenames.name = "nodenames")
+GetSTRINGdb(cccn.matrix, stringdb.name = "stringdb.edges", nodenames.name = "nodenames")
 ```
 
 <center>
@@ -179,7 +181,7 @@ GetSTRINGdb(cccn_matrix, STRINGdb.name = "stringdb.edges", nodenames.name = "nod
 #### Code  
 
 ```{r eval = FALSE}
-MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
+MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
 ```
 
 <center>
@@ -209,7 +211,7 @@ MakeDBInput(cccn_matrix, file.path.name = "db_nodes.txt")
 #### Code  
 
 ```{r eval = FALSE}
-ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.name = "gm.network")
+ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, db_nodes.path, gm.network.name = "gm.network")
 ```
 
 <center>
@@ -242,7 +244,7 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, nodenames, gm.network.nam
 #### Code  
 
 ```{r eval = FALSE}
-BuildPPINetwork(cccn_matrix, db_file_paths = c(), ppi.network.name = "ppi.network")
+BuildPPINetwork(stringdb.edges = NA, gm.network = NA, db.filepaths = c(), ppi.network.name = "ppi.network")
 ```
 
 <center>
