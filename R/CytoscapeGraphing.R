@@ -44,7 +44,7 @@
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
 GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
-                     background.color = '#fcf3cf', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#145a32', node.fill.color = '#a9dfbf',
+                     background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000', node.fill.color = '#a9dfbf',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
                      edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE', node.shape = "OCTAGON",
                      node.size = 50, edge.width = 2, border.width = 1,
@@ -71,20 +71,20 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   colnames(ptmnew) <- c("PTM", "score")
   ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))
 
-  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4))
-  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3))
+  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4), stringsAsFactors = FALSE)
+  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3), stringsAsFactors = FALSE)
 
   colnames(cfn.edges) <- c("source", "target", "interaction", "weight")
-  colnames(cfn.nodes) <- c("id", "group", "score")
+  colnames(cfn.nodes) <- c("id", "node.type", "score")
 
   cfn.edges$source <- cfn$Gene.1
   cfn.edges$target <- cfn$Gene.2
   cfn.edges$interaction <- cfn$Interaction
-  cfn.edges$weight <- cfn$PPI.weight
+  cfn.edges$weight <- as.numeric(cfn$PPI.weight)
 
   cfn.nodes$id <- genes
-  cfn.nodes$group <- sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)])
-  cfn.nodes$score <- sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$PTM == x)]))
+  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))
+  cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$PTM == x)])))
 
   createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
 
@@ -121,7 +121,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setBackgroundColorDefault(background.color, visual.style.name)       # set color of background
   setEdgeLabelColorDefault(edge.label.color, visual.style.name)        # set color of edge label
   setEdgeColorDefault(edge.line.color, visual.style.name)              # set color of edge
-  setNodeBorderColorDefault(node.border.color, visual.style.name)      # set color of node border
   setNodeLabelColorDefault(node.label.color, visual.style.name)        # set color of node name
   setNodeColorDefault(node.fill.color, visual.style.name)              # set interior color of node
   # fonts
@@ -136,8 +135,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setNodeShapeDefault(node.shape, visual.style.name)                   # "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"
   # size
   setNodeSizeDefault(node.size, visual.style.name)                     # set size of node; height and width assumed the same
-  setEdgeLineWidthDefault(edge.width, visual.style.name)               # set edge line thickness; Initial Default 2
-  setNodeBorderWidthDefault(border.width, visual.style.name)           # set border thickness; Initial Default 0
   # opacity
   setEdgeOpacityDefault(edge.opacity, visual.style.name)               # set opacity of edge; 0 - 255 w 0 --> translucent
   setEdgeLabelOpacityDefault(edge.label.opacity, visual.style.name)    # set opacity of edge label; 0 - 255 w 0 --> translucent
@@ -173,8 +170,35 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   }
   setNodeColorToRatios('score')
 
-  setVisualStyle(visual.style.name)
+  setNodeLabelMapping("id", style.name = visual.style.name)
 
-  setNodeLabelMapping("id")
+  molclasses <- c("unknown", "receptor tyrosine kinase",  "SH2 protein", "SH2-SH3 protein", "SH3 protein", "tyrosine kinase",  "SRC-family kinase",   "kinase", "phosphatase", "transcription factor", "RNA binding protein")
+  nodeshapes <- c("ELLIPSE","ROUND_RECTANGLE", "VEE", "VEE", "TRIANGLE", "HEXAGON", "DIAMOND", "OCTAGON", "OCTAGON", "PARALLELOGRAM", "RECTANGLE")
+  setNodeShapeMapping ("node.type", molclasses, nodeshapes, default.shape="ELLIPSE", style.name = visual.style.name)
+  setNodeBorderWidthMapping("node.type", c("acetyltransferase", "methyltransferase", "membrane protein", "receptor tyrosine kinase", "G protein-coupled receptor", "SRC-family kinase", "tyrosine kinase", "kinase", "phosphatase"),
+                            widths=c(12,12,8,16,16,12,12,12,14), mapping.type = 'd', default.width = 4, style.name = visual.style.name)
+
+  setNodeBorderColorMapping(
+    table.column = "node.type",
+    table.column.values = c("deacetylase", "acetyltransferase", "demethylase", "methyltransferase", "membrane protein", "kinase", "tyrosine kinase", "SRC-family kinase", "phosphatase", "tyrosine phosphatase", "G protein-coupled receptor", "receptor tirosine kinase"),
+    colors = c("#FF8C00", "#FF8C00", "#005CE6", "#005CE6", "#6600CC", "#EE0000", "#EE0000", "#EE0000", "#FFEC8B", "#FFEC8B", "#BF3EFF", "#BF3EFF"),
+    mapping.type = 'd',
+    default.color = '#abb2b9',
+    style.name = visual.style.name
+  )
+
+  setEdgeLineWidthMapping(
+    table.column = "weight",
+    table.column.values = as.character(cfn.edges$weight),
+    widths = c(rep(3, times = sum(cfn.edges$weight < summary(cfn.edges$weight)['1st Qu.'][[1]])),
+               rep(7, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['1st Qu.'][[1]] & cfn.edges$weight < summary(cfn.edges$weight)['Mean'][[1]])),
+               rep(11, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['Mean'][[1]] & cfn.edges$weight < summary(cfn.edges$weight)['3rd Qu.'][[1]])),
+               rep(15, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['3rd Qu.'][[1]]))
+    ),
+    mapping.type = 'd',
+    style.name = visual.style.name
+  )
+
+  setVisualStyle(visual.style.name)
 
 }
