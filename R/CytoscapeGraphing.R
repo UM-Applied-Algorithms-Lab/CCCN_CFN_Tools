@@ -6,6 +6,7 @@
 #'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
+#' @param funckey A table graphing gene names to type of protein; defaults to internal database at cccn.cfn.tools::ex.funckey
 #' @param Network.title Desired title for the created Cytoscape Network; defaults to "cfn"
 #' @param Network.collection Desired name for the collection created on Cytoscape in which the network will reside; defaults to "cccn.cfn.tools"
 #' @param visual.style.name Desired name for the visual style created on Cytoscape; defaults to "cccn.cfn.tools.style"
@@ -42,7 +43,7 @@
 #' @examples
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
-GraphCfn <- function(cfn, ptmtable, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
+GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
                      background.color = '#fcf3cf', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#145a32', node.fill.color = '#a9dfbf',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
                      edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE', node.shape = "OCTAGON",
@@ -82,6 +83,7 @@ GraphCfn <- function(cfn, ptmtable, Network.title = "cfn", Network.collection = 
   cfn.edges$weight <- cfn$PPI.weight
 
   cfn.nodes$id <- genes
+  cfn.nodes$group <- sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)])
   cfn.nodes$score <- sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$PTM == x)]))
 
   createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
@@ -173,6 +175,6 @@ GraphCfn <- function(cfn, ptmtable, Network.title = "cfn", Network.collection = 
 
   setVisualStyle(visual.style.name)
 
-  mapVisualProperty("Node Label", "id", "p")
+  setNodeLabelMapping("id")
 
 }
