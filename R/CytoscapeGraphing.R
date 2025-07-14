@@ -1,3 +1,4 @@
+# helper function
 setNodeColorToRatios <- function(plotcol){
   cf <- getTableColumns('node')
   if(!(plotcol %in% cf)){
@@ -110,7 +111,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   cfn.edges$source <- cfn$Gene.1
   cfn.edges$target <- cfn$Gene.2
   cfn.edges$interaction <- cfn$Interaction
-  cfn.edges$weight <- as.numeric(cfn$PPI.weight)
+  cfn.edges$weight <- format(as.numeric(cfn$PPI.weight), scientific = FALSE, trim = TRUE)
 
   cfn.nodes$id <- genes
   cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))
@@ -192,15 +193,18 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
     style.name = visual.style.name
   )
 
-  unweights <- format(unique(cfn.edges$weight[order((as.numeric(cfn.edges$weight)))]), scientific = FALSE, trim = TRUE)
+  unweights <- unique(cfn.edges$weight[order((as.numeric(cfn.edges$weight)))])
+  unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)
+
+
 
   setEdgeLineWidthMapping(
     table.column = "weight",
     table.column.values = as.character(unweights),
-    widths = c(rep(3, times = sum(unweights < summary(cfn.edges$weight)['1st Qu.'][[1]])),
-               rep(7, times = sum(unweights >= summary(cfn.edges$weight)['1st Qu.'][[1]] & unweights < summary(cfn.edges$weight)['Mean'][[1]])),
-               rep(11, times = sum(unweights >= summary(cfn.edges$weight)['Mean'][[1]] & unweights < summary(cfn.edges$weight)['3rd Qu.'][[1]])),
-               rep(15, times = sum(unweights >= summary(cfn.edges$weight)['3rd Qu.'][[1]]))
+    widths = c(rep(3, times = sum(as.numeric(unweights) < summary(as.numeric(cfn.edges$weight))['1st Qu.'][[1]])),
+               rep(7, times = sum(as.numeric(unweights) >= summary(as.numeric(cfn.edges$weight))['1st Qu.'][[1]] & as.numeric(unweights) < summary(as.numeric(cfn.edges$weight))['Mean'][[1]])),
+               rep(11, times = sum(as.numeric(unweights) >= summary(as.numeric(cfn.edges$weight))['Mean'][[1]] & as.numeric(unweights) < summary(as.numeric(cfn.edges$weight))['3rd Qu.'][[1]])),
+               rep(15, times = sum(as.numeric(unweights) >= summary(as.numeric(cfn.edges$weight))['3rd Qu.'][[1]]))
     ),
     mapping.type = 'd',
     style.name = visual.style.name
