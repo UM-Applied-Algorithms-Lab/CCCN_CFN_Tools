@@ -33,7 +33,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", common.clusters, edg
 
   }else if(is.data.frame(file)){ bioplanet <- file #If data frame input
 
-  }else stop(paste(class(file), "is not a supported file type. Please make sure you input a path to a .csv file or a data frame")) #If unsupported
+  }else {stop(paste(class(file), "is not a supported file type. Please make sure you input a path to a .csv file or a data frame"))} #If unsupported
 
 
   ### Turn bioplanet into a list of pathways. Pathways are character vectors comprised of gene names ###
@@ -94,7 +94,7 @@ PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", common.clusters, edg
 
 
   ### Generate PCN network ###
-  PTPscore <- apply(PTPedgelist[,1:2], 1, function(x) sum(CPE.matrix[rowSums(!is.na(CPE.matrix)) == 2,x])) #Get a vector of all the PTP weights for every pair of pathways using the CPE weights to filter. For a PTP weight to be non-NA, the PTP weight will be the sum of all clusters both pathways have nonzero CPEs in.
+  PTPscore <- apply(PTPedgelist[,1:2], 1, function(x) sum(CPE.matrix[rowSums(!is.na(CPE.matrix[,x])) == 2,x])) #Get a vector of all the PTP weights for every pair of pathways using the CPE weights to filter. For a PTP weight to be non-NA, the PTP weight will be the sum of all clusters both pathways have nonzero CPEs in.
   PTPscore[PTPscore== 0] <- NA #Turn all 0s created in above line into NAs
 
   PTPedgelist <- cbind(PTPedgelist, PTPscore) #Bind all the columns together. Now Data structure is PATHWAY | PATHWAY | Jaccard | CPE

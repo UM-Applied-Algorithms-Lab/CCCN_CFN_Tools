@@ -162,7 +162,7 @@ GetSTRINGdb(cccn.matrix, stringdb.name = "stringdb.edges", nodenames.name = "nod
 #### Input   
 - cccn.matrix  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
-- STRINGdb.name  
+- stringdb.name  
   - Desired name for STRINGdb data; defaults to stringdb.edges  
 - nodenames.name  
   - Desired name for list of gene names; defaults to nodenames
@@ -273,7 +273,7 @@ The purpose of BuildPPINetwork is to combine the data about desired protein-prot
 
 #### Output  
 - ppi.network (or otherwise named by ppi.network.name)  
-  - A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks  
+  - A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks
 
 #### Estimated run-time  
 1hr (only using STRINGdb and GeneMANIA)
