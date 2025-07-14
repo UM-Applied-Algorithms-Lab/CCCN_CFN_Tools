@@ -202,3 +202,58 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setVisualStyle(visual.style.name)
 
 }
+
+
+
+#' Graph CoCluster Correlation Network
+#'
+#' Creates a cytoscape graph of the cocluster correlation network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
+#'
+#' If error occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+#'
+#' @param cccn A matrix showing strength of relationships between proteins using common clusters between the three distance metrics
+#' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
+#' @param funckey A table graphing gene names to type of protein; defaults to internal database at cccn.cfn.tools::ex.funckey
+#' @param Network.title Desired title for the created Cytoscape Network; defaults to "cfn"
+#' @param Network.collection Desired name for the collection created on Cytoscape in which the network will reside; defaults to "cccn.cfn.tools"
+#' @param visual.style.name Desired name for the visual style created on Cytoscape; defaults to "cccn.cfn.tools.style"
+#'
+#' @param background.color Hex code of background color of graph; defaults to '#fcf3cf'
+#' @param edge.label.color Hex code of edge label color of graph; defaults to '#17202a'
+#' @param edge.line.color Hex code of edge line color of graph; defaults to '#abb2b9'
+#' @param node.border.color Hex code of node border color of graph; defaults to '#145a32'
+#' @param node.label.color Hex code of node label color of graph; defaults to '#145a32'
+#'
+#' @param default.font Font style of edge and node names; defaults to "Times New Roman"
+#' @param node.font.size Font size of the node name; defaults to 12
+#' @param edge.font.size Font size of the edge name; defaults to 8
+#'
+#' @param edge.line.style Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
+#' @param source.arrow Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
+#' @param target.arrow Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
+#'
+#' @param node.size Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())
+#' @param edge.width Width of the edge line; defaults to 2
+#' @param border.width Width of the border of the node; defaults to 1
+#'
+#' @param edge.opacity Opacity of the edge line on a scale of 0 - 255 with 0 being transparent; defaults to 175
+#' @param edge.label.opacity Opacity of the edge label on a scale of 0 - 255 with 0 being transparent; defaults to 255
+#' @param border.opacity Opacity of the node border on a scale of 0 - 255 with 0 being transparent; defaults to 255
+#' @param node.label.opacity Opacity of the node label on a scale of 0 - 255 with 0 being transparent; defaults to 255
+#' @param node.fill.opacity Opacity of the node fill on a scale of 0 - 255 with 0 being transparent; defaults to 255
+#'
+#' @return A cytoscape graph of the cluster filtered network
+#' @export
+#'
+#' @examples
+#' # GraphCFN(ex.cfn)
+#' # See vignette for default graph
+GraphCccn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
+                     background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000',
+                     default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
+                     edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE',
+                     node.size = 50, edge.width = 2, border.width = 1,
+                     edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
+){
+
+}
