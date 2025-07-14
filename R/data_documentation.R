@@ -320,3 +320,35 @@
 #' @examples
 #' head(ex.funckey)
 "ex.funckey"
+
+#' CPE matrix example
+#'
+#' Scores that represents how likely it is that a pathway interacts with a given cluster. Matrix of Clusters x Pathways.
+#'
+#' @keywords internal
+#' @format Matrix of 40 rows and 9 columns
+#' \describe{
+#'   \item{rows}{Clusters}
+#'   \item{columns}{Pathways}
+#'   \item{values}{Cluster Pathway Evidence}
+#' }
+#' @source "Made in PathwayCrosstalkNetwork"
+#' @examples
+#' ex.CPE.matrix[c(1,2) , c(1,2)]
+"ex.CPE.matrix"
+
+#' Filtered Correlation Matrix example
+#'
+#' A version of the Correlation Matrix filtered by coclustering PTMs
+#'
+#' @keywords internal
+#' @format Matrix of 329 rows and columns
+#' \describe{
+#' \item{rows}{Select PTMs}
+#' \item{columns}{Select PTMs}
+#' \item{values}{Same as in Correlation Matrix}
+#' }
+#' @source "Made in MakeCorrelationNetwork"
+#' @examples
+#' ex.filtered.ptm.cor[c(1,2) , c(1,2)]
+"ex.filtered.ptm.cor"
