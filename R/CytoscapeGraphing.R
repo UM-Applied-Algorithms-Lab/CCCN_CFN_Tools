@@ -192,13 +192,15 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
     style.name = visual.style.name
   )
 
+  unweights <- format(unique(cfn.edges$weight[order((as.numeric(cfn.edges$weight)))]), scientific = FALSE, trim = TRUE)
+
   setEdgeLineWidthMapping(
     table.column = "weight",
-    table.column.values = (as.numeric(cfn.edges$weight)),
-    widths = c(rep(3, times = sum(cfn.edges$weight < summary(cfn.edges$weight)['1st Qu.'][[1]])),
-               rep(7, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['1st Qu.'][[1]] & cfn.edges$weight < summary(cfn.edges$weight)['Mean'][[1]])),
-               rep(11, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['Mean'][[1]] & cfn.edges$weight < summary(cfn.edges$weight)['3rd Qu.'][[1]])),
-               rep(15, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['3rd Qu.'][[1]]))
+    table.column.values = as.character(unweights),
+    widths = c(rep(3, times = sum(unweights < summary(cfn.edges$weight)['1st Qu.'][[1]])),
+               rep(7, times = sum(unweights >= summary(cfn.edges$weight)['1st Qu.'][[1]] & unweights < summary(cfn.edges$weight)['Mean'][[1]])),
+               rep(11, times = sum(unweights >= summary(cfn.edges$weight)['Mean'][[1]] & unweights < summary(cfn.edges$weight)['3rd Qu.'][[1]])),
+               rep(15, times = sum(unweights >= summary(cfn.edges$weight)['3rd Qu.'][[1]]))
     ),
     mapping.type = 'd',
     style.name = visual.style.name
