@@ -49,6 +49,9 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   ptmtable.rmnames <- ptmtable[, !colnames(ptmtable) %in% "PTM"] #Remove ANY column that contains strings as such as PTM names, otherwise as.numeric will return NA
   ptmtable.sp <- as.data.frame(lapply(ptmtable.rmnames, as.numeric))
 
+  if("PTM" %in% colnames(ptmtable)) PTMnames <- ptmtable$PTM #Names must either be a column
+  else PTMnames <- rownames(ptmtable) #Or row
+
   # Calculate Spearman correlation #
   ptm.correlation.matrix <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
 
@@ -63,8 +66,8 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   sp.diss.matrix[is.na(sp.diss.matrix)] <- max.dist.eu
 
   # Fix names of correlation matrix
-  colnames(ptm.correlation.matrix) <- ptmtable$PTM
-  rownames(ptm.correlation.matrix) <- ptmtable$PTM
+  colnames(ptm.correlation.matrix) <- PTMnames
+  rownames(ptm.correlation.matrix) <- PTMnames
 
   # Run t-SNE #
   tsne.results <- GetRtsne(sp.diss.matrix) #Call GetRtsne
@@ -129,8 +132,7 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
     vegan::ordihull(result, result.disc2, col="red", lwd=2)
 
     #Format a data frame
-    result.span.df <- data.frame(ptmtable$PTM)
-    names(result.span.df) <- "PTM.Name"
+    result.span.df <- data.frame(PTMnames)
     result.span.df$group <- result.disc2 #Add groups found above to the data frame
 
     #Convert data frame into a list of clusters (check doesn't like group but it's a column name)
