@@ -1,3 +1,33 @@
+setNodeColorToRatios <- function(plotcol){
+  cf <- getTableColumns('node')
+  if(!(plotcol %in% cf)){
+    print (cf)
+    cat("\n","\n","\t", "Which attribute will set node size and color?")
+    plotcol <- as.character(readLines(con = stdin(), n = 1))
+  }
+  limits <- range(cf[, plotcol])
+  node.sizes = c (135, 130, 108, 75, 35, 75, 108, 130, 135)
+  #	RATIO is plotted
+  #	Blue is negative: Yellow positive, Green in middle
+  #
+  size.control.points = c (-20, -5, -1.0, 0.0, 1.0, 5.0, 20.0)
+  color.control.points = c (-20.0, -10.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0)
+  if(limits[1] < min(size.control.points)) {
+    size.control.points = c (limits[1], -15.0, -5.0, 0.0, 5.0, 15.0, 100.0)
+    color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, 100.0)
+  }
+  if(limits[2] > max(size.control.points)) {
+    size.control.points = c (limits[1], -15.0, -5.0, 0.0, 5.0, 15.0, limits[2])
+    color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, limits[2]+1)
+  }
+  ratio.colors = c ('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')
+  setNodeColorMapping (plotcol, color.control.points, ratio.colors, 'c', style.name = visual.style.name)
+  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)
+}
+
+
+
+
 #' Graph Cluster Filtered Network
 #'
 #' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
@@ -86,7 +116,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))
   cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$PTM == x)])))
 
-  createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
+  cyscape <- createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
 
   copyVisualStyle("default", visual.style.name)
 
@@ -142,37 +172,12 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setNodeFillOpacityDefault(node.fill.opacity, visual.style.name)      # set opacity of interior color of node; 0 - 255 w 0 --> translucent
   setNodeLabelOpacityDefault(node.label.opacity, visual.style.name)    # set opacity of name of node; 0 - 255 w 0 --> translucent
 
-  setNodeColorToRatios <- function(plotcol){
-    cf <- getTableColumns('node')
-    if(!(plotcol %in% getTableColumnNames('node'))){
-      print (getTableColumnNames('node'))
-      cat("\n","\n","\t", "Which attribute will set node size and color?")
-      plotcol <- as.character(readLines(con = stdin(), n = 1))
-    }
-    limits <- range(cf[, plotcol])
-    node.sizes     = c (135, 130, 108, 75, 35, 75, 108, 130, 135)
-    #	RATIO is plotted
-    #	Blue is negative: Yellow positive, Green in middle
-    #
-    size.control.points = c (-20, -5, -1.0, 0.0, 1.0, 5.0, 20.0)
-    color.control.points = c (-20.0, -10.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0)
-    if(limits[1] < min(size.control.points)) {
-      size.control.points = c (limits[1], -15.0, -5.0, 0.0, 5.0, 15.0, 100.0)
-      color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, 100.0)
-    }
-    if(limits[2] > max(size.control.points)) {
-      size.control.points = c (limits[1], -15.0, -5.0, 0.0, 5.0, 15.0, limits[2])
-      color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, limits[2]+1)
-    }
-    ratio.colors = c ('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')
-    setNodeColorMapping (plotcol, color.control.points, ratio.colors, 'c', style.name = visual.style.name)
-    setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)
-  }
+
   setNodeColorToRatios('score')
 
   setNodeLabelMapping("id", style.name = visual.style.name)
 
-  molclasses <- c("unknown", "receptor tyrosine kinase",  "SH2 protein", "SH2-SH3 protein", "SH3 protein", "tyrosine kinase",  "SRC-family kinase",   "kinase", "phosphatase", "transcription factor", "RNA binding protein")
+  molclasses <- c("unknown", "receptor tyrosine kinase",  "SH2 protein", "SH2-SH3 protein", "SH3 protein", "tyrosine kinase",  "SRC-family kinase", "kinase", "phosphatase", "transcription factor", "RNA binding protein")
   nodeshapes <- c("ELLIPSE","ROUND_RECTANGLE", "VEE", "VEE", "TRIANGLE", "HEXAGON", "DIAMOND", "OCTAGON", "OCTAGON", "PARALLELOGRAM", "RECTANGLE")
   setNodeShapeMapping ("node.type", molclasses, nodeshapes, default.shape="ELLIPSE", style.name = visual.style.name)
   setNodeBorderWidthMapping("node.type", c("acetyltransferase", "methyltransferase", "membrane protein", "receptor tyrosine kinase", "G protein-coupled receptor", "SRC-family kinase", "tyrosine kinase", "kinase", "phosphatase"),
@@ -189,7 +194,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   setEdgeLineWidthMapping(
     table.column = "weight",
-    table.column.values = as.character(cfn.edges$weight),
+    table.column.values = (as.numeric(cfn.edges$weight)),
     widths = c(rep(3, times = sum(cfn.edges$weight < summary(cfn.edges$weight)['1st Qu.'][[1]])),
                rep(7, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['1st Qu.'][[1]] & cfn.edges$weight < summary(cfn.edges$weight)['Mean'][[1]])),
                rep(11, times = sum(cfn.edges$weight >= summary(cfn.edges$weight)['Mean'][[1]] & cfn.edges$weight < summary(cfn.edges$weight)['3rd Qu.'][[1]])),
