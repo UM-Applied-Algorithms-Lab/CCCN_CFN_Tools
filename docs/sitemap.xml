@@ -5,7 +5,10 @@
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
+<url><loc>/reference/BuildPPINetwork.html</loc></url>
+<url><loc>/reference/ClusterFilteredNetwork.html</loc></url>
 <url><loc>/reference/GraphCfn.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/PathwayCrosstalkNetwork.html</loc></url>
 </urlset>
 

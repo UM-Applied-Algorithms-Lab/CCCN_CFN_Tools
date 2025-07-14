@@ -120,7 +120,7 @@ of RAM.</p>
 <h5 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a>
 </h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeClusterList.html" class="external-link">MakeClusterList</a></span><span class="op">(</span><span class="va">clusterlist</span>, <span class="va">ptm.correlation.matrix</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, clusters.name <span class="op">=</span> <span class="st">"clusters.common"</span>, cccn.name <span class="op">=</span> <span class="st">"cccn.matrix"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeClusterList.html" class="external-link">MakeClusterList</a></span><span class="op">(</span><span class="va">ptmtable</span>, correlation.matrix.name <span class="op">=</span> <span class="st">"ptm.correlation.matrix"</span>, list.name <span class="op">=</span> <span class="st">"clusters.list"</span>, toolong <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/EU_MCL.png"><br><strong>Figure 1</strong> Example plot produced by MakeClusterList
 calculated using Euclidean Distance</p>
@@ -251,7 +251,7 @@ the two)</li>
 <h5 id="code-1">Code<a class="anchor" aria-label="anchor" href="#code-1"></a>
 </h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeCorrelationNetwork.html" class="external-link">MakeCorrelationNetwork</a></span><span class="op">(</span><span class="va">tsne.matrices</span>, <span class="va">ptm.correlation.matrix</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, common.clusters.name <span class="op">=</span> <span class="st">"common.clusters"</span>, cccn.name <span class="op">=</span> <span class="st">"cccn_matrix"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeCorrelationNetwork.html" class="external-link">MakeCorrelationNetwork</a></span><span class="op">(</span><span class="va">clusterlist</span>, <span class="va">ptm.correlation.matrix</span>, keeplength <span class="op">=</span> <span class="fl">2</span>, clusters.name <span class="op">=</span> <span class="st">"clusters.common"</span>, filtered.ptm.cor.name <span class="op">=</span> <span class="st">"filtered.cor.matrix"</span>, cccn.name <span class="op">=</span> <span class="st">"cccn.matrix"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/cccn_matrix.png"><br><strong>Figure 4</strong> First 17 rows and columns of the cccn_matrix
 produced by MakeCorrelationNetwork</p>
@@ -266,7 +266,8 @@ produced by MakeCorrelationNetwork</p>
 <p>Make Correlation Network first finds the intersection between the
 Euclidian, Spearman, and SED cluster matrices in order to find the
 intersection between the three groups. It then adds the Genes in these
-PTMs to a list of common clusters and turns it into an adjacency matrix.
+PTMs to a list of common clusters and turns it into an adjacency matrix
+with two variants, one at the PTM level and one at the protein level.
 This adjacency matrix is used to filter relevant data — clusters — from
 the Spearman correlation matrix. The resultant cocluster correlation
 network shows strength of relationships between proteins using the
@@ -276,7 +277,7 @@ common clusters between the three distance metrics.</p>
 <h5 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
 </h5>
 <ul>
-<li>clusters.list
+<li>clusterlist
 <ul>
 <li>A list of three-dimensional data frames used to represent ptms in
 space to show relationships between them based on distances. Based on
@@ -299,11 +300,16 @@ the columns). NAs are placed along the diagonal.</li>
 2</li>
 </ul>
 </li>
-<li>common.clusters.name
+<li>clusters.name
 <ul>
 <li>Desired name for the common clusters output; defaults to
-common.clusters<br>
+common.clusters</li>
+</ul>
 </li>
+<li>filtered.ptm.cor.name
+<ul>
+<li>Desired name for the correlation matrix that contains only PTMs
+found in common clusters</li>
 </ul>
 </li>
 <li>cccn.name
@@ -377,7 +383,7 @@ name.</p>
 <h5 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h5>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/GetSTRINGdb.html" class="external-link">GetSTRINGdb</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, STRINGdb.name <span class="op">=</span> <span class="st">"stringdb.edges"</span>, nodenames.name <span class="op">=</span> <span class="st">"nodenames"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/GetSTRINGdb.html" class="external-link">GetSTRINGdb</a></span><span class="op">(</span><span class="va">cccn.matrix</span>, stringdb.name <span class="op">=</span> <span class="st">"stringdb.edges"</span>, nodenames.name <span class="op">=</span> <span class="st">"nodenames"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/string-edges.png"><br><strong>Figure 5</strong> First 18 rows of stringdb.edges produced by
 GetSTRINGdb</p>
@@ -402,7 +408,7 @@ the common clusters between the three distance metrics<br>
 </li>
 </ul>
 </li>
-<li>STRINGdb.name
+<li>stringdb.name
 <ul>
 <li>Desired name for STRINGdb data; defaults to stringdb.edges<br>
 </li>
@@ -446,7 +452,7 @@ genes of study pulled from the STRINGdb database<br>
 <h5 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeDBInput.html" class="external-link">MakeDBInput</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, file.path.name <span class="op">=</span> <span class="st">"db_nodes.txt"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/MakeDBInput.html" class="external-link">MakeDBInput</a></span><span class="op">(</span><span class="va">cccn.matrix</span>, file.path.name <span class="op">=</span> <span class="st">"db_nodes.txt"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/db_nodes-txt.png"></p>
 <p><strong>Figure 7</strong> First 15 lines from the produced text
@@ -502,7 +508,7 @@ file.path.name</li>
 <h5 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h5>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/ProcessGMEdgefile.html" class="external-link">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">nodenames</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/ProcessGMEdgefile.html" class="external-link">ProcessGMEdgefile</a></span><span class="op">(</span><span class="va">gm.edgefile.path</span>, <span class="va">gm.nodetable.path</span>, <span class="va">db_nodes.path</span>, gm.network.name <span class="op">=</span> <span class="st">"gm.network"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/gm_network.png"></p>
 <p><strong>Figure 8</strong> First 44 rows of the GeneMANIA network</p>
@@ -564,7 +570,7 @@ genes of study</li>
 <h5 id="code-5">Code<a class="anchor" aria-label="anchor" href="#code-5"></a>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/BuildPPINetwork.html" class="external-link">BuildPPINetwork</a></span><span class="op">(</span><span class="va">cccn_matrix</span>, db_file_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/BuildPPINetwork.html" class="external-link">BuildPPINetwork</a></span><span class="op">(</span>stringdb.edges <span class="op">=</span> <span class="cn">NA</span>, gm.network <span class="op">=</span> <span class="cn">NA</span>, db.filepaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, ppi.network.name <span class="op">=</span> <span class="st">"ppi.network"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/ppi_network.png"><br><strong>Figure 9</strong> First 19 rows of the ppi_network produced by
 find_ppi_edges</p>
@@ -714,7 +720,7 @@ cccn.matrix and have non-zero weights</li>
 <h5 id="code-7">Code<a class="anchor" aria-label="anchor" href="#code-7"></a>
 </h5>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/PathwayCrosstalkNetwork.html" class="external-link">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">common.clusters</span>, edgelist.name <span class="op">=</span> <span class="st">"edgelist"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/PathwayCrosstalkNetwork.html">PathwayCrosstalkNetwork</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"bioplanet.csv"</span>, <span class="va">common.clusters</span>, edgelist.name <span class="op">=</span> <span class="st">"edgelist"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <p><img src="vig_figs/PTP_edgelist.png"></p>
 <p><strong>Figure 12</strong> Graph in Cytoscape - Didn’t add cuz not
@@ -799,7 +805,7 @@ Cluster-Pathway Evidence score can be found at: <a href="https://journals.plos.o
 <h5 id="code-8">Code<a class="anchor" aria-label="anchor" href="#code-8"></a>
 </h5>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/GraphCfn.html">GraphCfn</a></span><span class="op">(</span><span class="va">cfn</span>, Network.title <span class="op">=</span> <span class="st">"cfn"</span>, Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/GraphCfn.html" class="external-link">GraphCfn</a></span><span class="op">(</span><span class="va">cfn</span>, Network.title <span class="op">=</span> <span class="st">"cfn"</span>, Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span>,</span>
 <span>                     background.color <span class="op">=</span> <span class="st">'#fcf3cf'</span>, edge.label.color <span class="op">=</span> <span class="st">'#17202a'</span>, edge.line.color <span class="op">=</span> <span class="st">'#abb2b9'</span>, node.border.color <span class="op">=</span> <span class="st">'#145a32'</span>,</span>
 <span>                     node.label.color <span class="op">=</span> <span class="st">'#145a32'</span>, node.fill.color <span class="op">=</span> <span class="st">'#a9dfbf'</span>,</span>
 <span>                     default.font <span class="op">=</span> <span class="st">"Times New Roman"</span>, node.font.size <span class="op">=</span> <span class="fl">12</span>, edge.font.size <span class="op">=</span> <span class="fl">8</span>,</span>
