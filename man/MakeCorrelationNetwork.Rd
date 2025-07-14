@@ -35,7 +35,7 @@ cocluster correlation network shows strength of relationships between proteins u
 }
 \examples{
 ex.ptm.cor <- ex.ptm.correlation.matrix
-MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.cccn.matrix")
+MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.filtered.cor.matrix", "ex.cccn.matrix")
 print(ex.clusters.common[c(1, 2, 3)])
 utils::head(ex.cccn.matrix[, c(1,2,3,4,5)])
 }

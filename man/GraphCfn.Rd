@@ -16,14 +16,12 @@ GraphCfn(
   edge.line.color = "#abb2b9",
   node.border.color = "#145a32",
   node.label.color = "#000000",
-  node.fill.color = "#a9dfbf",
   default.font = "Times New Roman",
   node.font.size = 12,
   edge.font.size = 8,
   edge.line.style = "SOLID",
   source.arrow = "NONE",
   target.arrow = "NONE",
-  node.shape = "OCTAGON",
   node.size = 50,
   edge.width = 2,
   border.width = 1,
@@ -57,8 +55,6 @@ GraphCfn(
 
 \item{node.label.color}{Hex code of node label color of graph; defaults to '#145a32'}
 
-\item{node.fill.color}{Hex code of node fill color of graph; defaults to '#a9dfbf'}
-
 \item{default.font}{Font style of edge and node names; defaults to "Times New Roman"}
 
 \item{node.font.size}{Font size of the node name; defaults to 12}
@@ -70,8 +66,6 @@ GraphCfn(
 \item{source.arrow}{Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"}
 
 \item{target.arrow}{Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"}
-
-\item{node.shape}{Shape of the node; defaults to "OCTAGON"; options include: "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"}
 
 \item{node.size}{Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())}
 

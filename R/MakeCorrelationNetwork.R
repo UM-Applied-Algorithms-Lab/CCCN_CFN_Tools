@@ -47,7 +47,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #'
 #' @examples
 #' ex.ptm.cor <- ex.ptm.correlation.matrix
-#' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.cccn.matrix")
+#' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.filtered.cor.matrix", "ex.cccn.matrix")
 #' print(ex.clusters.common[c(1, 2, 3)])
 #' utils::head(ex.cccn.matrix[, c(1,2,3,4,5)])
 MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", filtered.ptm.cor.name = "filtered.cor.matrix", cccn.name = "cccn.matrix"){
@@ -56,8 +56,8 @@ MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keepleng
   ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
   correlation.value <- function(Gene1, Gene2){
     r <- filtered.ptm.cor[
-      grep(paste(Gene1, ""), rownames(filtered.ptm.correlation), value = TRUE), #Paste is required so that grep cannot find the gene in another gene. Such as, Gene1 = HAT will identify HIHATH as the same protein
-      grep(paste(Gene2, ""), colnames(filtered.ptm.correlation), value = TRUE)] #Adding the space makes it so the entire word has to be there
+      grep(paste(Gene1, ""), rownames(filtered.ptm.cor), value = TRUE), #Paste is required so that grep cannot find the gene in another gene. Such as, Gene1 = HAT will identify HIHATH as the same protein
+      grep(paste(Gene2, ""), colnames(filtered.ptm.cor), value = TRUE)] #Adding the space makes it so the entire word has to be there
     r <- as.matrix(r) #Needed? if singular value
     return(sum(r, na.rm = TRUE)) #Return sum
   }
