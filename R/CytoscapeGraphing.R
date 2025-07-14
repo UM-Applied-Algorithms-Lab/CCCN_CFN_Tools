@@ -1,11 +1,6 @@
 # helper function
-setNodeColorToRatios <- function(plotcol){
+setNodeColorToRatios <- function(plotcol, visual.style.name){
   cf <- getTableColumns('node')
-  if(!(plotcol %in% cf)){
-    print (cf)
-    cat("\n","\n","\t", "Which attribute will set node size and color?")
-    plotcol <- as.character(readLines(con = stdin(), n = 1))
-  }
   limits <- range(cf[, plotcol])
   node.sizes = c (135, 130, 108, 75, 35, 75, 108, 130, 135)
   #	RATIO is plotted
@@ -47,7 +42,6 @@ setNodeColorToRatios <- function(plotcol){
 #' @param edge.line.color Hex code of edge line color of graph; defaults to '#abb2b9'
 #' @param node.border.color Hex code of node border color of graph; defaults to '#145a32'
 #' @param node.label.color Hex code of node label color of graph; defaults to '#145a32'
-#' @param node.fill.color Hex code of node fill color of graph; defaults to '#a9dfbf'
 #'
 #' @param default.font Font style of edge and node names; defaults to "Times New Roman"
 #' @param node.font.size Font size of the node name; defaults to 12
@@ -56,7 +50,6 @@ setNodeColorToRatios <- function(plotcol){
 #' @param edge.line.style Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
 #' @param source.arrow Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
 #' @param target.arrow Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
-#' @param node.shape Shape of the node; defaults to "OCTAGON"; options include: "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"
 #'
 #' @param node.size Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())
 #' @param edge.width Width of the edge line; defaults to 2
@@ -75,9 +68,9 @@ setNodeColorToRatios <- function(plotcol){
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
 GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
-                     background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000', node.fill.color = '#a9dfbf',
+                     background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
-                     edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE', node.shape = "OCTAGON",
+                     edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE',
                      node.size = 50, edge.width = 2, border.width = 1,
                      edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
                      ){
@@ -153,7 +146,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setEdgeLabelColorDefault(edge.label.color, visual.style.name)        # set color of edge label
   setEdgeColorDefault(edge.line.color, visual.style.name)              # set color of edge
   setNodeLabelColorDefault(node.label.color, visual.style.name)        # set color of node name
-  setNodeColorDefault(node.fill.color, visual.style.name)              # set interior color of node
   # fonts
   setEdgeFontFaceDefault(default.font, visual.style.name)              # set font of edge
   setNodeFontFaceDefault(default.font, visual.style.name)              # set font of node name (Initial Default UNKNOWN (not TNR or Arial))
@@ -163,7 +155,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setEdgeLineStyleDefault(edge.line.style, visual.style.name)          # "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
   setEdgeSourceArrowShapeDefault(source.arrow, visual.style.name)      # "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND"
   setEdgeTargetArrowShapeDefault(target.arrow, visual.style.name)      # "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
-  setNodeShapeDefault(node.shape, visual.style.name)                   # "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"
   # size
   setNodeSizeDefault(node.size, visual.style.name)                     # set size of node; height and width assumed the same
   # opacity
@@ -174,7 +165,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setNodeLabelOpacityDefault(node.label.opacity, visual.style.name)    # set opacity of name of node; 0 - 255 w 0 --> translucent
 
 
-  setNodeColorToRatios('score')
+  setNodeColorToRatios('score', visual.style.name)
 
   setNodeLabelMapping("id", style.name = visual.style.name)
 
@@ -195,8 +186,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   unweights <- unique(cfn.edges$weight[order((as.numeric(cfn.edges$weight)))])
   unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)
-
-
 
   setEdgeLineWidthMapping(
     table.column = "weight",
