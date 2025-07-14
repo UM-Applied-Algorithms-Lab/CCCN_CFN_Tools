@@ -1,6 +1,0 @@
----
-title: "DEVReadme"
-output: html_document
----
-
-This document is meant to be the first step for anyone who intends to develop the PTMs2Pathways R package, especially if they have minimal (or no) understanding of the R programming language and/or is not a dedicated biologist. As such, this document aims to provide a detailed explanation for both the biological processes and their corresponding technical processes for each step (file). 
