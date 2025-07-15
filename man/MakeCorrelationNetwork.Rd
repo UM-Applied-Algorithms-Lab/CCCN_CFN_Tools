@@ -9,7 +9,7 @@ MakeCorrelationNetwork(
   ptm.correlation.matrix,
   keeplength = 2,
   clusters.name = "clusters.common",
-  filtered.ptm.cor.name = "filtered.cor.matrix",
+  filtered.ptm.cor.name = "filtered.ptm.cor",
   cccn.name = "cccn.matrix"
 )
 }
@@ -21,6 +21,8 @@ MakeCorrelationNetwork(
 \item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))}
 
 \item{clusters.name}{Desired name for the common clusters output; defaults to common.clusters}
+
+\item{filtered.ptm.cor.name}{The PTM correlation matrix filtered by PTMs that cocluster}
 
 \item{cccn.name}{Desired name for the cocluster correlation network; defaults to cccn.matrix}
 }

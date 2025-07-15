@@ -350,5 +350,5 @@
 #' }
 #' @source "Made in MakeCorrelationNetwork"
 #' @examples
-#' ex.filtered.ptm.cor[c(1,2) , c(1,2)]
-"ex.filtered.ptm.cor"
+#' ex.filtered.cor.matrix[c(1,2) , c(1,2)]
+"ex.filtered.cor.matrix"
