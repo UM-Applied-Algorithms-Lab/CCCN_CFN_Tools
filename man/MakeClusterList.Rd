@@ -6,17 +6,23 @@
 \usage{
 MakeClusterList(
   ptmtable,
+  name.columns = 1:3,
   correlation.matrix.name = "ptm.correlation.matrix",
-  list.name = "clusters.list",
+  clusters.list.name = "clusters.list",
+  tsne.coords.name = "all.tsne.coords",
   toolong = 3.5
 )
 }
 \arguments{
 \item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
 
+\item{name.columns}{The columns which contain names. Handles via merging them into 1 string. If 0, will take rownames instead.}
+
 \item{correlation.matrix.name}{Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix}
 
-\item{list.name}{Desired name for the lists of clusters to be saved as; defaults to clusters.list}
+\item{clusters.list.name}{Desired name for the lists of clusters to be saved as; defaults to clusters.list}
+
+\item{tsne.coords.name}{Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords}
 
 \item{toolong}{A numeric threshold for cluster separation, defaults to 3.5.}
 }
@@ -34,7 +40,7 @@ A correlation table is also produced based on the Spearman Correlation table.
 Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 }
 \examples{
-MakeClusterList(ex.ptmtable, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
+MakeClusterList(ex.ptmtable, name.columns = 1:3, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
 utils::head(ex.ptm.correlation.matrix[, c(1,2,3,4,5)])
 print(ex.clusters.list[[1]][1])
 print(ex.clusters.list[[2]][1])
