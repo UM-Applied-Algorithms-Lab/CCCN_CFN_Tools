@@ -1,43 +1,40 @@
+# NOTE TO SELF: rewrite node color mapping like edge width mapping? to get the ranges based on the data set quartiles
+# SECOND NOTE TO SELF: use QUARTILES rather than summary to get better range quartile(x, 0.whatever)
+
 # helper function
-NodeColorMapping <- function(plotcol, visual.style.name){
-  cf <- getTableColumns('node')
-  limits <- range(cf[, plotcol])
-  node.sizes = c (135, 130, 108, 75, 35, 75, 108, 130, 135)
-  #	RATIO is plotted
-  #	Blue is negative: Yellow positive, Green in middle
-  #
-  size.control.points = c (-20, -5, -1.0, 0.0, 1.0, 5.0, 20.0)
-  color.control.points = c (-20.0, -10.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0)
+NodeColorMapping <- function(plotcol, visual.style.name){                                          # maps colors based on score
+  cf <- getTableColumns('node')                                                                    # gets the table (kind of want to clean this up and just pass in node.table like below)
+  limits <- range(cf[, plotcol])                                                                   # gets RANGE of scores from table
+  color.control.points = c (-20.0, -10.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0)                   # Blue is negative: Yellow positive, Green in middle
   if(limits[1] < min(size.control.points)) {
-    size.control.points = c (limits[1], -15.0, -5.0, 0.0, 5.0, 15.0, 100.0)
-    color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, 100.0)
+    color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, 100.0)        # if minimum of scores is lower, decrease the lowest (just use -inf?)
   }
   if(limits[2] > max(size.control.points)) {
-    size.control.points = c (limits[1], -15.0, -5.0, 0.0, 5.0, 15.0, limits[2])
-    color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, limits[2]+1)
+    color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, limits[2]+1)  # if max of scores is higher, increase the highest (just use inf?)
   }
-  ratio.colors = c ('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')
-  setNodeColorMapping (plotcol, color.control.points, ratio.colors, 'c', style.name = visual.style.name)
-  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)
+  ratio.colors = c ('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')    # colors line up to the ranges
+  setNodeColorMapping (plotcol, color.control.points, ratio.colors, 'c', style.name = visual.style.name)                                       # set mapping
+  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                                    # set selection color
 }
 
 
 # helper function
 EdgeWidthMapping <- function(edge.table){
 
-  unweights <- unique(edge.table$weight[order((as.numeric(edge.table$weight)))])
-  unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)
+  unweights <- unique(edge.table$weight[order((as.numeric(edge.table$weight)))])  # get all of the unique vals of the weights
+  unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)     # put them in the exact same format as the weights that cytoscape stores
 
-  setEdgeLineWidthMapping(
-    table.column = "weight",
-    table.column.values = as.character(unweights),
+  setEdgeLineWidthMapping(                              # set mapping
+    table.column = "weight",                            # using the weights column
+    table.column.values = as.character(unweights),      # the values are the as.character of the correct format as above
+    # below just takes the four quartiles and repeats that value of edge width for as many weights that are in that quartile
     widths = c(rep(3, times = sum(as.numeric(unweights) < summary(as.numeric(edge.table$weight))['1st Qu.'][[1]])),
                rep(7, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['1st Qu.'][[1]] & as.numeric(unweights) < summary(as.numeric(edge.table$weight))['Mean'][[1]])),
                rep(11, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['Mean'][[1]] & as.numeric(unweights) < summary(as.numeric(edge.table$weight))['3rd Qu.'][[1]])),
                rep(15, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['3rd Qu.'][[1]]))
     ),
-    mapping.type = 'd',
-    style.name = visual.style.name
+    mapping.type = 'd',                                 # discrete bc there's one for each; continuous absolutely WAS NOT WORKING. Only would accept min and max vals, v uneven distribution
+    style.name = visual.style.name                      # save to our style
   )
 
 }
