@@ -303,23 +303,23 @@ GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funcke
   colnames(ptmnew) <- c("PTM", "score")                                                # rename cols
   ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))    # TAKE MINIMUM SCORE ACROSS PTM COLS
 
-  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4), stringsAsFactors = FALSE)           # initialize empty edge df
-  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(ptm.list), ncol = 3), stringsAsFactors = FALSE)                # initialize empty node df
+  ptm.cccn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4), stringsAsFactors = FALSE)           # initialize empty edge df
+  ptm.cccn.nodes <- data.frame(matrix(data = 0, nrow = length(ptm.list), ncol = 3), stringsAsFactors = FALSE)                # initialize empty node df
 
-  colnames(cfn.edges) <- c("source", "target", "interaction", "weight")                                                 # name cols of edge and node tables
-  colnames(cfn.nodes) <- c("id", "node.type", "score")
+  colnames(ptm.cccn.edges) <- c("source", "target", "interaction", "weight")                                                 # name cols of edge and node tables
+  colnames(ptm.cccn.nodes) <- c("id", "node.type", "score")
 
-  cfn.edges$source <- cfn$Gene.1                                                            # enter vals for edge table
-  cfn.edges$target <- cfn$Gene.2
-  cfn.edges$interaction <- cfn$Interaction
-  cfn.edges$weight <- format(as.numeric(cfn$PPI.weight), scientific = FALSE, trim = TRUE)   # NOTE: formatting is very important for the edge line width
+  ptm.cccn.edges$source <- cfn$Gene.1                                                            # enter vals for edge table
+  ptm.cccn.edges$target <- cfn$Gene.2
+  ptm.cccn.edges$interaction <- cfn$Interaction
+  ptm.cccn.edges$weight <- format(as.numeric(cfn$PPI.weight), scientific = FALSE, trim = TRUE)   # NOTE: formatting is very important for the edge line width
 
   # enter vals for node table
-  cfn.nodes$id <- ptm.list
-  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == strsplit(x, split = ' ')[[1]][1])]))   # steal node type from funckey
-  cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$Gene == strsplit(x, split = ' ')[[1]][1])])))              # steal score from ptmnew
+  ptm.cccn.nodes$id <- ptm.list
+  ptm.cccn.nodes$node.type <- as.character(sapply(ptm.cccn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == strsplit(x, split = ' ')[[1]][1])]))   # steal node type from funckey
+  ptm.cccn.nodes$score <- as.numeric(sapply(ptm.cccn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$Gene == strsplit(x, split = ' ')[[1]][1])])))              # steal score from ptmnew
 
-  cyscape <- createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)     # create network (not sure if storing it does anything?)
+  cyscape <- createNetworkFromDataFrames(ptm.cccn.nodes, ptm.cccn.edges, title = Network.title, collection = Network.collection)     # create network (not sure if storing it does anything?)
 
   copyVisualStyle("default", visual.style.name)   # create visual style
 
@@ -331,7 +331,7 @@ GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funcke
 
   NodeColorMapping('score', visual.style.name)                # map the node colors CURRENTLY NOT SIZES
 
-  EdgeWidthMapping(cfn.edges, visual.style.name)              # map edge width CURRENTLY NOT COLORS
+  EdgeWidthMapping(ptm.cccn.edges, visual.style.name)              # map edge width CURRENTLY NOT COLORS
 
   NodeBorderMapping(visual.style.name)                        # map node border (color, thickness)
 
