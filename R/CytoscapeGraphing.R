@@ -19,7 +19,7 @@ NodeColorMapping <- function(plotcol, visual.style.name){                       
 
 
 # helper function
-EdgeWidthMapping <- function(edge.table){
+EdgeWidthMapping <- function(edge.table, visual.style.name){
 
   unweights <- unique(edge.table$weight[order((as.numeric(edge.table$weight)))])  # get all of the unique vals of the weights
   unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)     # put them in the exact same format as the weights that cytoscape stores
@@ -37,6 +37,32 @@ EdgeWidthMapping <- function(edge.table){
     style.name = visual.style.name                      # save to our style
   )
 
+}
+
+
+# helper function
+NodeBorderMapping <- function(visual.style.name){
+
+  # list of molecule classes
+  molclasses <- c("unknown", "receptor tyrosine kinase",  "SH2 protein", "SH2-SH3 protein", "SH3 protein", "tyrosine kinase",  "SRC-family kinase", "kinase", "phosphatase", "transcription factor", "RNA binding protein")
+  # list of node shapes
+  nodeshapes <- c("ELLIPSE","ROUND_RECTANGLE", "VEE", "VEE", "TRIANGLE", "HEXAGON", "DIAMOND", "OCTAGON", "OCTAGON", "PARALLELOGRAM", "RECTANGLE")
+
+  # map molecule classes to node shapes
+  setNodeShapeMapping ("node.type", molclasses, nodeshapes, default.shape="ELLIPSE", style.name = visual.style.name)
+  # map node.type with this list of molecule types to different widths
+  setNodeBorderWidthMapping("node.type", c("acetyltransferase", "methyltransferase", "membrane protein", "receptor tyrosine kinase", "G protein-coupled receptor", "SRC-family kinase", "tyrosine kinase", "kinase", "phosphatase"),
+                            widths=c(12,12,8,16,16,12,12,12,14), mapping.type = 'd', default.width = 4, style.name = visual.style.name)
+
+  # map the different molecule types to these different node border colors
+  setNodeBorderColorMapping(
+    table.column = "node.type",
+    table.column.values = c("deacetylase", "acetyltransferase", "demethylase", "methyltransferase", "membrane protein", "kinase", "tyrosine kinase", "SRC-family kinase", "phosphatase", "tyrosine phosphatase", "G protein-coupled receptor", "receptor tirosine kinase"),
+    colors = c("#FF8C00", "#FF8C00", "#005CE6", "#005CE6", "#6600CC", "#EE0000", "#EE0000", "#EE0000", "#FFEC8B", "#FFEC8B", "#BF3EFF", "#BF3EFF"),
+    mapping.type = 'd',
+    default.color = '#abb2b9',
+    style.name = visual.style.name
+  )
 }
 
 
@@ -146,17 +172,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
                                                                        # amount offset in the x direction
                                                                        # amount offset in the y direction
 
-  # mapVisualProperty("Edge Target Arrow Shape", "interaction", 'd',
-  #                   c("Physical Interactions", "Pathways", "database", "database_transferred", "experimental", "experimental_transferred"),
-  #                   c("SQUARE", "HALF_CIRCLE", "CROSS_DELTA", "CROSS_DELTA", "ARROW_SHORT", "ARROW_SHORT"))
-
-  # mapVisualProperty(visual.property, table.column, mapping.type, table.column.values, visual.prop.values)
-  # visual.properties can be found with ?mapVisualProperty (thank god) some useful ones are: "node label", "node fill color", "Edge Target Arrow Shape", many more
-  # table.column shows which column of the table is being mapped (id for the node label) or analyzed (interaction for arrow shape) for this property
-  # mapping.type is 'c' for continuous (you know what continuous means); 'd' for discrete (set determined vals as in arrow shape and node color); 'p' for passthrough (represented by the val in the table)
-  # table.column.values determine which entries for that column give you which VVVV
-  # visual.prop.values give the property type assigned to the specified ^^^^^
-
   # CUSTOMIZED: user inputs can change the following:
 
   # colors
@@ -185,24 +200,11 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   NodeColorMapping('score', visual.style.name)
 
-  EdgeWidthMapping(cfn.edges)
+  EdgeWidthMapping(cfn.edges, visual.style.name)
+
+  NodeBorderMapping(visual.style.name)
 
   setNodeLabelMapping("id", style.name = visual.style.name)
-
-  molclasses <- c("unknown", "receptor tyrosine kinase",  "SH2 protein", "SH2-SH3 protein", "SH3 protein", "tyrosine kinase",  "SRC-family kinase", "kinase", "phosphatase", "transcription factor", "RNA binding protein")
-  nodeshapes <- c("ELLIPSE","ROUND_RECTANGLE", "VEE", "VEE", "TRIANGLE", "HEXAGON", "DIAMOND", "OCTAGON", "OCTAGON", "PARALLELOGRAM", "RECTANGLE")
-  setNodeShapeMapping ("node.type", molclasses, nodeshapes, default.shape="ELLIPSE", style.name = visual.style.name)
-  setNodeBorderWidthMapping("node.type", c("acetyltransferase", "methyltransferase", "membrane protein", "receptor tyrosine kinase", "G protein-coupled receptor", "SRC-family kinase", "tyrosine kinase", "kinase", "phosphatase"),
-                            widths=c(12,12,8,16,16,12,12,12,14), mapping.type = 'd', default.width = 4, style.name = visual.style.name)
-
-  setNodeBorderColorMapping(
-    table.column = "node.type",
-    table.column.values = c("deacetylase", "acetyltransferase", "demethylase", "methyltransferase", "membrane protein", "kinase", "tyrosine kinase", "SRC-family kinase", "phosphatase", "tyrosine phosphatase", "G protein-coupled receptor", "receptor tirosine kinase"),
-    colors = c("#FF8C00", "#FF8C00", "#005CE6", "#005CE6", "#6600CC", "#EE0000", "#EE0000", "#EE0000", "#FFEC8B", "#FFEC8B", "#BF3EFF", "#BF3EFF"),
-    mapping.type = 'd',
-    default.color = '#abb2b9',
-    style.name = visual.style.name
-  )
 
   setVisualStyle(visual.style.name)
 
@@ -259,6 +261,15 @@ GraphCccn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Netwo
                      edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE',
                      node.size = 50, edge.width = 2, border.width = 1,
                      edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
-){
+                     ){
+
+  if(!(exists("RCy3"))){                      # check if RCy3 is libraried
+    if(system.file(package="RCy3") == ""){    # check if RCy3 is installed at all
+      BiocManager::install(version='devel')   # The following initializes usage of Bioc devel
+      BiocManager::install("RCy3")            # install!
+    }
+    library("RCy3")                           # library
+    cytoscapePing()                           # ensure connection?
+  }
 
 }
