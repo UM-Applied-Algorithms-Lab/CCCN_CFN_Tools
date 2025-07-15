@@ -344,11 +344,27 @@
 #' @keywords internal
 #' @format Matrix of 329 rows and columns
 #' \describe{
-#' \item{rows}{Select PTMs}
-#' \item{columns}{Select PTMs}
-#' \item{values}{Same as in Correlation Matrix}
+#'   \item{rows}{Select PTMs}
+#'   \item{columns}{Select PTMs}
+#'   \item{values}{Same as in Correlation Matrix}
 #' }
 #' @source "Made in MakeCorrelationNetwork"
 #' @examples
 #' ex.ptm.cccn[c(1,2) , c(1,2)]
 "ex.ptm.cccn"
+
+#' All Tsne Coords
+#'
+#' A list of Tsne coords for Euclidian, Spearman, and SED
+#'
+#' @keywords internal
+#' @format List of Euclidian, Spearman, and SED tsne coords
+#' \describe{
+#'   \item{First entry}{Data frame containing Euclidian Coords}
+#'   \item{Second entry}{Data frame containing Spearman coords}
+#'   \item{Third entry}{Data frame containing SED coords}
+#' }
+#' @source "Made in MakeClusterList"
+#' @examples
+#' ex.all.tsne.coords[1]
+"ex.all.tsne.coords"
