@@ -306,7 +306,7 @@ GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funcke
   ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))         # TAKE MINIMUM SCORE ACROSS PTM COLS
 
   ptm.cccn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(ptm.cccn))**2, ncol = 4), stringsAsFactors = FALSE)   # initialize empty edge df
-  ptm.cccn.nodes <- data.frame(matrix(data = 0, nrow = length(ptm.list), ncol = 3), stringsAsFactors = FALSE)                # initialize empty node df
+  ptm.cccn.nodes <- data.frame(matrix(data = 0, nrow = length(ptms.list), ncol = 3), stringsAsFactors = FALSE)                # initialize empty node df
 
   colnames(ptm.cccn.edges) <- c("source", "target", "interaction", "weight")                                                 # name cols of edge and node tables
   colnames(ptm.cccn.nodes) <- c("id", "node.type", "score")
@@ -316,7 +316,7 @@ GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funcke
     col = colnames(ptm.cccn),
     stringsAsFactors = FALSE
   )
-  values <- mapply(function(r, c) ptm.cccn[r, c], edge_grid$row, edge_grid$col)
+  values <- mapply(function(r, c) ptm.cccn[r, c], edge.grid$row, edge.grid$col)
 
   ptm.cccn.edges$source <- edge.grid[, 1]
   ptm.cccn.edges$target <- edge.grid[, 2]
@@ -326,15 +326,8 @@ GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funcke
   ptm.cccn.edges <- ptm.cccn.edges[which(!(ptm.cccn.edges$weight == 0)), ]
   ptm.cccn.edges$weight <- format(as.numeric(ptm.cccn.edges$weight), scientific = FALSE, trim = TRUE)   # NOTE: formatting is very important for the edge line width
 
-
-
-  ptm.cccn.edges$source <- cfn$Gene.1                                                            # enter vals for edge table
-  ptm.cccn.edges$target <- cfn$Gene.2
-  ptm.cccn.edges$interaction <- cfn$Interaction
-  ptm.cccn.edges$weight <- format(as.numeric(cfn$PPI.weight), scientific = FALSE, trim = TRUE)   # NOTE: formatting is very important for the edge line width
-
   # enter vals for node table
-  ptm.cccn.nodes$id <- ptm.list
+  ptm.cccn.nodes$id <- ptms.list
   ptm.cccn.nodes$node.type <- as.character(sapply(ptm.cccn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == strsplit(x, split = ' ')[[1]][1])]))   # steal node type from funckey
   ptm.cccn.nodes$score <- as.numeric(sapply(ptm.cccn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$Gene == strsplit(x, split = ' ')[[1]][1])])))              # steal score from ptmnew
 
