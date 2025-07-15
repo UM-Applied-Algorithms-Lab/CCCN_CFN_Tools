@@ -278,7 +278,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 #' @examples
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
-GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
+GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "PTM.cccn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
                      background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
                      edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE',
@@ -295,6 +295,51 @@ GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funcke
     cytoscapePing()                           # ensure connection?
   }
 
+  # ACTUAL CODE AND DATA PROCESSING
 
+  ptms.list <- unique(c(rownames(ptm.cccn), colnames(ptm.cccn)))                       # get unique names of ptms
+
+  ptmnew <- ptmtable[, c("PTM", "HCC4006_Erlotinib")]                                  # just take ptms and another col doesn't matter bc we replace
+  colnames(ptmnew) <- c("PTM", "score")                                                # rename cols
+  ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))    # TAKE MINIMUM SCORE ACROSS PTM COLS
+
+  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4), stringsAsFactors = FALSE)           # initialize empty edge df
+  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(ptm.list), ncol = 3), stringsAsFactors = FALSE)                # initialize empty node df
+
+  colnames(cfn.edges) <- c("source", "target", "interaction", "weight")                                                 # name cols of edge and node tables
+  colnames(cfn.nodes) <- c("id", "node.type", "score")
+
+  cfn.edges$source <- cfn$Gene.1                                                            # enter vals for edge table
+  cfn.edges$target <- cfn$Gene.2
+  cfn.edges$interaction <- cfn$Interaction
+  cfn.edges$weight <- format(as.numeric(cfn$PPI.weight), scientific = FALSE, trim = TRUE)   # NOTE: formatting is very important for the edge line width
+
+  # enter vals for node table
+  cfn.nodes$id <- ptm.list
+  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == strsplit(x, split = ' ')[[1]][1])]))   # steal node type from funckey
+  cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$Gene == strsplit(x, split = ' ')[[1]][1])])))              # steal score from ptmnew
+
+  cyscape <- createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)     # create network (not sure if storing it does anything?)
+
+  copyVisualStyle("default", visual.style.name)   # create visual style
+
+
+
+  # CUSTOMIZATION FROM HERE ON OUT
+
+  setNodeLabelMapping("id", style.name = visual.style.name)   # make the label names appear
+
+  NodeColorMapping('score', visual.style.name)                # map the node colors CURRENTLY NOT SIZES
+
+  EdgeWidthMapping(cfn.edges, visual.style.name)              # map edge width CURRENTLY NOT COLORS
+
+  NodeBorderMapping(visual.style.name)                        # map node border (color, thickness)
+
+  # we got standards in this joint
+  SetStandards(visual.style.name, background.color, edge.label.color, edge.line.color, node.border.color, node.label.color,
+               default.font, node.font.size, edge.font.size, edge.line.style, source.arrow, target.arrow, node.size, edge.width, border.width,
+               edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity)
+
+  setVisualStyle(visual.style.name)                           # set vis style
 
 }
