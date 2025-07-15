@@ -241,7 +241,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 #'
 #' If error occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
 #'
-#' @param cccn A matrix showing strength of relationships between proteins using common clusters between the three distance metrics
+#' @param ptm.cccn A matrix showing strength of relationships between post-translational modifications using common clusters between the three distance metrics
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
 #' @param funckey A table graphing gene names to type of protein; defaults to internal database at cccn.cfn.tools::ex.funckey
 #' @param Network.title Desired title for the created Cytoscape Network; defaults to "cfn"
@@ -278,7 +278,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 #' @examples
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
-GraphCccn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
+GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
                      background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
                      edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE',
