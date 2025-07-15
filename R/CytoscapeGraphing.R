@@ -184,49 +184,52 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   # ACTUAL CODE AND DATA PROCESSING
 
-  genes <- unique(c(cfn$Gene.1, cfn$Gene.2))
+  genes <- unique(c(cfn$Gene.1, cfn$Gene.2))                                           # get unique names of genes
 
-  ptmnew <- ptmtable[, c("PTM", "HCC4006_Erlotinib")]
-  ptmnew$PTM <- sapply(ptmtable$PTM, function(x) strsplit(x, split = " ")[[1]][1])
-  colnames(ptmnew) <- c("PTM", "score")
-  ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))
+  ptmnew <- ptmtable[, c("PTM", "HCC4006_Erlotinib")]                                  # just take ptms and another col doesn't matter bc we replace
+  ptmnew$PTM <- sapply(ptmtable$PTM, function(x) strsplit(x, split = " ")[[1]][1])     # get just the gene names in the PTM column
+  colnames(ptmnew) <- c("Gene", "score")                                               # rename cols
 
-  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4), stringsAsFactors = FALSE)
-  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3), stringsAsFactors = FALSE)
+  ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))    # TAKE MINIMUM SCORE ACROSS PTM COLS
 
-  colnames(cfn.edges) <- c("source", "target", "interaction", "weight")
+  cfn.edges <- data.frame(matrix(data = 0, nrow = length(rownames(cfn)), ncol = 4), stringsAsFactors = FALSE)           # initialize empty edge df
+  cfn.nodes <- data.frame(matrix(data = 0, nrow = length(genes), ncol = 3), stringsAsFactors = FALSE)                   # initialize empty node df
+
+  colnames(cfn.edges) <- c("source", "target", "interaction", "weight")                                                 # name cols of edge and node tables
   colnames(cfn.nodes) <- c("id", "node.type", "score")
 
-  cfn.edges$source <- cfn$Gene.1
+  cfn.edges$source <- cfn$Gene.1                                                            # enter vals for edge table
   cfn.edges$target <- cfn$Gene.2
   cfn.edges$interaction <- cfn$Interaction
-  cfn.edges$weight <- format(as.numeric(cfn$PPI.weight), scientific = FALSE, trim = TRUE)
+  cfn.edges$weight <- format(as.numeric(cfn$PPI.weight), scientific = FALSE, trim = TRUE)   # NOTE: formatting is very important for the edge line width
 
+  # enter vals for node table
   cfn.nodes$id <- genes
-  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))
-  cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$PTM == x)])))
+  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))   # steal node type from funckey
+  cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$Gene == x)])))              # steal score from ptmnew
 
-  cyscape <- createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)
+  cyscape <- createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)     # create network (not sure if storing it does anything?)
 
-  copyVisualStyle("default", visual.style.name)
+  copyVisualStyle("default", visual.style.name)   # create visual style
 
 
 
   # CUSTOMIZATION FROM HERE ON OUT
 
-  setNodeLabelMapping("id", style.name = visual.style.name)
+  setNodeLabelMapping("id", style.name = visual.style.name)   # make the label names appear
 
-  NodeColorMapping('score', visual.style.name)
+  NodeColorMapping('score', visual.style.name)                # map the node colors CURRENTLY NOT SIZES
 
-  EdgeWidthMapping(cfn.edges, visual.style.name)
+  EdgeWidthMapping(cfn.edges, visual.style.name)              # map edge width CURRENTLY NOT COLORS
 
-  NodeBorderMapping(visual.style.name)
+  NodeBorderMapping(visual.style.name)                        # map node border (color, thickness)
 
+  # we got standards in this joint
   SetStandards(visual.style.name, background.color, edge.label.color, edge.line.color, node.border.color, node.label.color,
                default.font, node.font.size, edge.font.size, edge.line.style, source.arrow, target.arrow, node.size, edge.width, border.width,
                edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity)
 
-  setVisualStyle(visual.style.name)
+  setVisualStyle(visual.style.name)                           # set vis style
 
 }
 
@@ -291,5 +294,7 @@ GraphCccn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Netwo
     library("RCy3")                           # library
     cytoscapePing()                           # ensure connection?
   }
+
+
 
 }
