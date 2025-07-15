@@ -47,9 +47,9 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
 
   # Add if statement here to make sure functions are formatted correctly #
   # Ensure ptmtable is a data frame with numeric values #
-
   if(identical(name.columns, 0)) PTMnames <- unlist(apply(ex.ptmtable[1:3], 1, paste, collapse=" ")) #Concatinate all strings by rows in the given columns
   else PTMnames <- rownames(ptmtable) #Try and take rownames
+  ptmtable.sp <- apply(ptmtable[,-name.columns], 1:2, as.numeric) #Exclude colnames from matrix and test to make sure they are numbers
 
   # Calculate Spearman correlation #
   ptm.correlation.matrix <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
@@ -78,7 +78,7 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
 
   # Add if statement here to make sure functions are formatted correctly #
   # Convert the dataframe to a distance matrix using Euclidean distance #
-  ptmtable.dist = as.matrix(stats::dist(ptmtable.rmnames, method = "euclidean"))
+  ptmtable.dist = as.matrix(stats::dist(ptmtable.sp, method = "euclidean"))
 
   # Compute the maximum distance in the matrix, excluding NA values #
   max.dist = max(ptmtable.dist, na.rm = TRUE)
@@ -141,10 +141,12 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   } #END of nested function
 
   #Assign distance clusters as a list to global environment
-  clusters.list <- list(clustercreate(euclidean.cluster.coords), clustercreate(spearman.cluster.coords), clustercreate(sed.cluster.coords))
+  tsne.coords.list <- list(euclidean.cluster.coords, spearman.cluster.coords, sed.cluster.coords)
+  clusters.list <- sapply(tsne.coords.list, clustercreate)
   names(clusters.list) <- c("Euclidean", "Spearman", "SED")
 
   #Assign
   assign(list.name, clusters.list, envir = .GlobalEnv) # list of the t-SNE data for Euclidean, Spearman, and SED
+  assign(tsne.coords.list.name, tsne.coords.list, envir = .GlobalEnv)
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
 }
