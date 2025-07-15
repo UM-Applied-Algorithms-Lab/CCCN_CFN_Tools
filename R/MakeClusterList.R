@@ -42,7 +42,7 @@ GetRtsne <- function(table, iter=5000){
 #' print(ex.clusters.list[[1]][1])
 #' print(ex.clusters.list[[2]][1])
 #' print(ex.clusters.list[[3]][1])
-MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "tsne.coords", toolong = 3.5){
+MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -141,8 +141,9 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
 
   } #END of nested function
 
-  #Assign distance clusters as a list to global environment
+  #Assign tsne coords and distance clusters as a list to global environment
   all.tsne.coords <- list(euclidean.cluster.coords, spearman.cluster.coords, sed.cluster.coords)
+  names(all.tsne.coords) <- c("Euclidean", "Spearman", "SED")
   clusters.list <- sapply(all.tsne.coords, clustercreate)
   names(clusters.list) <- c("Euclidean", "Spearman", "SED")
 
