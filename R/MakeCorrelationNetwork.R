@@ -42,7 +42,7 @@ FindCommonClusters <- function(list1, list2, list3, klength){
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))
 #' @param clusters.name Desired name for the common clusters output; defaults to common.clusters
 #' @param ptm.cccn.name The PTM correlation matrix filtered by PTMs that cocluster
-#' @param cccn.name Desired name for the cocluster correlation network; defaults to gene.cccn
+#' @param gene.cccn.name Desired name for the cocluster correlation network; defaults to gene.cccn
 #' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @export
 #'

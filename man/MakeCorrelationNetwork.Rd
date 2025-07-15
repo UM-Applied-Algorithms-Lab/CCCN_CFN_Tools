@@ -9,8 +9,8 @@ MakeCorrelationNetwork(
   ptm.correlation.matrix,
   keeplength = 2,
   clusters.name = "clusters.common",
-  filtered.ptm.cor.name = "filtered.ptm.cor",
-  cccn.name = "cccn.matrix"
+  ptm.cccn.name = "ptm.cccn",
+  gene.cccn.name = "gene.cccn"
 )
 }
 \arguments{
@@ -22,9 +22,9 @@ MakeCorrelationNetwork(
 
 \item{clusters.name}{Desired name for the common clusters output; defaults to common.clusters}
 
-\item{filtered.ptm.cor.name}{The PTM correlation matrix filtered by PTMs that cocluster}
+\item{ptm.cccn.name}{The PTM correlation matrix filtered by PTMs that cocluster}
 
-\item{cccn.name}{Desired name for the cocluster correlation network; defaults to cccn.matrix}
+\item{gene.cccn.name}{Desired name for the cocluster correlation network; defaults to gene.cccn}
 }
 \value{
 The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
@@ -37,7 +37,7 @@ cocluster correlation network shows strength of relationships between proteins u
 }
 \examples{
 ex.ptm.cor <- ex.ptm.correlation.matrix
-MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.filtered.cor.matrix", "ex.cccn.matrix")
+MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.ptm.cccn", "ex.gene.cccn")
 print(ex.clusters.common[c(1, 2, 3)])
-utils::head(ex.cccn.matrix[, c(1,2,3,4,5)])
+utils::head(ex.gene.cccn[, c(1,2,3,4,5)])
 }
