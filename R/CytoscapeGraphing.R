@@ -18,6 +18,9 @@ NodeColorMapping <- function(plotcol, visual.style.name){                       
 }
 
 
+
+
+
 # helper function
 EdgeWidthMapping <- function(edge.table, visual.style.name){
 
@@ -38,6 +41,9 @@ EdgeWidthMapping <- function(edge.table, visual.style.name){
   )
 
 }
+
+
+
 
 
 # helper function
@@ -64,6 +70,52 @@ NodeBorderMapping <- function(visual.style.name){
     style.name = visual.style.name
   )
 }
+
+
+
+
+
+# helper function
+SetStandards <- function(visual.style.name, background.color, edge.label.color, edge.line.color, node.border.color, node.label.color,
+                         default.font, node.font.size, edge.font.size, edge.line.style, source.arrow, target.arrow, node.size, edge.width, border.width,
+                         edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity
+                         ){
+
+  setEdgeSourceArrowColorDefault(edge.line.color, visual.style.name)   # set color of arrow from source
+  setEdgeTargetArrowColorDefault(edge.line.color, visual.style.name)   # set color of arrow to target
+  setNodeLabelPositionDefault("C", "C", "c", 0, 0, visual.style.name)  # What part of the node label is aligned "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
+                                                                       # to what part of the node graphic       "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
+                                                                       # "l", "r", "c"
+                                                                       # amount offset in the x direction
+                                                                       # amount offset in the y direction
+
+  # CUSTOMIZED: user inputs can change the following:
+
+  # colors
+  setBackgroundColorDefault(background.color, visual.style.name)       # set color of background
+  setEdgeLabelColorDefault(edge.label.color, visual.style.name)        # set color of edge label
+  setEdgeColorDefault(edge.line.color, visual.style.name)              # set color of edge
+  setNodeLabelColorDefault(node.label.color, visual.style.name)        # set color of node name
+  # fonts
+  setEdgeFontFaceDefault(default.font, visual.style.name)              # set font of edge
+  setNodeFontFaceDefault(default.font, visual.style.name)              # set font of node name (Initial Default UNKNOWN (not TNR or Arial))
+  setEdgeFontSizeDefault(edge.font.size, visual.style.name)            # set font size of edge (Initial Default 12)
+  setNodeFontSizeDefault(node.font.size, visual.style.name)            # set font size of node name (Initial Default 12)
+  # shape/style
+  setEdgeLineStyleDefault(edge.line.style, visual.style.name)          # "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
+  setEdgeSourceArrowShapeDefault(source.arrow, visual.style.name)      # "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND"
+  setEdgeTargetArrowShapeDefault(target.arrow, visual.style.name)      # "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
+  # size
+  setNodeSizeDefault(node.size, visual.style.name)                     # set size of node; height and width assumed the same
+  # opacity
+  setEdgeOpacityDefault(edge.opacity, visual.style.name)               # set opacity of edge; 0 - 255 w 0 --> translucent
+  setEdgeLabelOpacityDefault(edge.label.opacity, visual.style.name)    # set opacity of edge label; 0 - 255 w 0 --> translucent
+  setNodeBorderOpacityDefault(border.opacity, visual.style.name)       # set opacity of border of node; 0 - 255 w 0 --> translucent
+  setNodeFillOpacityDefault(node.fill.opacity, visual.style.name)      # set opacity of interior color of node; 0 - 255 w 0 --> translucent
+  setNodeLabelOpacityDefault(node.label.opacity, visual.style.name)    # set opacity of name of node; 0 - 255 w 0 --> translucent
+
+}
+
 
 
 
@@ -162,41 +214,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   # CUSTOMIZATION FROM HERE ON OUT
 
-  # STANDARD: if want to change; do separately
-
-  setEdgeSourceArrowColorDefault(edge.line.color, visual.style.name)   # set color of arrow from source
-  setEdgeTargetArrowColorDefault(edge.line.color, visual.style.name)   # set color of arrow to target
-  setNodeLabelPositionDefault("C", "C", "c", 0, 0, visual.style.name)  # What part of the node label is aligned "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
-                                                                       # to what part of the node graphic       "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
-                                                                       # "l", "r", "c"
-                                                                       # amount offset in the x direction
-                                                                       # amount offset in the y direction
-
-  # CUSTOMIZED: user inputs can change the following:
-
-  # colors
-  setBackgroundColorDefault(background.color, visual.style.name)       # set color of background
-  setEdgeLabelColorDefault(edge.label.color, visual.style.name)        # set color of edge label
-  setEdgeColorDefault(edge.line.color, visual.style.name)              # set color of edge
-  setNodeLabelColorDefault(node.label.color, visual.style.name)        # set color of node name
-  # fonts
-  setEdgeFontFaceDefault(default.font, visual.style.name)              # set font of edge
-  setNodeFontFaceDefault(default.font, visual.style.name)              # set font of node name (Initial Default UNKNOWN (not TNR or Arial))
-  setEdgeFontSizeDefault(edge.font.size, visual.style.name)            # set font size of edge (Initial Default 12)
-  setNodeFontSizeDefault(node.font.size, visual.style.name)            # set font size of node name (Initial Default 12)
-  # shape/style
-  setEdgeLineStyleDefault(edge.line.style, visual.style.name)          # "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
-  setEdgeSourceArrowShapeDefault(source.arrow, visual.style.name)      # "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND"
-  setEdgeTargetArrowShapeDefault(target.arrow, visual.style.name)      # "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
-  # size
-  setNodeSizeDefault(node.size, visual.style.name)                     # set size of node; height and width assumed the same
-  # opacity
-  setEdgeOpacityDefault(edge.opacity, visual.style.name)               # set opacity of edge; 0 - 255 w 0 --> translucent
-  setEdgeLabelOpacityDefault(edge.label.opacity, visual.style.name)    # set opacity of edge label; 0 - 255 w 0 --> translucent
-  setNodeBorderOpacityDefault(border.opacity, visual.style.name)       # set opacity of border of node; 0 - 255 w 0 --> translucent
-  setNodeFillOpacityDefault(node.fill.opacity, visual.style.name)      # set opacity of interior color of node; 0 - 255 w 0 --> translucent
-  setNodeLabelOpacityDefault(node.label.opacity, visual.style.name)    # set opacity of name of node; 0 - 255 w 0 --> translucent
-
+  setNodeLabelMapping("id", style.name = visual.style.name)
 
   NodeColorMapping('score', visual.style.name)
 
@@ -204,7 +222,9 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   NodeBorderMapping(visual.style.name)
 
-  setNodeLabelMapping("id", style.name = visual.style.name)
+  SetStandards(visual.style.name, background.color, edge.label.color, edge.line.color, node.border.color, node.label.color,
+               default.font, node.font.size, edge.font.size, edge.line.style, source.arrow, target.arrow, node.size, edge.width, border.width,
+               edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity)
 
   setVisualStyle(visual.style.name)
 
