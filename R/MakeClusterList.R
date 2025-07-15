@@ -147,6 +147,18 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   clusters.list <- sapply(all.tsne.coords, clustercreate)
   names(clusters.list) <- c("Euclidean", "Spearman", "SED")
 
+
+  #Create common clusters
+
+
+
+
+
+
+
+
+
+
   #Assign
   assign(tsne.coords.name, all.tsne.coords, envir = .GlobalEnv) # The list of tsne coords
   assign(clusters.list.name, clusters.list, envir = .GlobalEnv) # list of the t-SNE data for Euclidean, Spearman, and SED

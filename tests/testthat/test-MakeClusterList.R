@@ -2,7 +2,7 @@
 set.seed(1) #Set the seed (very important)
 
 #Load Sample data
-MakeClusterList(ex.ptmtable, correlation.matrix.name = "matrix_123a", list.name = "list_123a") #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
+MakeClusterList(ex.ptmtable, name.columns = 1:3, "matrix_123a", "clusters_123a", "tsne_123a") #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
 
 #Unit Tests for the global variables (lists of dataframes) created by MakeClusterList. Check PTMs Names.
 #eu_ptms_list
@@ -21,4 +21,5 @@ test_that("Testing Cluster 21, PTM 2", {expect_equal(list_123a$Spearman$`21`$PTM
 
 #Cleanup
 rm(matrix_123a, envir = .GlobalEnv)
-rm(list_123a, envir = .GlobalEnv)
+rm(clusters_123a, envir = .GlobalEnv)
+rm(tsne_123a, envir = .GlobalEnv)
