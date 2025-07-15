@@ -112,7 +112,7 @@ MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation
   #find average
   combined.distance <- (sp.diss.calc + eu.dist.calc) / 2
   # Perform t-SNE on the combined distances #
-  tsne.result <- GetRtsne(combined.distance, iter=1000) #Call GetRtsne
+  tsne.result <- GetRtsne(combined.distance) #Call GetRtsne
   sed.cluster.coords <- tsne.result$Y
 
 
