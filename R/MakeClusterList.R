@@ -48,7 +48,7 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
 
   # Add if statement here to make sure functions are formatted correctly #
   # Ensure ptmtable is a data frame with numeric values #
-  if(identical(name.columns, 0)) PTMnames <- unlist(apply(ptmtable[1:3], 1, paste, collapse=" ")) #Concatinate all strings by rows in the given columns
+  if(!identical(name.columns, 0)) PTMnames <- unlist(apply(ptmtable[name.columns], 1, paste, collapse=" ")) #Concatinate all strings by rows in the given columns
   else PTMnames <- rownames(ptmtable) #Try and take rownames
   ptmtable.sp <- apply(ptmtable[,-name.columns], 1:2, as.numeric) #Exclude colnames from matrix and test to make sure they are numbers
 
