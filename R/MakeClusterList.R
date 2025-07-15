@@ -142,12 +142,12 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   } #END of nested function
 
   #Assign distance clusters as a list to global environment
-  tsne.coords <- list(euclidean.cluster.coords, spearman.cluster.coords, sed.cluster.coords)
+  all.tsne.coords <- list(euclidean.cluster.coords, spearman.cluster.coords, sed.cluster.coords)
   clusters.list <- sapply(tsne.coords.list, clustercreate)
   names(clusters.list) <- c("Euclidean", "Spearman", "SED")
 
   #Assign
-  assign(tsne.coords.name, tsne.coords, envir = .GlobalEnv) # The list of tsne coords
+  assign(tsne.coords.name, all.tsne.coords, envir = .GlobalEnv) # The list of tsne coords
   assign(clusters.list.name, clusters.list, envir = .GlobalEnv) # list of the t-SNE data for Euclidean, Spearman, and SED
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
 }
