@@ -1,5 +1,5 @@
 # helper function
-setNodeColorToRatios <- function(plotcol, visual.style.name){
+NodeColorMapping <- function(plotcol, visual.style.name){
   cf <- getTableColumns('node')
   limits <- range(cf[, plotcol])
   node.sizes = c (135, 130, 108, 75, 35, 75, 108, 130, 135)
@@ -19,6 +19,27 @@ setNodeColorToRatios <- function(plotcol, visual.style.name){
   ratio.colors = c ('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')
   setNodeColorMapping (plotcol, color.control.points, ratio.colors, 'c', style.name = visual.style.name)
   setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)
+}
+
+
+# helper function
+EdgeWidthMapping <- function(edge.table){
+
+  unweights <- unique(edge.table$weight[order((as.numeric(edge.table$weight)))])
+  unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)
+
+  setEdgeLineWidthMapping(
+    table.column = "weight",
+    table.column.values = as.character(unweights),
+    widths = c(rep(3, times = sum(as.numeric(unweights) < summary(as.numeric(edge.table$weight))['1st Qu.'][[1]])),
+               rep(7, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['1st Qu.'][[1]] & as.numeric(unweights) < summary(as.numeric(edge.table$weight))['Mean'][[1]])),
+               rep(11, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['Mean'][[1]] & as.numeric(unweights) < summary(as.numeric(edge.table$weight))['3rd Qu.'][[1]])),
+               rep(15, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['3rd Qu.'][[1]]))
+    ),
+    mapping.type = 'd',
+    style.name = visual.style.name
+  )
+
 }
 
 
@@ -165,7 +186,9 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
   setNodeLabelOpacityDefault(node.label.opacity, visual.style.name)    # set opacity of name of node; 0 - 255 w 0 --> translucent
 
 
-  setNodeColorToRatios('score', visual.style.name)
+  NodeColorMapping('score', visual.style.name)
+
+  EdgeWidthMapping(cfn.edges)
 
   setNodeLabelMapping("id", style.name = visual.style.name)
 
@@ -181,21 +204,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
     colors = c("#FF8C00", "#FF8C00", "#005CE6", "#005CE6", "#6600CC", "#EE0000", "#EE0000", "#EE0000", "#FFEC8B", "#FFEC8B", "#BF3EFF", "#BF3EFF"),
     mapping.type = 'd',
     default.color = '#abb2b9',
-    style.name = visual.style.name
-  )
-
-  unweights <- unique(cfn.edges$weight[order((as.numeric(cfn.edges$weight)))])
-  unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)
-
-  setEdgeLineWidthMapping(
-    table.column = "weight",
-    table.column.values = as.character(unweights),
-    widths = c(rep(3, times = sum(as.numeric(unweights) < summary(as.numeric(cfn.edges$weight))['1st Qu.'][[1]])),
-               rep(7, times = sum(as.numeric(unweights) >= summary(as.numeric(cfn.edges$weight))['1st Qu.'][[1]] & as.numeric(unweights) < summary(as.numeric(cfn.edges$weight))['Mean'][[1]])),
-               rep(11, times = sum(as.numeric(unweights) >= summary(as.numeric(cfn.edges$weight))['Mean'][[1]] & as.numeric(unweights) < summary(as.numeric(cfn.edges$weight))['3rd Qu.'][[1]])),
-               rep(15, times = sum(as.numeric(unweights) >= summary(as.numeric(cfn.edges$weight))['3rd Qu.'][[1]]))
-    ),
-    mapping.type = 'd',
     style.name = visual.style.name
   )
 
