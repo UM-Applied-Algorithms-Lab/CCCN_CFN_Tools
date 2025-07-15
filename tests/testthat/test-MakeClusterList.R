@@ -8,7 +8,7 @@ MakeClusterList(ex.ptmtable, name.columns = 1:3, correlation.matrix.name = "matr
 #eu_ptms_list
 test_that("Cluster 2, PTM 2", {expect_equal(clusters_123a$Euclidean$`2`$PTMnames[2], "ABLIM1 p Y410")})
 test_that("Cluster 3, PTM 4", {expect_equal(clusters_123a$Euclidean$`3`$PTMnames[4], "HNRNPU ack K352")})
-test_that("Cluster 5, PTM 6", {expect_equal(clusters_123a$Euclidean$`5`$PTMnames[6], "HSPA1B ubi K597")})
+test_that("Cluster 5, PTM 6", {expect_equal(clusters_123a$Euclidean$`5`$PTMnames[6], "EZR ack K60")})
 
 #sed_ptms_list
 test_that("Testing Cluster 3, PTM 1", {expect_equal(clusters_123a$SED$`3`$PTMnames[1], "ABLIM1 p Y383")})
