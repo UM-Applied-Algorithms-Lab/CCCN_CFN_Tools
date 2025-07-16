@@ -171,10 +171,9 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
 
     cl.matrix.list <- lapply(clusters, cluster.as.matrix) #Work on 1 batch of clusters at a time
 
-    #Create the diagonal block matrix
-    temp.matrix <- cl.matrix.list[[1]]
+    temp.matrix <- cl.matrix.list[[1]] #Create the diagonal block matrix
 
-      for(i in 2:length(cl.matrix.list)){
+      for(i in 2:length(cl.matrix.list)){ #For every cluster in a batch
 
         addme <- cl.matrix.list[[i]] #This is the matrix we want to add
         orow <- nrow(temp.matrix)+1 #This is the diagional index we will insert values from
@@ -183,9 +182,6 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
         temp.matrix <- rbind(temp.matrix, matrix(0, nrow = nrow(addme), ncol = ncol(temp.matrix))) #Make a matrix that is returnmatrix + addme by returnmatrix + addme by filling with 0s
         addme <- rbind(matrix(0, nrow=nrow(temp.matrix), ncol=ncol(addme), addme))
         temp.matrix <- cbind(temp.matrix, addme)
-
-        rownames(temp.matrix)[orow:nrow(temp.matrix)] <- rownames(addme) #Rename the matrices
-        colnames(temp.matrix)[ocol:ncol(temp.matrix)] <- colnames(addme)
       }
 
     temp.matrix <- temp.matrix[,sort(colnames(temp.matrix))] #Sort the matrices so they line up
