@@ -1,7 +1,7 @@
 #' Make Correlation Network
 #'
 #' Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. 
-#' It groups the PTM correlation matrix by submatrices that are Gene by Gene.
+#' It groups the PTM correlation matrix based on the Genes of PTMs. 
 #' By summing these submatrices, it also produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
 #'
 #' @param common.clusters A list of clusters. Ideally the ones found by MakeClusterList in common_clusters
