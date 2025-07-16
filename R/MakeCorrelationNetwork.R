@@ -5,10 +5,8 @@
 #' This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
 #' cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 #'
-#' @param clusterlist A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
+#' @param cluster.vector A list of clusters. Ideally the ones found by MakeClusterList in common_clusters
 #' @param ptm.correlation.matrix A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.
-#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))
-#' @param clusters.name Desired name for the common clusters output; defaults to common.clusters
 #' @param ptm.cccn.name The PTM correlation matrix filtered by PTMs that cocluster
 #' @param gene.cccn.name Desired name for the cocluster correlation network; defaults to gene.cccn
 #' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
@@ -19,8 +17,7 @@
 #' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.ptm.cccn", "ex.gene.cccn")
 #' print(ex.clusters.common[c(1, 2, 3)])
 #' utils::head(ex.gene.cccn[, c(1,2,3,4,5)])
-MakeCorrelationNetwork <- function(clusterlist, ptm.correlation.matrix, keeplength = 2, clusters.name = "clusters.common", ptm.cccn.name = "ptm.cccn", gene.cccn.name = "gene.cccn"){
-
+MakeCorrelationNetwork <- function(cluster.vector, ptm.correlation.matrix, ptm.cccn.name = "ptm.cccn", gene.cccn.name = "gene.cccn"){
 
   ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
   correlation.value <- function(Gene1, Gene2){
