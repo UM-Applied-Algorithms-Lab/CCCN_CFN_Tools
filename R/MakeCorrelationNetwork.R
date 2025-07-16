@@ -1,9 +1,8 @@
 #' Make Correlation Network
 #'
-#' Make Correlation Network first finds the intersection between the Euclidean, Spearman, and SED cluster matrices in order to find
-#' the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix.
-#' This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
-#' cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
+#' Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. 
+#' It groups the PTM correlation matrix by submatrices that are Gene by Gene.
+#' By summing these submatrices, it also produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
 #'
 #' @param common.clusters A list of clusters. Ideally the ones found by MakeClusterList in common_clusters
 #' @param ptm.correlation.matrix A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.

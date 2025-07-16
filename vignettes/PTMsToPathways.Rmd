@@ -43,7 +43,7 @@ Below is an example of the input dataset:
 PTMsToPathways::ex.ptmtable[38:50, 1:6]
 ```
 
-Note that the rowname are not important and will not be used. The first column is the gene name associated with the protein. The second is the type of post-translational modification that occurred. The third column is the location of the post-translational modification. All of subsequent columns, regardless of how many there are, are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer.  
+Note that the rownames are not important and will not be used. The first column is the gene name associated with the protein. The second is the type of post-translational modification that occurred. The third column is the location of the post-translational modification. All of subsequent columns, regardless of how many there are, are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer.  
 
 # Pipeline  
 
@@ -128,7 +128,7 @@ MakeCorrelationNetwork(common.clusters, ptm.correlation.matrix, ptm.cccn.name = 
 
 #### Description  
 
-Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. It groups this PTM correlation matrix by submatrices that are Gene by Gene. By summing these submatrices, it produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
+Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. It groups the PTM correlation matrix based on the Genes of PTMs. By summing these submatrices, it produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
 
 #### Input  
 -common.clusters
