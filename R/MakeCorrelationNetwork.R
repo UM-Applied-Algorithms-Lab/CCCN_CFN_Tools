@@ -5,7 +5,7 @@
 #' This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
 #' cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 #'
-#' @param cluster.vector A list of clusters. Ideally the ones found by MakeClusterList in common_clusters
+#' @param common.clusters A list of clusters. Ideally the ones found by MakeClusterList in common_clusters
 #' @param ptm.correlation.matrix A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.
 #' @param ptm.cccn.name The PTM correlation matrix filtered by PTMs that cocluster
 #' @param gene.cccn.name Desired name for the cocluster correlation network; defaults to gene.cccn
@@ -17,7 +17,7 @@
 #' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.ptm.cccn", "ex.gene.cccn")
 #' print(ex.clusters.common[c(1, 2, 3)])
 #' utils::head(ex.gene.cccn[, c(1,2,3,4,5)])
-MakeCorrelationNetwork <- function(cluster.vector, ptm.correlation.matrix, ptm.cccn.name = "ptm.cccn", gene.cccn.name = "gene.cccn"){
+MakeCorrelationNetwork <- function(common.clusters, ptm.correlation.matrix, ptm.cccn.name = "ptm.cccn", gene.cccn.name = "gene.cccn"){
 
   ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
   correlation.value <- function(Gene1, Gene2){
@@ -30,7 +30,7 @@ MakeCorrelationNetwork <- function(cluster.vector, ptm.correlation.matrix, ptm.c
 
 
   #### Generate the combined adjacency matrix by taking PTMs to Genes ###
-  ptms.vector <- c(cluster.vector, recursive=TRUE) #Flatten the clusters
+  ptms.vector <- c(common.clusters, recursive=TRUE) #Flatten the clusters
   ptm.cccn <- ptm.correlation.matrix[ptms.vector, ptms.vector] #Filter the correlation Network by PTMs that cocluster
 
   gene.vector <- sapply(ptms.vector, function(x) {unlist(strsplit(x, " ",  fixed=TRUE))[[1]]}) #Will just trim all elements for every subelement in a list of character vectors
