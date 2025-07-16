@@ -164,7 +164,7 @@ Note again that the database input can be used in any PPI database that the user
 #### Code  
 
 ```{r eval = FALSE}
-GetSTRINGdb(cccn.matrix, stringdb.name = "stringdb.edges", nodenames.name = "nodenames")
+GetSTRINGdb(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "nodenames")
 ```
 
 <center>
@@ -201,7 +201,7 @@ GetSTRINGdb(cccn.matrix, stringdb.name = "stringdb.edges", nodenames.name = "nod
 #### Code  
 
 ```{r eval = FALSE}
-MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
+MakeDBInput(gene.cccn, file.path.name = "db_nodes.txt")
 ```
 
 <center>
@@ -303,7 +303,7 @@ The purpose of BuildPPINetwork is to combine the data about desired protein-prot
 #### Code  
 
 ```{r eval = FALSE}
-ClusterFilteredNetwork(cccn.matrix, ppi.network, cfn.name = "cfn")
+ClusterFilteredNetwork(gene.cccn, ppi.network, cfn.name = "cfn")
 ```
 
 <center>
