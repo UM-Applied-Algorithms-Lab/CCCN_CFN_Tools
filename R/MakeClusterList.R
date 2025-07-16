@@ -163,6 +163,7 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   }
 
   #Need Error Catch
+
   PTMsize <- length(PTMnames)
   clusters.adj.matrix <- matrix(0, PTMsize, PTMsize, dimnames = list(PTMnames, PTMnames)) #Intilize a matirx of 0s
 
@@ -170,22 +171,25 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
 
     cl.matrix.list <- lapply(clusters, cluster.as.matrix) #Work on 1 batch of clusters at a time
 
-    #Create the diagional block matrix
-    temp.matrix <- matrix(0, PTMsize, PTMsize, dimnames = list(PTMnames, PTMnames))
-    start <- 1
-    end <- 0
+    #Create the diagonal block matrix
+    temp.matrix <- cl.matrix.list[[1]]
 
-    for(i in 1:length(cl.matrix.list)){
-      end <- end + nrow(cl.matrix.list[[i]])
-      temp.matrix[start:end, start:end] #Put a matrix in the Diagional Block matrix
-      start <- start + nrow(cl.matrix.list[[i]]) #Increase the index
+      for(i in 2:length(cl.matrix.list)){
 
-      rownames(temp.matrix)[start:end] <- rownames(cl.matrix.list[[i]])
-      colnames(temp.matrix)[start:end] <- colnames(cl.matrix.list[[i]])
+        addme <- cl.matrix.list[[i]] #This is the matrix we want to add
+        orow <- nrow(temp.matrix)+1 #This is the diagional index we will insert values from
+        ocol <- ncol(temp.matrix)+1 #Maybe try a solution where you sum all the dimensions then create a 0 matrix from that, helps avoid rbind/cbind if they take too long
 
-      temp.matrix <- temp.matrix[,sort(colnames(temp.matrix))] #Sort the matrices so they line up
-      temp.matrix <- temp.matrix[sort(rownames(temp.matrix)),]
-    }
+        temp.matrix <- rbind(temp.matrix, matrix(0, nrow = nrow(addme), ncol = ncol(temp.matrix))) #Make a matrix that is returnmatrix + addme by returnmatrix + addme by filling with 0s
+        addme <- rbind(matrix(0, nrow=nrow(temp.matrix), ncol=ncol(addme), addme))
+        temp.matrix <- cbind(temp.matrix, addme)
+
+        rownames(temp.matrix)[orow:nrow(temp.matrix)] <- rownames(addme) #Rename the matrices
+        colnames(temp.matrix)[ocol:ncol(temp.matrix)] <- colnames(addme)
+      }
+
+    temp.matrix <- temp.matrix[,sort(colnames(temp.matrix))] #Sort the matrices so they line up
+    temp.matrix <- temp.matrix[sort(rownames(temp.matrix)),]
 
     clusters.adj.matrix <- clusters.adj.matrix + temp.matrix #Add all block matrices onto eachother
   }
@@ -201,5 +205,4 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   assign(clusters.list.name, clusters.list, envir = .GlobalEnv) # list of the t-SNE data for Euclidean, Spearman, and SED
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
   assign(common.clusters.name, common.clusters, envir = .GlobalEnv)
-
 }
