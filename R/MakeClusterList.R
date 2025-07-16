@@ -22,13 +22,14 @@ GetRtsne <- function(table, iter=5000){
 #' This function takes the post-translational modification table and runs it through three calculations of distance:
 #' Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these.
 #' These calculations find the 'distance' between ptms based upon under what conditions they occur.
-#' These matricies are then run through t-SNE in order to put them into a 3-dimensional space.
+#' These matricies are then run through t-SNE in order to put them into a 3-dimensional space. Additionally, the intersection of these 3 clusters is also created.
 #' A correlation table is also produced based on the Spearman Correlation table.
 #'
 #' Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 #'
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
 #' @param name.columns The columns which contain names. Handles via merging them into 1 string. If 0, will take rownames instead.
+#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))
 #' @param correlation.matrix.name Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 #' @param clusters.list.name Desired name for the lists of clusters to be saved as; defaults to clusters.list
 #' @param tsne.coords.name Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords
@@ -43,7 +44,7 @@ GetRtsne <- function(table, iter=5000){
 #' print(ex.clusters.list[[1]][1])
 #' print(ex.clusters.list[[2]][1])
 #' print(ex.clusters.list[[3]][1])
-MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5){
+MakeClusterList <- function(ptmtable, name.columns = 1:3, keeplength = 2, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -193,12 +194,12 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   clusters.adj.matrix[clusters.adj.matrix < 3] <- NA #Take the combined block matrix and filter out every relationship that is less than 3
   graph <- igraph::graph_from_adjacency_matrix(clusters.adj.matrix) #Create the igraph object
   comp <- igraph::components(graph) #Find the components
-  common.clusters <- lapply(seq_along(comp$csize)[comp$csize > 1], function(x) igraph::V(graph)$name[comp$membership %in% x]) #Take any greater than size 2 (god bless stack overflow)
+  common.clusters <- lapply(seq_along(comp$csize)[comp$csize > keeplength], function(x) igraph::V(graph)$name[comp$membership %in% x]) #Take any greater than size 2 (god bless stack overflow)
 
 
   #Assign
   assign(tsne.coords.name, all.tsne.coords, envir = .GlobalEnv) # The list of tsne coords
   assign(clusters.list.name, clusters.list, envir = .GlobalEnv) # list of the t-SNE data for Euclidean, Spearman, and SED
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
-  assign(common.clusters.name, common.clusters, envir = .GlobalEnv)
+  assign(common.clusters.name, common.clusters, envir = .GlobalEnv) #Common clusters
 }
