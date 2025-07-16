@@ -77,7 +77,7 @@ head(eu_ptms_list, 1)
 
 #### Description  
 
-Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. In other words, they found how dissimilar each pair of PTMs are. These matricies are then run through t-SNE in order to put them into a 3-dimensional space. Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
+Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. In other words, they found how dissimilar each pair of PTMs are. These matricies are then run through t-SNE in order to put them into a 3-dimensional space and the clusters that are present in each present in each matrix are identified as well. Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
 
 #### Input  
 - ptmtable
@@ -92,9 +92,9 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 - clusters.list.name  
   - Desired name for the lists of clusters to be saved as; defaults to clusters.list  
 - tsne.coords.name  
-  - 
+  - Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords
 - common.clusters.name  
-  - 
+  - Desired name for the clusters that all 3 methods found in common; defaults to common.clusters
 - toolong
   - Threshold for cluster separation; defaults to 3.5  
 
@@ -104,9 +104,9 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 - clusters.list (or otherwise named by list.name)  
   - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
 - all.tsne.coords (or otherwise named by tsne.coords.name)  
-  - 
+  - A list of matrices containing points in 3D space based on Euclidian, Spearman, and SED distances, found with Rtsne
 - common.clusters (or otherwise named by common.clusters.name)  
-  - 
+  - A list of clusters that are in all 3 distance metrics 
 
 #### Estimated run-time  
 1hr 30mins
