@@ -208,11 +208,11 @@
 #'
 #' @keywords internal
 #'
-#' @format Dataframe of 497 rows and 70 columns:
+#' @format Dataframe of 497 rows and 72 columns:
 #' \describe{
-#'   \item{rows}{Post-translational modifications}
-#'   \item{first column}{PTM names}
-#'   \item{columns}{Experimental condition}
+#'   \item{first 3 columns}{Gene, modification, and Amino Acid respectively}
+#'   \item{columns}{Names of drugs that were used on PTMs}
+#'   \item{row}{Number of PTMs}
 #'   \item{values}{Expression as found by mass spectrometry}
 #' }
 #' @source "manually created"
