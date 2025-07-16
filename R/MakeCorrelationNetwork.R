@@ -7,7 +7,7 @@
 #'
 #' @param common.clusters A list of clusters. Ideally the ones found by MakeClusterList in common_clusters
 #' @param ptm.correlation.matrix A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.
-#' @param ptm.cccn.name The name of the PTM correlation matrix filtered by PTMs that cocluster
+#' @param ptm.cccn.name Desired name of the PTM correlation matrix filtered by specific PTMs from input 
 #' @param gene.cccn.name Desired name for the cocluster correlation network; defaults to gene.cccn
 #' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @export
