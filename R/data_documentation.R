@@ -353,6 +353,22 @@
 #' ex.ptm.cccn[c(1,2) , c(1,2)]
 "ex.ptm.cccn"
 
+#' Gene CoCluster Network example
+#'
+#' A version of the PTM cccn that works at the Gene level instead of the PTm level
+#'
+#' @keywords internal
+#' @format Matrix of 74 rows and columns
+#' \describe{
+#'   \item{rows}{Genes in PTM cccn}
+#'   \item{columns}{Genes in PTM cccn}
+#'   \item{values}{Sum of submatrices whose PTMs are on said gene}
+#' }
+#' @source "Made in MakeCorrelationNetwork"
+#' @examples
+#' ex.gene.cccn[c(1,2) , c(1,2)]
+"ex.gene.cccn"
+
 #' All Tsne Coords
 #'
 #' A list of Tsne coords for Euclidian, Spearman, and SED
