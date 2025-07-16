@@ -19,9 +19,9 @@ NodeAppMap <- function(visual.style.name){                                      
 
   node.colors = c('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')  # colors line up to the ranges
 
-  setNodeColorMapping(plotcol, color.control.points, node.colors, 'c', style.name = visual.style.name)                                     # set node color mapping
+  setNodeColorMapping("score", color.control.points, node.colors, 'c', style.name = visual.style.name)                                     # set node color mapping
   setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                                # set selection color
-  lockNodeDimensions('TRUE')                                                                                                               # width and height locked together
+  lockNodeDimensions('TRUE', style = visual.style.name)                                                                                    # width and height locked together
 
   setNodeSizeMapping(table.column = "score", table.column.values = size.control.points, sizes = node.sizes, mapping.type = 'c', default.size = 103, style.name = visual.style.name) # set node size mapping
 }
@@ -31,7 +31,7 @@ NodeAppMap <- function(visual.style.name){                                      
 
 
 # helper function
- EdgeAppMap <- function(edge.table, visual.style.name){
+ EdgeAppMap <- function(visual.style.name){
 
   edgevalues <- getTableColumns('edge',c('shared name', 'shared interaction', 'weight', 'interaction')) # get edge values
   edgevalues['weight'] <- abs(as.numeric(edgevalues['weight'][[1]]))                                    # make weights pos
@@ -39,7 +39,7 @@ NodeAppMap <- function(visual.style.name){                                      
 
   colnames(edgevalues) <- c('shared name', 'shared interaction', 'width', 'interaction')                # rename it width bc we're doing passthrough mapping
 
-  setEdgeSelectionColorDefault ("#FF69B4")                                                              # selection edge color
+  setEdgeSelectionColorDefault ("#FF69B4", style.name = visual.style.name)                              # selection edge color
 
   # list of all edge types (you only have SOME in data set, Maddie)
   edgeTypes <- c("PHOSPHORYLATION", "pp", "controls-phosphorylation-of", "controls-expression-of", "controls-transport-of", "controls-state-change-of", "ACETYLATION", "Physical interactions", "BioPlex", "in-complex-with", 'experiments', 'experiments_transferred', 'database', 'database_transfered', "Pathway", "Predicted", "Genetic interactions", "correlation", "negative correlation", "positive correlation", 'combined_score', "merged" , "intersect", "peptide", 'homology', "Shared protein domains")
@@ -70,11 +70,11 @@ NodeAppMap <- function(visual.style.name){                                      
 
   loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')                                            # load the table
 
-  matchArrowColorToEdge('TRUE')                                                                                   # match arrow color to edge color (love RCy3 for this)
+  matchArrowColorToEdge('TRUE', style.name = visual.style.name)                                                   # match arrow color to edge color (love RCy3 for this)
 
-  setEdgeLineWidthMapping('width', mapping.type = 'p', style.name = visual.style.name)                            # map the edge width
-  setEdgeTargetArrowMapping('interaction', edgeTypes, myarrows, default.shape='None')                             # map the target arrow
-  setEdgeColorMapping('interaction', edgeTypes, edgecolors, 'd', default.color="#FFFFFF")                         # map the edge color
+  setEdgeLineWidthMapping('width', mapping.type = 'p', style.name = visual.style.name)                                     # map the edge width
+  setEdgeTargetArrowMapping('interaction', edgeTypes, myarrows, default.shape='None', style.name = visual.style.name)      # map the target arrow
+  setEdgeColorMapping('interaction', edgeTypes, edgecolors, 'd', default.color="#FFFFFF", style.name = visual.style.name)  # map the edge color
 
 }
 
@@ -185,8 +185,8 @@ SetStandards <- function(visual.style.name,
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
 GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
-                     background.color = '#faf1dd', edge.label.color = '#17202a', node.label.color = '#000000',
-                     default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
+                     background.color = "#949494", edge.label.color = '#17202a', node.label.color = '#000000',
+                     default.font = "Times New Roman", node.font.size = 20, edge.font.size = 8,
                      edge.line.style = 'SOLID',
                      edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
                      ){
@@ -244,7 +244,7 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   NodeAppMap(visual.style.name)                               # map the node colors CURRENTLY NOT SIZES
 
-  EdgeAppMap(cfn.edges, visual.style.name)                    # map edge width CURRENTLY NOT COLORS
+  EdgeAppMap(visual.style.name)                               # map edge width CURRENTLY NOT COLORS
 
   NodeBorderMapping(visual.style.name)                        # map node border (color, thickness)
 
@@ -269,8 +269,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 #
 # @param background.color Hex code of background color of graph; defaults to '#fcf3cf'
 # @param edge.label.color Hex code of edge label color of graph; defaults to '#17202a'
-# @param edge.line.color Hex code of edge line color of graph; defaults to '#abb2b9'
-# @param node.border.color Hex code of node border color of graph; defaults to '#145a32'
 # @param node.label.color Hex code of node label color of graph; defaults to '#145a32'
 #
 # @param default.font Font style of edge and node names; defaults to "Times New Roman"
@@ -278,8 +276,6 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 # @param edge.font.size Font size of the edge name; defaults to 8
 #
 # @param edge.line.style Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
-# @param source.arrow Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
-# @param target.arrow Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
 #
 # @param node.size Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())
 # @param edge.width Width of the edge line; defaults to 2
@@ -297,11 +293,10 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 # @examples
 # # GraphCFN(ex.cfn)
 # # See vignette for default graph
-#GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "PTM.cccn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
-#                     background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000',
-#                     default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
-#                     edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE',
-#                     node.size = 50, edge.width = 2, border.width = 1,
+#GraphPTMCccn <- function(ptm.cccn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
+#                     background.color = "#949494", edge.label.color = '#17202a', node.label.color = '#000000',
+#                     default.font = "Times New Roman", node.font.size = 20, edge.font.size = 8,
+#                     edge.line.style = 'SOLID',
 #                     edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
 #                     ){
 #
@@ -353,24 +348,5 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 #  cyscape <- createNetworkFromDataFrames(ptm.cccn.nodes, ptm.cccn.edges, title = Network.title, collection = Network.collection)     # create network (not sure if storing it does anything?)
 #
 #  copyVisualStyle("default", visual.style.name)   # create visual style
-#
-#
-#
-#  # CUSTOMIZATION FROM HERE ON OUT
-#
-#  setNodeLabelMapping("id", style.name = visual.style.name)   # make the label names appear
-#
-#  NodeAppMap('score', visual.style.name)                # map the node colors CURRENTLY NOT SIZES
-#
-#   EdgeAppMap(ptm.cccn.edges, visual.style.name)              # map edge width CURRENTLY NOT COLORS
-#
-#  NodeBorderMapping(visual.style.name)                        # map node border (color, thickness)
-
-#  # we got standards in this joint
-#  SetStandards(visual.style.name, background.color, edge.label.color, edge.line.color, node.border.color, node.label.color,
-#               default.font, node.font.size, edge.font.size, edge.line.style, source.arrow, target.arrow, node.size, edge.width, border.width,
-#               edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity)
-#
-#  setVisualStyle(visual.style.name)                           # set vis style
 #
 #}
