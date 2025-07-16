@@ -43,6 +43,8 @@ Below is an example of the input dataset:
 PTMsToPathways::ex.ptmtable[38:50, 1:6]
 ```
 
+Note that the rowname are not important and will not be used. The first column is the gene name associated with the protein. The second is the type of post-translational modification that occurred. The third column is the location of the post-translational modification. All of subsequent columns, regardless of how many there are, are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer.  
+
 # Pipeline  
 
 ## Step 1: Make Cluster List  
@@ -55,12 +57,12 @@ MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", li
 
 <center>
 ![](vig_figs/EU_MCL.png)  
-**Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance  
+**Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance. The Euclidean Distance between every PTM is calculated and that information is put into a large matrix. This matrix is then condensed using t-SNE to get coordinates in two-dimensional space, which is what our figure shows. These data points -- and the PTMs they represent -- are put into clusters based on these positions. This process is also undergone using Spearman Dissimilarity and the average of Euclidean Distance and Spearman Dissimilarity.  
   
 <p>&nbsp;</p>
 
 ![](vig_figs/MCL-output.png)  
-**Figure 2** Output of MakeClusterList  
+**Figure 2** Output of MakeClusterList. This data is read as two rows: the top row represents the cluster number. This number isn't important in and of itself, it just differentiates between the different clusters. The second row represents the size, or how many PTMs are in that cluster.  
 
 <p>&nbsp;</p>
 
@@ -68,18 +70,18 @@ MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", li
 load('vig_figs/eu-clusters.rda')
 head(eu_ptms_list, 1)
 ```
-**Figure 3** First cluster created by Euclidean Distance  
+**Figure 3** First cluster created by Euclidean Distance. The left column is the name of the PTM in this cluster. The right column is the cluster number.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Description  
 
-Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. These matricies are then run through t-SNE in order to put them into a 3-dimensional space. Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
+Make Cluster List is the first step in the analyzing one's data. This function takes the post-translational modification table and runs it through three calculations of distance: Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these. These calculations find the 'distance' between ptms based upon under what conditions they occur. In other words, they found how dissimilar each pair of PTMs are. These matricies are then run through t-SNE in order to put them into a 3-dimensional space. Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called. A correlation table is also produced based on the Spearman Correlation table.  
 
 #### Input  
 - ptmtable
-  - A data frame of post-translational modifications. Formatted with numbered rows and the first column containing PTM names. The rest of the column names should be drugs (experimental conditions). Values of the table are numeric values that represent how much the PTM has reacted to the drug.  
+  - A data frame of post-translational modifications. Formatted with numbered rows and the first column containing PTM names. The rest of the column names should be drugs (experimental conditions). Values of the table are numeric values that represent how much the PTM has reacted to the drug or NA if that PTM wasn't studied under that condition.  
 - correlation.matrix.name  
   - Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix  
 - list.name  
@@ -89,7 +91,7 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 
 #### Output  
 - ptm.correlation.matrix (or otherwise named by correlation.matrix.name)  
-  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal  
+  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity  
 - clusters.list (or otherwise named by list.name)  
   - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
 
@@ -106,20 +108,20 @@ MakeCorrelationNetwork(clusterlist, ptm.correlation.matrix, keeplength = 2, clus
 
 <center>
 ![](vig_figs/cccn_matrix.png)  
-**Figure 4** First 17 rows and columns of the cccn_matrix produced by MakeCorrelationNetwork  
+**Figure 4** First 17 rows and columns of the cccn_matrix produced by MakeCorrelationNetwork. PTMs that cluster together in all three distance metrics have entries that represent how strongly they correlate, or how alike their responses are under the same environment. PTMs that don't cluster in all three distance metrics are correlated by a 0. Self-correlations are also marked by a 0 to prevent self-similarity skewing.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Description  
 
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix with two variants, one at the PTM level and one at the protein level. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
+Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix with two variants, one at the PTM level and one at the gene level. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
 
 #### Input  
 - clusterlist 
   - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
 - ptm.correlation.matrix  
-  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal. 
+  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity.  
 - keeplength  
   - MakeClusterList only saves subsets whose size is strictly *greater* than keeplength; defaults to 2
   - example: ['AARS', 'ABR'] will be discarded unless keeplength < 2
