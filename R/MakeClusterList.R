@@ -29,7 +29,7 @@ GetRtsne <- function(table, iter=5000){
 #'
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
 #' @param name.columns The columns which contain names. Handles via merging them into 1 string. If 0, will take rownames instead.
-#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))
+#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS")); default is 2
 #' @param correlation.matrix.name Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 #' @param clusters.list.name Desired name for the lists of clusters to be saved as; defaults to clusters.list
 #' @param tsne.coords.name Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords

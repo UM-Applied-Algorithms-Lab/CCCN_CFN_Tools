@@ -1,35 +1,3 @@
-# Helper function to find intersections of clusters
-#
-# Finds common elements between clusters in three lists.
-#
-# @param list1 A list of ptms.
-# @param list2 A list of ptms.
-# @param list2 A list of ptms.
-# @param klength Minimum size of intersections to keep.
-# @return A list containing, 1: A list of common clusters and 2: A character vector of removed, ambiguous PTMs .
-FindCommonClusters <- function(list1, list2, list3, klength){
-
-  #Convert lists into groups of ptms
-  list1.ptms <- lapply(list1, function(x){x$"PTM.Name"}) #These are lists of character vectors
-  list2.ptms <- lapply(list2, function(y){y$"PTM.Name"})
-  list3.ptms <- lapply(list3, function(z){z$"PTM.Name"})
-
-  returnme <- list() #Innit empty list
-
-  #Triple loop to look through every combination of elements of the list and compare them
-  for(a in 1:length(list1.ptms)){
-    for(b in 1:length(list2.ptms)){
-      for(c in 1:length(list3.ptms)){
-        temp <- Reduce(intersect, list(list1.ptms[[a]], list2.ptms[[b]], list3.ptms[[c]])) #Take the intersection of 3 character vectors (as a vector)
-        if(length(temp) > klength) returnme[[length(returnme)+1]] <- as.list(temp) #Add temp as a cluster (character vector) to returnme
-  }}}
-  #Return
-  if(length(returnme) == 0) stop("No common clusters found") #This is for line 370, where the code will return out bounds error anyways if the list is empty!
-  names(returnme) <- sapply(1:length(returnme), function(x){paste("Cluster", x)})
-  return(returnme)
-}
-
-
 #' Make Correlation Network
 #'
 #' Make Correlation Network first finds the intersection between the Euclidean, Spearman, and SED cluster matrices in order to find
