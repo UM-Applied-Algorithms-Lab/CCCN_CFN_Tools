@@ -1,8 +1,8 @@
 #Setup
 if(!exists("Sample3_ptm_list.rda")){
-  load("~/CCCN_CFN_Tools/tests/testthat/Sample1_ptm_list.rda")
-  load("~/CCCN_CFN_Tools/tests/testthat/Sample2_ptm_list.rda")
-  load("~/CCCN_CFN_Tools/tests/testthat/Sample3_ptm_list.rda")
+  load("~/CPTMsToPathways/tests/testthat/Sample1_ptm_list.rda")
+  load("~/CPTMsToPathways/tests/testthat/Sample2_ptm_list.rda")
+  load("~/CPTMsToPathways/tests/testthat/Sample3_ptm_list.rda")
 }
 
 #Sample data to test with

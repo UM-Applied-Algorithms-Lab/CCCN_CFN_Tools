@@ -32,5 +32,5 @@ VignetteBuilder:
 Depends: 
     R (>= 3.5)
 LazyData: true
-URL: https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/, https://um-applied-algorithms-lab.github.io/PTMsToPathways/
+URL: https://um-applied-algorithms-lab.github.io/PTMsToPathways/
 Config/testthat/edition: 3
