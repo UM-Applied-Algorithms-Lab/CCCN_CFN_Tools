@@ -32,6 +32,7 @@ GetRtsne <- function(table, iter=5000){
 #' @param correlation.matrix.name Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 #' @param clusters.list.name Desired name for the lists of clusters to be saved as; defaults to clusters.list
 #' @param tsne.coords.name Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords
+#' @param common.clusters.name Desired name for the clusters that all 3 methods found in common; defaults to common.clusters
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
 #' @return The correlation matrix: A data frame showing the correlation between ptms (as the rows and the columns) with NAs placed along the diagonal; and A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
 #' @export
@@ -42,7 +43,7 @@ GetRtsne <- function(table, iter=5000){
 #' print(ex.clusters.list[[1]][1])
 #' print(ex.clusters.list[[2]][1])
 #' print(ex.clusters.list[[3]][1])
-MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", toolong = 3.5){
+MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -149,14 +150,56 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   names(clusters.list) <- c("Euclidean", "Spearman", "SED")
 
 
-  #Create common clusters
+  ### Create common clusters ###
 
+  #Helper function to turn a cluster (as a char vector) into a square matrix of 1s
+  cluster.as.matrix <- function(cl){
+    cl <- cl$PTMnames
+    len <- length(cl)
+    mat <- matrix(1, len, len)
+    rownames(mat) <- cl
+    colnames(mat) <- cl
+    return(mat)
+  }
 
+  #Need Error Catch
+  PTMsize <- length(PTMnames)
+  clusters.adj.matrix <- matrix(0, PTMsize, PTMsize, dimnames = list(PTMnames, PTMnames)) #Intilize a matirx of 0s
 
+  for(clusters in clusters.list){   #Run for every batch of clusters, run cluster.as.matrix over all of them and turn them into a diagional block matrix
+
+    cl.matrix.list <- lapply(clusters, cluster.as.matrix) #Work on 1 batch of clusters at a time
+
+    #Create the diagional block matrix
+    temp.matrix <- matrix(0, PTMsize, PTMsize, dimnames = list(PTMnames, PTMnames))
+    start <- 1
+    end <- 0
+
+    for(i in 1:length(cl.matrix.list)){
+      end <- end + nrow(cl.matrix.list[[i]])
+      temp.matrix[start:end, start:end] #Put a matrix in the Diagional Block matrix
+      start <- start + nrow(cl.matrix.list[[i]]) #Increase the index
+
+      rownames(temp.matrix)[start:end] <- rownames(cl.matrix.list[[i]])
+      colnames(temp.matrix)[start:end] <- colnames(cl.matrix.list[[i]])
+
+      temp.matrix <- temp.matrix[,sort(colnames(temp.matrix))] #Sort the matrices so they line up
+      temp.matrix <- temp.matrix[sort(rownames(temp.matrix)),]
+    }
+
+    clusters.adj.matrix <- clusters.adj.matrix + temp.matrix #Add all block matrices onto eachother
+  }
+
+  clusters.adj.matrix[clusters.adj.matrix < 3] <- NA #Take the combined block matrix and filter out every relationship that is less than 3
+  graph <- igraph::graph_from_adjacency_matrix(clusters.adj.matrix) #Create the igraph object
+  comp <- igraph::components(graph) #Find the components
+  common.clusters <- lapply(seq_along(comp$csize)[comp$csize > 1], function(x) igraph::V(graph)$name[comp$membership %in% x]) #Take any greater than size 2 (god bless stack overflow)
 
 
   #Assign
   assign(tsne.coords.name, all.tsne.coords, envir = .GlobalEnv) # The list of tsne coords
   assign(clusters.list.name, clusters.list, envir = .GlobalEnv) # list of the t-SNE data for Euclidean, Spearman, and SED
   assign(correlation.matrix.name, ptm.correlation.matrix, envir = .GlobalEnv) # Correlation Matrix for later use
+  assign(common.clusters.name, common.clusters, envir = .GlobalEnv)
+
 }
