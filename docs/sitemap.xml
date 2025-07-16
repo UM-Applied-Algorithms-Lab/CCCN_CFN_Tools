@@ -1,14 +1,14 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/articles/CoClusterCorrelationNetwork.html</loc></url>
-<url><loc>/articles/index.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
-<url><loc>/reference/BuildPPINetwork.html</loc></url>
-<url><loc>/reference/ClusterFilteredNetwork.html</loc></url>
-<url><loc>/reference/GraphCfn.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/PathwayCrosstalkNetwork.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/404.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/articles/CoClusterCorrelationNetwork.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/articles/index.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/authors.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/index.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/LICENSE.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/reference/BuildPPINetwork.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/reference/ClusterFilteredNetwork.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/reference/GraphCfn.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/reference/index.html</loc></url>
+<url><loc>https://um-applied-algorithms-lab.github.io/PTMsToPathways/reference/PathwayCrosstalkNetwork.html</loc></url>
 </urlset>
 

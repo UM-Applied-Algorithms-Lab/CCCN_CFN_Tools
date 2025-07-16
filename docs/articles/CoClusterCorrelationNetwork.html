@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Filtered CoCluster Correlation Network Creation Guide • cccn.cfn.tools</title>
+<title>Filtered CoCluster Correlation Network Creation Guide • PTMsToPathways</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -31,7 +31,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">cccn.cfn.tools</a>
+        <a class="navbar-link" href="../index.html">PTMsToPathways</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
@@ -72,15 +72,15 @@ Guide</h1>
                         <h4 data-toc-skip class="author">Nagashree
 Avabhrath, Mikhail Bailey, Mark Grimes, Madison Moffett, Grant
 Smith</h4>
-            
-      
+
+
 
       <div class="hidden name"><code>CoClusterCorrelationNetwork.Rmd</code></div>
 
     </div>
 
-    
-    
+
+
 <div class="section level2">
 <h2 id="this-package">This Package<a class="anchor" aria-label="anchor" href="#this-package"></a>
 </h2>
@@ -805,7 +805,7 @@ Cluster-Pathway Evidence score can be found at: <a href="https://journals.plos.o
 <h5 id="code-8">Code<a class="anchor" aria-label="anchor" href="#code-8"></a>
 </h5>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/GraphCfn.html" class="external-link">GraphCfn</a></span><span class="op">(</span><span class="va">cfn</span>, Network.title <span class="op">=</span> <span class="st">"cfn"</span>, Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/GraphCfn.html" class="external-link">GraphCfn</a></span><span class="op">(</span><span class="va">cfn</span>, Network.title <span class="op">=</span> <span class="st">"cfn"</span>, Network.collection <span class="op">=</span> <span class="st">"PTMsToPathways"</span>,</span>
 <span>                     background.color <span class="op">=</span> <span class="st">'#fcf3cf'</span>, edge.label.color <span class="op">=</span> <span class="st">'#17202a'</span>, edge.line.color <span class="op">=</span> <span class="st">'#abb2b9'</span>, node.border.color <span class="op">=</span> <span class="st">'#145a32'</span>,</span>
 <span>                     node.label.color <span class="op">=</span> <span class="st">'#145a32'</span>, node.fill.color <span class="op">=</span> <span class="st">'#a9dfbf'</span>,</span>
 <span>                     default.font <span class="op">=</span> <span class="st">"Times New Roman"</span>, node.font.size <span class="op">=</span> <span class="fl">12</span>, edge.font.size <span class="op">=</span> <span class="fl">8</span>,</span>

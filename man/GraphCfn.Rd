@@ -7,10 +7,10 @@
 GraphCfn(
   cfn,
   ptmtable,
-  funckey = cccn.cfn.tools::ex.funckey,
+  funckey = PTMsToPathways::ex.funckey,
   Network.title = "cfn",
-  Network.collection = "cccn.cfn.tools",
-  visual.style.name = "cccn.cfn.tools.style",
+  Network.collection = "PTMsToPathways",
+  visual.style.name = "PTMsToPathways.style",
   background.color = "#949494",
   edge.label.color = "#17202a",
   node.label.color = "#000000",
@@ -30,13 +30,13 @@ GraphCfn(
 
 \item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
 
-\item{funckey}{A table graphing gene names to type of protein; defaults to internal database at cccn.cfn.tools::ex.funckey}
+\item{funckey}{A table graphing gene names to type of protein; defaults to internal database at PTMsToPathways::ex.funckey}
 
 \item{Network.title}{Desired title for the created Cytoscape Network; defaults to "cfn"}
 
-\item{Network.collection}{Desired name for the collection created on Cytoscape in which the network will reside; defaults to "cccn.cfn.tools"}
+\item{Network.collection}{Desired name for the collection created on Cytoscape in which the network will reside; defaults to "PTMsToPathways"}
 
-\item{visual.style.name}{Desired name for the visual style created on Cytoscape; defaults to "cccn.cfn.tools.style"}
+\item{visual.style.name}{Desired name for the visual style created on Cytoscape; defaults to "PTMsToPathways.style"}
 
 \item{background.color}{Hex code of background color of graph; defaults to '#fcf3cf'}
 

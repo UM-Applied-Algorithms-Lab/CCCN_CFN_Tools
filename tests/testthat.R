@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(cccn.cfn.tools)
+library(PTMsToPathways)
 
-test_check("cccn.cfn.tools")
+test_check("PTMsToPathways")

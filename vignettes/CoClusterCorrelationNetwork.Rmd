@@ -28,12 +28,12 @@ knitr::opts_chunk$set(
 ```
 
 # This Package  
-The CCCN_CFN package takes experimental data of post-translational modifications based on experimental conditions and implicates pathways that are involved. These pathways are generated based on analysis of which ptms cluster together (in their ptms based on the same environmental conditions) compared to how those proteins are known to interact.
+The PTMsToPathways package takes experimental data of post-translational modifications based on experimental conditions and implicates pathways that are involved. These pathways are generated based on analysis of which ptms cluster together (in their ptms based on the same environmental conditions) compared to how those proteins are known to interact.
 
 **An important note about this package:** there are no returned outputs from any of the functions. All outputs listed are assigned to the Global Namespace in order to prevent loss of data and promote ease of use. Some functions also pull variables from the global namespace. Ensure that all data is loaded into the global environment especially if analysis is completed across multiple sessions.  
 
 # This File  
-This vignette is intended to be a step-by-step guide to walk users through the process of using the CCCN_CFN package. It includes an example pipeline demonstrating how to run the full analysis along with descriptions of each function. this pipeline must be run in order as subsequent steps require the data produced in previous steps. Estimated run-times are included with each description and are based on a preliminary dataset of \~9,000 post-translational modifications and 70 experimental conditions processed with a 12th Gen i5 processor and 8GB of RAM.  
+This vignette is intended to be a step-by-step guide to walk users through the process of using the PTMsToPathways package. It includes an example pipeline demonstrating how to run the full analysis along with descriptions of each function. this pipeline must be run in order as subsequent steps require the data produced in previous steps. Estimated run-times are included with each description and are based on a preliminary dataset of \~9,000 post-translational modifications and 70 experimental conditions processed with a 12th Gen i5 processor and 8GB of RAM.  
 
 # Pipeline  
 
@@ -356,7 +356,7 @@ UNKNOWN
 #### Code  
 
 ```{r eval = FALSE}
-GraphCfn(cfn, Network.title = "cfn", Network.collection = "cccn.cfn.tools",
+GraphCfn(cfn, Network.title = "cfn", Network.collection = "PTMsToPathways",
                      background.color = '#fcf3cf', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32',
                      node.label.color = '#145a32', node.fill.color = '#a9dfbf',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,

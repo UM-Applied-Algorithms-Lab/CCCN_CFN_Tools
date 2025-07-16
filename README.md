@@ -31,7 +31,7 @@ library(RCy3)
 Once these are installed, you can install this package directly from GitHub using:
 
 ```
-devtools::install_github("UM-Applied-Algorithms-Lab/CCCN_CFN_Tools")
+devtools::install_github("UM-Applied-Algorithms-Lab/PTMsToPathways")
 ```
 
 ## Usage
@@ -39,7 +39,7 @@ devtools::install_github("UM-Applied-Algorithms-Lab/CCCN_CFN_Tools")
 After installation, load the package in R with:
 
 ```
-library(cccn.cfn.tools)
+library(PTMsToPathways)
 ```
 
 You can then use the available functions as described in the package documentation.
@@ -49,7 +49,7 @@ You can then use the available functions as described in the package documentati
 If you wish to modify or contribute to the package, clone the repository locally using:
 
 ```
-git clone https://github.com/UM-Applied-Algorithms-Lab/CCCN_CFN_Tools.git
+git clone https://github.com/UM-Applied-Algorithms-Lab/PTMsToPathways.git
 ```
 
 Then, in R, navigate to the package directory. You will need to use devtools to load the package for development, so ensure you have that installed and libraried:
