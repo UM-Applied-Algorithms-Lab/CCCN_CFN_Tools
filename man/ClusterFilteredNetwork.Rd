@@ -4,17 +4,17 @@
 \alias{ClusterFilteredNetwork}
 \title{Filter PPI Network by Known Clusters}
 \usage{
-ClusterFilteredNetwork(cccn.matrix, ppi.network, cfn.name = "cfn")
+ClusterFilteredNetwork(gene.cccn, ppi.network, cfn.name = "cfn")
 }
 \arguments{
-\item{cccn.matrix}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
+\item{gene.cccn}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
 
 \item{ppi.network}{A dataframe representing how strongly proteins are known to interact based on previous research contained within provided database networks}
 
 \item{cfn.name}{Desired name of the output cluster filtered network}
 }
 \value{
-A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
+A version of ppi.network with only the edges that exist in gene.cccn and have non-zero weights
 }
 \description{
 All edges in the PPI network are checked against the cocluster correlation network to ensure existence and a non-zero weight.
@@ -22,6 +22,6 @@ If either of these conditions are not met, then it will be removed from the list
 This new, cluster filtered network is then assigned to the global namespace.
 }
 \examples{
-ClusterFilteredNetwork(ex.cccn.matrix, ex.ppi.network, cfn.name = "ex.cfn")
+ClusterFilteredNetwork(ex.gene.cccn, ex.ppi.network, cfn.name = "ex.cfn")
 utils::head(ex.cfn)
 }

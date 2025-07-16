@@ -4,10 +4,10 @@
 \alias{MakeDBInput}
 \title{Make Database Input File}
 \usage{
-MakeDBInput(cccn.matrix, file.path.name = "db_nodes.txt")
+MakeDBInput(gene.cccn, file.path.name = "db_nodes.txt")
 }
 \arguments{
-\item{cccn.matrix}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
+\item{gene.cccn}{A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))}
 
 \item{file.path.name}{Path for the output file; defaults to db_nodes.txt}
 }

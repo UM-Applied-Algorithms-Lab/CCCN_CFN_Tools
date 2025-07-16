@@ -3,7 +3,7 @@
 #' This function outputs a file consisting entirely of gene names, each produced on a new line. This data can be copy and pasted into
 #' a database input in order to get protein-protein interaction data.
 #'
-#' @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
+#' @param gene.cccn A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @param file.path.name Path for the output file; defaults to db_nodes.txt
 #'
 #' @return A file with all of the gene names which can be copy and pasted into the GeneMania cytoscape app, data frame of the names of the genes
@@ -12,20 +12,20 @@
 #' @examples
 #' #MakeDBInput(ex.nodenames)
 #' cat(ex.nodenames[[1]], sep = '\n')
-MakeDBInput <- function(cccn.matrix, file.path.name = "db_nodes.txt") {
-  utils::write.table(rownames(cccn.matrix), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
+MakeDBInput <- function(gene.cccn, file.path.name = "db_nodes.txt") {
+  utils::write.table(rownames(gene.cccn), file = file.path.name, row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 
-# Pulls nodenames from the cccn.matrix
+# Pulls nodenames from the gene.cccn
 #
-# This helper function pulls the gene names from the cccn.matrix into a list 'nodenames'
+# This helper function pulls the gene names from the gene.cccn into a list 'nodenames'
 #
-# @param cccn.matrix A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
+# @param gene.cccn A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 # @return data frame of the names of the genes
-cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
+cccn_to_nodenames <- function(gene.cccn, nodenames.name = 'nodenames'){
 
-  gene.names <- unique(rownames(cccn.matrix))
+  gene.names <- unique(rownames(gene.cccn))
 
   nodenames <- data.frame(Gene.Names = gene.names, stringsAsFactors = FALSE)
 
@@ -39,7 +39,7 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #'
 #' This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 #'
-#' @param cccn.matrix A matrix showing strength of relationships between proteins using common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
+#' @param gene.cccn A matrix showing strength of relationships between proteins using common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @param stringdb.name Desired name for the output STRINGdb data frame; defaults to "stringdb.edges"
 #' @param nodenames.name Desired name for list of gene names; defaults to nodenames
 #'
@@ -47,11 +47,11 @@ cccn_to_nodenames <- function(cccn.matrix, nodenames.name = 'nodenames'){
 #' @export
 #'
 #' @examples
-#' GetSTRINGdb(ex.cccn.matrix, 'ex.stringdb.edges', 'ex.nodenames')
+#' GetSTRINGdb(ex.gene.cccn, 'ex.stringdb.edges', 'ex.nodenames')
 #' utils::head(ex.stringdb.edges)
 #' utils::head(ex.nodenames)
-GetSTRINGdb <- function(cccn.matrix, stringdb.name = "stringdb.edges", nodenames.name = "nodenames") {
-  nodenames <- cccn_to_nodenames(cccn.matrix, nodenames.name)
+GetSTRINGdb <- function(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "nodenames") {
+  nodenames <- cccn_to_nodenames(gene.cccn, nodenames.name)
 
   if (!exists("STRINGdb")){                          # check if stringdb is libraried
 
