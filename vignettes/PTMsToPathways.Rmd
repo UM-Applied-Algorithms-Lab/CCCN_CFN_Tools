@@ -100,13 +100,13 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 
 #### Output  
 - ptm.correlation.matrix (or otherwise named by correlation.matrix.name)  
-  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity  
+  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity.
 - clusters.list (or otherwise named by list.name)  
-  - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
+  - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two).
 - all.tsne.coords (or otherwise named by tsne.coords.name)  
-  - A list of matrices containing points in 3D space based on Euclidian, Spearman, and SED distances, found with Rtsne
+  - A list of matrices containing points in 3D space based on Euclidian, Spearman, and SED distances, found with Rtsne.
 - common.clusters (or otherwise named by common.clusters.name)  
-  - A list of clusters that are in all 3 distance metrics 
+  - A list of clusters that are in all 3 distance metrics.
 
 #### Estimated run-time  
 1hr 30mins
@@ -128,25 +128,26 @@ MakeCorrelationNetwork(common.clusters, ptm.correlation.matrix, ptm.cccn.name = 
 
 #### Description  
 
-Make Correlation Network first finds the intersection between the Euclidian, Spearman, and SED cluster matrices in order to find the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix with two variants, one at the PTM level and one at the gene level. This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
+Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. It groups this PTM correlation matrix by submatrices that are Gene by Gene. By summing these submatrices, it produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
 
 #### Input  
-- clusterlist 
-  - A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)  
+-common.clusters
+  - A character vector of PTMs. It is not required for it to be the one made in MakeClusterList. 
 - ptm.correlation.matrix  
   - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity.  
 - clusters.name  
-  - Desired name for the common clusters output; defaults to common.clusters
-- filtered.ptm.cor.name
-  - Desired name for the correlation matrix that contains only PTMs found in common clusters
-- cccn.name  
-  - Desired name for the cocluster correlation network matrix; defaults to cccn.matrix  
+  - Desired name for the common clusters output; defaults to common.clusters.
+- ptm.name
+  - Desired name of the PTM correlation matrix filtered by specific PTMs from input.
+- gene.name  
+  - Desired name for the cocluster correlation network matrix; defaults to cccn.matrix.  
+-
 
 #### Output  
-- common.clusters (or otherwise named by common.clusters.name)
-  - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED)  
-- cccn.matrix (or otherwise named by cccn.name)  
-  - A matrix showing strength of relationships between proteins using common clusters between the three distance metrics  
+- ptm.cccn (or otherwise named by ptm.cccn.name)  
+  - The PTM correlation matrix filtered by specific PTMs from input.
+- gene.cccn (or otherwise named by gene.cccn.name)  
+  - A matrix showing strength of relationships between proteins using the ptm.cccn.
 
 #### Estimated run-time  
 2hrs 30mins  
