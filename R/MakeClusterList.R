@@ -176,11 +176,10 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
       for(i in 2:length(cl.matrix.list)){ #For every cluster in a batch
 
         addme <- cl.matrix.list[[i]] #This is the matrix we want to add
-        orow <- nrow(temp.matrix)+1 #This is the diagional index we will insert values from
-        ocol <- ncol(temp.matrix)+1 #Maybe try a solution where you sum all the dimensions then create a 0 matrix from that, helps avoid rbind/cbind if they take too long
+        row.temp <- nrow(temp.matrix)   #Since the number of rows in temp matrix changes
 
         temp.matrix <- rbind(temp.matrix, matrix(0, nrow = nrow(addme), ncol = ncol(temp.matrix))) #Make a matrix that is returnmatrix + addme by returnmatrix + addme by filling with 0s
-        addme <- rbind(matrix(0, nrow=nrow(temp.matrix), ncol=ncol(addme), addme))
+        addme <- rbind(matrix(0, nrow=row.temp, ncol=ncol(addme)), addme)
         temp.matrix <- cbind(temp.matrix, addme)
       }
 
