@@ -30,17 +30,16 @@ MakeCorrelationNetwork <- function(cluster.vector, ptm.correlation.matrix, ptm.c
 
 
   #### Generate the combined adjacency matrix by taking PTMs to Genes ###
-  clusters.common <- FindCommonClusters(clusterlist[[1]], clusterlist[[2]], clusterlist[[3]], keeplength) #Call function at top of code
-  genes.common <- c(clusters.common, recursive=TRUE) #Flatten the clusters
-  ptm.cccn <- ptm.correlation.matrix[genes.common, genes.common] #Filter the correlation Network by PTMs that cocluster
+  ptms.vector <- c(cluster.vector, recursive=TRUE) #Flatten the clusters
+  ptm.cccn <- ptm.correlation.matrix[ptms.vector, ptms.vector] #Filter the correlation Network by PTMs that cocluster
 
-  gene.common <- sapply(genes.common, function(x) {unlist(strsplit(x, " ",  fixed=TRUE))[[1]]}) #Will just trim all elements for every subelement in a list of character vectors
-  ulist <- unique(gene.common) #Use this for rownames and colnames
+  gene.vector <- sapply(ptms.vector, function(x) {unlist(strsplit(x, " ",  fixed=TRUE))[[1]]}) #Will just trim all elements for every subelement in a list of character vectors
+  ulist <- unique(gene.vector) #Use this for rownames and colnames
 
   gene.cccn <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
 
-  for(d in 1:length(gene.common)){ #For every cluster
-    cluster <- gene.common[[d]]    #Save the current cluster
+  for(d in 1:length(gene.vector)){ #For every cluster
+    cluster <- gene.vector[[d]]    #Save the current cluster
     for(e in cluster){             #For every element in the cluster
       for(f in cluster){           #Connect E to F
         gene.cccn[e, f] <- correlation.value(e, f) #This adds the correlation value
