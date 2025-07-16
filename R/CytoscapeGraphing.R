@@ -2,7 +2,7 @@
 # SECOND NOTE TO SELF: use QUARTILES rather than summary to get better range quartile(x, 0.whatever)
 
 # helper function
-NodeAppMap <- function(visual.style.name){                                                   # maps colors based on score
+NodeAppMap <- function(visual.style.name){                                                         # maps colors based on score
   cf <- getTableColumns('node')                                                                    # gets the table (kind of want to clean this up and just pass in node.table like below)
   limits <- range(cf[, "score"])                                                                   # gets RANGE of scores from table
   node.sizes <- c (135, 130, 108, 75, 35, 75, 108, 130, 135)                                       # set node sizes
@@ -16,11 +16,13 @@ NodeAppMap <- function(visual.style.name){                                      
     size.control.points = c (limits[1], -15.0, -5.0, 0.0, 5.0, 15.0, limits[2])
     color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, limits[2]+1)  # if max of scores is higher, increase the highest (just use inf?)
   }
-  ratio.colors = c ('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')    # colors line up to the ranges
-  setNodeColorMapping(plotcol, color.control.points, ratio.colors, 'c', style.name = visual.style.name)                                       # set mapping
-  lockNodeDimensions('TRUE')
-  setNodeSizeMapping (names(cf[plotcol]), size.control.points, node.sizes, 'c')
-  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                                    # set selection color
+
+  node.colors = c('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')    # colors line up to the ranges
+
+  setNodeColorMapping(plotcol, color.control.points, node.colors, 'c', style.name = visual.style.name)                                       # set node color mapping
+  lockNodeDimensions('TRUE')                                                                                                                 # width and height locked together
+  setNodeSizeMapping (names(cf[plotcol]), size.control.points, node.sizes, 'c')                                                              # set node size mapping
+  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                                  # set selection color
 }
 
 
@@ -30,29 +32,17 @@ NodeAppMap <- function(visual.style.name){                                      
 # helper function
  EdgeAppMap <- function(edge.table, visual.style.name){
 
-  unweights <- unique(edge.table$weight[order((as.numeric(edge.table$weight)))])  # get all of the unique vals of the weights
-  unweights <- format(as.numeric(unweights), scientific = FALSE, trim = TRUE)     # put them in the exact same format as the weights that cytoscape stores
+  edgevalues <- getTableColumns('edge',c('weight'))                                    # get edge values
+  edgevalues['weight'] <- abs(as.numeric(edgevalues['weight'][[1]]))                   # make weights pos
+  edgevalues['weight'] <- lapply(edgevalues['weight'], function(x) log2(x * 10) + 2)   # make scale logarithmic
 
-  setEdgeLineWidthMapping(                              # set mapping
-    table.column = "weight",                            # using the weights column
-    table.column.values = as.character(unweights),      # the values are the as.character of the correct format as above
-    # below just takes the four quartiles and repeats that value of edge width for as many weights that are in that quartile
-    widths = c(rep(3, times = sum(as.numeric(unweights) < summary(as.numeric(edge.table$weight))['1st Qu.'][[1]])),
-               rep(7, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['1st Qu.'][[1]] & as.numeric(unweights) < summary(as.numeric(edge.table$weight))['Mean'][[1]])),
-               rep(11, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['Mean'][[1]] & as.numeric(unweights) < summary(as.numeric(edge.table$weight))['3rd Qu.'][[1]])),
-               rep(15, times = sum(as.numeric(unweights) >= summary(as.numeric(edge.table$weight))['3rd Qu.'][[1]]))
-    ),
-    default.width = 3,                                  # default!
-    mapping.type = 'd',                                 # discrete bc there's one for each; continuous absolutely WAS NOT WORKING. Only would accept min and max vals, v uneven distribution
-    style.name = visual.style.name                      # save to our style
-  )
+  names(edgevalues) <- c('width')                                                      # rename it width bc we're doing passthrough mapping
 
-  edgevalues <- getTableColumns('edge',c('Weight'))
-  edgevalues['Weight']<-abs(edgevalues['Weight'])
-  edgevalues['Weight']<-lapply(edgevalues['Weight'], function(x) log2(x * 10) + 2)
-  names(edgevalues)<-c('Width')
-  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')
-  setEdgeLineWidthMapping('Width', mapping.type = 'p', style.name = 'default')
+  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')                 # loads the width into the edge table (creates new col)
+  setEdgeLineWidthMapping('width', mapping.type = 'p', style.name = visual.style.name) # map
+
+
+
   setEdgeSelectionColorDefault ( "#FF69B4")
   edgecolors <- c("#FF0000", "#FF0000", "#FF0000", "#FF00FF", "#EE82EE", "#A020F0", "#FF7F00", "#00FF00", "#00EE00", "#00CD00", "#76EEC6", "#76EEC6", "#00FFFF", "#00FFFF", "#00E5EE", "#00EEEE", "#20B2AA", "#FFD700", "#0000FF", "#FFFF00", "#708090", "#2F4F4F", "#BEBEBE", "#000000", "#FFA500", "#EE9A00")
   edgeTypes <- c("PHOSPHORYLATION", "pp", "controls-phosphorylation-of", "controls-expression-of", "controls-transport-of", "controls-state-change-of", "ACETYLATION", "Physical interactions", "BioPlex", "in-complex-with", 'experiments', 'experiments_transferred', 'database', 'database_transfered', "Pathway", "Predicted", "Genetic interactions", "correlation", "negative correlation", "positive correlation", 'combined_score', "merged" , "intersect", "peptide", 'homology', "Shared protein domains")
@@ -75,36 +65,8 @@ NodeAppMap <- function(visual.style.name){                                      
 
 }
 
-setCorrEdgeAppearance <- function() {
-  edgevalues <- getTableColumns('edge',c('Weight'))
-  edgevalues['Weight']<-abs(edgevalues['Weight'])
-  edgevalues['Weight']<-lapply(edgevalues['Weight'], function(x) log2(x * 10) + 2)
-  names(edgevalues)<-c('Width')
-  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')
-  setEdgeLineWidthMapping('Width', mapping.type = 'p', style.name = 'default')
-  setEdgeSelectionColorDefault ( "#FF69B4")
-  edgecolors <- c("#FF0000", "#FF0000", "#FF0000", "#FF00FF", "#EE82EE", "#A020F0", "#FF7F00", "#00FF00", "#00EE00", "#00CD00", "#76EEC6", "#76EEC6", "#00FFFF", "#00FFFF", "#00E5EE", "#00EEEE", "#20B2AA", "#FFD700", "#0000FF", "#FFFF00", "#708090", "#2F4F4F", "#BEBEBE", "#000000", "#FFA500", "#EE9A00")
-  edgeTypes <- c("PHOSPHORYLATION", "pp", "controls-phosphorylation-of", "controls-expression-of", "controls-transport-of", "controls-state-change-of", "ACETYLATION", "Physical interactions", "BioPlex", "in-complex-with", 'experiments', 'experiments_transferred', 'database', 'database_transfered', "Pathway", "Predicted", "Genetic interactions", "correlation", "negative correlation", "positive correlation", 'combined_score', "merged" , "intersect", "peptide", 'homology', "Shared protein domains")
-  myarrows <- c ('Arrow', 'Arrow', 'Arrow', 'Arrow', 'Arrow', 'Arrow', "Arrow", 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')
-  # Fix phosphorylation edge color to red with merged edges
-  # work around for misaligned mapping
-  edgevalues <- getTableColumns('edge',c('interaction', "shared interaction", "shared name"))
-  if (length(edgevalues[grep("pp", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("pp", edgevalues$'shared interaction'), 1] <- "PHOSPHORYLATION"}
-  if (length(edgevalues[grep("PHOSPHORYLATION", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("PHOSPHORYLATION", edgevalues$'shared interaction'), 1] <- "PHOSPHORYLATION"}
-  if (length(edgevalues[grep("phosphorylation", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("phosphorylation", edgevalues$'shared interaction'), 1] <- "PHOSPHORYLATION"}
-  if (length(edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 1] <- "ACETYLATION"}
-  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')
-  setEdgeTargetArrowMapping('interaction', edgeTypes, myarrows, default.shape='None')
-  matchArrowColorToEdge('TRUE')
-  setEdgeColorMapping( 'interaction', edgeTypes, edgecolors, 'd', default.color="#FFFFFF")
-}
 
-
-
+################################################################################################
 
 
 # helper function
