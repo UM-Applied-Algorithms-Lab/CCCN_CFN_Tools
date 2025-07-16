@@ -5,22 +5,16 @@
 \title{Make Correlation Network}
 \usage{
 MakeCorrelationNetwork(
-  clusterlist,
+  common.clusters,
   ptm.correlation.matrix,
-  keeplength = 2,
-  clusters.name = "clusters.common",
   ptm.cccn.name = "ptm.cccn",
   gene.cccn.name = "gene.cccn"
 )
 }
 \arguments{
-\item{clusterlist}{A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)}
+\item{common.clusters}{A list of clusters. Ideally the ones found by MakeClusterList in common_clusters}
 
 \item{ptm.correlation.matrix}{A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.}
-
-\item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS"))}
-
-\item{clusters.name}{Desired name for the common clusters output; defaults to common.clusters}
 
 \item{ptm.cccn.name}{The PTM correlation matrix filtered by PTMs that cocluster}
 

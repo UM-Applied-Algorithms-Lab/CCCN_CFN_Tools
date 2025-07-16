@@ -7,9 +7,11 @@
 MakeClusterList(
   ptmtable,
   name.columns = 1:3,
+  keeplength = 2,
   correlation.matrix.name = "ptm.correlation.matrix",
   clusters.list.name = "clusters.list",
   tsne.coords.name = "all.tsne.coords",
+  common.clusters.name = "common.clusters",
   toolong = 3.5
 )
 }
@@ -18,11 +20,15 @@ MakeClusterList(
 
 \item{name.columns}{The columns which contain names. Handles via merging them into 1 string. If 0, will take rownames instead.}
 
+\item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS")); default is 2}
+
 \item{correlation.matrix.name}{Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix}
 
 \item{clusters.list.name}{Desired name for the lists of clusters to be saved as; defaults to clusters.list}
 
 \item{tsne.coords.name}{Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords}
+
+\item{common.clusters.name}{Desired name for the clusters that all 3 methods found in common; defaults to common.clusters}
 
 \item{toolong}{A numeric threshold for cluster separation, defaults to 3.5.}
 }
@@ -33,7 +39,7 @@ The correlation matrix: A data frame showing the correlation between ptms (as th
 This function takes the post-translational modification table and runs it through three calculations of distance:
 Euclidean Distance, Spearman Dissimilarity (1 - |Spearman Correlation|), and the average of the two of these.
 These calculations find the 'distance' between ptms based upon under what conditions they occur.
-These matricies are then run through t-SNE in order to put them into a 3-dimensional space.
+These matricies are then run through t-SNE in order to put them into a 3-dimensional space. Additionally, the intersection of these 3 clusters is also created.
 A correlation table is also produced based on the Spearman Correlation table.
 }
 \details{
