@@ -5,7 +5,7 @@
 NodeAppMap <- function(visual.style.name){                                                         # maps colors based on score
   cf <- getTableColumns('node')                                                                    # gets the table (kind of want to clean this up and just pass in node.table like below)
   limits <- range(cf[, "score"])                                                                   # gets RANGE of scores from table
-  node.sizes <- c (135, 130, 108, 75, 35, 75, 108, 130, 135)                                       # set node sizes
+  node.sizes <- c(135, 130, 108, 75, 35, 75, 108, 130, 135)                                       # set node sizes
   size.control.points = c (-100.0, -15.0, -5.0, 0.0, 5.0, 15.0, 100.0)
   color.control.points = c (-20.0, -10.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0)                   # Blue is negative, Yellow positive, Green in middle
   if(limits[1] < min(size.control.points)) {
@@ -17,12 +17,13 @@ NodeAppMap <- function(visual.style.name){                                      
     color.control.points = c (limits[1]-1, -10.0, -5.0, -2.25, 0.0, 2.25, 5.0, 10.0, limits[2]+1)  # if max of scores is higher, increase the highest (just use inf?)
   }
 
-  node.colors = c('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')    # colors line up to the ranges
+  node.colors = c('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')  # colors line up to the ranges
 
-  setNodeColorMapping(plotcol, color.control.points, node.colors, 'c', style.name = visual.style.name)                                       # set node color mapping
-  lockNodeDimensions('TRUE')                                                                                                                 # width and height locked together
-  setNodeSizeMapping (names(cf[plotcol]), size.control.points, node.sizes, 'c')                                                              # set node size mapping
-  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                                  # set selection color
+  setNodeColorMapping(plotcol, color.control.points, node.colors, 'c', style.name = visual.style.name)                                     # set node color mapping
+  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                                # set selection color
+  lockNodeDimensions('TRUE')                                                                                                               # width and height locked together
+
+  setNodeSizeMapping(table.column = "score", table.column.values = size.control.points, sizes = node.sizes, mapping.type = 'c', default.size = 103, style.name = visual.style.name) # set node size mapping
 }
 
 
@@ -111,13 +112,11 @@ NodeBorderMapping <- function(visual.style.name){
 
 
 # helper function
-SetStandards <- function(visual.style.name, background.color, edge.label.color, edge.line.color, node.border.color, node.label.color,
-                         default.font, node.font.size, edge.font.size, edge.line.style, source.arrow, target.arrow, node.size, edge.width, border.width,
-                         edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity
+SetStandards <- function(visual.style.name,
+                         background.color, edge.label.color, node.label.color, default.font, node.font.size, edge.font.size,
+                         edge.line.style,edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity
                          ){
 
-  setEdgeSourceArrowColorDefault(edge.line.color, visual.style.name)   # set color of arrow from source
-  setEdgeTargetArrowColorDefault(edge.line.color, visual.style.name)   # set color of arrow to target
   setNodeLabelPositionDefault("C", "C", "c", 0, 0, visual.style.name)  # What part of the node label is aligned "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
                                                                        # to what part of the node graphic       "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
                                                                        # "l", "r", "c"
@@ -129,7 +128,6 @@ SetStandards <- function(visual.style.name, background.color, edge.label.color, 
   # colors
   setBackgroundColorDefault(background.color, visual.style.name)       # set color of background
   setEdgeLabelColorDefault(edge.label.color, visual.style.name)        # set color of edge label
-  setEdgeColorDefault(edge.line.color, visual.style.name)              # set color of edge
   setNodeLabelColorDefault(node.label.color, visual.style.name)        # set color of node name
   # fonts
   setEdgeFontFaceDefault(default.font, visual.style.name)              # set font of edge
@@ -138,10 +136,6 @@ SetStandards <- function(visual.style.name, background.color, edge.label.color, 
   setNodeFontSizeDefault(node.font.size, visual.style.name)            # set font size of node name (Initial Default 12)
   # shape/style
   setEdgeLineStyleDefault(edge.line.style, visual.style.name)          # "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
-  setEdgeSourceArrowShapeDefault(source.arrow, visual.style.name)      # "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND"
-  setEdgeTargetArrowShapeDefault(target.arrow, visual.style.name)      # "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
-  # size
-  setNodeSizeDefault(node.size, visual.style.name)                     # set size of node; height and width assumed the same
   # opacity
   setEdgeOpacityDefault(edge.opacity, visual.style.name)               # set opacity of edge; 0 - 255 w 0 --> translucent
   setEdgeLabelOpacityDefault(edge.label.opacity, visual.style.name)    # set opacity of edge label; 0 - 255 w 0 --> translucent
@@ -170,8 +164,6 @@ SetStandards <- function(visual.style.name, background.color, edge.label.color, 
 #'
 #' @param background.color Hex code of background color of graph; defaults to '#fcf3cf'
 #' @param edge.label.color Hex code of edge label color of graph; defaults to '#17202a'
-#' @param edge.line.color Hex code of edge line color of graph; defaults to '#abb2b9'
-#' @param node.border.color Hex code of node border color of graph; defaults to '#145a32'
 #' @param node.label.color Hex code of node label color of graph; defaults to '#145a32'
 #'
 #' @param default.font Font style of edge and node names; defaults to "Times New Roman"
@@ -179,12 +171,6 @@ SetStandards <- function(visual.style.name, background.color, edge.label.color, 
 #' @param edge.font.size Font size of the edge name; defaults to 8
 #'
 #' @param edge.line.style Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
-#' @param source.arrow Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
-#' @param target.arrow Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"
-#'
-#' @param node.size Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())
-#' @param edge.width Width of the edge line; defaults to 2
-#' @param border.width Width of the border of the node; defaults to 1
 #'
 #' @param edge.opacity Opacity of the edge line on a scale of 0 - 255 with 0 being transparent; defaults to 175
 #' @param edge.label.opacity Opacity of the edge label on a scale of 0 - 255 with 0 being transparent; defaults to 255
@@ -199,10 +185,9 @@ SetStandards <- function(visual.style.name, background.color, edge.label.color, 
 #' # GraphCFN(ex.cfn)
 #' # See vignette for default graph
 GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Network.title = "cfn", Network.collection = "cccn.cfn.tools", visual.style.name = "cccn.cfn.tools.style",
-                     background.color = '#faf1dd', edge.label.color = '#17202a', edge.line.color = '#abb2b9', node.border.color = '#145a32', node.label.color = '#000000',
+                     background.color = '#faf1dd', edge.label.color = '#17202a', node.label.color = '#000000',
                      default.font = "Times New Roman", node.font.size = 12, edge.font.size = 8,
-                     edge.line.style = 'SOLID', source.arrow = 'NONE', target.arrow = 'NONE',
-                     node.size = 50, edge.width = 2, border.width = 1,
+                     edge.line.style = 'SOLID',
                      edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
                      ){
 
@@ -253,16 +238,15 @@ GraphCfn <- function(cfn, ptmtable, funckey = cccn.cfn.tools::ex.funckey, Networ
 
   setNodeLabelMapping("id", style.name = visual.style.name)   # make the label names appear
 
-  NodeAppMap(visual.style.name)                         # map the node colors CURRENTLY NOT SIZES
+  SetStandards(visual.style.name,                             # we got standards in this joint
+               background.color, edge.label.color, node.label.color, default.font, node.font.size, edge.font.size,
+               edge.line.style,edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity)
 
-  EdgeAppMap(cfn.edges, visual.style.name)              # map edge width CURRENTLY NOT COLORS
+  NodeAppMap(visual.style.name)                               # map the node colors CURRENTLY NOT SIZES
+
+  EdgeAppMap(cfn.edges, visual.style.name)                    # map edge width CURRENTLY NOT COLORS
 
   NodeBorderMapping(visual.style.name)                        # map node border (color, thickness)
-
-  # we got standards in this joint
-  SetStandards(visual.style.name, background.color, edge.label.color, edge.line.color, node.border.color, node.label.color,
-               default.font, node.font.size, edge.font.size, edge.line.style, source.arrow, target.arrow, node.size, edge.width, border.width,
-               edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity)
 
   setVisualStyle(visual.style.name)                           # set vis style
 

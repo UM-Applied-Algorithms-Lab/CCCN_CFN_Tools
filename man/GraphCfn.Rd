@@ -13,18 +13,11 @@ GraphCfn(
   visual.style.name = "cccn.cfn.tools.style",
   background.color = "#faf1dd",
   edge.label.color = "#17202a",
-  edge.line.color = "#abb2b9",
-  node.border.color = "#145a32",
   node.label.color = "#000000",
   default.font = "Times New Roman",
   node.font.size = 12,
   edge.font.size = 8,
   edge.line.style = "SOLID",
-  source.arrow = "NONE",
-  target.arrow = "NONE",
-  node.size = 50,
-  edge.width = 2,
-  border.width = 1,
   edge.opacity = 175,
   edge.label.opacity = 255,
   border.opacity = 255,
@@ -49,10 +42,6 @@ GraphCfn(
 
 \item{edge.label.color}{Hex code of edge label color of graph; defaults to '#17202a'}
 
-\item{edge.line.color}{Hex code of edge line color of graph; defaults to '#abb2b9'}
-
-\item{node.border.color}{Hex code of node border color of graph; defaults to '#145a32'}
-
 \item{node.label.color}{Hex code of node label color of graph; defaults to '#145a32'}
 
 \item{default.font}{Font style of edge and node names; defaults to "Times New Roman"}
@@ -62,16 +51,6 @@ GraphCfn(
 \item{edge.font.size}{Font size of the edge name; defaults to 8}
 
 \item{edge.line.style}{Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"}
-
-\item{source.arrow}{Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"}
-
-\item{target.arrow}{Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"}
-
-\item{node.size}{Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())}
-
-\item{edge.width}{Width of the edge line; defaults to 2}
-
-\item{border.width}{Width of the border of the node; defaults to 1}
 
 \item{edge.opacity}{Opacity of the edge line on a scale of 0 - 255 with 0 being transparent; defaults to 175}
 
