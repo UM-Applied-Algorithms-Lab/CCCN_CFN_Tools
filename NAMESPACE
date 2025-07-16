@@ -3,7 +3,6 @@
 export(BuildPPINetwork)
 export(ClusterFilteredNetwork)
 export(GetSTRINGdb)
-export(GraphCccn)
 export(GraphCfn)
 export(MakeClusterList)
 export(MakeCorrelationNetwork)

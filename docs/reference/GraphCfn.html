@@ -25,16 +25,6 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
-
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/CoClusterCorrelationNetwork.html">Filtered CoCluster Correlation Network Creation Guide</a>
-    </li>
-  </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -56,24 +46,18 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">GraphCfn</span><span class="op">(</span></span>
 <span>  <span class="va">cfn</span>,</span>
+<span>  <span class="va">ptmtable</span>,</span>
+<span>  funckey <span class="op">=</span> <span class="fu">cccn.cfn.tools</span><span class="fu">::</span><span class="va"><a href="https://um-applied-algorithms-lab.github.io/CCCN_CFN_Tools/reference/ex.funckey.html" class="external-link">ex.funckey</a></span>,</span>
 <span>  Network.title <span class="op">=</span> <span class="st">"cfn"</span>,</span>
 <span>  Network.collection <span class="op">=</span> <span class="st">"cccn.cfn.tools"</span>,</span>
-<span>  background.color <span class="op">=</span> <span class="st">"#fcf3cf"</span>,</span>
+<span>  visual.style.name <span class="op">=</span> <span class="st">"cccn.cfn.tools.style"</span>,</span>
+<span>  background.color <span class="op">=</span> <span class="st">"#949494"</span>,</span>
 <span>  edge.label.color <span class="op">=</span> <span class="st">"#17202a"</span>,</span>
-<span>  edge.line.color <span class="op">=</span> <span class="st">"#abb2b9"</span>,</span>
-<span>  node.border.color <span class="op">=</span> <span class="st">"#145a32"</span>,</span>
-<span>  node.label.color <span class="op">=</span> <span class="st">"#145a32"</span>,</span>
-<span>  node.fill.color <span class="op">=</span> <span class="st">"#a9dfbf"</span>,</span>
+<span>  node.label.color <span class="op">=</span> <span class="st">"#000000"</span>,</span>
 <span>  default.font <span class="op">=</span> <span class="st">"Times New Roman"</span>,</span>
-<span>  node.font.size <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  node.font.size <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  edge.font.size <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>  edge.line.style <span class="op">=</span> <span class="st">"SOLID"</span>,</span>
-<span>  source.arrow <span class="op">=</span> <span class="st">"NONE"</span>,</span>
-<span>  target.arrow <span class="op">=</span> <span class="st">"NONE"</span>,</span>
-<span>  node.shape <span class="op">=</span> <span class="st">"OCTAGON"</span>,</span>
-<span>  node.size <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>  edge.width <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>  border.width <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  edge.opacity <span class="op">=</span> <span class="fl">175</span>,</span>
 <span>  edge.label.opacity <span class="op">=</span> <span class="fl">255</span>,</span>
 <span>  border.opacity <span class="op">=</span> <span class="fl">255</span>,</span>
@@ -90,12 +74,24 @@
 <dd><p>A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights</p></dd>
 
 
+<dt id="arg-ptmtable">ptmtable<a class="anchor" aria-label="anchor" href="#arg-ptmtable"></a></dt>
+<dd><p>A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.</p></dd>
+
+
+<dt id="arg-funckey">funckey<a class="anchor" aria-label="anchor" href="#arg-funckey"></a></dt>
+<dd><p>A table graphing gene names to type of protein; defaults to internal database at cccn.cfn.tools::ex.funckey</p></dd>
+
+
 <dt id="arg-network-title">Network.title<a class="anchor" aria-label="anchor" href="#arg-network-title"></a></dt>
-<dd><p>Desired title for the created Cytoscape Network</p></dd>
+<dd><p>Desired title for the created Cytoscape Network; defaults to "cfn"</p></dd>
 
 
 <dt id="arg-network-collection">Network.collection<a class="anchor" aria-label="anchor" href="#arg-network-collection"></a></dt>
-<dd><p>Desired name for the collection created on Cytoscape in which the network will reside</p></dd>
+<dd><p>Desired name for the collection created on Cytoscape in which the network will reside; defaults to "cccn.cfn.tools"</p></dd>
+
+
+<dt id="arg-visual-style-name">visual.style.name<a class="anchor" aria-label="anchor" href="#arg-visual-style-name"></a></dt>
+<dd><p>Desired name for the visual style created on Cytoscape; defaults to "cccn.cfn.tools.style"</p></dd>
 
 
 <dt id="arg-background-color">background.color<a class="anchor" aria-label="anchor" href="#arg-background-color"></a></dt>
@@ -106,20 +102,8 @@
 <dd><p>Hex code of edge label color of graph; defaults to '#17202a'</p></dd>
 
 
-<dt id="arg-edge-line-color">edge.line.color<a class="anchor" aria-label="anchor" href="#arg-edge-line-color"></a></dt>
-<dd><p>Hex code of edge line color of graph; defaults to '#abb2b9'</p></dd>
-
-
-<dt id="arg-node-border-color">node.border.color<a class="anchor" aria-label="anchor" href="#arg-node-border-color"></a></dt>
-<dd><p>Hex code of node border color of graph; defaults to '#145a32'</p></dd>
-
-
 <dt id="arg-node-label-color">node.label.color<a class="anchor" aria-label="anchor" href="#arg-node-label-color"></a></dt>
 <dd><p>Hex code of node label color of graph; defaults to '#145a32'</p></dd>
-
-
-<dt id="arg-node-fill-color">node.fill.color<a class="anchor" aria-label="anchor" href="#arg-node-fill-color"></a></dt>
-<dd><p>Hex code of node fill color of graph; defaults to '#a9dfbf'</p></dd>
 
 
 <dt id="arg-default-font">default.font<a class="anchor" aria-label="anchor" href="#arg-default-font"></a></dt>
@@ -136,30 +120,6 @@
 
 <dt id="arg-edge-line-style">edge.line.style<a class="anchor" aria-label="anchor" href="#arg-edge-line-style"></a></dt>
 <dd><p>Type of edge style; defaults to "SOLID"; options include: "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"</p></dd>
-
-
-<dt id="arg-source-arrow">source.arrow<a class="anchor" aria-label="anchor" href="#arg-source-arrow"></a></dt>
-<dd><p>Type of arrow coming from the source gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"</p></dd>
-
-
-<dt id="arg-target-arrow">target.arrow<a class="anchor" aria-label="anchor" href="#arg-target-arrow"></a></dt>
-<dd><p>Type of arrow going to the target gene; defaults to "NONE"; options include: "DELTA", "DIAMOND", "OPEN_CIRCLE", "CIRCLE", "OPEN_HALF_CIRCLE", "CROSS_OPEN_DELTA", "DELTA_SHORT_1", "CROSS_DELTA", "OPEN_DELTA", "OPEN_DIAMOND", "DIAMOND_SHORT_1", "DELTA_SHORT_2", "OPEN_SQUARE", "NONE", "SQUARE", "DIAMOND_SHORT_2", "T", "HALF_BOTTOM", "HALF_TOP", "ARROW_SHORT", "HALF_CIRCLE"</p></dd>
-
-
-<dt id="arg-node-shape">node.shape<a class="anchor" aria-label="anchor" href="#arg-node-shape"></a></dt>
-<dd><p>Shape of the node; defaults to "OCTAGON"; options include: "RECTANGLE", "VEE", "OCTAGON", "ELLIPSE", "PARALLELOGRAM", "DIAMOND", "HEXAGON", "ROUND_RECTANGLE", "TRIANGLE"</p></dd>
-
-
-<dt id="arg-node-size">node.size<a class="anchor" aria-label="anchor" href="#arg-node-size"></a></dt>
-<dd><p>Size of the node; defaults to 50. PLEASE NOTE: width and height can be changed independently using RCy3 directly (first run lockNodeDimensions(FALSE) and then setNodeWidthDefault() and setNodeHeightDefault())</p></dd>
-
-
-<dt id="arg-edge-width">edge.width<a class="anchor" aria-label="anchor" href="#arg-edge-width"></a></dt>
-<dd><p>Width of the edge line; defaults to 2</p></dd>
-
-
-<dt id="arg-border-width">border.width<a class="anchor" aria-label="anchor" href="#arg-border-width"></a></dt>
-<dd><p>Width of the border of the node; defaults to 1</p></dd>
 
 
 <dt id="arg-edge-opacity">edge.opacity<a class="anchor" aria-label="anchor" href="#arg-edge-opacity"></a></dt>
