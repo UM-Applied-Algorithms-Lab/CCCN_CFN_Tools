@@ -32,41 +32,53 @@ NodeAppMap <- function(visual.style.name){                                      
 # helper function
  EdgeAppMap <- function(edge.table, visual.style.name){
 
-  edgevalues <- getTableColumns('edge',c('weight'))                                    # get edge values
-  edgevalues['weight'] <- abs(as.numeric(edgevalues['weight'][[1]]))                   # make weights pos
-  edgevalues['weight'] <- lapply(edgevalues['weight'], function(x) log2(x * 10) + 2)   # make scale logarithmic
+  edgevalues <- getTableColumns('edge',c('shared name', 'shared interaction', 'weight', 'interaction')) # get edge values
+  edgevalues['weight'] <- abs(as.numeric(edgevalues['weight'][[1]]))                                    # make weights pos
+  edgevalues['weight'] <- lapply(edgevalues['weight'], function(x) log2(x * 10) + 2)                    # make scale logarithmic
 
-  names(edgevalues) <- c('width')                                                      # rename it width bc we're doing passthrough mapping
+  colnames(edgevalues) <- c('shared name', 'shared interaction', 'width', 'interaction')                # rename it width bc we're doing passthrough mapping
 
-  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')                 # loads the width into the edge table (creates new col)
-  setEdgeLineWidthMapping('width', mapping.type = 'p', style.name = visual.style.name) # map
+  setEdgeSelectionColorDefault ("#FF69B4")                                                              # selection edge color
 
-
-
-  setEdgeSelectionColorDefault ( "#FF69B4")
-  edgecolors <- c("#FF0000", "#FF0000", "#FF0000", "#FF00FF", "#EE82EE", "#A020F0", "#FF7F00", "#00FF00", "#00EE00", "#00CD00", "#76EEC6", "#76EEC6", "#00FFFF", "#00FFFF", "#00E5EE", "#00EEEE", "#20B2AA", "#FFD700", "#0000FF", "#FFFF00", "#708090", "#2F4F4F", "#BEBEBE", "#000000", "#FFA500", "#EE9A00")
+  # list of all edge types (you only have SOME in data set, Maddie)
   edgeTypes <- c("PHOSPHORYLATION", "pp", "controls-phosphorylation-of", "controls-expression-of", "controls-transport-of", "controls-state-change-of", "ACETYLATION", "Physical interactions", "BioPlex", "in-complex-with", 'experiments', 'experiments_transferred', 'database', 'database_transfered', "Pathway", "Predicted", "Genetic interactions", "correlation", "negative correlation", "positive correlation", 'combined_score', "merged" , "intersect", "peptide", 'homology', "Shared protein domains")
+
+  # list of colors corresponding to edge types
+  edgecolors <- c("#FF0000", "#FF0000", "#FF0000", "#FF00FF", "#EE82EE", "#A020F0", "#FF7F00", "#00FF00", "#00EE00", "#00CD00", "#76EEC6", "#76EEC6", "#00FFFF", "#00FFFF", "#00E5EE", "#00EEEE", "#20B2AA", "#FFD700", "#0000FF", "#FFFF00", "#708090", "#2F4F4F", "#BEBEBE", "#000000", "#FFA500", "#EE9A00")
+
+  # list of arrow options corresponding to edge types
   myarrows <- c ('Arrow', 'Arrow', 'Arrow', 'Arrow', 'Arrow', 'Arrow', "Arrow", 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')
-  # Fix phosphorylation edge color to red with merged edges
-  # work around for misaligned mapping
-  edgevalues <- getTableColumns('edge',c('interaction', "shared interaction", "shared name"))
-  if (length(edgevalues[grep("pp", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("pp", edgevalues$'shared interaction'), 1] <- "PHOSPHORYLATION"}
-  if (length(edgevalues[grep("PHOSPHORYLATION", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("PHOSPHORYLATION", edgevalues$'shared interaction'), 1] <- "PHOSPHORYLATION"}
-  if (length(edgevalues[grep("phosphorylation", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("phosphorylation", edgevalues$'shared interaction'), 1] <- "PHOSPHORYLATION"}
-  if (length(edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 1])>0) {
-    edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 1] <- "ACETYLATION"}
-  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')
-  setEdgeTargetArrowMapping('interaction', edgeTypes, myarrows, default.shape='None')
-  matchArrowColorToEdge('TRUE')
-  setEdgeColorMapping( 'interaction', edgeTypes, edgecolors, 'd', default.color="#FFFFFF")
+
+  # Fix phosphorylation edge color to red with merged edges  < -- not sure if these comments are still relevant
+  # work around for misaligned mapping                       < -- ignoring for now Ig
+
+  # OH if it's in shared interaction, make the interaction column that
+  # shouldn't this already be so?
+
+  if (length(edgevalues[grep("pp", edgevalues$'shared interaction'), 'interaction']) > 0) {                       # make interaction of pp shared interaction "PHOSPHORYLATION"
+    edgevalues[grep("pp", edgevalues$'shared interaction'), 'interaction'] <- "PHOSPHORYLATION"}
+
+  if (length(edgevalues[grep("PHOSPHORYLATION", edgevalues$'shared interaction'), 'interaction']) > 0) {          # make interaction of PHOSPHORYLATION shared interaction "PHOSPHORYLATION"
+    edgevalues[grep("PHOSPHORYLATION", edgevalues$'shared interaction'), 'interaction'] <- "PHOSPHORYLATION"}
+
+  if (length(edgevalues[grep("phosphorylation", edgevalues$'shared interaction'), 'interaction']) > 0) {          # make interaction of phosphorylation shared interaction "PHOSPHORYLATION"
+    edgevalues[grep("phosphorylation", edgevalues$'shared interaction'), 'interaction'] <- "PHOSPHORYLATION"}
+
+  if (length(edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 'interaction']) > 0) {              # make interaction of ACETYLATION shared interaction "ACETYLATION"
+    edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 'interaction'] <- "ACETYLATION"}
+
+  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')                                            # load the table
+
+  matchArrowColorToEdge('TRUE')                                                                                   # match arrow color to edge color (love RCy3 for this)
+
+  setEdgeLineWidthMapping('width', mapping.type = 'p', style.name = visual.style.name)                            # map the edge width
+  setEdgeTargetArrowMapping('interaction', edgeTypes, myarrows, default.shape='None')                             # map the target arrow
+  setEdgeColorMapping('interaction', edgeTypes, edgecolors, 'd', default.color="#FFFFFF")                         # map the edge color
 
 }
 
 
-################################################################################################
+
 
 
 # helper function
