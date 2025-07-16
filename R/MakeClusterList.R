@@ -49,8 +49,8 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
 
   # Add if statement here to make sure functions are formatted correctly #
   # Ensure ptmtable is a data frame with numeric values #
-  if(!identical(name.columns, 0)) PTMnames <- unlist(apply(ptmtable[name.columns], 1, paste, collapse=" ")) #Concatinate all strings by rows in the given columns
-  else PTMnames <- rownames(ptmtable) #Try and take rownames
+  if(!identical(name.columns, 0)) PTMnames <- sort(unlist(apply(ptmtable[name.columns], 1, paste, collapse=" "))) #Concatinate all strings by rows in the given columns
+  else PTMnames <- sort(rownames(ptmtable)) #Try and take rownames
   ptmtable.sp <- apply(ptmtable[,-name.columns], 1:2, as.numeric) #Exclude colnames from matrix and test to make sure they are numbers
 
   # Calculate Spearman correlation #
@@ -181,6 +181,7 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
         temp.matrix <- rbind(temp.matrix, matrix(0, nrow = nrow(addme), ncol = ncol(temp.matrix))) #Make a matrix that is returnmatrix + addme by returnmatrix + addme by filling with 0s
         addme <- rbind(matrix(0, nrow=row.temp, ncol=ncol(addme)), addme)
         temp.matrix <- cbind(temp.matrix, addme)
+        rownames(temp.matrix) <- colnames(temp.matrix) #I loathe that I have to do this
       }
 
     temp.matrix <- temp.matrix[,sort(colnames(temp.matrix))] #Sort the matrices so they line up
