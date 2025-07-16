@@ -62,8 +62,10 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   sp.diss.matrix <- 1 - abs(ptm.correlation.matrix)
 
   # Handle any remaining NA values by setting them to the maximum dissimilarity #
-  max.dist.eu <- max(sp.diss.matrix, na.rm = TRUE)
-  sp.diss.matrix[is.na(sp.diss.matrix)] <- max.dist.eu
+  max.dist.sp <- max(sp.diss.matrix, na.rm = TRUE)
+
+  #Set NA values to 100 * the max distance
+  sp.diss.matrix[is.na(sp.diss.matrix)] <- 100 * max.dist.sp
 
   # Fix names of correlation matrix
   colnames(ptm.correlation.matrix) <- PTMnames
@@ -88,7 +90,7 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   ptmtable.dist[is.na(ptmtable.dist)] <- 100 * max.dist
 
   # Normalize the distance matrix by scaling it to a range from 0 to 100. This becomes the distance matrix for euclidian distance which we will run Rtsne on#
-  eu.dist.calc <- 100 * ptmtable.dist / max.dist
+  eu.dist.calc <- 100 * ptmtable.dist / max(ptmtable.dist, na.rm = TRUE)
   eu.dist.calc <- as.matrix(eu.dist.calc) #Fix eu.dist.calc RQ
 
   # Apply t-SNE to the distance matrix to reduce dimensions to 3 #
@@ -103,11 +105,10 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, correlation.matrix.nam
   #COMBINED CALCULATION
 
   #fix spearman thing; so do the exact same thing but no absolute value
-  sp.diss.calc <- 1 - ptm.correlation.matrix              # range goes from (-1 to 1) to (0 to 2)
-  max.diss.sp <- max(sp.diss.calc, na.rm = TRUE)          # find the max value (around 2)
-  sp.diss.calc <- sp.diss.calc * (max.dist / max.diss.sp) # SCALING. THIS IS WHERE SCALING OCCURS. All the values are scaled so biggest sp = biggest eu
-  sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max.dist.eu   # make the NAs roughly equal to 100
-  sp.diss.calc <- as.matrix(sp.diss.calc)                 # turn into a matrix
+  sp.diss.calc <- 1 - ptm.correlation.matrix            # range goes from (-1 to 1) to (0 to 2)
+  max.diss.sp <- max(sp.diss.calc, na.rm = TRUE)        # find the max value (around 2)
+  sp.diss.calc[is.na(sp.diss.calc)] <- 50 * max.diss.sp # Set every NA value to 50 * the max dissimilarity
+  sp.diss.calc <- as.matrix(sp.diss.calc)               # turn into a matrix
 
   #find average
   combined.distance <- (sp.diss.calc + eu.dist.calc) / 2
