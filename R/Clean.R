@@ -1,3 +1,8 @@
+set.cleaner <- function(){
+  #TO DO
+  
+}
+
 #' Clean String
 #' 
 #' A helper function to remove all special characters from a string
@@ -5,9 +10,9 @@
 #' @param string A string with special characters
 #' @return A string with no special characters
 #' 
-#' @example clean.string("H#el_lK~o, *Wo$r$l\\|d!")
+#' @example clean.string("H#el_lK~o, K*Wo$r$l\\|d!")
 clean.string <- function(string){
-  patterns <- c("@", "\\#", "\\$", "K~", "%", "|", '/', "?", "_", "\\\\", "\\|", "\\*")
+  patterns <- c("@", "\\#", "\\$", "K~", "%", "|", '/', "?", "_", "\\\\", "\\|", "\\%", "K\\*", "\\*")
   for(p in patterns) string <- gsub(p, "", string)
   return(string)
 }
