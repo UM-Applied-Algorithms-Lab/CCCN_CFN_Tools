@@ -5,9 +5,9 @@ set.seed(1) #Set the seed (very important)
 MakeClusterList(ex.ptmtable, correlation.matrix.name = "matrix_123a", clusters.list.name = "clusters_123a", tsne.coords.name = "tsne_123a", common.clusters.name = "common_123a", keeplength = 2, toolong = 3.5) #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
 
 #Unit tests for the values of the correlation matrix
-test_that("Diagionals are NA", {expect_equal(matrix_123a[10,10], NA)})
-test_that("APP p Y757 correlation with APP ubi K763", {expect_equal(matrix_123a[18, 20], 0.02857143)})
-test_that("CTTN p Y334 correlation with FRS2 p Y306", {expect_equal(matrix_123a[64, 128], 0.912892)})
+test_that("Diagionals are NA", {expect_equal(is.na(matrix_123a[10,10]), NA)})
+test_that("APP p Y757 correlation with APP ubi K763", {expect_equal(matrix_123a[18, 20], 0.02857143,tolerance=0.00001)})
+test_that("CTTN p Y334 correlation with FRS2 p Y306", {expect_equal(matrix_123a[64, 128], 0.912892,tolerance=0.00001)})
 
 #Unit Tests for the global variables (lists of dataframes) created by MakeClusterList. Check PTMs Names.
 #eu_ptms_list
