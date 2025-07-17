@@ -11,13 +11,13 @@ test_that("Cluster 3, PTM 4", {expect_equal(clusters_123a$Euclidean$`3`$PTMnames
 test_that("Cluster 5, PTM 6", {expect_equal(clusters_123a$Euclidean$`5`$PTMnames[6], "EZR ack K60")})
 
 #sed_ptms_list
-test_that("Testing Cluster 3, PTM 1", {expect_equal(clusters_123a$SED$`3`$PTMnames[1], "ABLIM1 p Y383")})
-test_that("Testing Cluster 4, PTM 1", {expect_equal(clusters_123a$SED$`4`$PTMnames[1], "ABLIM1 p Y406")})
+test_that("Testing Cluster 3, PTM 1", {expect_equal(clusters_123a$SED$`3`$PTMnames[1], "ABLIM1 p Y406")})
+test_that("Testing Cluster 4, PTM 1", {expect_equal(clusters_123a$SED$`4`$PTMnames[1], "ABLIM1 p Y461")})
 
 #sp_ptms_list
-test_that("Testing Cluster 8, PTM 1", {expect_equal(clusters_123a$Spearman$`8`$PTMnames[1], "ABLIM1 ubi K8")})
-test_that("Testing Cluster 13, PTM 1", {expect_equal(clusters_123a$Spearman$`13`$PTMnames[1], "APH1A ubi K95")})
-test_that("Testing Cluster 21, PTM 2", {expect_equal(clusters_123a$Spearman$`21`$PTMnames[2], "ATP6V0D1 p Y347")})
+test_that("Testing Cluster 8, PTM 1", {expect_equal(clusters_123a$Spearman$`8`$PTMnames[1], "APH1A p Y256")})
+test_that("Testing Cluster 13, PTM 1", {expect_equal(clusters_123a$Spearman$`13`$PTMnames[1], "APP ubi K763")})
+test_that("Testing Cluster 21, PTM 2", {expect_equal(clusters_123a$Spearman$`21`$PTMnames[2], "CTTN p Y199")})
 
 #Cleanup
 rm(matrix_123a, envir = .GlobalEnv)
