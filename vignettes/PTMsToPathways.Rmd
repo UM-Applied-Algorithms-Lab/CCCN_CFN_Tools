@@ -43,7 +43,8 @@ Below is an example of the input dataset:
 PTMsToPathways::ex.ptmtable[38:50, 1:6]
 ```
 
-Note that the rownames are not important and will not be used. The first column is the gene name associated with the protein. The second is the type of post-translational modification that occurred. The third column is the location of the post-translational modification. All of subsequent columns, regardless of how many there are, are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer.  
+Note that it is very important that the rownames are the names of post-translational modifications. All of their respective columns are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer. We also ask that ambigious PTMs, cases where a PTM could be any one of a group of PTMs are seperated by semicolons. (I.e. "AARS ubi k747; AMBLIL p U123").
+
 
 # Pipeline  
 
