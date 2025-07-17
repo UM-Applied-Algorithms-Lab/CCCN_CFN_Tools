@@ -3,9 +3,12 @@
 #' A helper function that sets the patterns to clean the string with
 #' 
 #' @example set.cleaner()
-set.cleaner <- function(){
+set.cleaner <- function(newpatterns, overwrite = TRUE){
   
+  if(!overwrite) newpatterns <- c(package.PTMsToPathways.patterns, newpatterns)
   
+  assignme <- newpatterns[order(nchar(newpatterns), newpatterns, decreasing = TRUE)]
+  assign("package.PTMsToPathways.patterns", assignme, envir = .GlobalEnv)
 }
 
 #' Clean String
@@ -17,7 +20,7 @@ set.cleaner <- function(){
 #' 
 #' @example clean.string("H#el_lK~o, K*Wo$r$l\\|d!")
 clean.string <- function(string){
-  for(p in PTMsToPathways.patterns) string <- gsub(p, "", string)
+  for(p in package.PTMsToPathways.patterns) string <- gsub(p, "", string)
   return(string)
 }
 
