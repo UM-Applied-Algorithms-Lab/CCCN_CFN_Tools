@@ -28,7 +28,6 @@ GetRtsne <- function(table, iter=5000){
 #' Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 #'
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
-#' @param name.columns The columns which contain names. Handles via merging them into 1 string. If 0, will take rownames instead.
 #' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS")); default is 2
 #' @param correlation.matrix.name Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 #' @param clusters.list.name Desired name for the lists of clusters to be saved as; defaults to clusters.list
@@ -39,20 +38,19 @@ GetRtsne <- function(table, iter=5000){
 #' @export
 #'
 #' @examples
-#' MakeClusterList(ex.ptmtable, name.columns = 1:3, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
+#' MakeClusterList(ex.ptmtable, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
 #' utils::head(ex.ptm.correlation.matrix[, c(1,2,3,4,5)])
 #' print(ex.clusters.list[[1]][1])
 #' print(ex.clusters.list[[2]][1])
 #' print(ex.clusters.list[[3]][1])
-MakeClusterList <- function(ptmtable, name.columns = 1:3, keeplength = 2, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5){
+MakeClusterList <- function(ptmtable, keeplength = 2, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
   # Add if statement here to make sure functions are formatted correctly #
   # Ensure ptmtable is a data frame with numeric values #
-  if(!identical(name.columns, 0)) PTMnames <- sort(unlist(apply(ptmtable[name.columns], 1, paste, collapse=" "))) #Concatinate all strings by rows in the given columns
-  else PTMnames <- sort(rownames(ptmtable)) #Try and take rownames
-  ptmtable.sp <- apply(ptmtable[,-name.columns], 1:2, as.numeric) #Exclude colnames from matrix and test to make sure they are numbers
+  PTMnames <- sort(rownames(ptmtable))
+  ptmtable.sp <- apply(ptmtable, 1:2, as.numeric) #Exclude colnames from matrix and test to make sure they are numbers
 
   # Calculate Spearman correlation #
   ptm.correlation.matrix <- stats::cor(t(ptmtable.sp), use = "pairwise.complete.obs", method = "spearman")
