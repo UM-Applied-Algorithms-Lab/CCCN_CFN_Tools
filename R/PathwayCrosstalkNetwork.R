@@ -22,8 +22,8 @@ PTPedgelist.to.igraph <- function(df){
 #' @export
 #'
 #' @examples
-#' PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters)
-PathwayCrosstalkNetwork <- function(file = "bioplanet.csv", common.clusters, edgelist.name = "PTPedgelist"){
+#' PathwayCrosstalkNetwork(ex.common.clusters, ex.bioplanet)
+PathwayCrosstalkNetwork <- function(common.clusters, file = "bioplanet.csv", edgelist.name = "PTPedgelist"){
 
 
   #### Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL ###

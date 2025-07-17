@@ -18,24 +18,6 @@
 
 
 
-#' CoCluster Correlation Network
-#'
-#' Network of relationships between genes based on clustering of ptms from the three distance metrics.
-#'
-#' @keywords internal
-#'
-#' @format Square matrix with 19 rows and columns:
-#' \describe{
-#'   \item{rows/columns}{Gene}
-#'   \item{values}{Strength of correlation}
-#' }
-#' @source "created by MakeCorrelationNetwork"
-#' @examples
-#' head(ex.cccn.matrix)
-"ex.cccn.matrix"
-
-
-
 #' Pathways List Example
 #'
 #' A named list with names of Pathways and string vectors that hold all the gene symbols from those pathways
@@ -298,6 +280,8 @@
 #' head(ex.PTPedgelist)
 "ex.PTPedgelist"
 
+
+
 #' Funckey
 #'
 #' DESCRIPTION
@@ -320,6 +304,8 @@
 #' head(ex.funckey)
 "ex.funckey"
 
+
+
 #' CPE matrix example
 #'
 #' Scores that represents how likely it is that a pathway interacts with a given cluster. Matrix of Clusters x Pathways.
@@ -335,6 +321,8 @@
 #' @examples
 #' ex.CPE.matrix[c(1,2) , c(1,2)]
 "ex.CPE.matrix"
+
+
 
 #' Filtered Correlation Matrix example
 #'
@@ -352,6 +340,8 @@
 #' ex.ptm.cccn[c(1,2) , c(1,2)]
 "ex.ptm.cccn"
 
+
+
 #' Gene CoCluster Network example
 #'
 #' A version of the PTM cccn that works at the Gene level instead of the PTm level
@@ -367,6 +357,8 @@
 #' @examples
 #' ex.gene.cccn[c(1,2) , c(1,2)]
 "ex.gene.cccn"
+
+
 
 #' All Tsne Coords
 #'
@@ -384,10 +376,12 @@
 #' ex.all.tsne.coords[1]
 "ex.all.tsne.coords"
 
+
+
 #' Patterns
-#' 
+#'
 #' A list of unacceptable patterns that need to be removed from PTM names
-#' 
+#'
 #' @keywords internal
 #' @format Character vector
 #' \describe{
@@ -397,3 +391,22 @@
 #' @examples
 #' package.PTMsToPathways.patterns
 "package.PTMsToPathways.patterns"
+
+
+
+#' Jaccard Example
+#'
+#' A matrix measuring the Jaccard similarity between pairs ofpathways
+#'
+#' @keywords internal
+#'
+#' @format Matrix with 36 rows and 3 columns:
+#' \describe{
+#'   \item{V1}{Pathway One}
+#'   \item{V2}{Pathway Two}
+#'   \item{jaccard.values}{Jaccard similarity between the two pathways}
+#' }
+#' @source "created by PathwayCrosstalkNetwork"
+#' @examples
+#' head(ex.Jaccard.Full)
+"ex.Jaccard.Full"
