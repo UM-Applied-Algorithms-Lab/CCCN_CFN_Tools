@@ -20,7 +20,7 @@ Imports:
     vegan,
     utils,
 Suggests: 
-    Biocmanager,
+    BiocManager,
     STRINGdb,
     RCy3,
     knitr,

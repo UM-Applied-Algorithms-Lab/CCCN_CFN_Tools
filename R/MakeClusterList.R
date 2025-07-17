@@ -28,22 +28,26 @@ GetRtsne <- function(table, iter=5000){
 #' Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 #'
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
-#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS")); default is 2
 #' @param correlation.matrix.name Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix
 #' @param clusters.list.name Desired name for the lists of clusters to be saved as; defaults to clusters.list
 #' @param tsne.coords.name Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords
 #' @param common.clusters.name Desired name for the clusters that all 3 methods found in common; defaults to common.clusters
+#' @param keeplength Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS")); default is 2
 #' @param toolong A numeric threshold for cluster separation, defaults to 3.5.
 #' @return The correlation matrix: A data frame showing the correlation between ptms (as the rows and the columns) with NAs placed along the diagonal; and A list of three-dimensional data frames used to represent ptms in space to show relationships between them based on distances. Based on Euclidean Distance, Spearman Dissimilarity, and SED (the average between the two)
 #' @export
 #'
 #' @examples
-#' MakeClusterList(ex.ptmtable, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
+#' ex.ptm.cor <- "ex.ptm.correlation.matrix"
+#' ex.clusters <- "ex.clusters.list"
+#' ex.tsnes <- "ex.all.tsne.coords"
+#' ex.commons <- "ex.common.clusters"
+#' MakeClusterList(ex.ptmtable, ex.ptm.cor, ex.clusters, ex.tsnes, ex.commons)
 #' utils::head(ex.ptm.correlation.matrix[, c(1,2,3,4,5)])
 #' print(ex.clusters.list[[1]][1])
 #' print(ex.clusters.list[[2]][1])
 #' print(ex.clusters.list[[3]][1])
-MakeClusterList <- function(ptmtable, keeplength = 2, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5){
+MakeClusterList <- function(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", keeplength = 2, toolong = 3.5){
 
   #SPEARMAN CALCULATION
 
@@ -168,7 +172,7 @@ MakeClusterList <- function(ptmtable, keeplength = 2, correlation.matrix.name = 
 
     cl.matrix.list <- lapply(clusters, cluster.as.matrix) #Work on 1 batch of clusters at a time
     temp.matrix <- cl.matrix.list[[1]] #Create the diagonal block matrix
-      
+
     for(i in 2:length(cl.matrix.list)){ #For every cluster in a batch
 
       addme <- cl.matrix.list[[i]] #This is the matrix we want to add
