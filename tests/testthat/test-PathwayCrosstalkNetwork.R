@@ -1,5 +1,5 @@
 #Load Sample Data
-sink(file="noprint_123a") #This redirects all printing to a file named print_123a
+sink(file="noprint_123a") #This redirects all printing to a file named noprint_123a
 PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters, edgelist.name = "edgelist_123a")
 sink()
 
