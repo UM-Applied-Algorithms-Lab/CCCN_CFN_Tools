@@ -2,7 +2,7 @@
 set.seed(1) #Set the seed (very important)
 
 #Load Sample data
-MakeClusterList(ex.ptmtable, correlation.matrix.name = "matrix_123a", clusters.list.name = "clusters_123a", tsne.coords.name = "tsne_123a", common.clusters.name = "common_123a", toolong = 3.5) #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
+MakeClusterList(ex.ptmtable, correlation.matrix.name = "matrix_123a", clusters.list.name = "clusters_123a", tsne.coords.name = "tsne_123a", common.clusters.name = "common_123a", keeplength = 2, toolong = 3.5) #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
 
 #Unit tests for the values of the correlation matrix
 test_that("Diagionals are NA", {expect_equal(matrix_123a[10,10], NA)})
