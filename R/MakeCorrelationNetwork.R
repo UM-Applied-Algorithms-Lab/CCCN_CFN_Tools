@@ -14,7 +14,6 @@
 #' @examples
 #' ex.ptm.cor <- ex.ptm.correlation.matrix
 #' MakeCorrelationNetwork(ex.common.clusters, ex.ptm.cor, "ex.ptm.cccn", "ex.gene.cccn")
-#' print(ex.clusters.common[c(1, 2, 3)])
 #' ex.ptm.cccn[1:5, 1:5]
 #' ex.gene.cccn[1:5, 1:5]
 MakeCorrelationNetwork <- function(common.clusters, ptm.correlation.matrix, ptm.cccn.name = "ptm.cccn", gene.cccn.name = "gene.cccn"){
