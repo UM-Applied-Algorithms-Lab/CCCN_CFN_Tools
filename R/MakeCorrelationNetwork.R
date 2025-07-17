@@ -1,21 +1,22 @@
 #' Make Correlation Network
 #'
-#' Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. 
-#' It groups the PTM correlation matrix based on the Genes of PTMs. 
-#' By summing these submatrices, it also produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
+#' Make Correlation Network filters a correlation matrix of PTMs by specific PTMs.
+#' It groups the PTM correlation matrix based on the Genes of PTMs.
+#' By summing these submatrices, it also produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 #'
 #' @param common.clusters A list of clusters. Ideally the ones found by MakeClusterList in common_clusters
 #' @param ptm.correlation.matrix A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.
-#' @param ptm.cccn.name Desired name of the PTM correlation matrix filtered by specific PTMs from input 
+#' @param ptm.cccn.name Desired name of the PTM correlation matrix filtered by specific PTMs from input
 #' @param gene.cccn.name Desired name for the cocluster correlation network; defaults to gene.cccn
 #' @return The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @export
 #'
 #' @examples
 #' ex.ptm.cor <- ex.ptm.correlation.matrix
-#' MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.ptm.cccn", "ex.gene.cccn")
+#' MakeCorrelationNetwork(ex.common.clusters, ex.ptm.cor, "ex.ptm.cccn", "ex.gene.cccn")
 #' print(ex.clusters.common[c(1, 2, 3)])
-#' utils::head(ex.gene.cccn[, c(1,2,3,4,5)])
+#' ex.ptm.cccn[1:5, 1:5]
+#' ex.gene.cccn[1:5, 1:5]
 MakeCorrelationNetwork <- function(common.clusters, ptm.correlation.matrix, ptm.cccn.name = "ptm.cccn", gene.cccn.name = "gene.cccn"){
 
   ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
@@ -39,7 +40,7 @@ MakeCorrelationNetwork <- function(common.clusters, ptm.correlation.matrix, ptm.
 
   for(a in 1:length(ulist)){ #For every cluster
     for(b in 1:length(ulist)){
-      gene.cccn[a, b] <- correlation.value(ulist[[a]], ulist[[b]]) #This adds the correlation value 
+      gene.cccn[a, b] <- correlation.value(ulist[[a]], ulist[[b]]) #This adds the correlation value
     }
   }
 

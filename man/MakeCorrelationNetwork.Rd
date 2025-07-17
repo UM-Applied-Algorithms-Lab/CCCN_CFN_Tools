@@ -30,7 +30,8 @@ By summing these submatrices, it also produces a gene by gene cocluster correlat
 }
 \examples{
 ex.ptm.cor <- ex.ptm.correlation.matrix
-MakeCorrelationNetwork(ex.clusters.list, ex.ptm.cor, 1, "ex.clusters.common", "ex.ptm.cccn", "ex.gene.cccn")
+MakeCorrelationNetwork(ex.common.clusters, ex.ptm.cor, "ex.ptm.cccn", "ex.gene.cccn")
 print(ex.clusters.common[c(1, 2, 3)])
-utils::head(ex.gene.cccn[, c(1,2,3,4,5)])
+ex.ptm.cccn[1:5, 1:5]
+ex.gene.cccn[1:5, 1:5]
 }
