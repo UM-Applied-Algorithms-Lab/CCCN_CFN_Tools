@@ -1,4 +1,19 @@
-fix.excel <- function(vector) {  
+
+
+clean.string <- function(string){
+  
+}
+
+#' Fix Excel
+#'
+#' A helper function that tries to identify dates and turn them into the names of common ptms such as 1-Sep -> SEPT1
+#' NOTE: This should probably be called over an entire table for user simplicity
+#' 
+#' @param vector A character vector (ideally a column of a table)
+#' @return A fixed version of the character vector
+#' 
+#' @example dates.to.ptms(c( "ABLIM1", "APP", "CTTN", "7-Sep", "CTTN", "DNM2" ))
+dates.to.ptms <- function(vector){  
   
   #hashtable: input what needs to be fixed, output the fixed version
   correct.to <- c("CDK1", "SEPT1", "SEPT2", "SEPT3", "SEPT4", "SEPT5", "SEPT7", "SEPT8", "SEPT9", "SEPT10", "SEPT11", "SEPT15", "SEPT6", "POU2F1", "POU2F2", "POU5F1", "POU5F1", "POU3F1", "POU3F2", "POU2F3", "MARCH1", "MARCH2", "MARCH3", "MARCH4", "MARCH5", "MARCH6", "MARCH7", "MARCH8", "MARCH9", "MARCH10", "MARCH11", "SMAP", "EFCAB13", "BRK1", "NYAP1", "LAMTOR1", 'AP1AR', "DEC1", "SEPT14")

@@ -152,9 +152,7 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, keeplength = 2, correl
 
 
   ### Create common clusters ###
-
-  #Helper function to turn a cluster (as a char vector) into a square matrix of 1s
-  cluster.as.matrix <- function(cl){
+  cluster.as.matrix <- function(cl){ #Helper function to turn a cluster (as a char vector) into a square matrix of 1s
     cl <- cl$PTMnames
     len <- length(cl)
     mat <- matrix(1, len, len)
@@ -171,19 +169,18 @@ MakeClusterList <- function(ptmtable, name.columns = 1:3, keeplength = 2, correl
   for(clusters in clusters.list){   #Run for every batch of clusters, run cluster.as.matrix over all of them and turn them into a diagional block matrix
 
     cl.matrix.list <- lapply(clusters, cluster.as.matrix) #Work on 1 batch of clusters at a time
-
     temp.matrix <- cl.matrix.list[[1]] #Create the diagonal block matrix
+      
+    for(i in 2:length(cl.matrix.list)){ #For every cluster in a batch
 
-      for(i in 2:length(cl.matrix.list)){ #For every cluster in a batch
+      addme <- cl.matrix.list[[i]] #This is the matrix we want to add
+      row.temp <- nrow(temp.matrix)   #Since the number of rows in temp matrix changes
 
-        addme <- cl.matrix.list[[i]] #This is the matrix we want to add
-        row.temp <- nrow(temp.matrix)   #Since the number of rows in temp matrix changes
-
-        temp.matrix <- rbind(temp.matrix, matrix(0, nrow = nrow(addme), ncol = ncol(temp.matrix))) #Make a matrix that is returnmatrix + addme by returnmatrix + addme by filling with 0s
-        addme <- rbind(matrix(0, nrow=row.temp, ncol=ncol(addme)), addme)
-        temp.matrix <- cbind(temp.matrix, addme)
-        rownames(temp.matrix) <- colnames(temp.matrix) #I loathe that I have to do this
-      }
+      temp.matrix <- rbind(temp.matrix, matrix(0, nrow = nrow(addme), ncol = ncol(temp.matrix))) #Make a matrix that is returnmatrix + addme by returnmatrix + addme by filling with 0s
+      addme <- rbind(matrix(0, nrow=row.temp, ncol=ncol(addme)), addme)
+      temp.matrix <- cbind(temp.matrix, addme)
+      rownames(temp.matrix) <- colnames(temp.matrix) #I loathe that I have to do this
+    }
 
     temp.matrix <- temp.matrix[,sort(colnames(temp.matrix))] #Sort the matrices so they line up
     temp.matrix <- temp.matrix[sort(rownames(temp.matrix)),]
