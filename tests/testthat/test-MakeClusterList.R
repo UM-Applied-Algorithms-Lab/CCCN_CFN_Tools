@@ -42,3 +42,4 @@ test_that("OAT p Y126 in cluster 6", {expect_equal("OAT p Y126" %in% common_123a
 rm(matrix_123a, envir = .GlobalEnv)
 rm(clusters_123a, envir = .GlobalEnv)
 rm(tsne_123a, envir = .GlobalEnv)
+rm(common_123a, envir = .GlobalEnv)
