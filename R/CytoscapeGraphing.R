@@ -1,11 +1,8 @@
-# NOTE TO SELF: rewrite node color mapping like edge width mapping? to get the ranges based on the data set quartiles
-# SECOND NOTE TO SELF: use QUARTILES rather than summary to get better range quartile(x, 0.whatever)
-
 # helper function
 NodeAppMap <- function(visual.style.name){                                                         # maps colors based on score
-  cf <- getTableColumns('node')                                                                    # gets the table (kind of want to clean this up and just pass in node.table like below)
+  cf <- RCy3::getTableColumns('node')                                                              # gets the table (kind of want to clean this up and just pass in node.table like below)
   limits <- range(cf[, "score"])                                                                   # gets RANGE of scores from table
-  node.sizes <- c(135, 130, 108, 75, 35, 75, 108, 130, 135)                                       # set node sizes
+  node.sizes <- c(135, 130, 108, 75, 35, 75, 108, 130, 135)                                        # set node sizes
   size.control.points = c (-100.0, -15.0, -5.0, 0.0, 5.0, 15.0, 100.0)
   color.control.points = c (-20.0, -10.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0)                   # Blue is negative, Yellow positive, Green in middle
   if(limits[1] < min(size.control.points)) {
@@ -19,11 +16,11 @@ NodeAppMap <- function(visual.style.name){                                      
 
   node.colors = c('#0099FF', '#007FFF','#00BFFF', '#00CCFF', '#00FFFF', '#00EE00', '#FFFF7E', '#FFFF00', '#FFE600', '#FFD700', '#FFCC00')  # colors line up to the ranges
 
-  setNodeColorMapping("score", color.control.points, node.colors, 'c', style.name = visual.style.name)                                     # set node color mapping
-  setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                                # set selection color
-  lockNodeDimensions('TRUE', style = visual.style.name)                                                                                    # width and height locked together
+  RCy3::setNodeColorMapping("score", color.control.points, node.colors, 'c', style.name = visual.style.name)                               # set node color mapping
+  RCy3::setNodeSelectionColorDefault ( "#CC00FF", style.name = visual.style.name)                                                          # set selection color
+  RCy3::lockNodeDimensions('TRUE', style = visual.style.name)                                                                              # width and height locked together
 
-  setNodeSizeMapping(table.column = "score", table.column.values = size.control.points, sizes = node.sizes, mapping.type = 'c', default.size = 103, style.name = visual.style.name) # set node size mapping
+  RCy3::setNodeSizeMapping(table.column = "score", table.column.values = size.control.points, sizes = node.sizes, mapping.type = 'c', default.size = 103, style.name = visual.style.name) # set node size mapping
 }
 
 
@@ -33,13 +30,13 @@ NodeAppMap <- function(visual.style.name){                                      
 # helper function
  EdgeAppMap <- function(visual.style.name){
 
-  edgevalues <- getTableColumns('edge',c('shared name', 'shared interaction', 'weight', 'interaction')) # get edge values
-  edgevalues['weight'] <- abs(as.numeric(edgevalues['weight'][[1]]))                                    # make weights pos
-  edgevalues['weight'] <- lapply(edgevalues['weight'], function(x) log2(x * 10) + 2)                    # make scale logarithmic
+  edgevalues <- RCy3::getTableColumns('edge',c('shared name', 'shared interaction', 'weight', 'interaction')) # get edge values
+  edgevalues['weight'] <- abs(as.numeric(edgevalues['weight'][[1]]))                                          # make weights pos
+  edgevalues['weight'] <- lapply(edgevalues['weight'], function(x) log2(x * 10) + 2)                          # make scale logarithmic
 
-  colnames(edgevalues) <- c('shared name', 'shared interaction', 'width', 'interaction')                # rename it width bc we're doing passthrough mapping
+  colnames(edgevalues) <- c('shared name', 'shared interaction', 'width', 'interaction')                      # rename it width bc we're doing passthrough mapping
 
-  setEdgeSelectionColorDefault ("#FF69B4", style.name = visual.style.name)                              # selection edge color
+  RCy3::setEdgeSelectionColorDefault ("#FF69B4", style.name = visual.style.name)                              # selection edge color
 
   # list of all edge types (you only have SOME in data set, Maddie)
   edgeTypes <- c("PHOSPHORYLATION", "pp", "controls-phosphorylation-of", "controls-expression-of", "controls-transport-of", "controls-state-change-of", "ACETYLATION", "Physical interactions", "BioPlex", "in-complex-with", 'experiments', 'experiments_transferred', 'database', 'database_transfered', "Pathway", "Predicted", "Genetic interactions", "correlation", "negative correlation", "positive correlation", 'combined_score', "merged" , "intersect", "peptide", 'homology', "Shared protein domains")
@@ -68,13 +65,13 @@ NodeAppMap <- function(visual.style.name){                                      
   if (length(edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 'interaction']) > 0) {              # make interaction of ACETYLATION shared interaction "ACETYLATION"
     edgevalues[grep("ACETYLATION", edgevalues$'shared interaction'), 'interaction'] <- "ACETYLATION"}
 
-  loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')                                            # load the table
+  RCy3::loadTableData(edgevalues, table = 'edge', table.key.column = 'SUID')                                      # load the table
 
-  matchArrowColorToEdge('TRUE', style.name = visual.style.name)                                                   # match arrow color to edge color (love RCy3 for this)
+  RCy3::matchArrowColorToEdge('TRUE', style.name = visual.style.name)                                             # match arrow color to edge color (love RCy3 for this)
 
-  setEdgeLineWidthMapping('width', mapping.type = 'p', style.name = visual.style.name)                                     # map the edge width
-  setEdgeTargetArrowMapping('interaction', edgeTypes, myarrows, default.shape='None', style.name = visual.style.name)      # map the target arrow
-  setEdgeColorMapping('interaction', edgeTypes, edgecolors, 'd', default.color="#FFFFFF", style.name = visual.style.name)  # map the edge color
+  RCy3::setEdgeLineWidthMapping('width', mapping.type = 'p', style.name = visual.style.name)                                     # map the edge width
+  RCy3::setEdgeTargetArrowMapping('interaction', edgeTypes, myarrows, default.shape='None', style.name = visual.style.name)      # map the target arrow
+  RCy3::setEdgeColorMapping('interaction', edgeTypes, edgecolors, 'd', default.color="#FFFFFF", style.name = visual.style.name)  # map the edge color
 
 }
 
@@ -91,13 +88,13 @@ NodeBorderMapping <- function(visual.style.name){
   nodeshapes <- c("ELLIPSE","ROUND_RECTANGLE", "VEE", "VEE", "TRIANGLE", "HEXAGON", "DIAMOND", "OCTAGON", "OCTAGON", "PARALLELOGRAM", "RECTANGLE")
 
   # map molecule classes to node shapes
-  setNodeShapeMapping ("node.type", molclasses, nodeshapes, default.shape="ELLIPSE", style.name = visual.style.name)
+  RCy3::setNodeShapeMapping ("node.type", molclasses, nodeshapes, default.shape="ELLIPSE", style.name = visual.style.name)
   # map node.type with this list of molecule types to different widths
-  setNodeBorderWidthMapping("node.type", c("acetyltransferase", "methyltransferase", "membrane protein", "receptor tyrosine kinase", "G protein-coupled receptor", "SRC-family kinase", "tyrosine kinase", "kinase", "phosphatase"),
+  RCy3::setNodeBorderWidthMapping("node.type", c("acetyltransferase", "methyltransferase", "membrane protein", "receptor tyrosine kinase", "G protein-coupled receptor", "SRC-family kinase", "tyrosine kinase", "kinase", "phosphatase"),
                             widths=c(12,12,8,16,16,12,12,12,14), mapping.type = 'd', default.width = 4, style.name = visual.style.name)
 
   # map the different molecule types to these different node border colors
-  setNodeBorderColorMapping(
+  RCy3::setNodeBorderColorMapping(
     table.column = "node.type",
     table.column.values = c("deacetylase", "acetyltransferase", "demethylase", "methyltransferase", "membrane protein", "kinase", "tyrosine kinase", "SRC-family kinase", "phosphatase", "tyrosine phosphatase", "G protein-coupled receptor", "receptor tirosine kinase"),
     colors = c("#FF8C00", "#FF8C00", "#005CE6", "#005CE6", "#6600CC", "#EE0000", "#EE0000", "#EE0000", "#FFEC8B", "#FFEC8B", "#BF3EFF", "#BF3EFF"),
@@ -117,31 +114,31 @@ SetStandards <- function(visual.style.name,
                          edge.line.style,edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity
                          ){
 
-  setNodeLabelPositionDefault("C", "C", "c", 0, 0, visual.style.name)  # What part of the node label is aligned "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
-                                                                       # to what part of the node graphic       "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
-                                                                       # "l", "r", "c"
-                                                                       # amount offset in the x direction
-                                                                       # amount offset in the y direction
+  RCy3::setNodeLabelPositionDefault("C", "C", "c", 0, 0, visual.style.name)  # What part of the node label is aligned "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
+                                                                             # to what part of the node graphic       "C", "NW", "N", "NE", "E", "SE", "S", "SW", "W"
+                                                                             # "l", "r", "c"
+                                                                             # amount offset in the x direction
+                                                                             # amount offset in the y direction
 
   # CUSTOMIZED: user inputs can change the following:
 
   # colors
-  setBackgroundColorDefault(background.color, visual.style.name)       # set color of background
-  setEdgeLabelColorDefault(edge.label.color, visual.style.name)        # set color of edge label
-  setNodeLabelColorDefault(node.label.color, visual.style.name)        # set color of node name
+  RCy3::setBackgroundColorDefault(background.color, visual.style.name)       # set color of background
+  RCy3::setEdgeLabelColorDefault(edge.label.color, visual.style.name)        # set color of edge label
+  RCy3::setNodeLabelColorDefault(node.label.color, visual.style.name)        # set color of node name
   # fonts
-  setEdgeFontFaceDefault(default.font, visual.style.name)              # set font of edge
-  setNodeFontFaceDefault(default.font, visual.style.name)              # set font of node name (Initial Default UNKNOWN (not TNR or Arial))
-  setEdgeFontSizeDefault(edge.font.size, visual.style.name)            # set font size of edge (Initial Default 12)
-  setNodeFontSizeDefault(node.font.size, visual.style.name)            # set font size of node name (Initial Default 12)
+  RCy3::setEdgeFontFaceDefault(default.font, visual.style.name)              # set font of edge
+  RCy3::setNodeFontFaceDefault(default.font, visual.style.name)              # set font of node name (Initial Default UNKNOWN (not TNR or Arial))
+  RCy3::setEdgeFontSizeDefault(edge.font.size, visual.style.name)            # set font size of edge (Initial Default 12)
+  RCy3::setNodeFontSizeDefault(node.font.size, visual.style.name)            # set font size of node name (Initial Default 12)
   # shape/style
-  setEdgeLineStyleDefault(edge.line.style, visual.style.name)          # "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
+  RCy3::setEdgeLineStyleDefault(edge.line.style, visual.style.name)          # "PARALLEL_LINES", "MARQUEE_EQUAL", "DOT", "EQUAL_DASH", "LONG_DASH", "CONTIGUOUS_ARROW", "MARQUEE_DASH", "DASH_DOT", "BACKWARD_SLASH", "FORWARD_SLASH", "VERTICAL_SLASH", "SOLID", "SEPARATE_ARROW", "MARQUEE_DASH_DOT", "ZIGZAG", "SINEWAVE"
   # opacity
-  setEdgeOpacityDefault(edge.opacity, visual.style.name)               # set opacity of edge; 0 - 255 w 0 --> translucent
-  setEdgeLabelOpacityDefault(edge.label.opacity, visual.style.name)    # set opacity of edge label; 0 - 255 w 0 --> translucent
-  setNodeBorderOpacityDefault(border.opacity, visual.style.name)       # set opacity of border of node; 0 - 255 w 0 --> translucent
-  setNodeFillOpacityDefault(node.fill.opacity, visual.style.name)      # set opacity of interior color of node; 0 - 255 w 0 --> translucent
-  setNodeLabelOpacityDefault(node.label.opacity, visual.style.name)    # set opacity of name of node; 0 - 255 w 0 --> translucent
+  RCy3::setEdgeOpacityDefault(edge.opacity, visual.style.name)               # set opacity of edge; 0 - 255 w 0 --> translucent
+  RCy3::setEdgeLabelOpacityDefault(edge.label.opacity, visual.style.name)    # set opacity of edge label; 0 - 255 w 0 --> translucent
+  RCy3::setNodeBorderOpacityDefault(border.opacity, visual.style.name)       # set opacity of border of node; 0 - 255 w 0 --> translucent
+  RCy3::setNodeFillOpacityDefault(node.fill.opacity, visual.style.name)      # set opacity of interior color of node; 0 - 255 w 0 --> translucent
+  RCy3::setNodeLabelOpacityDefault(node.label.opacity, visual.style.name)    # set opacity of name of node; 0 - 255 w 0 --> translucent
 
 }
 
@@ -151,9 +148,12 @@ SetStandards <- function(visual.style.name,
 
 #' Graph Cluster Filtered Network
 #'
-#' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
+#' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the Cytoscape app open and the RCy3 package downloaded.
 #'
-#' If error occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+#' RCy3 is required for this function. To download, run:
+#' if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+#' BiocManager::install("RCy3")
+#' If RCy3 is installed and the Cytoscape App is open and an error still occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
 #'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
@@ -191,16 +191,11 @@ GraphCfn <- function(cfn, ptmtable, funckey = PTMsToPathways::ex.funckey, Networ
                      edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
                      ){
 
-  if(!(exists("RCy3"))){                      # check if RCy3 is libraried
-    if(system.file(package="RCy3") == ""){    # check if RCy3 is installed at all
-      BiocManager::install(version='devel')   # The following initializes usage of Bioc devel
-      BiocManager::install("RCy3")            # install!
-    }
-    library("RCy3")                           # library
-    cytoscapePing()                           # ensure connection?
+  if(!requireNamespace("RCy3", quietly = TRUE)){                                                                       # check RCy3 downloaded
+    stop("In order to use this function, please download RCy3 as described in the vignette, the readme, and the function documentation.")
   }
 
-
+  RCy3::cytoscapePing()                                                                                                 # ensure connection?
 
   # ACTUAL CODE AND DATA PROCESSING
 
@@ -225,30 +220,30 @@ GraphCfn <- function(cfn, ptmtable, funckey = PTMsToPathways::ex.funckey, Networ
 
   # enter vals for node table
   cfn.nodes$id <- genes
-  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))   # steal node type from funckey
-  cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$Gene == x)])))              # steal score from ptmnew
+  cfn.nodes$node.type <- as.character(sapply(cfn.nodes$id, function(x) funckey$nodeType[which(funckey$Gene.Name == x)]))     # steal node type from funckey
+  cfn.nodes$score <- as.numeric(sapply(cfn.nodes$id, function(x) sum(ptmnew$score[which(ptmnew$Gene == x)])))                # steal score from ptmnew
 
-  cyscape <- createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection)     # create network (not sure if storing it does anything?)
+  cyscape <- RCy3::createNetworkFromDataFrames(cfn.nodes, cfn.edges, title = Network.title, collection = Network.collection) # create network (not sure if storing it does anything?)
 
-  copyVisualStyle("default", visual.style.name)   # create visual style
+  RCy3::copyVisualStyle("default", visual.style.name)   # create visual style
 
 
 
   # CUSTOMIZATION FROM HERE ON OUT
 
-  setNodeLabelMapping("id", style.name = visual.style.name)   # make the label names appear
+  RCy3::setNodeLabelMapping("id", style.name = visual.style.name)   # make the label names appear
 
-  SetStandards(visual.style.name,                             # we got standards in this joint
+  SetStandards(visual.style.name,                                   # we got standards in this joint
                background.color, edge.label.color, node.label.color, default.font, node.font.size, edge.font.size,
                edge.line.style,edge.opacity, edge.label.opacity, border.opacity, node.label.opacity, node.fill.opacity)
 
-  NodeAppMap(visual.style.name)                               # map the node colors CURRENTLY NOT SIZES
+  NodeAppMap(visual.style.name)                                     # map the node colors CURRENTLY NOT SIZES
 
-  EdgeAppMap(visual.style.name)                               # map edge width CURRENTLY NOT COLORS
+  EdgeAppMap(visual.style.name)                                     # map edge width CURRENTLY NOT COLORS
 
-  NodeBorderMapping(visual.style.name)                        # map node border (color, thickness)
+  NodeBorderMapping(visual.style.name)                              # map node border (color, thickness)
 
-  setVisualStyle(visual.style.name)                           # set vis style
+  RCy3::setVisualStyle(visual.style.name)                           # set vis style
 
 }
 
@@ -300,14 +295,11 @@ GraphCfn <- function(cfn, ptmtable, funckey = PTMsToPathways::ex.funckey, Networ
 #                     edge.opacity = 175, edge.label.opacity = 255, border.opacity = 255, node.label.opacity = 255, node.fill.opacity = 255
 #                     ){
 #
-#  if(!(exists("RCy3"))){                      # check if RCy3 is libraried
-#    if(system.file(package="RCy3") == ""){    # check if RCy3 is installed at all
-#      BiocManager::install(version='devel')   # The following initializes usage of Bioc devel
-#      BiocManager::install("RCy3")            # install!
+#  if(!requireNamespace("RCy3", quietly = TRUE)){                                                                       # check RCy3 downloaded
+#    stop("In order to use this function, please download RCy3 as described in the vignette, the readme, and the function documentation.")
 #    }
-#    library("RCy3")                           # library
-#    cytoscapePing()                           # ensure connection?
-#  }
+#
+#  RCy3::cytoscapePing()                                                                                                 # ensure connection?
 #
 #  # ACTUAL CODE AND DATA PROCESSING
 #

@@ -39,6 +39,11 @@ cccn_to_nodenames <- function(gene.cccn, nodenames.name = 'nodenames'){
 #'
 #' This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 #'
+#' STRINGdb is required for this function. To download, run:
+#' if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+#' BiocManager::install("STRINGdb")
+#' The full example takes ~10 minutes to load, so it has been commented out and the results are displayed.
+#'
 #' @param gene.cccn A matrix showing strength of relationships between proteins using common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @param stringdb.name Desired name for the output STRINGdb data frame; defaults to "stringdb.edges"
 #' @param nodenames.name Desired name for list of gene names; defaults to nodenames
@@ -47,36 +52,26 @@ cccn_to_nodenames <- function(gene.cccn, nodenames.name = 'nodenames'){
 #' @export
 #'
 #' @examples
-#' GetSTRINGdb(ex.gene.cccn, 'ex.stringdb.edges', 'ex.nodenames')
+#' # GetSTRINGdb(ex.gene.cccn, 'ex.stringdb.edges', 'ex.nodenames')
 #' utils::head(ex.stringdb.edges)
 #' utils::head(ex.nodenames)
 GetSTRINGdb <- function(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "nodenames") {
   nodenames <- cccn_to_nodenames(gene.cccn, nodenames.name)
 
-  if (!exists("STRINGdb")){                          # check if stringdb is libraried
-
-    if(system.file(package="STRINGdb") == ""){       # check if stringdb is installed at all
-
-      BiocManager::install("STRINGdb")               # install!
-    }
-    library(STRINGdb)                                # library it
+  if(!requireNamespace("STRINGdb", quietly = TRUE)){
+    stop("In order to use this function, please download STRINGdb as described in the vignette, the readme, and the function documentation.")
   }
 
   # Initialize the STRING database object
-  string.db <- STRINGdb$new(version="12.0", species=9606, score_threshold=0, network_type="full", link_data='full', input_directory="")
+  string.db <- STRINGdb::STRINGdb$new(version="12.0", species=9606, score_threshold=0, network_type="full", link_data='full', input_directory="")
 
   # Retrieve the proteins from the STRING database
   string.proteins <- string.db$get_proteins()
-
-  if (!"Gene.Names" %in% colnames(nodenames)) {
-    stop("Column 'Gene.Names' not found in nodenames.")
-  }
 
   # Map the genes to STRING IDs
   # please note that nodenames replaces the previous "input_dataset"; nodenames appears to work well :)
   # Gene.Names also replaces experimental
   mapped.genes <- string.db$map(nodenames, "Gene.Names", removeUnmappedRows = TRUE)
-  print(utils::head(mapped.genes))
 
   # Retrieve the interactions for the mapped genes
   interactions <- string.db$get_interactions(mapped.genes$STRING_id)

@@ -18,12 +18,11 @@ Imports:
     plyr,
     igraph,
     vegan,
-    dplyr,
     utils,
-    BiocManager,
-    STRINGdb,
-    RCy3
 Suggests: 
+    Biocmanager,
+    STRINGdb,
+    RCy3,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

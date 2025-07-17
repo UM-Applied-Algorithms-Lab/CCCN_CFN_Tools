@@ -66,10 +66,13 @@ GraphCfn(
 A cytoscape graph of the cluster filtered network
 }
 \description{
-Creates a cytoscape graph of the cluster filtered network. Ensure that you have the cytoscape app open and the RCy3 package downloaded and libraried.
+Creates a cytoscape graph of the cluster filtered network. Ensure that you have the Cytoscape app open and the RCy3 package downloaded.
 }
 \details{
-If error occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+RCy3 is required for this function. To download, run:
+if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+BiocManager::install("RCy3")
+If RCy3 is installed and the Cytoscape App is open and an error still occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
 }
 \examples{
 # GraphCFN(ex.cfn)

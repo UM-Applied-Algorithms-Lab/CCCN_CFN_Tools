@@ -23,8 +23,14 @@ Data frame of consisting of the network of interactions from the genes of study 
 \description{
 This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
 }
+\details{
+STRINGdb is required for this function. To download, run:
+if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+BiocManager::install("STRINGdb")
+The full example takes ~10 minutes to load, so it has been commented out and the results are displayed.
+}
 \examples{
-GetSTRINGdb(ex.gene.cccn, 'ex.stringdb.edges', 'ex.nodenames')
+# GetSTRINGdb(ex.gene.cccn, 'ex.stringdb.edges', 'ex.nodenames')
 utils::head(ex.stringdb.edges)
 utils::head(ex.nodenames)
 }
