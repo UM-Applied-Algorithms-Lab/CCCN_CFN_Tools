@@ -21,7 +21,7 @@ MakeCorrelationNetwork <- function(common.clusters, ptm.correlation.matrix, ptm.
   ### Helper fuction to take the submatrix from ptm.correlation.matrix of every row that starts with gene1 and every col that starts with gene2 ###
   correlation.value <- function(Gene1, Gene2){
     r <- ptm.cccn[
-      grep(paste(Gene1, ""), rownames(ptm.cccn), value = TRUE), #Paste is required so that grep cannot find the gene in another gene. Such as, Gene1 = HAT will identify HIHATH as the same protein
+      grep(paste(Gene1, "."), rownames(ptm.cccn), value = TRUE), #Paste is required so that grep cannot find the gene in another gene. Such as, Gene1 = HAT will identify HIHATH as the same protein
       grep(paste(Gene2, ""), colnames(ptm.cccn), value = TRUE)] #Adding the space makes it so the entire word has to be there
     r <- as.matrix(r) #Needed? if singular value
     return(sum(r, na.rm = TRUE)) #Return sum
@@ -37,12 +37,11 @@ MakeCorrelationNetwork <- function(common.clusters, ptm.correlation.matrix, ptm.
 
   gene.cccn <- matrix(NA, nrow=length(ulist), ncol=length(ulist), dimnames=list(ulist, ulist)) #Initilize empty matrix
 
-  for(d in 1:length(gene.vector)){ #For every cluster
-    cluster <- gene.vector[[d]]    #Save the current cluster
-    for(e in cluster){             #For every element in the cluster
-      for(f in cluster){           #Connect E to F
-        gene.cccn[e, f] <- correlation.value(e, f) #This adds the correlation value
-  }}}
+  for(a in 1:length(ulist)){ #For every cluster
+    for(b in 1:length(ulist)){
+      gene.cccn[a, b] <- correlation.value(ulist[[a]], ulist[[b]]) #This adds the correlation value 
+    }
+  }
 
   gene.cccn[gene.cccn==0] <- NA # Replace 0 with NA in the correlation matrix
   diag(gene.cccn) <- NA # Remove self-loops by setting diagonal to NA
