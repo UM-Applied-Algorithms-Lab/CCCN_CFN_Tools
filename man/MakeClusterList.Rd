@@ -6,18 +6,16 @@
 \usage{
 MakeClusterList(
   ptmtable,
-  keeplength = 2,
   correlation.matrix.name = "ptm.correlation.matrix",
   clusters.list.name = "clusters.list",
   tsne.coords.name = "all.tsne.coords",
   common.clusters.name = "common.clusters",
+  keeplength = 2,
   toolong = 3.5
 )
 }
 \arguments{
 \item{ptmtable}{A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.}
-
-\item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS")); default is 2}
 
 \item{correlation.matrix.name}{Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix}
 
@@ -26,6 +24,8 @@ MakeClusterList(
 \item{tsne.coords.name}{Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords}
 
 \item{common.clusters.name}{Desired name for the clusters that all 3 methods found in common; defaults to common.clusters}
+
+\item{keeplength}{Only keep clusters of ptms whose size is larger than this parameter. (I.e keeplength = 2 then keep ("AARS", "ARMS", "AGRS") but not ("AARS", "ARMS")); default is 2}
 
 \item{toolong}{A numeric threshold for cluster separation, defaults to 3.5.}
 }
@@ -43,7 +43,11 @@ A correlation table is also produced based on the Spearman Correlation table.
 Please note: t-SNE involves an element of randomness; in order to get the same results, set.seed(#) must be called.
 }
 \examples{
-MakeClusterList(ex.ptmtable, "ex.ptm.correlation.matrix", "ex.clusters.list", 3.5)
+ex.ptm.cor <- "ex.ptm.correlation.matrix"
+ex.clusters <- "ex.clusters.list"
+ex.tsnes <- "ex.all.tsne.coords"
+ex.commons <- "ex.common.clusters"
+MakeClusterList(ex.ptmtable, ex.ptm.cor, ex.clusters, ex.tsnes, ex.commons)
 utils::head(ex.ptm.correlation.matrix[, c(1,2,3,4,5)])
 print(ex.clusters.list[[1]][1])
 print(ex.clusters.list[[2]][1])
