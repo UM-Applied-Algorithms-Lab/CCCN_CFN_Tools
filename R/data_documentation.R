@@ -210,9 +210,8 @@
 #'
 #' @format Dataframe of 497 rows and 72 columns:
 #' \describe{
-#'   \item{first 3 columns}{Gene, modification, and Amino Acid respectively}
-#'   \item{columns}{Names of drugs that were used on PTMs}
 #'   \item{row}{Number of PTMs}
+#'   \item{columns}{Names of drugs that were used on PTMs}
 #'   \item{values}{Expression as found by mass spectrometry}
 #' }
 #' @source "manually created"
