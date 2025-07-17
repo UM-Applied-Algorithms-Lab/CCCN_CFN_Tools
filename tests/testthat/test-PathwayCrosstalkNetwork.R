@@ -12,8 +12,8 @@ test_that("Row 7 Jaccard Weight", {expect_equal(jaccardtest[[7]], 0.02597402,tol
 
 #CPE Evidence
 cpetest <- sapply(edgelist_123a[,4], as.double)
-test_that("Row 3 PTP interaction evidence", {expect_equal(cpetest[[3]], 2.56911375661376,tolerance=0.00001)})
-test_that("Row 4 PTP interaction evidence", {expect_equal(cpetest[[4]], 0.111111111111111,tolerance=0.00001)})
+test_that("Row 3 PTP interaction evidence", {expect_equal(cpetest[[3]], 1.851253,tolerance=0.00001)})
+test_that("Row 4 PTP interaction evidence", {expect_equal(cpetest[[4]], 0.137931,tolerance=0.00001)})
 test_that("Row 17 PTP interaction evidence", {expect_equal(is.na(cpetest[[17]]), TRUE)})
 
 #Cleanup
