@@ -11,10 +11,7 @@ Fruitify <- function(save = FALSE){
 #Database
 #Use this space to keep track of the fruits in the data
 ###
-#' "Apple", "Avocado", "Banana", "Blackberry", "Blueberry", "Breadfruit", "Catmon",
-#' "Cherry", "Citron", "Date", "Dragonfruit", "Fig", "Guava", "Kiwi", "Kumquat", "Lemon", "Lime",
-#' "Lychee", "Mango", "Melon", "Orange", "Papaya", "Peach", "Pear", "Persimmon", "Pineapple",
-#' "Plum", "Pomegranate", "Raspberry", "Starfruit", "Strawberry", "Tayberry"
+#' "Apple", "Avocado", "Banana", "Blackberry", "Blueberry", "Breadfruit", "Catmon", "Cherry", "Citron", "Date", "Dragonfruit", "Fig", "Guava", "Kiwi", "Kumquat", "Lemon", "Lime", "Lychee", "Mango", "Melon", "Orange", "Papaya", "Peach", "Pear", "Persimmon", "Pineapple","Plum", "Pomegranate", "Raspberry", "Starfruit", "Strawberry", "Tayberry"
 ###
 
 #EDIT DATA HERE
@@ -24,7 +21,7 @@ Fruits1.Data <- list(
   c("Apple", "Avocado", "Banana", "Blackberry", "Blueberry"),
   c("Breadfruit", "Catmon", "Cherry", "Citron", "Date", "Dragonfruit", "Fig"),
   c("Guava", "Kiwi", "Kumquat", "Lemon"),
-  c("Lychee", "Mango", "Melon", "Orange", "Papaya", "Peach", "Pear", "Persimmon", "Pineapple", "Plum", "Pomegranate", "Raspberry", "Starfruit", "Strawberry", "Tayberry")
+  c("Lychee", "Mango", "Melon", "Orange", "Papaya", "Peach", "Pear", "Persimmon", "Pineapple", "Plum", "Pomegranate", "Raspberry", "Starfruit", "Strawberry", "Tayberry", "Lime")
 )
 
 #Fruits 2 data - Add, remove, change as needed 
@@ -38,7 +35,7 @@ Fruits2.Data <- list(
   c("Orange", "Papaya", "Peach"),
   c("Persimmon", "Pineapple", "Plum"),
   c("Pomegranate", "Raspberry"),
-  c("Starfruit", "Strawberry", "Tayberry")
+  c("Starfruit", "Strawberry", "Tayberry", "Melon", "Pear")
 )
 
 #Fruits 3 data - Add, remove, change as needed
@@ -63,7 +60,7 @@ for(a in 1:length(Total)){
   count <- 0L
   for(b in 1:length(Total[[a]])){
     Total[[a]][[b]] <- as.data.frame(Total[[a]][[b]])
-    colnames(Total[[a]][[b]])<- c("PTM.Name")
+    colnames(Total[[a]][[b]])<- c("PTMnames")
     count <- count + 1L
     Total[[a]][[b]]$groups <- rep(count, length(Total[[a]][[b]]))
   }
