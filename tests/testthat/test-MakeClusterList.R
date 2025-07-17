@@ -5,7 +5,9 @@ set.seed(1) #Set the seed (very important)
 MakeClusterList(ex.ptmtable, correlation.matrix.name = "matrix_123a", clusters.list.name = "clusters_123a", tsne.coords.name = "tsne_123a", common.clusters.name = "common_123a", toolong = 3.5) #Create sample data - #BUG - writes 'species scores not available' (dont worry about this for now)
 
 #Unit tests for the values of the correlation matrix
-test_that("")
+test_that("Diagionals are NA", {expect_equal(matrix_123a[10,10], NA)})
+test_that("APP p Y757 correlation with APP ubi K763", {expect_equal(matrix_123a[18, 20], 0.02857143)})
+test_that("CTTN p Y334 correlation with FRS2 p Y306", {expect_equal(matrix_123a[64, 128], 0.912892)})
 
 #Unit Tests for the global variables (lists of dataframes) created by MakeClusterList. Check PTMs Names.
 #eu_ptms_list
@@ -21,6 +23,11 @@ test_that("Cluster 4, PTM 1", {expect_equal(clusters_123a$SED$`4`$PTMnames[1], "
 test_that("Cluster 8, PTM 1", {expect_equal(clusters_123a$Spearman$`8`$PTMnames[1], "APH1A p Y256")})
 test_that("Cluster 13, PTM 1", {expect_equal(clusters_123a$Spearman$`13`$PTMnames[1], "APP ubi K763")})
 test_that("Cluster 21, PTM 2", {expect_equal(clusters_123a$Spearman$`21`$PTMnames[2], "CTTN p Y199")})
+
+#Unit tests for common clusters
+test_that("SLC12A4 ubi K979 in cluster 4", {expect_equal("SLC12A4 ubi K979" %in% common_123a[[4]], TRUE)})
+test_that("PKP4 p Y369 in cluster 10", {expect_equal("PKP4 p Y369" %in% common_123a[[10]], TRUE)})
+test_that("OAT p Y126 in cluster 6", {expect_equal("OAT p Y126" %in% common_123a[[6]], TRUE)})
 
 #Cleanup
 rm(matrix_123a, envir = .GlobalEnv)
