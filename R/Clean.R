@@ -19,7 +19,7 @@ set.cleaner <- function(newpatterns, overwrite = TRUE){
 #' @param string A string with special characters
 #' @return A string with no special character
 clean.string <- function(string){
-  for(p in package.PTMsToPathways.patterns) string <- gsub(p, "", string)
+  for(p in pattern) string <- gsub(p, "", string)
   return(string)
 }
 

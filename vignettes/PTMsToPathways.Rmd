@@ -45,6 +45,31 @@ PTMsToPathways::ex.ptmtable[38:50, 1:6]
 
 Note that it is very important that the rownames are the names of post-translational modifications. All of their respective columns are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer. We also ask that ambigious PTMs, cases where a PTM could be any one of a group of PTMs are seperated by semicolons. (I.e. "AARS ubi k747; AMBLIL p U123").
 
+# Preprocessing Data
+
+This package is designed to work with a simple data structure, a data frame with PTM names as the row names, environmental conditions as the column names, and a numeric value. Thus, provided here are some console prompts for an R terminal designed to create a data frame, and modify it to fit our structure. If you would like to view an example of the correct formatting for our package, please use:
+
+> View(ex.ptmtable)
+
+## Importing the dataframe
+R supports many file types and can automatically convert them into a data frame. For example, read.csv() will take a csv file and convert it into a data frame. It is recommended to work .csv specifically as that is what is what we mainly used when designing this package.
+
+> ptmtable <- read.csv("Pathto/filename.csv") </br>
+View(ptmtable)
+
+## Turning PTMs from columns into rownames
+If you have one (or multiple) columns that contain parts of PTM names. This is a command for concatenating those columns and turning them into data frame
+
+> 
+
+## Replacing Patterns
+
+> 
+
+## Other
+
+>
+
 
 # Pipeline  
 
