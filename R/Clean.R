@@ -1,14 +1,15 @@
 #' Set Clean String
 #' 
 #' A helper function that sets the patterns to clean the string with
-#' 
-#' @example set.cleaner()
 set.cleaner <- function(newpatterns, overwrite = TRUE){
   
   if(!overwrite) newpatterns <- c(package.PTMsToPathways.patterns, newpatterns)
   
   assignme <- newpatterns[order(nchar(newpatterns), newpatterns, decreasing = TRUE)]
   assign("package.PTMsToPathways.patterns", assignme, envir = .GlobalEnv)
+  
+  print("New Cleaner assigned!")
+  print(paste(assignme))
 }
 
 #' Clean String
@@ -16,9 +17,7 @@ set.cleaner <- function(newpatterns, overwrite = TRUE){
 #' A helper function to remove all special characters from a string
 #' 
 #' @param string A string with special characters
-#' @return A string with no special characters
-#' 
-#' @example clean.string("H#el_lK~o, K*Wo$r$l\\|d!")
+#' @return A string with no special character
 clean.string <- function(string){
   for(p in package.PTMsToPathways.patterns) string <- gsub(p, "", string)
   return(string)
@@ -31,8 +30,6 @@ clean.string <- function(string){
 #' 
 #' @param vector A character vector (ideally a column of a table)
 #' @return A fixed version of the character vector
-#' 
-#' @example dates.to.ptms(c( "ABLIM1", "APP", "CTTN", "7-Sep", "CTTN", "DNM2" ))
 dates.to.ptms <- function(vector){  
   
   #hashtable: input what needs to be fixed, output the fixed version

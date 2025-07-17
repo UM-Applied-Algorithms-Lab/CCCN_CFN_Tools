@@ -16,7 +16,7 @@ MakeCorrelationNetwork(
 
 \item{ptm.correlation.matrix}{A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal.}
 
-\item{ptm.cccn.name}{The PTM correlation matrix filtered by PTMs that cocluster}
+\item{ptm.cccn.name}{Desired name of the PTM correlation matrix filtered by specific PTMs from input}
 
 \item{gene.cccn.name}{Desired name for the cocluster correlation network; defaults to gene.cccn}
 }
@@ -24,10 +24,9 @@ MakeCorrelationNetwork(
 The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) and a matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 }
 \description{
-Make Correlation Network first finds the intersection between the Euclidean, Spearman, and SED cluster matrices in order to find
-the intersection between the three groups. It then adds the Genes in these PTMs to a list of common clusters and turns it into an adjacency matrix.
-This adjacency matrix is used to filter relevant data --- clusters --- from the Spearman correlation matrix. The resultant
-cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
+Make Correlation Network filters a correlation matrix of PTMs by specific PTMs.
+It groups the PTM correlation matrix based on the Genes of PTMs.
+By summing these submatrices, it also produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.
 }
 \examples{
 ex.ptm.cor <- ex.ptm.correlation.matrix
