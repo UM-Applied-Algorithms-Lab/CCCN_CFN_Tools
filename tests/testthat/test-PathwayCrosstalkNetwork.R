@@ -1,6 +1,6 @@
 #Load Sample Data
 sink(file="noprint_123a") #This redirects all printing to a file named noprint_123a
-PathwayCrosstalkNetwork(ex.bioplanet, ex.common.clusters, edgelist.name = "edgelist_123a")
+PathwayCrosstalkNetwork(ex.common.clusters, ex.bioplanet, edgelist.name = "edgelist_123a")
 sink()
 
 #Unit tests for the structures in PCN
