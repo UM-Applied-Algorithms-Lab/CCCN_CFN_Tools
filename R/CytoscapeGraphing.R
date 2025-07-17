@@ -204,11 +204,11 @@ GraphCfn <- function(cfn, ptmtable, funckey = PTMsToPathways::ex.funckey, Networ
 
   # ACTUAL CODE AND DATA PROCESSING
 
-  genes <- unique(c(cfn$Gene.1, cfn$Gene.2))                                           # get unique names of genes
+  genes <- unique(c(cfn$Gene.1, cfn$Gene.2))                                                                            # get unique names of genes
 
-  ptmnew <- ptmtable[, c("PTM", "HCC4006_Erlotinib")]                                  # just take ptms and another col doesn't matter bc we replace
-  ptmnew$PTM <- sapply(ptmtable$PTM, function(x) strsplit(x, split = " ")[[1]][1])     # get just the gene names in the PTM column
-  colnames(ptmnew) <- c("Gene", "score")                                               # rename cols
+  ptmnew <- ptmtable[, c("HCC4006_Erlotinib")]                                                                          # just take ptms and another col doesn't matter bc we replace
+  rownames(ptmnew) <- sapply(rownames(ptmtable), function(x) strsplit(x, split = " ")[[1]][1])                          # get just the gene names in the PTM column
+  rownames(ptmnew) <- c("score")                                                                                        # rename col
 
   ptmnew$score <- sapply(1:length(rownames(ptmtable)), function(i) min(as.numeric(ptmtable[-1][i, ]), na.rm = TRUE))    # TAKE MINIMUM SCORE ACROSS PTM COLS
 
