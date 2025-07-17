@@ -1,5 +1,10 @@
+#' Set Clean String
+#' 
+#' A helper function that sets the patterns to clean the string with
+#' 
+#' @example set.cleaner()
 set.cleaner <- function(){
-  #TO DO
+  
   
 }
 
@@ -12,8 +17,7 @@ set.cleaner <- function(){
 #' 
 #' @example clean.string("H#el_lK~o, K*Wo$r$l\\|d!")
 clean.string <- function(string){
-  patterns <- c("@", "\\#", "\\$", "K~", "%", "|", '/', "?", "_", "\\\\", "\\|", "\\%", "K\\*", "\\*")
-  for(p in patterns) string <- gsub(p, "", string)
+  for(p in PTMsToPathways.patterns) string <- gsub(p, "", string)
   return(string)
 }
 

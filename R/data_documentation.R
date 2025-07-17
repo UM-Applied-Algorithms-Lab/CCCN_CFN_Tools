@@ -384,3 +384,17 @@
 #' @examples
 #' ex.all.tsne.coords[1]
 "ex.all.tsne.coords"
+
+#' Patterns
+#' 
+#' A list of unacceptable patterns that need to be removed from PTM names
+#' 
+#' @keywords internal
+#' @format Character vector
+#' \describe{
+#'    \item{Entries}{Unacceptable patterns}
+#' }
+#' @source "Made by user"
+#' @examples
+#' package.PTMsToPathways.patterns
+"package.PTMsToPathways.patterns"
