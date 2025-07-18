@@ -146,14 +146,147 @@ SetStandards <- function(visual.style.name,
 
 
 
-#' Graph Cluster Filtered Network
+#' @title Graph Cluster Filtered Network
 #'
-#' Creates a cytoscape graph of the cluster filtered network. Ensure that you have the Cytoscape app open and the RCy3 package downloaded.
-#'
+#' @description Creates a cytoscape graph of the cluster filtered network. Ensure that you have the Cytoscape app open and the RCy3 package downloaded.
 #' RCy3 is required for this function. To download, run:
 #' if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 #' BiocManager::install("RCy3")
 #' If RCy3 is installed and the Cytoscape App is open and an error still occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+#'
+#' @details Graph Key
+#' - Node Size
+#'   - Greater the node size, larger the absolute value of the score
+#' - Blue Node
+#'   - Negative score
+#' - Yellow Node
+#'   - Positive score
+#' - Green Node
+#'   - Approximately zero score
+#' Node Shapes:
+#' - "ELLIPSE"
+#'   - unknown
+#' - "ROUND_RECTANGLE"
+#'   - receptor tyrosine kinase
+#' - "VEE"
+#'   - SH2 protein
+#'   or
+#'   - SH2-SH3 protein
+#' - "TRIANGLE"
+#'   - SH3 protein
+#' - "HEXAGON"
+#'   - tyrosine kinase
+#' - "DIAMOND"
+#'   - SRC-family kinase
+#' - "OCTAGON"
+#'   - kinase
+#'   or
+#'   - phosphatase
+#' - "PARALLELOGRAM"
+#'   - transcription factor
+#' - "RECTANGLE"
+#'   - RNA binding protein
+#' Node Border Colors:
+#' - Orange
+#'   - deacetylase
+#'   or
+#'   - acetyltransferase
+#' - Blue
+#'   - demethylase
+#'   or
+#'   - methyltransferase
+#' - Royal Purple
+#'   - membrane protein
+#' - Red
+#'   - kinase
+#'   or
+#'   - tyrosine kinase
+#'   or
+#'   - SRC-family kinase
+#' - Yellow
+#'   - phosphatase
+#'   or
+#'   - tyrosine phosphatase
+#' - Lilac
+#'   - G protein-coupled receptor
+#'   or
+#'   - receptor tyrosine kinase
+#' - Grey
+#'   - default
+#' - Edge Thickness
+#'   - Stronger correlation
+#'Edge Colors:
+#' - Red
+#'   - Phosphorylation
+#'   or
+#'   - pp
+#'   or
+#'   - controls-phosphorylation-of
+#' - Bright Magenta
+#'   - controls-expression-of
+#' - Dull Magenta
+#'   - controls-transport-of
+#' - Purple
+#'   - controls-state-change-of
+#' - Blood Orange
+#'   - Acetylation
+#' - Lime Green
+#'   - Phystical interactions
+#' - Green
+#'   - BioPlex
+#' - Dull Green
+#'   - in-complex-with
+#' - Seafoam Green
+#'   - experiments
+#'   or
+#'   - experiments_transferred
+#' - Cyan
+#'   - database
+#'   or
+#'   - database_transferred
+#' - Teal
+#'   - Pathway
+#'   or
+#'   - Predicted
+#' - Dark Turquoise
+#'   - Genetic interactions
+#' - Yellow-Orange
+#'   - correlation
+#' - Royal Blue
+#'   - negative correlation
+#' - Bright Yellow
+#'   - positive correlation
+#' - Grey
+#'   - combined_score
+#' - Dark Grey
+#'   - merged
+#' - Light Grey
+#'   - intersect
+#' - Black
+#'   - peptide
+#' - Orange
+#'   - homology
+#' - Dull Orange
+#'   - Shared protein domains
+#' - White
+#'   - Default
+#' Arrow Types:
+#' - Arrow
+#'   - Phosphorylation
+#'   or
+#'   - pp
+#'   or
+#'   - controls-phosphorylation-of
+#'   or
+#'   - controls-expression-of
+#'   or
+#'   - controls-transport-of
+#'   or
+#'   - controls-state-change-of
+#'   or
+#'   - Acetylation
+#' - No Arrow
+#'   - Default
 #'
 #' @param cfn A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights
 #' @param ptmtable A dataset for post-translational modifications. Formatted with numbered rows, and the first column containing PTM names. The rest of the column names should be drugs. Values are numeric values that represent how much the PTM has reacted to the drug.
