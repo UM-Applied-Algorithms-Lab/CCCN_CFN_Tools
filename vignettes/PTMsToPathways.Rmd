@@ -85,7 +85,7 @@ rownames(ptmtable) <- sapply(rownames(ptmtable), function(x) {for(p in patterns)
 #### Code  
 
 ```{r eval = FALSE}
-MakeClusterList(ptmtable, name.columns = 1:3, keeplength = 2, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5)
+MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", keeplength = 2, toolong = 3.5)
 ```
 
 <center>
@@ -95,7 +95,7 @@ MakeClusterList(ptmtable, name.columns = 1:3, keeplength = 2, correlation.matrix
 <p>&nbsp;</p>
 
 ![](vig_figs/MCL-output.png)  
-**Figure 2** Output of MakeClusterList. This data is read as two rows: the top row represents the cluster number. This number isn't important in and of itself, it just differentiates between the different clusters. The second row represents the size, or how many PTMs are in that cluster.  
+**Figure 2** Output of MakeClusterList. This data is read as two rows: the top row represents the cluster number. This number isn't important in and of itself, but instead differentiates between the different clusters. The second row represents the cluster size, or how many PTMs are in that cluster.  
 
 <p>&nbsp;</p>
 
@@ -115,17 +115,17 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 #### Input  
 - ptmtable
   - A data frame of post-translational modifications. The row names must be PTM names and the column names must be drugs (experimental conditions). Values of the table are numeric values that represent how much the PTM has reacted to the drug or NA if that PTM wasn't studied under that condition.  
+- correlation.matrix.name  
+  - Desired name for the correlation matrix to be saved as; defaults to "ptm.correlation.matrix"  
+- clusters.list.name  
+  - Desired name for the lists of clusters to be saved as; defaults to "clusters.list"  
+- tsne.coords.name  
+  - Desired name for the lists of tsne coordinates to be saved as; defaults to "all.tsne.coords"
+- common.clusters.name  
+  - Desired name for the clusters that all 3 methods found in common; defaults to "common.clusters"
 - keeplength  
   - MakeClusterList only saves subsets whose size is strictly *greater* than keeplength; defaults to 2
   - example: ['AARS', 'ABR'] will be discarded unless keeplength < 2
-- correlation.matrix.name  
-  - Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix  
-- clusters.list.name  
-  - Desired name for the lists of clusters to be saved as; defaults to clusters.list  
-- tsne.coords.name  
-  - Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords
-- common.clusters.name  
-  - Desired name for the clusters that all 3 methods found in common; defaults to common.clusters
 - toolong
   - Threshold for cluster separation; defaults to 3.5  
 
