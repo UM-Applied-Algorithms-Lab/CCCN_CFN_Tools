@@ -48,7 +48,7 @@ MakeCorrelationNetwork <- function(common.clusters, ptm.correlation.matrix, ptm.
 
 
   ### Export Final Data Structure ###
-  gene.cccn[is.na(gene.cccn)] <- 0 #Used to be function
+  #gene.cccn[is.na(gene.cccn)] <- 0 #Used to be function
   assign(gene.cccn.name, gene.cccn, envir = .GlobalEnv) #CoCluster Correlation Network
   assign(ptm.cccn.name, ptm.cccn, envir = .GlobalEnv) #Filtered correlation network
 
