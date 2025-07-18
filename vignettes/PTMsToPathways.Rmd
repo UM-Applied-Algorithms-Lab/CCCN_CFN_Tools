@@ -184,32 +184,35 @@ Make Correlation Network filters the correlation matrix of PTMs by specific PTMs
 
 ### Description  
 
-PPI (protein-protein interaction) databases are consulted in order to filter the clusters by proteins that are known to interact with each other as well as how strongly they are known to interact. The standard recommended PPI database is STRINGdb; getting data from this database is the first (optional) step. This is accomplished with the function GetSTRINGdb. Please note, however, that the user may consult any database that they choose. After getting STRINGdb data (or not), the user runs MakeDBInput which produces a text file of all of their gene names. This information can be copy and pasted into any database that the user chooses in order to get other PPI networks. Step three is getting a GeneMANIA network, which is also optional but recommended. The user pastes their input data into GeneMANIA on the Cytoscape app and saves the edgefile and the nodetable. These files are then input into ProcessGMEdgefile in order to sort the data.  
+PPI (protein-protein interaction) databases are consulted in order to filter the clusters by proteins that are known to interact with each other as well as how strongly they are known to interact. The standard recommended PPI database is STRINGdb; getting data from this database is the first (optional) step. This is accomplished with the function GetSTRINGdb. The function GetSTRINGdb requires the STRINGdb package to be downloaded. Code for this is supplied with the code to run the function itself. Please note, however, that the user may consult any database that they choose. After getting STRINGdb data (or not), the user runs MakeDBInput which produces a text file of all of their gene names. This information can be copy and pasted into any database that the user chooses in order to get other PPI networks. Step three is getting a GeneMANIA network, which is also optional but recommended. The user pastes their input data into GeneMANIA on the Cytoscape app and saves the edgefile and the nodetable. These files are then input into ProcessGMEdgefile in order to sort the data.  
 
-Note again that the database input can be used in any PPI database that the user chooses, though this package only explicitly supports STRINGdb and GeneMANIA. If another database is chosen, its file will have to be filtered manually by the user before moving on to step 4. The file should have four columns. Column one and two should strictly be labeled "Gene.1" and "Gene.2" in order to integrate with other PPI databases. Column three should name the interaction type between the two proteins. The fourth column should contain the edgeweight and may be named however the user chooses. It is recommended, though, that the database is specified as well as the term 'weight' in the column name.  
+Note again that the database input can be used in any PPI database that the user chooses, though this package only explicitly supports STRINGdb and GeneMANIA. If another database is chosen, its file will have to be filtered manually by the user before moving on to step 4. The file should have four columns. Column one and two should strictly be labeled "Gene.1" and "Gene.2" in order to integrate with other PPI databases. Column three should name the interaction type between the two proteins (naming of this column is not important). The fourth column should contain the edgeweight and may be named however the user chooses. It is recommended, though, that the database is specified as well as the term 'weight' in the column name.  
 
 ### Part 1 --- Get STRINGdb Data
 
 #### Code  
 
 ```{r eval = FALSE}
+if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+BiocManager::install("STRINGdb")
+
 GetSTRINGdb(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "nodenames")
 ```
 
 <center>
 ![](vig_figs/string-edges.png)  
-**Figure 5** First 18 rows of stringdb.edges produced by GetSTRINGdb  
+**Figure 5** First 18 rows of stringdb.edges produced by GetSTRINGdb. The first two columns represent the genes that are known to interact. The second column is the type of interaction. The GetSTRINGdb function limits the interaction types to database, database_transferred (database information from other species' that are homologous to humans), experimental, and experimental_transferred (database information from other species' that are homologous to humans). The final column is the score associated with this interaction.  
 
 <p>&nbsp;</p>
 
 ![](vig_figs/nodenames.png)  
-**Figure 6** First 18 rows of nodenames produced by GetSTRINGdb  
+**Figure 6** First 18 rows of nodenames produced by GetSTRINGdb. Nodenames is a data frame consisting of every gene in gene.cccn. This represents all of the genes of the study (that cocluster).  
 
 </center>
 <p>&nbsp;</p>
 
 #### Input   
-- cccn.matrix  
+- gene.cccn  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
 - stringdb.name  
   - Desired name for STRINGdb data; defaults to stringdb.edges  
@@ -220,7 +223,7 @@ GetSTRINGdb(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "noden
 - stringdb.edges (or otherwise named by STRINGdb.name)  
   - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database  
 - nodenames (or otherwise named by nodenames.name)  
-  - List of gene names  
+  - Data frame of gene names  
 
 #### Estimated run-time  
 30 mins  
@@ -236,13 +239,13 @@ MakeDBInput(gene.cccn, file.path.name = "db_nodes.txt")
 <center>
 ![](vig_figs/db_nodes-txt.png)  
 
-**Figure 7** First 15 lines from the produced text file  
+**Figure 7** First 15 lines from the produced text file named by file.path.name. Lists all of the gene names separated by newlines with no other extra characters for clean copy and pasting into a database input.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Input   
-- cccn.matrix  
+- gene.cccn  
   - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))  
 - file.path.name  
   - Desired path for file to be saved as; defaults to db_nodes.txt  
@@ -266,7 +269,7 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, db_nodes.path, gm.network
 <center>
 ![](vig_figs/gm_network.png)  
 
-**Figure 8** First 44 rows of the GeneMANIA network  
+**Figure 8** First 44 rows of the GeneMANIA network. The first two columns represent the genes that are known to interact. The second column is the type of interaction. The ProcessGmEdgefile function limits the interaction types to Pathway and Physical Interactions. The final column is the score associated with this interaction.  
 
 </center>
 <p>&nbsp;</p>
