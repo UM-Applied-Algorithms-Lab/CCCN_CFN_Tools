@@ -67,12 +67,237 @@ A cytoscape graph of the cluster filtered network
 }
 \description{
 Creates a cytoscape graph of the cluster filtered network. Ensure that you have the Cytoscape app open and the RCy3 package downloaded.
-}
-\details{
 RCy3 is required for this function. To download, run:
 if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 BiocManager::install("RCy3")
 If RCy3 is installed and the Cytoscape App is open and an error still occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+}
+\details{
+Graph Key
+\itemize{
+\item Node Size
+\itemize{
+\item Greater the node size, larger the absolute value of the score
+}
+\item Blue Node
+\itemize{
+\item Negative score
+}
+\item Yellow Node
+\itemize{
+\item Positive score
+}
+\item Green Node
+\itemize{
+\item Approximately zero score
+Node Shapes:
+}
+\item "ELLIPSE"
+\itemize{
+\item unknown
+}
+\item "ROUND_RECTANGLE"
+\itemize{
+\item receptor tyrosine kinase
+}
+\item "VEE"
+\itemize{
+\item SH2 protein
+or
+\item SH2-SH3 protein
+}
+\item "TRIANGLE"
+\itemize{
+\item SH3 protein
+}
+\item "HEXAGON"
+\itemize{
+\item tyrosine kinase
+}
+\item "DIAMOND"
+\itemize{
+\item SRC-family kinase
+}
+\item "OCTAGON"
+\itemize{
+\item kinase
+or
+\item phosphatase
+}
+\item "PARALLELOGRAM"
+\itemize{
+\item transcription factor
+}
+\item "RECTANGLE"
+\itemize{
+\item RNA binding protein
+Node Border Colors:
+}
+\item Orange
+\itemize{
+\item deacetylase
+or
+\item acetyltransferase
+}
+\item Blue
+\itemize{
+\item demethylase
+or
+\item methyltransferase
+}
+\item Royal Purple
+\itemize{
+\item membrane protein
+}
+\item Red
+\itemize{
+\item kinase
+or
+\item tyrosine kinase
+or
+\item SRC-family kinase
+}
+\item Yellow
+\itemize{
+\item phosphatase
+or
+\item tyrosine phosphatase
+}
+\item Lilac
+\itemize{
+\item G protein-coupled receptor
+or
+\item receptor tyrosine kinase
+}
+\item Grey
+\itemize{
+\item default
+}
+\item Edge Thickness
+\itemize{
+\item Stronger correlation
+Edge Colors:
+}
+\item Red
+\itemize{
+\item Phosphorylation
+or
+\item pp
+or
+\item controls-phosphorylation-of
+}
+\item Bright Magenta
+\itemize{
+\item controls-expression-of
+}
+\item Dull Magenta
+\itemize{
+\item controls-transport-of
+}
+\item Purple
+\itemize{
+\item controls-state-change-of
+}
+\item Blood Orange
+\itemize{
+\item Acetylation
+}
+\item Lime Green
+\itemize{
+\item Phystical interactions
+}
+\item Green
+\itemize{
+\item BioPlex
+}
+\item Dull Green
+\itemize{
+\item in-complex-with
+}
+\item Seafoam Green
+\itemize{
+\item experiments
+or
+\item experiments_transferred
+}
+\item Cyan
+\itemize{
+\item database
+or
+\item database_transferred
+}
+\item Teal
+\itemize{
+\item Pathway
+or
+\item Predicted
+}
+\item Dark Turquoise
+\itemize{
+\item Genetic interactions
+}
+\item Yellow-Orange
+\itemize{
+\item correlation
+}
+\item Royal Blue
+\itemize{
+\item negative correlation
+}
+\item Bright Yellow
+\itemize{
+\item positive correlation
+}
+\item Grey
+\itemize{
+\item combined_score
+}
+\item Dark Grey
+\itemize{
+\item merged
+}
+\item Light Grey
+\itemize{
+\item intersect
+}
+\item Black
+\itemize{
+\item peptide
+}
+\item Orange
+\itemize{
+\item homology
+}
+\item Dull Orange
+\itemize{
+\item Shared protein domains
+}
+\item White
+\itemize{
+\item Default
+Arrow Types:
+}
+\item Arrow
+\itemize{
+\item Phosphorylation
+or
+\item pp
+or
+\item controls-phosphorylation-of
+or
+\item controls-expression-of
+or
+\item controls-transport-of
+or
+\item controls-state-change-of
+or
+\item Acetylation
+}
+\item No Arrow
+\itemize{
+\item Default
+}
+}
 }
 \examples{
 # GraphCFN(ex.cfn)
