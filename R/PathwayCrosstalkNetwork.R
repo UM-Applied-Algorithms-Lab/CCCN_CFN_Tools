@@ -108,7 +108,7 @@ PathwayCrosstalkNetwork <- function(common.clusters, file = "bioplanet.csv", edg
 
   ### Save edgefile for cytoscape plotting ###
 
-  if(is.character(createfile)){ #Don't need to check if directory exists since
+  if(is.character(createfile)){ #Don't need to check if directory exists since was done above
     saved.dir <- getwd()
     setwd(createfile)
     filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
