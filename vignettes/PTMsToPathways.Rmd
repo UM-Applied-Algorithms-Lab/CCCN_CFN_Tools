@@ -175,7 +175,7 @@ Make Correlation Network filters the correlation matrix of PTMs by specific PTMs
 - ptm.cccn (or otherwise named by ptm.cccn.name)  
   - The PTM correlation matrix filtered by specific PTMs that cluster together by reacting similarly to the same conditions  
 - gene.cccn (or otherwise named by gene.cccn.name)  
-  - A matrix showing strength of correlations between genes using the ptm.cccn  
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 
 #### Estimated run-time  
 2hrs 30mins  
@@ -213,7 +213,7 @@ GetSTRINGdb(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "noden
 
 #### Input   
 - gene.cccn  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 - stringdb.name  
   - Desired name for STRINGdb data; defaults to stringdb.edges  
 - nodenames.name  
@@ -246,7 +246,7 @@ MakeDBInput(gene.cccn, file.path.name = "db_nodes.txt")
 
 #### Input   
 - gene.cccn  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))  
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 - file.path.name  
   - Desired path for file to be saved as; defaults to db_nodes.txt  
 
@@ -301,7 +301,7 @@ BuildPPINetwork(stringdb.edges = NA, gm.network = NA, db.filepaths = c(), ppi.ne
 
 <center>
 ![](vig_figs/ppi_network.png)  
-**Figure 9** First 19 rows of the ppi_network produced by find_ppi_edges. The first two columns represent the two genes that interact according to the consulted PPI databases. The third columns is all of the interaction types concatenated together from each database. All subsequent columns (two, in the base case of just using STRINGdb and GeneMANIA), show the weights of the interaction from the associated database. These have been normalized to all be on a scale of 0-1.  
+**Figure 9** First 19 rows of the ppi_network produced by find_ppi_edges. The first two columns represent the two genes that interact according to the consulted PPI databases. The third column is all of the interaction types concatenated together from each database. All subsequent columns (two, in the base case of just using STRINGdb and GeneMANIA), show the weights of the interaction from the associated database. These have been normalized to all be on a scale of 0-1.  
 
 </center>
 <p>&nbsp;</p>
@@ -338,7 +338,7 @@ ClusterFilteredNetwork(gene.cccn, ppi.network, cfn.name = "cfn")
 
 <center>
 ![](vig_figs/cfn.png)  
-**Figure 10** First 19 rows of the cfn produced by ClusterFilteredNetwork  
+**Figure 10** First 19 rows of the cfn produced by ClusterFilteredNetwork. The first two columns represent the two genes that interact according to the consulted PPI databases. The third column is all of the interaction types concatenated together from each database. All subsequent columns (two, in the base case of just using STRINGdb and GeneMANIA), show the weights of the interaction from the associated database. These have been normalized to all be on a scale of 0-1. Entries (as evident by the skipping row numbers) are limited to those that have gene pairings in gene.cccn with nonzero weights.  
 
 </center>
 <p>&nbsp;</p>
@@ -348,8 +348,8 @@ ClusterFilteredNetwork(gene.cccn, ppi.network, cfn.name = "cfn")
 Cluster Filtered Network checks all of the edges in the PPI network to see ensure that both of the genes are within the cocluster correlation network and that its weight is nonzero. If either of these conditions are not met, then it will be removed from the list of PPI edges. This new, cluster filtered network is then returned.  
 
 #### Input  
-- cccn.matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+- gene.cccn  
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 - ppi.network  
   - A dataframe representing how strongly proteins are known to interact  
 - cfn.name  
@@ -357,7 +357,7 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 
 #### Output  
 - cfn (or otherwise named by cfn.name)
-  - A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights  
+  - A version of ppi.network with only the edges that exist in gene.cccn with have non-zero weights  
 
 #### Estimated run-time  
 10mins
@@ -367,7 +367,7 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 #### Code  
 
 ```{r eval = FALSE}
-PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name = "edgelist")
+PathwayCrosstalkNetwork(common.clusters, file = "bioplanet.csv", edgelist.name = "edgelist")
 ```
 
 <center>
@@ -381,15 +381,15 @@ PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name =
 
 #### Description  
 
-Note: This step is directory sensitive. The user can check and set the directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in the working directory, or getwd(). If the file cannot be found, please check the local directories first.  
+**Note:** This step is directory sensitive. The user can check and set the working directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in the working directory. If the file cannot be found, please check the working directory first.  
 
-Pathway Crosstalk Network is the final step in the pipeline. It requires input of an external database, bioplanet, which consists of groups of genes (proteins) involved in various cellular processes. The PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity and a score derrived from Cluster-Pathway Evidence using common clusters found in Make Correlation Network.  
+Pathway Crosstalk Network requires input of an external database, bioplanet, that contains of groups of genes (proteins) involved in various cellular processes known as pathways. PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity, and a score. The score is derived from Cluster-Pathway Evidence using the common clusters found in Make Correlation Network.  
 
 #### Input  
-- file  
-  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly)  
 - common.clusters  
   - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) made by MakeCorrelationNetwork  
+- file  
+  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly)  
 - edgelist.name
   - Intended for use in Cytoscape.  
   - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end); defaults to edgelist  
