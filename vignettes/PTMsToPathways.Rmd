@@ -152,33 +152,30 @@ MakeCorrelationNetwork(common.clusters, ptm.correlation.matrix, ptm.cccn.name = 
 
 <center>
 ![](vig_figs/cccn_matrix.png)  
-**Figure 4** First 17 rows and columns of the cccn_matrix produced by MakeCorrelationNetwork. PTMs that cluster together in all three distance metrics have entries that represent how strongly they correlate, or how alike their responses are under the same environment. PTMs that don't cluster in all three distance metrics are correlated by a 0. Self-correlations are also marked by a 0 to prevent self-similarity skewing.  
+**Figure 4** First 17 rows and columns of the genes.cccn produced by MakeCorrelationNetwork. PTMs that cluster together in all three distance metrics have entries that represent how strongly they correlate, or how alike their responses are under the same environment. PTMs that don't cluster in all three distance metrics are correlated by a 0. Self-correlations are also marked by a 0 to prevent self-similarity skewing.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Description  
 
-Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. It groups the PTM correlation matrix based on the Genes of PTMs. By summing these submatrices, it produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
+Make Correlation Network filters the correlation matrix of PTMs by specific PTMs that cluster together or have react similarly to the same conditions. It groups the PTM correlation matrix based on the Genes of PTMs. By summing these submatrices, it produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics. The PTM version is also saved for analysis by the user.  
 
 #### Input  
 -common.clusters
-  - A character vector of PTMs. It is not required for it to be the one made in MakeClusterList. 
+  - A character vector of PTMs. It is not required for it to be the one made in MakeClusterList 
 - ptm.correlation.matrix  
-  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity.  
-- clusters.name  
-  - Desired name for the common clusters output; defaults to common.clusters.
-- ptm.name
-  - Desired name of the PTM correlation matrix filtered by specific PTMs from input.
-- gene.name  
-  - Desired name for the cocluster correlation network matrix; defaults to cccn.matrix.  
--
+  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity  
+- ptm.cccn.name
+  - Desired name for the PTM cocluster correlation network matrix; defaults to ptm.cccn  
+- gene.cccn.name  
+  - Desired name for the gene cocluster correlation network matrix; defaults to gene.cccn  
 
 #### Output  
 - ptm.cccn (or otherwise named by ptm.cccn.name)  
-  - The PTM correlation matrix filtered by specific PTMs from input.
+  - The PTM correlation matrix filtered by specific PTMs that cluster together by reacting similarly to the same conditions  
 - gene.cccn (or otherwise named by gene.cccn.name)  
-  - A matrix showing strength of relationships between proteins using the ptm.cccn.
+  - A matrix showing strength of correlations between genes using the ptm.cccn  
 
 #### Estimated run-time  
 2hrs 30mins  
@@ -187,9 +184,9 @@ Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. 
 
 ### Description  
 
-PPI (protein-protein interaction) databases are consulted in order to filter the clusters by proteins that are known to interact with each other as well as how strongly they are known to interact. The standard PPI database that is used is STRINGdb, and getting data from this database is the first step. This is accomplished with the function GetSTRINGdb. Please note, however, that the user may consult any database that they choose. After getting STRINGdb data (or not), the user runs MakeDBInput which produces a text file of all of their gene names. This information can be copy and pasted into any database that the user chooses in order to get other PPI networks. Step three is getting a GeneMANIA network, which is also optional but recommended. The user pastes their input data into GeneMANIA on the Cytoscape app and saves the edgefile and the nodetable. These files are then input into ProcessGMEdgefile in order to sort the data.  
+PPI (protein-protein interaction) databases are consulted in order to filter the clusters by proteins that are known to interact with each other as well as how strongly they are known to interact. The standard recommended PPI database is STRINGdb; getting data from this database is the first (optional) step. This is accomplished with the function GetSTRINGdb. Please note, however, that the user may consult any database that they choose. After getting STRINGdb data (or not), the user runs MakeDBInput which produces a text file of all of their gene names. This information can be copy and pasted into any database that the user chooses in order to get other PPI networks. Step three is getting a GeneMANIA network, which is also optional but recommended. The user pastes their input data into GeneMANIA on the Cytoscape app and saves the edgefile and the nodetable. These files are then input into ProcessGMEdgefile in order to sort the data.  
 
-Note again that the database input can be used in any PPI database that the user chooses, though this package only explicitly supports STRINGdb and GeneMANIA. If another database is chosen, its file will have to be filtered manually by the user before moving on to step 4. The file should have three columns. Column one and two should strictly be labeled "Gene.1" and "Gene.2" in order to integrate with other PPI databases. The third column should contain the edgeweight and may be named however the user chooses. It is recommended, though, that the database is specified as well as the term 'weight' in the column name.  
+Note again that the database input can be used in any PPI database that the user chooses, though this package only explicitly supports STRINGdb and GeneMANIA. If another database is chosen, its file will have to be filtered manually by the user before moving on to step 4. The file should have four columns. Column one and two should strictly be labeled "Gene.1" and "Gene.2" in order to integrate with other PPI databases. Column three should name the interaction type between the two proteins. The fourth column should contain the edgeweight and may be named however the user chooses. It is recommended, though, that the database is specified as well as the term 'weight' in the column name.  
 
 ### Part 1 --- Get STRINGdb Data
 
