@@ -1,6 +1,6 @@
 #Load Sample Data
 sink(file="noprint_123a") #This redirects all printing to a file named noprint_123a
-PathwayCrosstalkNetwork(ex.common.clusters, ex.bioplanet, edgelist.name = "edgelist_123a")
+PathwayCrosstalkNetwork(ex.common.clusters, ex.bioplanet, edgelist.name = "edgelist_123a", createfile = FALSE)
 sink()
 
 #Unit tests for the structures in PCN
@@ -19,4 +19,4 @@ test_that("Row 17 PTP interaction evidence", {expect_equal(is.na(cpetest[[17]]),
 #Cleanup
 rm("edgelist_123a", envir = .GlobalEnv) #remove the variable created
 file.remove("noprint_123a") #remove the noprint file
-file.remove("edgelist_123a.csv") #remove the edgelist file created
+#file.remove("edgelist_123a.csv") #remove the edgelist file created
