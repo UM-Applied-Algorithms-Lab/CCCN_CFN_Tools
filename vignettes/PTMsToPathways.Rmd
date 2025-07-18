@@ -40,29 +40,29 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 Below is an example of the input dataset:  
 
 ```{r eval = TRUE, echo = FALSE}
-PTMsToPathways::ex.ptmtable[38:50, 1:6]
+PTMsToPathways::ex.ptmtable[38:50, 1:4]
 ```
 
-Note that it is very important that the rownames are the names of post-translational modifications. All of their respective columns are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer. We also ask that ambigious PTMs, cases where a PTM could be any one of a group of PTMs are seperated by semicolons. (I.e. "AARS ubi k747; AMBLIL p U123").
+Note that it is very important that the rownames are the names of post-translational modifications. All of their respective columns are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer. Ambigious PTMs, cases where a PTM could be any one of several PTMs, should also be separated by semicolons. (I.e. "AARS ubi k747; AMBLIL p U123").
 
 # Preprocessing Data
 
-This package is designed to work with a simple data structure, a data frame with PTM names as the row names, environmental conditions as the column names, and a numeric value. Thus, provided here are some console prompts for an R terminal designed to create a data frame, and modify it to fit our structure. If you would like to view an example of the correct formatting for our package, please use:
+This package is designed to work with a simple data structure, a data frame with PTM names as the row names, environmental conditions as the column names, and numeric values (or NAs) as the entries. Thus, provided here are some console prompts for an R terminal designed to create a data frame, and modify it to fit the structure of this package. To view an example of the correct formatting for this package, please use:
 
 ```{r eval = FALSE}
 View(ex.ptmtable)
 ```
 
-#### Importing the dataframe
-R supports many file types and can automatically convert them into a data frame. For example, read.csv() will take a csv file and convert it into a data frame. It is recommended to work .csv specifically as that is what is what we mainly used when designing this package.
+#### Importing the Dataframe
+R supports many file types and can automatically convert them into a data frame. For example, read.csv() will take a csv file and convert it into a data frame. The csv file type is recommended for data storage.
 
 ```{r eval = FALSE}
 ptmtable <- read.csv("Pathto/filename.csv")
 View(ptmtable)
 ```
 
-#### Turning PTMs from columns into rownames
-If you have one (or multiple) columns that contain parts of PTM names. This is a command for concatenating those columns and turning them into data frame. The vector "name.columns" is the indices of the columns which contain names. For the example below, the strings in columns 1, 2, 3, for each row, will be concatenated and then turned into a rowname. It is also possible to have name.columns equal a vector like c(2, 4, 6), which takes columns 2, 4, and 6. 
+#### Turning Columns of PTMs into Rownames
+If there is/are column(s) that contain parts of PTM names, the following command concatenates those columns and converts them into data frame. The vector "name.columns" is the indices of the columns which contain names. For the example below, the strings in columns 1, 2, and 3 will be concatenated in each row and then turned into a rowname. It is also possible to have name.columns equal a vector like c(2, 4, 6), which takes columns 2, 4, and 6. 
 
 ```{r eval = FALSE}
 name.columns <- 1:3 
@@ -70,7 +70,7 @@ rownames(ptmtable) <- sort(unlist(apply(ptmtable[name.columns], 1, paste, collap
 ```
 
 #### Replacing Patterns
-If your list of PTMs possesses symbols that are unnecessary like "AARS ~K ubi K747", this command will remove all strings included in the "patterns" vector from your rownames. You can edit it as you like, just make sure that any special character such as $ or @ have a "\\\\" in front of them. 
+If the list of PTMs possesses symbols that are unnecessary such as "AARS ~K ubi K747", this command will remove all strings included in the "patterns" vector from the rownames. Any pattern can be chosen so long as the user ensures that any special character (such as $ or @) have a "\\\\" in front of them. 
 
 ```{r eval = FALSE}
 patterns <- c(" ~K", "zzzz", "/", "\\$", "\\@")
@@ -90,7 +90,7 @@ MakeClusterList(ptmtable, name.columns = 1:3, keeplength = 2, correlation.matrix
 
 <center>
 ![](vig_figs/EU_MCL.png)  
-**Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance. The Euclidean Distance between every PTM is calculated and that information is put into a large matrix. This matrix is then condensed using t-SNE to get coordinates in two-dimensional space, which is what our figure shows. These data points -- and the PTMs they represent -- are put into clusters based on these positions. This process is also undergone using Spearman Dissimilarity and the average of Euclidean Distance and Spearman Dissimilarity.  
+**Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance. The Euclidean Distance between every PTM is calculated and that information is put into a large matrix. This matrix is then condensed using t-SNE to get coordinates in two-dimensional space, which is what the above figure shows. These data points -- and the PTMs they represent -- are put into clusters based on these positions. This process is also undergone using Spearman Dissimilarity and the average of Euclidean Distance and Spearman Dissimilarity.  
   
 <p>&nbsp;</p>
 
@@ -347,7 +347,7 @@ ClusterFilteredNetwork(gene.cccn, ppi.network, cfn.name = "cfn")
 
 #### Description  
 
-Cluster Filtered Network checks all of the edges in the PPI network to see ensure that both of the genes are within our cocluster correlation network and that its weight is nonzero. If either of these conditions are not met, then it will be removed from the list of PPI edges. This new, cluster filtered network is then returned.  
+Cluster Filtered Network checks all of the edges in the PPI network to see ensure that both of the genes are within the cocluster correlation network and that its weight is nonzero. If either of these conditions are not met, then it will be removed from the list of PPI edges. This new, cluster filtered network is then returned.  
 
 #### Input  
 - cccn.matrix  
@@ -383,7 +383,7 @@ PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name =
 
 #### Description  
 
-Note: This step is directory sensitive. You can check and set your directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in your working directory, or getwd(). If you cannot find a file, please check your directories first.  
+Note: This step is directory sensitive. The user can check and set the directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in the working directory, or getwd(). If the file cannot be found, please check the local directories first.  
 
 Pathway Crosstalk Network is the final step in the pipeline. It requires input of an external database, bioplanet, which consists of groups of genes (proteins) involved in various cellular processes. The PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity and a score derrived from Cluster-Pathway Evidence using common clusters found in Make Correlation Network.  
 
@@ -394,7 +394,7 @@ Pathway Crosstalk Network is the final step in the pipeline. It requires input o
   - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) made by MakeCorrelationNetwork  
 - edgelist.name
   - Intended for use in Cytoscape.  
-  - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end for you); defaults to edgelist  
+  - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end); defaults to edgelist  
 
 #### Output  
 - edgelist (or otherwise named by edgelist.name)  
