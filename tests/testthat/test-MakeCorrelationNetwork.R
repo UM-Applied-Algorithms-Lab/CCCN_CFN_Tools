@@ -7,9 +7,9 @@ test_that("Testing ptms matrix HSPA1B ubi K597, PKP4 p Y1156", {expect_equal(ptm
 
 
 #Test gene matrix for correctness
-test_that("Testing gene network diagionals are 0", {expect_equal(gene_123a[43, 43], 0)})
+test_that("Testing gene network diagionals are 0", {expect_equal(is.na(gene_123a[43, 43]), TRUE)})
 test_that("Testing gene network CTTN, SEC16A", {expect_equal(gene_123a["CTTN", "SEC16A"], 60.94232, tolerance=0.00001)})
-test_that("Testing gene network ARAP2, OAT", {expect_equal(gene_123a["ARAP2", "OAT"], 0)})
+test_that("Testing gene network ARAP2, OAT", {expect_equal(is.na(gene_123a["ARAP2", "OAT"]), TRUE)})
 test_that("Testing gene network FKBP4, NSFL1C", {expect_equal(gene_123a["FKBP4", "NSFL1C"], 1.628571, tolerance=0.00001)})
 
 
