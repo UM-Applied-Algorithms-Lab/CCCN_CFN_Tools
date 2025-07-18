@@ -1,6 +1,6 @@
 # helper function
 NodeAppMap <- function(visual.style.name){                                                         # maps colors based on score
-  cf <- RCy3::getTableColumns('node')                                                              # gets the table (kind of want to clean this up and just pass in node.table like below)
+  cf <- RCy3::getTableColumns('node')                                                              # gets the table
   limits <- range(cf[, "score"])                                                                   # gets RANGE of scores from table
   node.sizes <- c(135, 130, 108, 75, 35, 75, 108, 130, 135)                                        # set node sizes
   size.control.points = c (-100.0, -15.0, -5.0, 0.0, 5.0, 15.0, 100.0)
@@ -96,7 +96,7 @@ NodeBorderMapping <- function(visual.style.name){
   # map the different molecule types to these different node border colors
   RCy3::setNodeBorderColorMapping(
     table.column = "node.type",
-    table.column.values = c("deacetylase", "acetyltransferase", "demethylase", "methyltransferase", "membrane protein", "kinase", "tyrosine kinase", "SRC-family kinase", "phosphatase", "tyrosine phosphatase", "G protein-coupled receptor", "receptor tirosine kinase"),
+    table.column.values = c("deacetylase", "acetyltransferase", "demethylase", "methyltransferase", "membrane protein", "kinase", "tyrosine kinase", "SRC-family kinase", "phosphatase", "tyrosine phosphatase", "G protein-coupled receptor", "receptor tyrosine kinase"),
     colors = c("#FF8C00", "#FF8C00", "#005CE6", "#005CE6", "#6600CC", "#EE0000", "#EE0000", "#EE0000", "#FFEC8B", "#FFEC8B", "#BF3EFF", "#BF3EFF"),
     mapping.type = 'd',
     default.color = '#abb2b9',

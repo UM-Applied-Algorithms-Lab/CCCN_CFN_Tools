@@ -40,29 +40,29 @@ This vignette is intended to be a step-by-step guide to walk users through the p
 Below is an example of the input dataset:  
 
 ```{r eval = TRUE, echo = FALSE}
-PTMsToPathways::ex.ptmtable[38:50, 1:6]
+PTMsToPathways::ex.ptmtable[38:50, 1:4]
 ```
 
-Note that it is very important that the rownames are the names of post-translational modifications. All of their respective columns are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer. We also ask that ambigious PTMs, cases where a PTM could be any one of a group of PTMs are seperated by semicolons. (I.e. "AARS ubi k747; AMBLIL p U123").
+Note that it is very important that the rownames are the names of post-translational modifications. All of their respective columns are the environmental conditions under which the post-translational modifications occurred. NAs -- which are importantly not zeroes -- represent condition-PTM combinations that were not studied while the numeric values are data output by the mass spectrometer. Ambigious PTMs, cases where a PTM could be any one of several PTMs, should also be separated by semicolons. (I.e. "AARS ubi k747; AMBLIL p U123").
 
 # Preprocessing Data
 
-This package is designed to work with a simple data structure, a data frame with PTM names as the row names, environmental conditions as the column names, and a numeric value. Thus, provided here are some console prompts for an R terminal designed to create a data frame, and modify it to fit our structure. If you would like to view an example of the correct formatting for our package, please use:
+This package is designed to work with a simple data structure, a data frame with PTM names as the row names, environmental conditions as the column names, and numeric values (or NAs) as the entries. Thus, provided here are some console prompts for an R terminal designed to create a data frame, and modify it to fit the structure of this package. To view an example of the correct formatting for this package, please use:
 
 ```{r eval = FALSE}
 View(ex.ptmtable)
 ```
 
-#### Importing the dataframe
-R supports many file types and can automatically convert them into a data frame. For example, read.csv() will take a csv file and convert it into a data frame. It is recommended to work .csv specifically as that is what is what we mainly used when designing this package.
+#### Importing the Dataframe
+R supports many file types and can automatically convert them into a data frame. For example, read.csv() will take a csv file and convert it into a data frame. The csv file type is recommended for data storage.
 
 ```{r eval = FALSE}
 ptmtable <- read.csv("Pathto/filename.csv")
 View(ptmtable)
 ```
 
-#### Turning PTMs from columns into rownames
-If you have one (or multiple) columns that contain parts of PTM names. This is a command for concatenating those columns and turning them into data frame. The vector "name.columns" is the indices of the columns which contain names. For the example below, the strings in columns 1, 2, 3, for each row, will be concatenated and then turned into a rowname. It is also possible to have name.columns equal a vector like c(2, 4, 6), which takes columns 2, 4, and 6. 
+#### Turning Columns of PTMs into Rownames
+If there is/are column(s) that contain parts of PTM names, the following command concatenates those columns and converts them into data frame. The vector "name.columns" is the indices of the columns which contain names. For the example below, the strings in columns 1, 2, and 3 will be concatenated in each row and then turned into a rowname. It is also possible to have name.columns equal a vector like c(2, 4, 6), which takes columns 2, 4, and 6. 
 
 ```{r eval = FALSE}
 name.columns <- 1:3 
@@ -70,7 +70,7 @@ rownames(ptmtable) <- sort(unlist(apply(ptmtable[name.columns], 1, paste, collap
 ```
 
 #### Replacing Patterns
-If your list of PTMs possesses symbols that are unnecessary like "AARS ~K ubi K747", this command will remove all strings included in the "patterns" vector from your rownames. You can edit it as you like, just make sure that any special character such as $ or @ have a "\\\\" in front of them. 
+If the list of PTMs possesses symbols that are unnecessary such as "AARS ~K ubi K747", this command will remove all strings included in the "patterns" vector from the rownames. Any pattern can be chosen so long as the user ensures that any special character (such as $ or @) have a "\\\\" in front of them. 
 
 ```{r eval = FALSE}
 patterns <- c(" ~K", "zzzz", "/", "\\$", "\\@")
@@ -85,17 +85,17 @@ rownames(ptmtable) <- sapply(rownames(ptmtable), function(x) {for(p in patterns)
 #### Code  
 
 ```{r eval = FALSE}
-MakeClusterList(ptmtable, name.columns = 1:3, keeplength = 2, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", toolong = 3.5)
+MakeClusterList(ptmtable, correlation.matrix.name = "ptm.correlation.matrix", clusters.list.name = "clusters.list", tsne.coords.name = "all.tsne.coords", common.clusters.name = "common.clusters", keeplength = 2, toolong = 3.5)
 ```
 
 <center>
 ![](vig_figs/EU_MCL.png)  
-**Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance. The Euclidean Distance between every PTM is calculated and that information is put into a large matrix. This matrix is then condensed using t-SNE to get coordinates in two-dimensional space, which is what our figure shows. These data points -- and the PTMs they represent -- are put into clusters based on these positions. This process is also undergone using Spearman Dissimilarity and the average of Euclidean Distance and Spearman Dissimilarity.  
+**Figure 1** Example plot produced by MakeClusterList calculated using Euclidean Distance. The Euclidean Distance between every PTM is calculated and that information is put into a large matrix. This matrix is then condensed using t-SNE to get coordinates in two-dimensional space, which is what the above figure shows. These data points -- and the PTMs they represent -- are put into clusters based on these positions. This process is also undergone using Spearman Dissimilarity and the average of Euclidean Distance and Spearman Dissimilarity.  
   
 <p>&nbsp;</p>
 
 ![](vig_figs/MCL-output.png)  
-**Figure 2** Output of MakeClusterList. This data is read as two rows: the top row represents the cluster number. This number isn't important in and of itself, it just differentiates between the different clusters. The second row represents the size, or how many PTMs are in that cluster.  
+**Figure 2** Output of MakeClusterList. This data is read as two rows: the top row represents the cluster number. This number isn't important in and of itself, but instead differentiates between the different clusters. The second row represents the cluster size, or how many PTMs are in that cluster.  
 
 <p>&nbsp;</p>
 
@@ -115,17 +115,17 @@ Make Cluster List is the first step in the analyzing one's data. This function t
 #### Input  
 - ptmtable
   - A data frame of post-translational modifications. The row names must be PTM names and the column names must be drugs (experimental conditions). Values of the table are numeric values that represent how much the PTM has reacted to the drug or NA if that PTM wasn't studied under that condition.  
+- correlation.matrix.name  
+  - Desired name for the correlation matrix to be saved as; defaults to "ptm.correlation.matrix"  
+- clusters.list.name  
+  - Desired name for the lists of clusters to be saved as; defaults to "clusters.list"  
+- tsne.coords.name  
+  - Desired name for the lists of tsne coordinates to be saved as; defaults to "all.tsne.coords"
+- common.clusters.name  
+  - Desired name for the clusters that all 3 methods found in common; defaults to "common.clusters"
 - keeplength  
   - MakeClusterList only saves subsets whose size is strictly *greater* than keeplength; defaults to 2
   - example: ['AARS', 'ABR'] will be discarded unless keeplength < 2
-- correlation.matrix.name  
-  - Desired name for the correlation matrix to be saved as; defaults to ptm.correlation.matrix  
-- clusters.list.name  
-  - Desired name for the lists of clusters to be saved as; defaults to clusters.list  
-- tsne.coords.name  
-  - Desired name for the lists of tsne coords to be saved as; defaults to tsne.coords
-- common.clusters.name  
-  - Desired name for the clusters that all 3 methods found in common; defaults to common.clusters
 - toolong
   - Threshold for cluster separation; defaults to 3.5  
 
@@ -152,33 +152,30 @@ MakeCorrelationNetwork(common.clusters, ptm.correlation.matrix, ptm.cccn.name = 
 
 <center>
 ![](vig_figs/cccn_matrix.png)  
-**Figure 4** First 17 rows and columns of the cccn_matrix produced by MakeCorrelationNetwork. PTMs that cluster together in all three distance metrics have entries that represent how strongly they correlate, or how alike their responses are under the same environment. PTMs that don't cluster in all three distance metrics are correlated by a 0. Self-correlations are also marked by a 0 to prevent self-similarity skewing.  
+**Figure 4** First 17 rows and columns of the genes.cccn produced by MakeCorrelationNetwork. PTMs that cluster together in all three distance metrics have entries that represent how strongly they correlate, or how alike their responses are under the same environment. PTMs that don't cluster in all three distance metrics are correlated by a 0. Self-correlations are also marked by a 0 to prevent self-similarity skewing.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Description  
 
-Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. It groups the PTM correlation matrix based on the Genes of PTMs. By summing these submatrices, it produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics.  
+Make Correlation Network filters the correlation matrix of PTMs by specific PTMs that cluster together or have react similarly to the same conditions. It groups the PTM correlation matrix based on the Genes of PTMs. By summing these submatrices, it produces a gene by gene cocluster correlation network shows strength of relationships between proteins using the common clusters between the three distance metrics. The PTM version is also saved for analysis by the user.  
 
 #### Input  
 -common.clusters
-  - A character vector of PTMs. It is not required for it to be the one made in MakeClusterList. 
+  - A character vector of PTMs. It is not required for it to be the one made in MakeClusterList 
 - ptm.correlation.matrix  
-  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity.  
-- clusters.name  
-  - Desired name for the common clusters output; defaults to common.clusters.
-- ptm.name
-  - Desired name of the PTM correlation matrix filtered by specific PTMs from input.
-- gene.name  
-  - Desired name for the cocluster correlation network matrix; defaults to cccn.matrix.  
--
+  - A data frame showing the correlation between ptms (as the rows and the columns). NAs are placed along the diagonal so as to not skew the data with self-similarity  
+- ptm.cccn.name
+  - Desired name for the PTM cocluster correlation network matrix; defaults to ptm.cccn  
+- gene.cccn.name  
+  - Desired name for the gene cocluster correlation network matrix; defaults to gene.cccn  
 
 #### Output  
 - ptm.cccn (or otherwise named by ptm.cccn.name)  
-  - The PTM correlation matrix filtered by specific PTMs from input.
+  - The PTM correlation matrix filtered by specific PTMs that cluster together by reacting similarly to the same conditions  
 - gene.cccn (or otherwise named by gene.cccn.name)  
-  - A matrix showing strength of relationships between proteins using the ptm.cccn.
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 
 #### Estimated run-time  
 2hrs 30mins  
@@ -187,33 +184,36 @@ Make Correlation Network filters a correlation matrix of PTMs by specific PTMs. 
 
 ### Description  
 
-PPI (protein-protein interaction) databases are consulted in order to filter the clusters by proteins that are known to interact with each other as well as how strongly they are known to interact. The standard PPI database that is used is STRINGdb, and getting data from this database is the first step. This is accomplished with the function GetSTRINGdb. Please note, however, that the user may consult any database that they choose. After getting STRINGdb data (or not), the user runs MakeDBInput which produces a text file of all of their gene names. This information can be copy and pasted into any database that the user chooses in order to get other PPI networks. Step three is getting a GeneMANIA network, which is also optional but recommended. The user pastes their input data into GeneMANIA on the Cytoscape app and saves the edgefile and the nodetable. These files are then input into ProcessGMEdgefile in order to sort the data.  
+PPI (protein-protein interaction) databases are consulted in order to filter the clusters by proteins that are known to interact with each other as well as how strongly they are known to interact. The standard recommended PPI database is STRINGdb; getting data from this database is the first (optional) step. This is accomplished with the function GetSTRINGdb. The function GetSTRINGdb requires the STRINGdb package to be downloaded. Code for this is supplied with the code to run the function itself. Please note, however, that the user may consult any database that they choose. After getting STRINGdb data (or not), the user runs MakeDBInput which produces a text file of all of their gene names. This information can be copy and pasted into any database that the user chooses in order to get other PPI networks. Step three is getting a GeneMANIA network, which is also optional but recommended. The user pastes their input data into GeneMANIA on the Cytoscape app and saves the edgefile and the nodetable. These files are then input into ProcessGMEdgefile in order to sort the data.  
 
-Note again that the database input can be used in any PPI database that the user chooses, though this package only explicitly supports STRINGdb and GeneMANIA. If another database is chosen, its file will have to be filtered manually by the user before moving on to step 4. The file should have three columns. Column one and two should strictly be labeled "Gene.1" and "Gene.2" in order to integrate with other PPI databases. The third column should contain the edgeweight and may be named however the user chooses. It is recommended, though, that the database is specified as well as the term 'weight' in the column name.  
+Note again that the database input can be used in any PPI database that the user chooses, though this package only explicitly supports STRINGdb and GeneMANIA. If another database is chosen, its file will have to be filtered manually by the user before moving on to step 4. The file should have four columns. Column one and two should strictly be labeled "Gene.1" and "Gene.2" in order to integrate with other PPI databases. Column three should name the interaction type between the two proteins (naming of this column is not important). The fourth column should contain the edgeweight and may be named however the user chooses. It is recommended, though, that the database is specified as well as the term 'weight' in the column name.  
 
 ### Part 1 --- Get STRINGdb Data
 
 #### Code  
 
 ```{r eval = FALSE}
+if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+BiocManager::install("STRINGdb")
+
 GetSTRINGdb(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "nodenames")
 ```
 
 <center>
 ![](vig_figs/string-edges.png)  
-**Figure 5** First 18 rows of stringdb.edges produced by GetSTRINGdb  
+**Figure 5** First 18 rows of stringdb.edges produced by GetSTRINGdb. The first two columns represent the genes that are known to interact. The second column is the type of interaction. The GetSTRINGdb function limits the interaction types to database, database_transferred (database information from other species' that are homologous to humans), experimental, and experimental_transferred (database information from other species' that are homologous to humans). The final column is the score associated with this interaction.  
 
 <p>&nbsp;</p>
 
 ![](vig_figs/nodenames.png)  
-**Figure 6** First 18 rows of nodenames produced by GetSTRINGdb  
+**Figure 6** First 18 rows of nodenames produced by GetSTRINGdb. Nodenames is a data frame consisting of every gene in gene.cccn. This represents all of the genes of the study (that cocluster).  
 
 </center>
 <p>&nbsp;</p>
 
 #### Input   
-- cccn.matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+- gene.cccn  
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 - stringdb.name  
   - Desired name for STRINGdb data; defaults to stringdb.edges  
 - nodenames.name  
@@ -223,7 +223,7 @@ GetSTRINGdb(gene.cccn, stringdb.name = "stringdb.edges", nodenames.name = "noden
 - stringdb.edges (or otherwise named by STRINGdb.name)  
   - Data frame of consisting of the network of interactions from the genes of study pulled from the STRINGdb database  
 - nodenames (or otherwise named by nodenames.name)  
-  - List of gene names  
+  - Data frame of gene names  
 
 #### Estimated run-time  
 30 mins  
@@ -239,14 +239,14 @@ MakeDBInput(gene.cccn, file.path.name = "db_nodes.txt")
 <center>
 ![](vig_figs/db_nodes-txt.png)  
 
-**Figure 7** First 15 lines from the produced text file  
+**Figure 7** First 15 lines from the produced text file named by file.path.name. Lists all of the gene names separated by newlines with no other extra characters for clean copy and pasting into a database input.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Input   
-- cccn.matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))  
+- gene.cccn  
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 - file.path.name  
   - Desired path for file to be saved as; defaults to db_nodes.txt  
 
@@ -269,7 +269,7 @@ ProcessGMEdgefile(gm.edgefile.path, gm.nodetable.path, db_nodes.path, gm.network
 <center>
 ![](vig_figs/gm_network.png)  
 
-**Figure 8** First 44 rows of the GeneMANIA network  
+**Figure 8** First 44 rows of the GeneMANIA network. The first two columns represent the genes that are known to interact. The second column is the type of interaction. The ProcessGmEdgefile function limits the interaction types to Pathway and Physical Interactions. The final column is the score associated with this interaction.  
 
 </center>
 <p>&nbsp;</p>
@@ -301,16 +301,14 @@ BuildPPINetwork(stringdb.edges = NA, gm.network = NA, db.filepaths = c(), ppi.ne
 
 <center>
 ![](vig_figs/ppi_network.png)  
-**Figure 9** First 19 rows of the ppi_network produced by find_ppi_edges  
+**Figure 9** First 19 rows of the ppi_network produced by find_ppi_edges. The first two columns represent the two genes that interact according to the consulted PPI databases. The third column is all of the interaction types concatenated together from each database. All subsequent columns (two, in the base case of just using STRINGdb and GeneMANIA), show the weights of the interaction from the associated database. These have been normalized to all be on a scale of 0-1.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Description  
 
-**Note:** Examples take about 5-10 minutes to run.
-
-The purpose of BuildPPINetwork is to combine the data about desired protein-protein interactions from each of the provided databases. This package explicitly processes STRINGdb and GeneMANIA in Step 3, but the user may consult as many databases as desired (the processing for which is described in Step 3). BuildPPINetwork combines these databases as efficiently as possible while retaining desired edgeweights from each database. BuildPPINetwork also removes duplicate rows from the data frame.  
+The purpose of BuildPPINetwork is to combine the data about desired protein-protein interactions from each of the provided databases. This package explicitly processes STRINGdb and GeneMANIA in Step 3, but the user may consult as many databases as desired (the processing for which is described in Step 3). BuildPPINetwork combines these databases as efficiently as possible while retaining desired edgeweights from each database. BuildPPINetwork also normalizes the weights on a scale of 0-1 and removes duplicate rows from the data frame.  
 
 #### Input  
 
@@ -340,18 +338,18 @@ ClusterFilteredNetwork(gene.cccn, ppi.network, cfn.name = "cfn")
 
 <center>
 ![](vig_figs/cfn.png)  
-**Figure 10** First 19 rows of the cfn produced by ClusterFilteredNetwork  
+**Figure 10** First 19 rows of the cfn produced by ClusterFilteredNetwork. The first two columns represent the two genes that interact according to the consulted PPI databases. The third column is all of the interaction types concatenated together from each database. All subsequent columns (two, in the base case of just using STRINGdb and GeneMANIA), show the weights of the interaction from the associated database. These have been normalized to all be on a scale of 0-1. Entries (as evident by the skipping row numbers) are limited to those that have gene pairings in gene.cccn with nonzero weights.  
 
 </center>
 <p>&nbsp;</p>
 
 #### Description  
 
-Cluster Filtered Network checks all of the edges in the PPI network to see ensure that both of the genes are within our cocluster correlation network and that its weight is nonzero. If either of these conditions are not met, then it will be removed from the list of PPI edges. This new, cluster filtered network is then returned.  
+Cluster Filtered Network checks all of the edges in the PPI network to see ensure that both of the genes are within the cocluster correlation network and that its weight is nonzero. If either of these conditions are not met, then it will be removed from the list of PPI edges. This new, cluster filtered network is then returned.  
 
 #### Input  
-- cccn.matrix  
-  - A matrix showing strength of relationships between proteins using the common clusters between the three distance metrics  
+- gene.cccn  
+  - A matrix showing strength of correlations between genes using the common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED)) and the ptm.cccn  
 - ppi.network  
   - A dataframe representing how strongly proteins are known to interact  
 - cfn.name  
@@ -359,7 +357,7 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 
 #### Output  
 - cfn (or otherwise named by cfn.name)
-  - A version of ppi.network with only the edges that exist in cccn.matrix and have non-zero weights  
+  - A version of ppi.network with only the edges that exist in gene.cccn with have non-zero weights  
 
 #### Estimated run-time  
 10mins
@@ -369,7 +367,7 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 #### Code  
 
 ```{r eval = FALSE}
-PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name = "edgelist")
+PathwayCrosstalkNetwork(common.clusters, file = "bioplanet.csv", edgelist.name = "edgelist")
 ```
 
 <center>
@@ -383,21 +381,21 @@ PathwayCrosstalkNetwork(file = "bioplanet.csv", common.clusters, edgelist.name =
 
 #### Description  
 
-Note: This step is directory sensitive. You can check and set your directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in your working directory, or getwd(). If you cannot find a file, please check your directories first.  
+**Note:** This step is directory sensitive. The user can check and set the working directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in the working directory. If the file cannot be found, please check the working directory first.  
 
-Pathway Crosstalk Network is the final step in the pipeline. It requires input of an external database, bioplanet, which consists of groups of genes (proteins) involved in various cellular processes. The PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity and a score derrived from Cluster-Pathway Evidence using common clusters found in Make Correlation Network.  
+Pathway Crosstalk Network requires input of an external database, bioplanet, that contains of groups of genes (proteins) involved in various cellular processes known as pathways. PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity, and a score. The score is derived from Cluster-Pathway Evidence using the common clusters found in Make Correlation Network.  
 
 #### Input  
-- file  
-  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly)  
 - common.clusters  
   - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) made by MakeCorrelationNetwork  
-- edgelist.name
-  - Intended for use in Cytoscape.  
-  - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end for you); defaults to edgelist  
+- file  
+  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found by running View(ex.bioplanet) or ?ex.bioplanet, but this is not recommended as formatting must match sample data exactly)  
+- edgelist.name  
+  - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end); defaults to edgelist  
+  - Intended for use in Cytoscape  
 
 #### Output  
-- edgelist (or otherwise named by edgelist.name)  
+- edgelist.csv (or otherwise named by edgelist.name)  
   - An edgelist file that is created in the working directory. Contains pathway source-target columns, with edge weights of their jaccard similarity and their Cluster-Pathway Evidence score. Info about the Cluster-Pathway Evidence score can be found at: <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
 
 #### Estimated run-time  
@@ -416,7 +414,7 @@ GraphCfn(cfn, ptmtable, funckey = PTMsToPathways::ex.funckey, Network.title = "c
 
 <center>
 ![](vig_figs/cytoscape_graph.png)  
-**Figure 13** Default cytoscape graph  
+**Figure 13** Default cytoscape graph. Nodes represent the genes of the study. The score of each node is taken as the minimum value of the gene in the ptmtable. Edges are the lines between the nodes and they represent relationships. See the key below for a full description of each characteristic.  
 
 </center>
 <p>&nbsp;</p>
@@ -468,6 +466,149 @@ This optional function GraphCfn creates a graph using the cluster filtered netwo
 - No actual output or assignment  
 - Creates a graph in the cytoscape interface
 
+#### Key  
+
+The thicker the edge is, the stronger a correlation between these two genes. The border and shape of the node represent the type of protein this gene is.   
+
+- Node Size
+  - Greater the node size, larger the absolute value of the score  
+- Blue Node  
+  - Negative score  
+- Yellow Node
+  - Positive score  
+- Green Node  
+  - Approximately zero score  
+
+Node Shapes:
+- "ELLIPSE"  
+  - unknown
+- "ROUND_RECTANGLE"  
+  - receptor tyrosine kinase
+- "VEE"  
+  - SH2 protein
+  or
+  - SH2-SH3 protein
+- "TRIANGLE"  
+  - SH3 protein
+- "HEXAGON"  
+  - tyrosine kinase
+- "DIAMOND"  
+  - SRC-family kinase
+- "OCTAGON"  
+  - kinase
+  or
+  - phosphatase
+- "PARALLELOGRAM"  
+  - transcription factor
+- "RECTANGLE"
+  - RNA binding protein
+
+Node Border Colors:
+- Orange  
+  - deacetylase  
+  or  
+  - acetyltransferase  
+- Blue  
+  - demethylase  
+  or  
+  - methyltransferase  
+- Royal Purple  
+  - membrane protein  
+- Red  
+  - kinase  
+  or  
+  - tyrosine kinase  
+  or  
+  - SRC-family kinase  
+- Yellow  
+  - phosphatase  
+  or  
+  - tyrosine phosphatase  
+- Lilac
+  - G protein-coupled receptor  
+  or  
+  - receptor tyrosine kinase  
+- Grey  
+  - default  
+
+
+- Edge Thickness  
+  - Stronger correlation 
+
+Edge Colors:
+- Red  
+  - Phosphorylation  
+  or  
+  - pp  
+  or  
+  - controls-phosphorylation-of  
+- Bright Magenta  
+  - controls-expression-of  
+- Dull Magenta  
+  - controls-transport-of  
+- Purple  
+  - controls-state-change-of  
+- Blood Orange  
+  - Acetylation  
+- Lime Green  
+  - Phystical interactions  
+- Green  
+  - BioPlex  
+- Dull Green  
+  - in-complex-with  
+- Seafoam Green  
+  - experiments  
+  or  
+  - experiments_transferred  
+- Cyan  
+  - database  
+  or  
+  - database_transferred  
+- Teal
+  - Pathway  
+  or  
+  - Predicted  
+- Dark Turquoise  
+  - Genetic interactions  
+- Yellow-Orange  
+  - correlation  
+- Royal Blue  
+  - negative correlation  
+- Bright Yellow
+  - positive correlation  
+- Grey  
+  - combined_score
+- Dark Grey  
+  - merged  
+- Light Grey  
+  - intersect  
+- Black  
+  - peptide  
+- Orange  
+  - homology  
+- Dull Orange  
+  - Shared protein domains
+- White  
+  - Default  
+
+Arrow Types:  
+- Arrow
+  - Phosphorylation  
+  or  
+  - pp  
+  or  
+  - controls-phosphorylation-of  
+  or  
+  - controls-expression-of  
+  or  
+  - controls-transport-of  
+  or  
+  - controls-state-change-of  
+  or  
+  - Acetylation  
+- No Arrow
+  - Default  
+  
 #### Estimated run-time  
 UNKNOWN  
 
