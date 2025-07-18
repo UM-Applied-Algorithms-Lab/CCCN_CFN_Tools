@@ -35,14 +35,14 @@ cccn_to_nodenames <- function(gene.cccn, nodenames.name = 'nodenames'){
 }
 
 
-#' Get STRINGdb PPI data
+#' @title Get STRINGdb PPI data
 #'
-#' This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
+#' @description This function finds protein-protein interaction weights by consulting utilizing the STRINGdb database.
+#' The package STRINGdb is required for this function. To download, run:
+#' - if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+#' - BiocManager::install("STRINGdb")
 #'
-#' STRINGdb is required for this function. To download, run:
-#' if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-#' BiocManager::install("STRINGdb")
-#' The full example takes ~10 minutes to load, so it has been commented out and the results are displayed.
+#' @details The full example takes ~10 minutes to load, so it has been commented out and the results are displayed.
 #'
 #' @param gene.cccn A matrix showing strength of relationships between proteins using common clusters between the three distance metrics (Euclidean, Spearman, and Combined (SED))
 #' @param stringdb.name Desired name for the output STRINGdb data frame; defaults to "stringdb.edges"

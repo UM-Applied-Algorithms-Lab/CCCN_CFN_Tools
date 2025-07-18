@@ -67,10 +67,12 @@ A cytoscape graph of the cluster filtered network
 }
 \description{
 Creates a cytoscape graph of the cluster filtered network. Ensure that you have the Cytoscape app open and the RCy3 package downloaded.
-RCy3 is required for this function. To download, run:
-if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-BiocManager::install("RCy3")
-If RCy3 is installed and the Cytoscape App is open and an error still occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+If RCy3 is installed and the Cytoscape App is open yet an error still occurs, run cytoscapePing() to ensure connection to the Cytoscape Interface and try again.
+The package RCy3 is required for this function. To download, run:
+\itemize{
+\item if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+\item BiocManager::install("RCy3")
+}
 }
 \details{
 Graph Key
