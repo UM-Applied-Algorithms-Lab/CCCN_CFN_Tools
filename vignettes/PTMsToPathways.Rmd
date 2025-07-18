@@ -389,13 +389,13 @@ Pathway Crosstalk Network requires input of an external database, bioplanet, tha
 - common.clusters  
   - The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED) made by MakeCorrelationNetwork  
 - file  
-  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found in the data directory, but this is not recommended as formatting must match sample data exactly)  
-- edgelist.name
-  - Intended for use in Cytoscape.  
+  - File path for the pathway data from Bioplanet (can also take in a data frame that is formatted correctly like the one found by running View(ex.bioplanet) or ?ex.bioplanet, but this is not recommended as formatting must match sample data exactly)  
+- edgelist.name  
   - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end); defaults to edgelist  
+  - Intended for use in Cytoscape  
 
 #### Output  
-- edgelist (or otherwise named by edgelist.name)  
+- edgelist.csv (or otherwise named by edgelist.name)  
   - An edgelist file that is created in the working directory. Contains pathway source-target columns, with edge weights of their jaccard similarity and their Cluster-Pathway Evidence score. Info about the Cluster-Pathway Evidence score can be found at: <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010690>
 
 #### Estimated run-time  
@@ -414,7 +414,7 @@ GraphCfn(cfn, ptmtable, funckey = PTMsToPathways::ex.funckey, Network.title = "c
 
 <center>
 ![](vig_figs/cytoscape_graph.png)  
-**Figure 13** Default cytoscape graph  
+**Figure 13** Default cytoscape graph. Nodes represent the genes of the study. The score of each node is taken as the minimum value of the gene in the ptmtable. Edges are the lines between the nodes and they represent relationships. See the key below for a full description of each characteristic.  
 
 </center>
 <p>&nbsp;</p>
@@ -466,6 +466,149 @@ This optional function GraphCfn creates a graph using the cluster filtered netwo
 - No actual output or assignment  
 - Creates a graph in the cytoscape interface
 
+#### Key  
+
+The thicker the edge is, the stronger a correlation between these two genes. The border and shape of the node represent the type of protein this gene is.   
+
+- Node Size
+  - Greater the node size, larger the absolute value of the score  
+- Blue Node  
+  - Negative score  
+- Yellow Node
+  - Positive score  
+- Green Node  
+  - Approximately zero score  
+
+Node Shapes:
+- "ELLIPSE"  
+  - unknown
+- "ROUND_RECTANGLE"  
+  - receptor tyrosine kinase
+- "VEE"  
+  - SH2 protein
+  or
+  - SH2-SH3 protein
+- "TRIANGLE"  
+  - SH3 protein
+- "HEXAGON"  
+  - tyrosine kinase
+- "DIAMOND"  
+  - SRC-family kinase
+- "OCTAGON"  
+  - kinase
+  or
+  - phosphatase
+- "PARALLELOGRAM"  
+  - transcription factor
+- "RECTANGLE"
+  - RNA binding protein
+
+Node Border Colors:
+- Orange  
+  - deacetylase  
+  or  
+  - acetyltransferase  
+- Blue  
+  - demethylase  
+  or  
+  - methyltransferase  
+- Royal Purple  
+  - membrane protein  
+- Red  
+  - kinase  
+  or  
+  - tyrosine kinase  
+  or  
+  - SRC-family kinase  
+- Yellow  
+  - phosphatase  
+  or  
+  - tyrosine phosphatase  
+- Lilac
+  - G protein-coupled receptor  
+  or  
+  - receptor tyrosine kinase  
+- Grey  
+  - default  
+
+
+- Edge Thickness  
+  - Stronger correlation 
+
+Edge Colors:
+- Red  
+  - Phosphorylation  
+  or  
+  - pp  
+  or  
+  - controls-phosphorylation-of  
+- Bright Magenta  
+  - controls-expression-of  
+- Dull Magenta  
+  - controls-transport-of  
+- Purple  
+  - controls-state-change-of  
+- Blood Orange  
+  - Acetylation  
+- Lime Green  
+  - Phystical interactions  
+- Green  
+  - BioPlex  
+- Dull Green  
+  - in-complex-with  
+- Seafoam Green  
+  - experiments  
+  or  
+  - experiments_transferred  
+- Cyan  
+  - database  
+  or  
+  - database_transferred  
+- Teal
+  - Pathway  
+  or  
+  - Predicted  
+- Dark Turquoise  
+  - Genetic interactions  
+- Yellow-Orange  
+  - correlation  
+- Royal Blue  
+  - negative correlation  
+- Bright Yellow
+  - positive correlation  
+- Grey  
+  - combined_score
+- Dark Grey  
+  - merged  
+- Light Grey  
+  - intersect  
+- Black  
+  - peptide  
+- Orange  
+  - homology  
+- Dull Orange  
+  - Shared protein domains
+- White  
+  - Default  
+
+Arrow Types:  
+- Arrow
+  - Phosphorylation  
+  or  
+  - pp  
+  or  
+  - controls-phosphorylation-of  
+  or  
+  - controls-expression-of  
+  or  
+  - controls-transport-of  
+  or  
+  - controls-state-change-of  
+  or  
+  - Acetylation  
+- No Arrow
+  - Default  
+  
 #### Estimated run-time  
 UNKNOWN  
 
