@@ -18,14 +18,16 @@ PTPedgelist.to.igraph <- function(df){
 #' @param common.clusters The list of common clusters between all three distance metrics (Euclidean, Spearman, and SED). Can be made in MakeCorrelationNetwork
 #' @param file Either the name of the bioplanet pathway .csv file OR the name of a dataframe. Lines of bioplanet should possess 4 values in the order "PATHWAY_ID","PATHWAY_NAME","GENE_ID","GENE_SYMBOL". Users not well versed in R should only pass in "yourfilename.csv"
 #' @param edgelist.name The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end for you); defaults to edgelist. Intended for use in Cytoscape.
+#' @param createfile The path of where to create the edgelist file. Defaults to the working directory, if FALSE is provided, a file will not be created. 
 #' @return An edgelist file that is created in the working directory. Contains pathway source-target columns, with edge weights of their jaccard similarity and their Pathway-Pathway Evidence score
 #' @export
 #'
 #' @examples
-#' PathwayCrosstalkNetwork(ex.common.clusters, ex.bioplanet)
-PathwayCrosstalkNetwork <- function(common.clusters, file = "bioplanet.csv", edgelist.name = "PTPedgelist"){
-
-
+#' PathwayCrosstalkNetwork(ex.common.clusters, ex.bioplanet, "ex.edgelist", createfile = FALSE)
+PathwayCrosstalkNetwork <- function(common.clusters, file = "bioplanet.csv", edgelist.name = "PTPedgelist", createfile = getwd()){
+  
+  if(is.character(createfile) && !dir.exists(createfile)) stop(paste("Could not find directory", createfile)) #If createfile is a path but an incorrect one
+  
   #### Read file in, converts to dataframe like with rows like: PATHWAY_ID | PATHWAY_NAME | GENE_ID | GENE_SYMBOL ###
   if(is.character(file)){ #If Path to a .csv file (string input)
     if(!file.exists(file)) stop(paste(file, "not found. Plese check your working directory."))
@@ -105,8 +107,14 @@ PathwayCrosstalkNetwork <- function(common.clusters, file = "bioplanet.csv", edg
 
 
   ### Save edgefile for cytoscape plotting ###
-  filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
-  utils::write.csv(PTPedgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
 
-  cat(filename, "made in directory:", getwd()) #Tell the user where their files got put
+  if(is.character(createfile)){ #Don't need to check if directory exists since
+    saved.dir <- getwd()
+    setwd(createfile)
+    filename <- paste(edgelist.name, ".csv", sep="") #Name of the file created with .csv appended
+    utils::write.csv(PTPedgelist, file = filename, row.names = FALSE) #Save to files for cytoscape... Correct formatting?
+    
+    cat(filename, "made in directory:", getwd()) #Tell the user where their files got put
+    setwd(saved.dir)
+  }
 }
