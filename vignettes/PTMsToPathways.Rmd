@@ -367,7 +367,7 @@ Cluster Filtered Network checks all of the edges in the PPI network to see ensur
 #### Code  
 
 ```{r eval = FALSE}
-PathwayCrosstalkNetwork(common.clusters, file = "bioplanet.csv", edgelist.name = "edgelist")
+PathwayCrosstalkNetwork(common.clusters, file = "bioplanet.csv", edgelist.name = "PTPedgelist", createfile = getwd())
 ```
 
 <center>
@@ -381,7 +381,7 @@ PathwayCrosstalkNetwork(common.clusters, file = "bioplanet.csv", edgelist.name =
 
 #### Description  
 
-**Note:** This step is directory sensitive. The user can check and set the working directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in the working directory. If the file cannot be found, please check the working directory first.  
+**Note:** This step is directory sensitive. The user can check and set the working directory in R using getwd() and setwd("yourdirectoryhere") respectively. It needs a path to the bioplanet file and will put an edgelist file in the working directory or the otherwise given path. If the file cannot be found, please check the working directory first.  
 
 Pathway Crosstalk Network requires input of an external database, bioplanet, that contains of groups of genes (proteins) involved in various cellular processes known as pathways. PCN turns this database into a list of pathways and converts those pathways into a pathway x pathway edgelist that possesses multiple weights, a jaccard similarity, and a score. The score is derived from Cluster-Pathway Evidence using the common clusters found in Make Correlation Network.  
 
@@ -393,6 +393,9 @@ Pathway Crosstalk Network requires input of an external database, bioplanet, tha
 - edgelist.name  
   - The desired name of the Pathway to Pathway edgelist file created ('.csv' will automatically be added to the end); defaults to edgelist  
   - Intended for use in Cytoscape  
+- createfile
+  - The path for the .csv file to be created. Defaults to the working directory. 
+  - Putting a non-character value (Boolean FALSE) will result in nothing being written to a file. 
 
 #### Output  
 - edgelist.csv (or otherwise named by edgelist.name)  
